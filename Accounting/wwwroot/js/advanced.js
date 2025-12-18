@@ -3,45 +3,13 @@ var table
 $(document).ready(function () {
 
     table = $('#userTable').DataTable({
-
-
-        //processing: true,  // Show loading indicator
-        //serverSide: true,  // Load data per request
-        //"filter": true,
-        //"orderMulti": false, // for disable multiple column at once
-        //"dom": '<"pull-left"l><"pull-Right"p>',
-        //"createdRow": function (row, data, dataIndex) {
-        //  var obj = eval(data);
-        //  if (Number(obj["Type"]) == 0) {
-        //    $(row).addClass("cGroup");
-        //  }
-        //  else if (Number(obj["Type"]) == 1) {
-        //    $(row).addClass("cDetail");
-        //  }
-        //  else if (Number(obj["Type"]) == 2) {
-        //    $(row).addClass("cGroupT");
-        //  }
-        //  else if (Number(obj["Type"]) == 3) {
-        //    $(row).addClass("cGroup2");
-        //  }
-        //  else if (Number(obj["Type"]) == 4) {
-        //    $(row).addClass("cGroupGT");
-        //  }
-        //},
-
         "ajax": {
             "url": "/TrialBalance/GetData",
-            //"type": "POST",
             "data": function (d) {
                 d.TDate = $('#flatpickr-date-end').val();
             },
             "dataSrc": "data"
-            //d.FDate = $('#FDate').val();
-            //d.TDate = $('#TDate').val();
-            // 'data' should match the key in the JSON response
-            //"url": "/Department/GetDepartment", // Your API Endpoint
-            //"type": "GET",
-            //"dataSrc": "data" // Important: Matches the JSON key in controller
+            
         },
         "createdRow": function (row, data, dataIndex) {
             $(row).find('td:eq(3)').addClass('user-name text-nowrap');
@@ -92,39 +60,28 @@ $(document).ready(function () {
 
             }
         ],
-        //order: [[1, 'desc']],
-        // Enable virtual scrolling
         scrollY: "350px",
         scrollCollapse: true,
-        scroller: true, // REQUIRED for virtual scrolling
+        scroller: true, 
         ordering: false,
         deferRender: true,
         displayLength: -1,
-        //lengthChange: false,  // Disable page size change
+       
         dom:
             '<"mx-4 d-flex flex-wrap flex-column justify-content-md-end flex-sm-row gap-2 py-4 py-sm-0"' + '<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex flex-sm-row align-items-center justify-content-md-end gap-5 ms-n2 ms-md-2 flex-wrap flex-sm-nowrap pb-2"B>' + '>t' + '<"row mx-4"' + '<"col-sm-12 col-md-6">' + '<"col-sm-12 col-md-6 pb-3 ps-0">' + '>',
-        //lengthMenu: [7, 10, 15, 20],
-        //// Enable infinite scrolling
-        //scrollY: "500px",
-        //deferRender: true,
-        //scroller: {
-        //  loadingIndicator: true,
-        //  displayBuffer: 5 // Adjust the buffer for smoother loading
-        //},
+      
         lengthMenu: [[7, 10, 15, 20, -1], [7, 10, 15, 20, "All"]],
         language: {
             searchPlaceholder: 'Search..',
             search: '',
             lengthMenu: '_MENU_'
         },
-        // Buttons with Dropdown
         buttons: [{
             extend: 'collection',
             className: 'btn btn-label-secondary dropdown-toggle shadow-none me-4',
             text: '<i class="bx bx-export me-2"></i><span class="d-none d-sm-inline-block">Export</span>',
             "buttons": [{
                 extend: 'print',
-                /* title: 'Working Trial Balance - ' + new Date().toLocaleDateString(),*/
                 title: 'Working Trial Balance',
                 text: '<i class="bx bx-printer me-2"></i>Print',
                 className: 'dropdown-item',
@@ -133,7 +90,6 @@ $(document).ready(function () {
                 customize: function (win) {
                     var $body = $(win.document.body);
 
-                    // Base styling
                     $body.css({
                         'color': config.colors.headingColor,
                         'border-color': config.colors.borderColor,
@@ -142,7 +98,6 @@ $(document).ready(function () {
                         'padding': '20px'
                     });
 
-                    // Table styling with your custom classes
                     $body.find('table')
                         .addClass('compact')
                         .css({
@@ -160,7 +115,6 @@ $(document).ready(function () {
 
 
 
-                    // Header styling
                     $body.find('h1')
                         .css({
                             'text-align': 'center',
@@ -174,7 +128,6 @@ $(document).ready(function () {
                         '</h2>'
                     );
 
-                    // Add date parameter to footer
                     $body.append(
                         '<div style="text-align: center; font-size: 12px; margin-top: 20px;">' +
                         'As On Date: ' + $('#flatpickr-date-end').val() + ' | Printed Date: ' + new Date().toLocaleString() +

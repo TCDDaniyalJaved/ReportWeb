@@ -19,6 +19,7 @@ wwwroot\Accounting\js\components\ebit-text.js
 wwwroot\Accounting\js\dataTableUtils.js
 wwwroot\Accounting\js\DummyAccountOpening.js
 wwwroot\Accounting\js\ebit-components.js
+wwwroot\Accounting\js\PerivousDatatableUtilis.js
 wwwroot\audio\Water_Lily.mp3
 wwwroot\css\demo.css
 wwwroot\css\invoice-detail.css

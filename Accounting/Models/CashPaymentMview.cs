@@ -9,7 +9,7 @@ public partial class CashPaymentMview
 {
     public int Id { get; set; }
 
-    public DateOnly? IssuedDate { get; set; }
+    public DateOnly? Date { get; set; }
 
     public string Clientname { get; set; }
 
@@ -19,7 +19,7 @@ public partial class CashPaymentMview
 
     public DateOnly? DueDate { get; set; }
 
-    public string InvoiceNumber { get; set; }
+    public string Voucher { get; set; }
 
     public string Prefix { get; set; }
 

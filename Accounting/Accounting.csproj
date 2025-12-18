@@ -8,17 +8,9 @@
 
   <ItemGroup>
     <Compile Remove="Apps\Accounting\Chart\**" />
-    <Compile Remove="Views\TrialBalance\**" />
     <Content Remove="Apps\Accounting\Chart\**" />
-    <Content Remove="Views\TrialBalance\**" />
     <EmbeddedResource Remove="Apps\Accounting\Chart\**" />
-    <EmbeddedResource Remove="Views\TrialBalance\**" />
     <None Remove="Apps\Accounting\Chart\**" />
-    <None Remove="Views\TrialBalance\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Controller\TrialBalanceController.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,11 +42,6 @@
 	  <Reference Include="Initial">
 	    <HintPath>bin\Release\net8.0\Apps\v1\Initial.dll</HintPath>
 	  </Reference>
-	</ItemGroup>
-
-
-	<ItemGroup>
-	  <Folder Include="Views\" />
 	</ItemGroup>
 	<Target Name="NpmInstall" BeforeTargets="Build">
 		<Exec Command="npm install" Condition="!Exists('node_modules')" />

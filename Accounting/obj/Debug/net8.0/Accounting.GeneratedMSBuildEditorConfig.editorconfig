@@ -83,3 +83,11 @@ build_metadata.AdditionalFiles.CssScope =
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Shared/_VendorStyles.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WZW5kb3JTdHlsZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/TrialBalance/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJpYWxCYWxhbmNlXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/TrialBalance/partials/_CreatUserOffcanvasPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJpYWxCYWxhbmNlXHBhcnRpYWxzXF9DcmVhdFVzZXJPZmZjYW52YXNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 

@@ -1,29 +1,22 @@
+
 @{
     ViewData["Title"] = "Trail Balance";
 }
-@section VendorStyles {
-    @*   <link rel="stylesheet" href="~/vendor/libs/datatables-bs5/datatables.bootstrap5.dist.css"> *@
-    <link rel="stylesheet" href="~/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.dist.css">
-    <link rel="stylesheet" href="~/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.dist.css">
-    <link rel="stylesheet" href="~/vendor/libs/sweetalert2/sweetalert2.dist.css" />
-    <link rel="stylesheet" href="~/vendor/libs/&#64;form-validation/form-validation.dist.css" />
-    <link rel="stylesheet" href="~/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.dist.css">
+@{
+    Layout = "_HorizontalLayout";
+}
 
+@section VendorStyles {
+    @await Html.PartialAsync("_VendorStyles")
 }
 
 @section VendorScripts {
-    <script src="~/vendor/libs/moment/moment.dist.js"></script>
-    <script src="~/vendor/libs/datatables-bs5/datatables-bootstrap5.dist.js"></script>
-    <script src="~/vendor/libs/sweetalert2/sweetalert2.dist.js"></script>
-    <script src="~/vendor/libs/&#64;form-validation/popular.dist.js"></script>
-    <script src="~/vendor/libs/&#64;form-validation/bootstrap5.dist.js"></script>
-    <script src="~/vendor/libs/&#64;form-validation/auto-focus.dist.js"></script>
-    <script src="~/vendor/libs/cleavejs/cleave.dist.js"></script>
-    <script src="~/vendor/libs/cleavejs/cleave-phone.dist.js"></script>
+    @await Html.PartialAsync("_VendorScripts")
 }
 
 @section PageScripts {
     <script src="~/js/advanced.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }
 <style>
     .MiniHeading {
@@ -33,27 +26,25 @@
         margin-bottom: 0;
     }
 
-    td {
-        padding-left: 0;
+    td{
+      padding-left:0;
     }
-
     th {
         font-size: 15px;
     }
+   footer{
+     display:none;
+   }
 
-    footer {
-        display: none;
-    }
-
-    .cGroup {
-        /*        background-color: var(--bs-table-border-color); */
-        /*   color: #3276b1; */
+      .cGroup {
+ /*        background-color: var(--bs-table-border-color); */
+      /*   color: #3276b1; */
         color: #000;
-        font-weight: bold;
+         font-weight:bold;
         padding-left: 0;
-        margin-left: 0; /*background-color: #e22f3e;*/
+      
+        margin-left:0;/*background-color: #e22f3e;*/
     }
-
     .table2 {
         --bs-table-color-type: initial;
         --bs-table-bg-type: initial;
@@ -70,7 +61,7 @@
         --bs-table-hover-color: var(--bs-body-color);
         --bs-table-hover-bg: rgba(34, 48, 62, 0.06);
         width: 100%;
-        /*  margin-bottom: 1rem; */
+       /*  margin-bottom: 1rem; */
         vertical-align: middle;
         border-color: var(--bs-table-border-color);
     }
@@ -79,15 +70,14 @@
             padding: 0.502rem 0.4rem;
             padding-right: 30px;
             padding-left: 24px;
-            /*  padding: 0.1rem 0.4rem; */
+           /*  padding: 0.1rem 0.4rem; */
             background-color: var(--bs-table-bg);
             border-bottom-width: var(--bs-border-width);
             box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)));
         }
-
     .cGroup2 {
         background-color: #ff6666;
-        color: white;
+        color:white;
         font-weight: 800; /*background-color: #e22f3e;*/
     }
 
@@ -100,80 +90,73 @@
 
     .cGroupGT {
         color: #000;
-        /*  color: #3276b1; */
+       /*  color: #3276b1; */
         font-size: 1.2rem;
         font-weight: 800;
     }
 
     .table2 > tbody {
         vertical-align: inherit;
+
     }
 
     .table2 > thead {
         vertical-align: bottom;
         position: sticky;
+     
     }
-
     .cDetail {
         color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
         font-weight: 500;
-    }
-
-    table th {
-        font-weight: 800;
+ }
+    table th{
+      font-weight:800;
         color: #000;
     }
-    /*    #number{
-         text-align:right;
-       } */
-    /*     .card-datatable {
-            max-height: 420px;
-            overflow-y: auto;
-        } */
+/*    #number{
+     text-align:right;
+   } */
+/*     .card-datatable {
+        max-height: 420px;
+        overflow-y: auto;
+    } */
     .Amountright {
         text-align: right;
     }
 
-    .card-title {
-        font-weight: 800;
+    .card-title{
+      font-weight:800;
     }
-
-    .userTable_filter {
-        display: none;
+    .userTable_filter{
+      display:none;
     }
 
     .table-header {
-        border-top: 2px solid #000;
-        border-bottom: 1px solid #000;
+      border-top:2px solid #000;
+      border-bottom:1px solid #000;
     }
-</style>
-@* <div class="top-btn d-md-flex justify-content-md-end mb-5">
-    <button class="add-new btn btn-primary ms-auto" data-bs-toggle="offcanvas" data-bs-target="#createUserOffcanvas">
-        <i class="bx bx-plus me-0 me-sm-1_5"></i>
-        <span class="d-none d-sm-inline-block">Filter</span>
-    </button>
-</div> *@
+    </style>
 <div class="card">
     <div class="card-header pb-0 pl-1">
         <h2 style=" color: #000;font-weight:500;line-height: 1em;">Working Trial Balance</h2>
-        @* <h2 style="color: #3276b1; font-family:'Times New Roman'; font-weight:200;">Trial Balance</h2> *@
         <p class="MiniHeading pt-0 pb-0">Accounting Reports</p>
     </div>
-    <div class="card-datatable table-responsive pb-0">
-        <table id="userTable" class="table2">
+  <div class="card-datatable table-responsive pb-0">
+        <table id="userTable" class="table2"   >
             <thead class="table-header">
-                <tr>
-                    <th></th>
-                    <th hidden>ID</th>
-                    <th hidden>TYPE</th>
-                    <th>ACCOUNT NAME</th>
+              <tr>
+                  <th></th>
+                  <th hidden>ID</th>
+                  <th hidden>TYPE</th>
+                  <th>ACCOUNT NAME</th>
                     <th class="Amountright">DEBIT</th>
                     <th class="Amountright">CREDIT</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
+              </tr>
+          </thead>
+      </table>
+  </div>
 </div>
 
 @* Create User Form Offcanvas Partial *@
 @await Html.PartialAsync("partials/_CreatUserOffcanvasPartial")
+

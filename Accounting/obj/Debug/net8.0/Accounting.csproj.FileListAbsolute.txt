@@ -1865,3 +1865,4 @@ D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Debug\net8.0\refint\Accounting.dll
 D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Debug\net8.0\Accounting.pdb
 D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Debug\net8.0\Accounting.genruntimeconfig.cache
 D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Debug\net8.0\ref\Accounting.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Debug\net8.0\Accounting.sourcelink.json
