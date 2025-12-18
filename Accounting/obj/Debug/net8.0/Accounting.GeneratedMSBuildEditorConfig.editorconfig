@@ -64,6 +64,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEhvbWVcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/TrialBalance/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXFRyaWFsQmFsYW5jZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Dashboards/CRM.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xEYXNoYm9hcmRzXENSTS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

@@ -133,7 +133,7 @@ namespace AspnetCoreMvcFull.Controllers
       {
         var MenuID = new SqlParameter("@MenuID", SqlDbType.BigInt) { Value = 0 };
         var DateFrom1 = new SqlParameter("@DateFrom1", SqlDbType.Date) { Value = DateTime.Parse("03-01-2024") };
-        var DateTo1 = new SqlParameter("@DateTo1", SqlDbType.Date) { Value = DateTime.Parse(TDate.ToString()) };
+        var DateTo1 = new SqlParameter("@DateTo1", SqlDbType.Date) { Value = DateTime.Parse("12-18-2025") };
         // var DateTo1 = new SqlParameter("@DateTo1", SqlDbType.Date) { Value = DateTime.Parse("12-31-2050") };
         var DivisionFrom = new SqlParameter("@DivisionFrom", SqlDbType.NVarChar, 50) { Value = "DEMO" };
         var DivisionTo = new SqlParameter("@DivisionTo", SqlDbType.NVarChar, 50) { Value = "DEMO" };
