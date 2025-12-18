@@ -1,0 +1,15 @@
+E:\Kinza-Project\Base\obj\Debug\net8.0\staticwebassets.build.json
+E:\Kinza-Project\Base\obj\Debug\net8.0\staticwebassets.build.json
+E:\Kinza-Project\Base\obj\Debug\net8.0\staticwebassets.build.json
+E:\Kinza-Project\Base\obj\Debug\net8.0\staticwebassets.build.json
+E:\Kinza-Project\Base\obj\Debug\net8.0\staticwebassets.build.json
+E:\Kinza-Project\Base\obj\Debug\net8.0\staticwebassets.build.json
+E:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
+E:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json

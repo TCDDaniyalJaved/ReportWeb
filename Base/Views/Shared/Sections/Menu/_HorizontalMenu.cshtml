@@ -1,0 +1,76 @@
+@using Newtonsoft.Json
+@{
+    var menusJson = Context.Session.GetString("AppMenus");
+    var menus = string.IsNullOrEmpty(menusJson) ? new List<dynamic>() : JsonConvert.DeserializeObject<List<dynamic>>(menusJson);
+   
+    string? currentPage = ViewContext.HttpContext.Request.Path;
+    ViewData["containerNav"] ??= "container-fluid";
+}
+<aside id="layout-menu" class="layout-menu-horizontal menu-horizontal  menu bg-menu-theme flex-grow-0">
+
+    <div class='@ViewData["containerNav"] d-flex h-100'>
+        <ul class="menu-inner">
+
+
+            @* @foreach (var item in menus.Where(m => m.ParentId == null)) *@
+            @* { *@
+            @*     <li class='menu-item @(currentPage == item.Url ? "active" : "")'> *@
+            @*         <a  class="@item.Nameclass" href="@item.Url"> *@
+            @*             <i class="@item.Icon"></i> *@
+            @*             <div class="me-5">@item.Name</div> *@
+            @*         </a> *@
+
+            @*         @{ *@
+            @*             var subMenus = menus.Where(m => m.ParentId == item.Id).ToList(); *@
+            @*         } *@
+
+            @*         @if (subMenus.Any()) *@
+            @*         { *@
+            @*             <ul class="menu-sub"> *@
+            @*                 @foreach (var sub in subMenus) *@
+            @*                 { *@
+            @*                     <li class='menu-item @(currentPage == sub.Url ? "active" : "")'> *@
+            @*                         <a class="@sub.Nameclass" href="@sub.Url"> *@
+            @*                             <div class="me-5">@sub.Name </div> *@
+            @*                         </a> *@
+            @*                      </li> *@
+            @*                 } *@
+            @*             </ul> *@
+            @*         } *@
+            @*     </li> *@
+            @* } *@
+            @foreach (var item in menus.Where(m => m.ParentId == null))
+            {
+                var itemUrl = item.Url?.ToString();
+                <li class='menu-item @(currentPage == itemUrl ? "active" : "")'>
+                    <a class="@item.Nameclass" href="@itemUrl">
+                        <i class="@item.Icon"></i>
+                        <div class="me-5">@item.Name</div>
+                    </a>
+
+                    @{
+                        var subMenus = menus.Where(m => m.ParentId == item.Id).ToList();
+                    }
+
+                    @if (subMenus.Any())
+                    {
+                        <ul class="menu-sub">
+                            @foreach (var sub in subMenus)
+                            {
+                                var subUrl = sub.Url?.ToString();
+                                <li class='menu-item @(currentPage == subUrl ? "active" : "")'>
+                                    <a class="@sub.Nameclass" href="@subUrl">
+                                        <div class="me-5">@sub.Name</div>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+
+        </ul>
+
+
+    </div>
+</aside>

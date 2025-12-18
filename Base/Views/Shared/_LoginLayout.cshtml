@@ -1,0 +1,24 @@
+@{
+  Layout = "_CommonMasterLayout";
+  ViewData["customizerHidden"] = (ViewData["customizerHidden"] ??= "customizer-hide");
+}
+
+@section VendorStyles { 
+    <link rel="stylesheet" href="~/vendor/libs/&#64;form-validation/form-validation.dist.css" />
+ }
+
+@section PageStyles { 
+ <link rel="stylesheet" href="~/vendor/css/pages/page-auth.dist.css">
+}
+
+@RenderBody()
+
+@section VendorScripts {
+    <script src="~/vendor/libs/&#64;form-validation/popular.dist.js"></script>
+    <script src="~/vendor/libs/&#64;form-validation/bootstrap5.dist.js"></script>
+    <script src="~/vendor/libs/&#64;form-validation/auto-focus.dist.js"></script>
+}
+
+@section PageScripts {
+    <script src="~/js/pages-auth.dist.js"></script>
+}

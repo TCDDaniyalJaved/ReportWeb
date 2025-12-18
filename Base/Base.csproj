@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="efpt.config.json.user" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+		<PackageReference Include="DinkToPdf" Version="1.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.18" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.19">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
+		<PackageReference Include="PuppeteerSharp" Version="20.2.4" />
+		<PackageReference Include="QuestPDF" Version="2025.7.3" />
+		<PackageReference Include="Rotativa.AspNetCore" Version="1.4.0" />
+		<PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.2" />
+		<PackageReference Include="ClosedXML" Version="0.104.2" />
+
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="wwwroot\**\*">
+			<Pack>true</Pack>
+			<PackagePath>wwwroot\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
+		</Content>
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,298 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "webappContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "MinimumProductVersion": "2.6.1186",
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "Accounting",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[AccountOpeningD]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AccountOpeningM]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Apps]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BankPaymentD]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BankPaymentM]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BankReceiptD]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BankReceiptM]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CashPaymentD]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CashPaymentM]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CashReceiptD]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CashReceiptM]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Chart]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ChartActTypes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[City]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Company]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Country]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Customer]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Design]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DesignComponent]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Dropdown]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[dumpdata]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[FormData]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[FormDefinitions]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[FormFields]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[GJournalD]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[GJournalM]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Item]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MainMenu]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[menu]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[module]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Operations]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PublishedDesign]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Sale_Invoice_Detail]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Sale_Invoice_Master]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SALEINVOICE2]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[service]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[unit]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserRole]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Users]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AccountOpeningDView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[AccountOpeningMView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[BankPaymentDView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[BankPaymentView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[BankReceiptDView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[BankReceiptView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[CashPaymentDView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[CashPaymentMView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[CashReceiptDView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[CashReceiptMView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[CityCountryView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[Gjouranlview]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[SaleInvoiceDetailView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[SaleInvoiceMasterView]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[AccountOpeningVoucher]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[GetAllAccountsAllSubGroup]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[getdumpdatalive]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[getdumpdataoffline]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[getdumpdataonline]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[GetMenuItem]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[GetSubMenuItem]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[GetUserWiseAccount]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[GetUserWiseCompany]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[TrialBalanceReport]",
+         "ObjectType": 1
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDatabaseNamesForRoutines": true,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseInternalAccessModifiersForSprocsAndFunctions": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false,
+   "UseT4Split": false
+}

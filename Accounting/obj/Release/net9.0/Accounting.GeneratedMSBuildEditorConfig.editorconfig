@@ -1,0 +1,29 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Accounting
+build_property.RootNamespace = Accounting
+build_property.ProjectDir = D:\technocom projects\mvc\Ebit\Accounting\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\technocom projects\mvc\Ebit\Accounting
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/technocom projects/mvc/Ebit/Accounting/Apps/Accounting/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEhvbWVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/technocom projects/mvc/Ebit/Accounting/Apps/Accounting/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEhvbWVcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "File Upload - Forms";
+}
+
+@section VendorStyles {
+    <link rel="stylesheet" href="~/vendor/libs/dropzone/dropzone.dist.css" />
+}
+
+
+@section VendorScripts {
+    <script src="~/vendor/libs/dropzone/dropzone.dist.js"></script>
+}
+@section PageScripts {
+    <script src="~/js/forms-file-upload.dist.js"></script>
+}
+@* ************** Content ************** *@
+
+<div class="wizard-step " id="step1">
+    <div class="row">
+        <!-- Basic  -->
+        <div class="col-12">
+            <div class="card mb-6">
+                <h5 class="card-header">Basic</h5>
+                <div class="card-body">
+                  
+                        <div class="dropzone needsclick" id="dropzone-basic">
+              <div class="dz-message needsclick">
+              Drop files here or click to upload
+              <span class="note needsclick">
+                  (This is just a demo dropzone. Selected files are
+                  <span class="fw-medium">not</span> actually uploaded.)
+              </span>
+          </div>
+      </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Basic  -->
+     
+    </div>
+
+</div>
+<script>
+      Dropzone.autoDiscover = false;
+    new Dropzone("#dropzone-basic", {
+        url: "/upload",
+        paramName: "file",
+        maxFilesize: 5,
+        acceptedFiles: "image/*",
+        addRemoveLinks: true
+    });
+</script>
+

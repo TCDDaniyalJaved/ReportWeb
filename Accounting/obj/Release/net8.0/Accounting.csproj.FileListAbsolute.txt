@@ -1,0 +1,1512 @@
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.GeneratedMSBuildEditorConfig.editorconfig
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.AssemblyInfoInputs.cache
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.AssemblyInfo.cs
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.csproj.CoreCompileInputs.cache
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.MvcApplicationPartsAssemblyInfo.cache
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.RazorAssemblyInfo.cache
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.RazorAssemblyInfo.cs
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\appsettings.Development.json
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\appsettings.json
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Accounting.staticwebassets.runtime.json
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Accounting.staticwebassets.endpoints.json
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Accounting.exe
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Accounting.deps.json
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Accounting.runtimeconfig.json
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Accounting.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Accounting.pdb
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\scopedcss\bundle\Accounting.styles.css
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\staticwebassets.build.json
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\staticwebassets.development.json
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\staticwebassets.build.endpoints.json
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\staticwebassets\msbuild.Accounting.Microsoft.AspNetCore.StaticWebAssets.props
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\staticwebassets\msbuild.Accounting.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\staticwebassets\msbuild.build.Accounting.props
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\staticwebassets\msbuild.buildMultiTargeting.Accounting.props
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\staticwebassets\msbuild.buildTransitive.Accounting.props
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\staticwebassets.pack.json
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\staticwebassets.upToDateCheck.txt
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.dll
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\refint\Accounting.dll
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.pdb
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.genruntimeconfig.cache
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\ref\Accounting.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\efpt.config.json
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Azure.Core.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Azure.Identity.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Humanizer.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.AspNetCore.Razor.Language.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Build.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Build.Framework.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.AnalyzerUtilities.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.CSharp.Features.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Elfie.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Features.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Razor.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Scripting.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Workspaces.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Data.SqlClient.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.DiaSymReader.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.DotNet.Scaffolding.Shared.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Extensions.Caching.Memory.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Extensions.DependencyInjection.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Extensions.DependencyModel.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Extensions.Logging.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Extensions.Options.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Identity.Client.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.NET.StringTools.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.SqlServer.Server.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\dotnet-aspnet-codegenerator-design.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Microsoft.Win32.SystemEvents.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Mono.TextTemplating.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Newtonsoft.Json.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\NuGet.Common.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\NuGet.Configuration.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\NuGet.DependencyResolver.Core.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\NuGet.Frameworks.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\NuGet.LibraryModel.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\NuGet.Packaging.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\NuGet.ProjectModel.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\NuGet.Protocol.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\NuGet.Versioning.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.ClientModel.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.CodeDom.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Composition.AttributedModel.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Composition.Convention.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Composition.Hosting.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Composition.Runtime.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Composition.TypedParts.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Configuration.ConfigurationManager.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Drawing.Common.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Formats.Asn1.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Memory.Data.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Reflection.MetadataLoadContext.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Runtime.Caching.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Security.Cryptography.ProtectedData.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Security.Permissions.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\System.Windows.Extensions.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\af\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ar\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\az\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\bg\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\bn-BD\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\cs\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\da\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\de\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\el\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\es\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\fa\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\fi-FI\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\fr\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\fr-BE\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\he\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\hr\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\hu\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\hy\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\id\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\is\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\it\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ja\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ko-KR\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ku\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\lv\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ms-MY\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\mt\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\nb\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\nb-NO\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\nl\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pl\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pt\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ro\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ru\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\sk\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\sl\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\sr\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\sr-Latn\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\sv\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\th-TH\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\tr\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\uk\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\uz-Cyrl-UZ\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\uz-Latn-UZ\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\vi\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-CN\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hans\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hant\Humanizer.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.Features.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.csproj.AssemblyReference.cache
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.csproj.Up2Date
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Initial.dll
+D:\technocom projects\mvc\Ebit\Accounting\bin\Release\net8.0\Base.dll
+D:\technocom projects\mvc\Ebit\Accounting\obj\Release\net8.0\Accounting.MvcApplicationPartsAssemblyInfo.cs
+E:\Kinza-Project\Accounting\bin\Release\net8.0\appsettings.Development.json
+E:\Kinza-Project\Accounting\bin\Release\net8.0\appsettings.json
+E:\Kinza-Project\Accounting\bin\Release\net8.0\efpt.config.json
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Accounting.staticwebassets.runtime.json
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Accounting.staticwebassets.endpoints.json
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-Black.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-BlackItalic.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-Bold.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-BoldItalic.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-ExtraBold.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-ExtraBoldItalic.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-ExtraLight.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-ExtraLightItalic.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-Italic.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-Light.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-LightItalic.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-Medium.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-MediumItalic.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-Regular.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-SemiBold.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-SemiBoldItalic.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-Thin.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\Lato-ThinItalic.ttf
+E:\Kinza-Project\Accounting\bin\Release\net8.0\LatoFont\OFL.txt
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Accounting.exe
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Accounting.deps.json
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Accounting.runtimeconfig.json
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Accounting.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Accounting.pdb
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Antiforgery.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.BearerToken.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.Cookies.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.Core.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.OAuth.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authorization.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authorization.Policy.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.Authorization.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.Endpoints.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.Forms.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.Server.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.Web.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Connections.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.CookiePolicy.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Cors.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Cryptography.Internal.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.DataProtection.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.DataProtection.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.DataProtection.Extensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Diagnostics.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Diagnostics.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Diagnostics.HealthChecks.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.HostFiltering.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Hosting.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Hosting.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Html.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Connections.Common.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Connections.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Extensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Features.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Results.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.HttpLogging.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.HttpOverrides.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.HttpsPolicy.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Identity.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Localization.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Localization.Routing.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Metadata.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.ApiExplorer.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Core.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Cors.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.DataAnnotations.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Formatters.Json.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Formatters.Xml.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Localization.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Razor.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.RazorPages.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.TagHelpers.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.OutputCaching.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.RateLimiting.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Razor.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Razor.Runtime.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.RequestDecompression.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.ResponseCaching.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.ResponseCompression.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Rewrite.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Routing.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Routing.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.HttpSys.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.IIS.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.IISIntegration.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.Kestrel.Core.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.Kestrel.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.Kestrel.Transport.NamedPipes.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.Kestrel.Transport.Quic.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Session.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.SignalR.Common.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.SignalR.Core.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.SignalR.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.StaticFiles.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.WebSockets.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.WebUtilities.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.CSharp.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Caching.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Caching.Memory.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.Binder.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.CommandLine.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.EnvironmentVariables.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.FileExtensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.Ini.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.Json.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.KeyPerFile.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.UserSecrets.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.Xml.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.DependencyInjection.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Diagnostics.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Diagnostics.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Diagnostics.HealthChecks.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Features.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.FileProviders.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.FileProviders.Composite.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.FileProviders.Embedded.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.FileProviders.Physical.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.FileSystemGlobbing.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Hosting.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Hosting.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Http.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Identity.Core.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Identity.Stores.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Localization.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Localization.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.Configuration.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.Console.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.Debug.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.EventLog.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.EventSource.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.TraceSource.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.ObjectPool.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Options.DataAnnotations.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Options.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Primitives.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.WebEncoders.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.JSInterop.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Net.Http.Headers.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.VisualBasic.Core.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.VisualBasic.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Win32.Primitives.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\Microsoft.Win32.Registry.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\mscorlib.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\netstandard.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.AppContext.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Buffers.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Collections.Concurrent.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Collections.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Collections.Immutable.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Collections.NonGeneric.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Collections.Specialized.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.ComponentModel.Annotations.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.ComponentModel.DataAnnotations.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.ComponentModel.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.ComponentModel.EventBasedAsync.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.ComponentModel.Primitives.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.ComponentModel.TypeConverter.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Configuration.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Console.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Core.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Data.Common.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Data.DataSetExtensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Data.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Diagnostics.Contracts.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Diagnostics.Debug.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Diagnostics.DiagnosticSource.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Diagnostics.EventLog.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Diagnostics.FileVersionInfo.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Diagnostics.Process.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Diagnostics.StackTrace.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Diagnostics.TextWriterTraceListener.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Diagnostics.Tools.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Diagnostics.TraceSource.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Diagnostics.Tracing.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Drawing.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Drawing.Primitives.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Dynamic.Runtime.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Formats.Asn1.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Formats.Tar.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Globalization.Calendars.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Globalization.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Globalization.Extensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.Compression.Brotli.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.Compression.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.Compression.FileSystem.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.Compression.ZipFile.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.FileSystem.AccessControl.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.FileSystem.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.FileSystem.DriveInfo.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.FileSystem.Primitives.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.FileSystem.Watcher.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.IsolatedStorage.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.MemoryMappedFiles.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.Pipelines.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.Pipes.AccessControl.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.Pipes.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.IO.UnmanagedMemoryStream.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Linq.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Linq.Expressions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Linq.Parallel.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Linq.Queryable.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Memory.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.Http.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.Http.Json.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.HttpListener.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.Mail.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.NameResolution.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.NetworkInformation.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.Ping.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.Primitives.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.Quic.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.Requests.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.Security.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.ServicePoint.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.Sockets.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.WebClient.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.WebHeaderCollection.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.WebProxy.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.WebSockets.Client.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Net.WebSockets.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Numerics.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Numerics.Vectors.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.ObjectModel.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Reflection.DispatchProxy.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Reflection.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Reflection.Emit.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Reflection.Emit.ILGeneration.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Reflection.Emit.Lightweight.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Reflection.Extensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Reflection.Metadata.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Reflection.Primitives.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Reflection.TypeExtensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Resources.Reader.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Resources.ResourceManager.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Resources.Writer.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.CompilerServices.Unsafe.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.CompilerServices.VisualC.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.Extensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.Handles.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.InteropServices.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.InteropServices.JavaScript.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.InteropServices.RuntimeInformation.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.Intrinsics.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.Loader.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.Numerics.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.Serialization.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.Serialization.Formatters.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.Serialization.Json.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.Serialization.Primitives.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Runtime.Serialization.Xml.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.AccessControl.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Claims.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Algorithms.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Cng.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Csp.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Encoding.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.OpenSsl.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Primitives.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.X509Certificates.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Xml.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Principal.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.Principal.Windows.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Security.SecureString.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.ServiceModel.Web.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.ServiceProcess.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Text.Encoding.CodePages.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Text.Encoding.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Text.Encoding.Extensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Text.Encodings.Web.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Text.Json.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Text.RegularExpressions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Threading.Channels.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Threading.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Threading.Overlapped.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Threading.RateLimiting.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Threading.Tasks.Dataflow.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Threading.Tasks.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Threading.Tasks.Extensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Threading.Tasks.Parallel.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Threading.Thread.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Threading.ThreadPool.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Threading.Timer.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Transactions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Transactions.Local.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.ValueTuple.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Web.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Web.HttpUtility.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Windows.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Xml.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Xml.Linq.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Xml.ReaderWriter.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Xml.Serialization.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Xml.XDocument.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Xml.XmlDocument.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Xml.XmlSerializer.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Xml.XPath.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\System.Xml.XPath.XDocument.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\refs\WindowsBase.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Azure.Core.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Azure.Identity.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\DinkToPdf.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Humanizer.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.AspNetCore.Razor.Language.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Build.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Build.Framework.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.AnalyzerUtilities.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.CSharp.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.CSharp.Features.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Elfie.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Features.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Razor.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Scripting.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Workspaces.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Data.SqlClient.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.DiaSymReader.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.DotNet.Scaffolding.Shared.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.Design.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Extensions.Caching.Memory.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Extensions.DependencyInjection.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Extensions.DependencyModel.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Extensions.Logging.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Extensions.Options.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Identity.Client.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Abstractions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Logging.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Protocols.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Tokens.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.NET.StringTools.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.SqlServer.Server.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\dotnet-aspnet-codegenerator-design.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Microsoft.Win32.SystemEvents.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Mono.TextTemplating.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Newtonsoft.Json.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\NuGet.Common.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\NuGet.Configuration.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\NuGet.DependencyResolver.Core.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\NuGet.Frameworks.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\NuGet.LibraryModel.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\NuGet.Packaging.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\NuGet.ProjectModel.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\NuGet.Protocol.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\NuGet.Versioning.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\PuppeteerSharp.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\QuestPDF.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Rotativa.AspNetCore.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.ClientModel.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.CodeDom.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Composition.AttributedModel.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Composition.Convention.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Composition.Hosting.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Composition.Runtime.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Composition.TypedParts.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Configuration.ConfigurationManager.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Drawing.Common.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.IdentityModel.Tokens.Jwt.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Memory.Data.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Reflection.MetadataLoadContext.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Runtime.Caching.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Security.Cryptography.ProtectedData.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Security.Permissions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.Windows.Extensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Wkhtmltopdf.NetCore.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\af\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ar\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\az\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\bg\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\bn-BD\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\cs\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\da\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\de\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\el\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\es\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\fa\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\fi-FI\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\fr\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\fr-BE\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\he\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\hr\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\hu\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\hy\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\id\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\is\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\it\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ja\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ko-KR\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ku\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\lv\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ms-MY\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\mt\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\nb\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\nb-NO\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\nl\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pl\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pt\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ro\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ru\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\sk\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\sl\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\sr\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\sr-Latn\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\sv\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\th-TH\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\tr\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\uk\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\uz-Cyrl-UZ\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\uz-Latn-UZ\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\vi\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-CN\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hans\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hant\Humanizer.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.Features.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\linux-arm64\native\libQuestPdfSkia.so
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\linux-arm64\native\libqpdf.so
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\linux-musl-x64\native\libQuestPdfSkia.so
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\linux-musl-x64\native\libqpdf.so
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\linux-x64\native\libQuestPdfSkia.so
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\linux-x64\native\libqpdf.so
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\osx-arm64\native\libQuestPdfSkia.dylib
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\osx-arm64\native\libqpdf.dylib
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\osx-x64\native\libQuestPdfSkia.dylib
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\osx-x64\native\libqpdf.dylib
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x64\native\QuestPdfSkia.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x64\native\libgcc_s_seh-1.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x64\native\libstdc++-6.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x64\native\libwinpthread-1.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x64\native\qpdf.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x64\native\zlib1.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x86\native\QuestPdfSkia.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x86\native\libgcc_s_dw2-1.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x86\native\libstdc++-6.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x86\native\libwinpthread-1.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x86\native\qpdf.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win-x86\native\zlib1.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Base.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\Initial.dll
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.csproj.AssemblyReference.cache
+E:\Kinza-Project\Accounting\obj\Release\net8.0\rpswa.dswa.cache.json
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.GeneratedMSBuildEditorConfig.editorconfig
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.AssemblyInfoInputs.cache
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.AssemblyInfo.cs
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.csproj.CoreCompileInputs.cache
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.MvcApplicationPartsAssemblyInfo.cs
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.MvcApplicationPartsAssemblyInfo.cache
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.RazorAssemblyInfo.cache
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.RazorAssemblyInfo.cs
+E:\Kinza-Project\Accounting\obj\Release\net8.0\rjimswa.dswa.cache.json
+E:\Kinza-Project\Accounting\obj\Release\net8.0\rjsmrazor.dswa.cache.json
+E:\Kinza-Project\Accounting\obj\Release\net8.0\rjsmcshtml.dswa.cache.json
+E:\Kinza-Project\Accounting\obj\Release\net8.0\scopedcss\bundle\Accounting.styles.css
+E:\Kinza-Project\Accounting\obj\Release\net8.0\staticwebassets.build.json
+E:\Kinza-Project\Accounting\obj\Release\net8.0\staticwebassets.build.json.cache
+E:\Kinza-Project\Accounting\obj\Release\net8.0\staticwebassets.development.json
+E:\Kinza-Project\Accounting\obj\Release\net8.0\staticwebassets.build.endpoints.json
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.csproj.Up2Date
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.dll
+E:\Kinza-Project\Accounting\obj\Release\net8.0\refint\Accounting.dll
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.pdb
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.genruntimeconfig.cache
+E:\Kinza-Project\Accounting\obj\Release\net8.0\ref\Accounting.dll
+E:\Kinza-Project\Accounting\obj\Release\net8.0\Accounting.sourcelink.json
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ClosedXML.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ClosedXML.Parser.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\DocumentFormat.OpenXml.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\DocumentFormat.OpenXml.Framework.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\ExcelNumberFormat.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\RBush.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\SixLabors.Fonts.dll
+E:\Kinza-Project\Accounting\bin\Release\net8.0\System.IO.Packaging.dll
+E:\Kinza-Project\Accounting\obj\Release\net8.0\staticwebassets.upToDateCheck.txt
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\appsettings.Development.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\appsettings.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\efpt.config.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Accounting.staticwebassets.runtime.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Accounting.staticwebassets.endpoints.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-Black.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-BlackItalic.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-Bold.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-BoldItalic.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-ExtraBold.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-ExtraBoldItalic.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-ExtraLight.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-ExtraLightItalic.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-Italic.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-Light.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-LightItalic.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-Medium.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-MediumItalic.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-Regular.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-SemiBold.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-SemiBoldItalic.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-Thin.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\Lato-ThinItalic.ttf
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\LatoFont\OFL.txt
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Accounting.exe
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Accounting.deps.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Accounting.runtimeconfig.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Accounting.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Accounting.pdb
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Antiforgery.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.BearerToken.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.Cookies.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.Core.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authentication.OAuth.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authorization.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Authorization.Policy.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.Authorization.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.Endpoints.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.Forms.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.Server.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Components.Web.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Connections.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.CookiePolicy.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Cors.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.DataProtection.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.DataProtection.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.DataProtection.Extensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Diagnostics.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Diagnostics.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Diagnostics.HealthChecks.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.HostFiltering.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Hosting.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Hosting.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Html.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Connections.Common.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Connections.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Extensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Features.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Http.Results.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.HttpLogging.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.HttpOverrides.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.HttpsPolicy.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Identity.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Localization.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Localization.Routing.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Metadata.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.ApiExplorer.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Core.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Cors.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.DataAnnotations.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Formatters.Json.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Formatters.Xml.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Localization.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.Razor.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.RazorPages.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.TagHelpers.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.OutputCaching.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.RateLimiting.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Razor.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Razor.Runtime.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.RequestDecompression.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.ResponseCaching.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.ResponseCompression.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Rewrite.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Routing.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Routing.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.HttpSys.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.IIS.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.IISIntegration.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.Kestrel.Core.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.Kestrel.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.Kestrel.Transport.NamedPipes.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.Kestrel.Transport.Quic.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.Session.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.SignalR.Common.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.SignalR.Core.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.SignalR.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.StaticFiles.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.WebSockets.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.AspNetCore.WebUtilities.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.CSharp.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Caching.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Caching.Memory.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.Binder.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.CommandLine.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.EnvironmentVariables.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.FileExtensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.Ini.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.Json.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.KeyPerFile.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.UserSecrets.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Configuration.Xml.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.DependencyInjection.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Diagnostics.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Diagnostics.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Diagnostics.HealthChecks.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Features.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.FileProviders.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.FileProviders.Composite.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.FileProviders.Embedded.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.FileProviders.Physical.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.FileSystemGlobbing.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Hosting.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Hosting.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Http.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Identity.Core.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Identity.Stores.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Localization.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Localization.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.Configuration.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.Console.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.Debug.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.EventLog.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.EventSource.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Logging.TraceSource.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.ObjectPool.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Options.DataAnnotations.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Options.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.Primitives.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Extensions.WebEncoders.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.JSInterop.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Net.Http.Headers.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.VisualBasic.Core.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.VisualBasic.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Win32.Primitives.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\Microsoft.Win32.Registry.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\mscorlib.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\netstandard.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.AppContext.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Buffers.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Collections.Concurrent.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Collections.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Collections.Immutable.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Collections.NonGeneric.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Collections.Specialized.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.ComponentModel.Annotations.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.ComponentModel.DataAnnotations.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.ComponentModel.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.ComponentModel.EventBasedAsync.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.ComponentModel.Primitives.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.ComponentModel.TypeConverter.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Configuration.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Console.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Core.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Data.Common.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Data.DataSetExtensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Data.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Diagnostics.Contracts.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Diagnostics.Debug.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Diagnostics.DiagnosticSource.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Diagnostics.EventLog.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Diagnostics.FileVersionInfo.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Diagnostics.Process.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Diagnostics.StackTrace.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Diagnostics.TextWriterTraceListener.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Diagnostics.Tools.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Diagnostics.TraceSource.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Diagnostics.Tracing.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Drawing.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Drawing.Primitives.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Dynamic.Runtime.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Formats.Asn1.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Formats.Tar.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Globalization.Calendars.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Globalization.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Globalization.Extensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.Compression.Brotli.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.Compression.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.Compression.FileSystem.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.Compression.ZipFile.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.FileSystem.AccessControl.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.FileSystem.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.FileSystem.DriveInfo.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.FileSystem.Primitives.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.FileSystem.Watcher.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.IsolatedStorage.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.MemoryMappedFiles.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.Pipelines.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.Pipes.AccessControl.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.Pipes.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.IO.UnmanagedMemoryStream.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Linq.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Linq.Expressions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Linq.Parallel.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Linq.Queryable.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Memory.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.Http.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.Http.Json.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.HttpListener.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.Mail.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.NameResolution.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.NetworkInformation.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.Ping.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.Primitives.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.Quic.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.Requests.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.Security.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.ServicePoint.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.Sockets.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.WebClient.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.WebHeaderCollection.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.WebProxy.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.WebSockets.Client.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Net.WebSockets.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Numerics.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Numerics.Vectors.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.ObjectModel.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Reflection.DispatchProxy.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Reflection.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Reflection.Emit.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Reflection.Emit.ILGeneration.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Reflection.Emit.Lightweight.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Reflection.Extensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Reflection.Metadata.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Reflection.Primitives.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Reflection.TypeExtensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Resources.Reader.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Resources.ResourceManager.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Resources.Writer.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.CompilerServices.Unsafe.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.CompilerServices.VisualC.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.Extensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.Handles.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.InteropServices.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.InteropServices.JavaScript.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.Intrinsics.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.Loader.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.Numerics.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.Serialization.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.Serialization.Formatters.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.Serialization.Json.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.Serialization.Primitives.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Runtime.Serialization.Xml.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.AccessControl.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Claims.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Algorithms.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Cng.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Csp.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Encoding.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.OpenSsl.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Primitives.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.X509Certificates.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Cryptography.Xml.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Principal.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.Principal.Windows.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Security.SecureString.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.ServiceModel.Web.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.ServiceProcess.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Text.Encoding.CodePages.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Text.Encoding.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Text.Encoding.Extensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Text.Encodings.Web.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Text.Json.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Text.RegularExpressions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Threading.Channels.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Threading.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Threading.Overlapped.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Threading.RateLimiting.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Threading.Tasks.Dataflow.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Threading.Tasks.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Threading.Tasks.Extensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Threading.Tasks.Parallel.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Threading.Thread.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Threading.ThreadPool.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Threading.Timer.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Transactions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Transactions.Local.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.ValueTuple.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Web.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Web.HttpUtility.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Windows.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Xml.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Xml.Linq.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Xml.ReaderWriter.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Xml.Serialization.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Xml.XDocument.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Xml.XmlDocument.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Xml.XmlSerializer.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Xml.XPath.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\System.Xml.XPath.XDocument.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\refs\WindowsBase.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Azure.Core.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Azure.Identity.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ClosedXML.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ClosedXML.Parser.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\DinkToPdf.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\DocumentFormat.OpenXml.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\DocumentFormat.OpenXml.Framework.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ExcelNumberFormat.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Humanizer.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.AspNetCore.Razor.Language.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Build.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Build.Framework.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.AnalyzerUtilities.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.CSharp.Features.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Elfie.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Features.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Razor.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Scripting.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.CodeAnalysis.Workspaces.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Data.SqlClient.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.DiaSymReader.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.DotNet.Scaffolding.Shared.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Extensions.Caching.Memory.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Extensions.DependencyInjection.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Extensions.DependencyModel.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Extensions.Logging.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Extensions.Options.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Identity.Client.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.NET.StringTools.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.SqlServer.Server.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\dotnet-aspnet-codegenerator-design.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Microsoft.Win32.SystemEvents.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Mono.TextTemplating.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Newtonsoft.Json.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\NuGet.Common.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\NuGet.Configuration.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\NuGet.DependencyResolver.Core.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\NuGet.Frameworks.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\NuGet.LibraryModel.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\NuGet.Packaging.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\NuGet.ProjectModel.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\NuGet.Protocol.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\NuGet.Versioning.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\PuppeteerSharp.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\QuestPDF.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\RBush.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Rotativa.AspNetCore.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\SixLabors.Fonts.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.ClientModel.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.CodeDom.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Composition.AttributedModel.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Composition.Convention.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Composition.Hosting.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Composition.Runtime.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Composition.TypedParts.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Configuration.ConfigurationManager.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Drawing.Common.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.IO.Packaging.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Memory.Data.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Reflection.MetadataLoadContext.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Runtime.Caching.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Security.Cryptography.ProtectedData.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Security.Permissions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\System.Windows.Extensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Wkhtmltopdf.NetCore.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\af\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ar\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\az\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\bg\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\bn-BD\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\cs\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\da\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\de\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\el\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\es\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\fa\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\fi-FI\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\fr\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\fr-BE\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\he\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\hr\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\hu\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\hy\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\id\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\is\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\it\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ja\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ko-KR\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ku\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\lv\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ms-MY\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\mt\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\nb\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\nb-NO\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\nl\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pl\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pt\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ro\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ru\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\sk\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\sl\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\sr\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\sr-Latn\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\sv\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\th-TH\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\tr\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\uk\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\uz-Cyrl-UZ\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\uz-Latn-UZ\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\vi\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-CN\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hans\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hant\Humanizer.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.Features.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\linux-arm64\native\libQuestPdfSkia.so
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\linux-arm64\native\libqpdf.so
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\linux-musl-x64\native\libQuestPdfSkia.so
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\linux-musl-x64\native\libqpdf.so
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\linux-x64\native\libQuestPdfSkia.so
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\linux-x64\native\libqpdf.so
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\osx-arm64\native\libQuestPdfSkia.dylib
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\osx-arm64\native\libqpdf.dylib
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\osx-x64\native\libQuestPdfSkia.dylib
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\osx-x64\native\libqpdf.dylib
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x64\native\QuestPdfSkia.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x64\native\libgcc_s_seh-1.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x64\native\libstdc++-6.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x64\native\libwinpthread-1.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x64\native\qpdf.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x64\native\zlib1.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x86\native\QuestPdfSkia.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x86\native\libgcc_s_dw2-1.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x86\native\libstdc++-6.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x86\native\libwinpthread-1.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x86\native\qpdf.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win-x86\native\zlib1.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Base.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\Initial.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.csproj.AssemblyReference.cache
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\rpswa.dswa.cache.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.GeneratedMSBuildEditorConfig.editorconfig
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.AssemblyInfoInputs.cache
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.AssemblyInfo.cs
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.csproj.CoreCompileInputs.cache
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.MvcApplicationPartsAssemblyInfo.cs
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.MvcApplicationPartsAssemblyInfo.cache
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.RazorAssemblyInfo.cache
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.RazorAssemblyInfo.cs
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.sourcelink.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\rjimswa.dswa.cache.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\rjsmrazor.dswa.cache.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\rjsmcshtml.dswa.cache.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\scopedcss\bundle\Accounting.styles.css
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\staticwebassets.build.json.cache
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\staticwebassets.development.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\staticwebassets.build.endpoints.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.csproj.Up2Date
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\refint\Accounting.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.pdb
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\Accounting.genruntimeconfig.cache
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\ref\Accounting.dll
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\package-lock.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\bin\Release\net8.0\package.json
+D:\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Release\net8.0\staticwebassets.upToDateCheck.txt

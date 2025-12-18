@@ -1,0 +1,335 @@
+
+
+@if (ViewData["navbarFull"] != null)
+{
+    <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
+        <a asp-controller="Dashboards" asp-action="Index" class="app-brand-link gap-2">
+            <span class="app-brand-logo demo">
+                @await Html.PartialAsync("../_Partials/_Macros")
+            </span>
+        </a>
+
+        <!-- Quick links -->
+        <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                    <i class='bx bx-grid-alt bx-md'></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end p-0">
+                    <div class="dropdown-menu-header border-bottom">
+                        <div class="dropdown-header d-flex align-items-center py-3">
+                            <h6 class="mb-0 me-auto">Shortcuts</h6>
+                            <a href="javascript:void(0)" class="dropdown-shortcuts-add py-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Add shortcuts">
+                                <i class="bx bx-plus-circle text-heading"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown-shortcuts-list scrollable-container">
+                        <div class="row row-bordered overflow-visible g-0">
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="bx bx-calendar bx-26px text-heading"></i>
+                                </span>
+                                <a asp-page="/Apps/Calendar" class="stretched-link">Calendar</a>
+                                <small>Appointments</small>
+                            </div>
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="bx bx-food-menu bx-26px text-heading"></i>
+                                </span>
+                                <a asp-page="/Apps/Invoice/List" class="stretched-link">Invoice App</a>
+                                <small>Manage Accounts</small>
+                            </div>
+                        </div>
+                        <div class="row row-bordered overflow-visible g-0">
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="bx bx-user bx-26px text-heading"></i>
+                                </span>
+                                <a asp-page="/Apps/Users/List" class="stretched-link">User App</a>
+                                <small>Manage Users</small>
+                            </div>
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="bx bx-check-shield bx-26px text-heading"></i>
+                                </span>
+                                <a asp-page="/Apps/Access/Roles" class="stretched-link">Role Management</a>
+                                <small>Permission</small>
+                            </div>
+                        </div>
+                        <div class="row row-bordered overflow-visible g-0">
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="bx bx-pie-chart-alt-2 bx-26px text-heading"></i>
+                                </span>
+                                <a asp-page="/Index" class="stretched-link">Dashboard</a>
+                                <small>User Dashboard</small>
+                            </div>
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="bx bx-cog bx-26px text-heading"></i>
+                                </span>
+                                <a asp-page="/Pages/AccountSettings/Account" class="stretched-link">Setting</a>
+                                <small>Account Settings</small>
+                            </div>
+                        </div>
+                        <div class="row row-bordered overflow-visible g-0">
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="bx bx-help-circle bx-26px text-heading"></i>
+                                </span>
+                                <a asp-page="/Pages/Faq" class="stretched-link">FAQs</a>
+                                <small>FAQs & Articles</small>
+                            </div>
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="bx bx-window-open bx-26px text-heading"></i>
+                                </span>
+                                <a asp-page="/Modals/Examples" class="stretched-link">Modals</a>
+                                <small>Useful Popups</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!-- /Quick links -->
+
+        <small class="ms-2 text-muted">@Context.User.Identity.Name</small>
+
+        @if (Convert.ToBoolean(TempData.Peek("menuHorizontal")))
+        {
+            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
+                <i class="d-flex align-items-center justify-content-center"></i>
+            </a>
+        }
+    </div>
+
+    @* ! Display menu close icon only for horizontal-menu with navbar-full *@
+
+}
+
+@* ! Not required for layout-without-menu *@
+@if (ViewData["navbarHideToggle"] == null)
+{
+    <div class='layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0  @((Convert.ToBoolean(@TempData.Peek("menuHorizontal")).ToString() == "True") ? "" : "d-xl-none") @((@ViewData["contentNavbar"] != null && Convert.ToBoolean(@ViewData["contentNavbar"])) ? "" : "d-xl-none")'>
+        <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+            <i class="bx bx-menu bx-md"></i>
+        </a>
+    </div>
+}
+
+
+<div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+
+    <!-- Search -->
+    @if (Convert.ToBoolean(TempData.Peek("menuHorizontal")).ToString() != "True")
+    {
+        <div class="navbar-nav align-items-center">
+            <div class="nav-item navbar-search-wrapper mb-0">
+                <a class="nav-item nav-link search-toggler px-0" href="javascript:void(0);">
+                    <i class="bx bx-search bx-md"></i>
+                    <span class="d-none d-md-inline-block text-muted fw-normal ms-4">Search (Ctrl+/)</span>
+                </a>
+            </div>
+        </div>
+    }
+
+
+    <div class="content-wrapper">
+
+        @await Html.PartialAsync("Sections/Menu/_HorizontalMenu")
+    </div>
+
+
+
+    <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+
+
+        <!-- /Search -->
+        <!-- Quick links  -->
+        <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
+            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                <i class='bx bx-grid-alt bx-md'></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end p-0">
+                <div class="dropdown-menu-header border-bottom">
+                    <div class="dropdown-header d-flex align-items-center py-3">
+                        <h6 class="mb-0 me-auto">Menu</h6>
+                        <a asp-controller="App" asp-action="Developer" class="dropdown-shortcuts-add py-2"
+                           data-bs-toggle="tooltip" data-bs-placement="top" title="Add Menu">
+                            <i class="bx bx-plus-circle text-heading"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown-shortcuts-list scrollable-container">
+                    <div class="row row-bordered overflow-visible g-0">
+                        <div class="dropdown-shortcuts-item col">
+                            <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                <i class="bx bx-calendar bx-26px text-heading"></i>
+                            </span>
+                            <a asp-page="/Apps/Calendar" class="stretched-link">Calendar</a>
+                            <small>Appointments</small>
+                        </div>
+                        <div class="dropdown-shortcuts-item col">
+                            <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                <i class="bx bx-food-menu bx-26px text-heading"></i>
+                            </span>
+                            <a asp-page="/Apps/Invoice/List" class="stretched-link">Invoice App</a>
+                            <small>Manage Accounts</small>
+                        </div>
+                    </div>
+                    <div class="row row-bordered overflow-visible g-0">
+                        <div class="dropdown-shortcuts-item col">
+                            <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                <i class="bx bx-user bx-26px text-heading"></i>
+                            </span>
+                            <a asp-page="/Apps/Users/List" class="stretched-link">User App</a>
+                            <small>Manage Users</small>
+                        </div>
+                        <div class="dropdown-shortcuts-item col">
+                            <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                <i class="bx bx-check-shield bx-26px text-heading"></i>
+                            </span>
+                            <a asp-page="/Apps/Access/Roles" class="stretched-link">Role Management</a>
+                            <small>Permission</small>
+                        </div>
+                    </div>
+                    <div class="row row-bordered overflow-visible g-0">
+                        <div class="dropdown-shortcuts-item col">
+                            <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                <i class="bx bx-pie-chart-alt-2 bx-26px text-heading"></i>
+                            </span>
+                            <a asp-page="/Index" class="stretched-link">Dashboard</a>
+                            <small>User Dashboard</small>
+                        </div>
+                        <div class="dropdown-shortcuts-item col">
+                            <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                <i class="bx bx-cog bx-26px text-heading"></i>
+                            </span>
+                            <a asp-page="/Pages/AccountSettings/Account" class="stretched-link">Setting</a>
+                            <small>Account Settings</small>
+                        </div>
+                    </div>
+                    <div class="row row-bordered overflow-visible g-0">
+                        <div class="dropdown-shortcuts-item col">
+                            <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                <i class="bx bx-help-circle bx-26px text-heading"></i>
+                            </span>
+                            <a asp-page="/Pages/Faq" class="stretched-link">FAQs</a>
+                            <small>FAQs & Articles</small>
+                        </div>
+                        <div class="dropdown-shortcuts-item col">
+                            <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                <i class="bx bx-window-open bx-26px text-heading"></i>
+                            </span>
+                            <a asp-page="/Modals/Examples" class="stretched-link">Modals</a>
+                            <small>Useful Popups</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <!-- Quick links -->
+        <!-- Style Switcher -->
+        <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                <i class='bx bx-md'></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                        <span><i class='bx bx-sun bx-md me-3'></i>Light</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                        <span><i class="bx bx-moon bx-md me-3"></i>Dark</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                        <span><i class="bx bx-desktop bx-md me-3"></i>System</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- / Style Switcher-->
+        <!-- User -->
+        <li class="nav-item navbar-dropdown dropdown-user dropdown" id="userDropdown">
+            <a class="nav-link dropdown-toggle hide-arrow p-0" onclick="abc()" href="javascript:void(0);" data-bs-toggle="dropdown">
+                <div class="avatar avatar-online">
+                    <img src="~/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end ">
+                <li>
+                    <a class="dropdown-item" asp-page="/Pages/AccountSettings/Account">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar avatar-online">
+                                    <img src="~/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0">@Context.User.Identity.Name</h6>
+                                <small class="text-muted">Admin</small>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <div class="dropdown-divider my-1"></div>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Pages/Profile/User">
+                        <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Pages/AccountSettings/Account">
+                        <i class="bx bx-cog bx-md me-3"></i><span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Pages/AccountSettings/Billing">
+                        <span class="d-flex align-items-center align-middle">
+                            <i class="flex-shrink-0 bx bx-credit-card bx-md me-3"></i><span class="flex-grow-1 align-middle">Billing Plan</span>
+                            <span class="flex-shrink-0 badge rounded-pill bg-danger">4</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <div class="dropdown-divider my-1"></div>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Pages/Pricing">
+                        <i class="bx bx-dollar bx-md me-3"></i><span>Pricing</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Pages/Faq">
+                        <i class="bx bx-help-circle bx-md me-3"></i><span>FAQ</span>
+                    </a>
+                </li>
+                <li>
+                    <div class="dropdown-divider my-1"></div>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("LogOut", "Login")">
+                        <i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!--/ User -->
+
+    </ul>
+</div>
+
+<!-- Search Small Screens -->
+<div class='navbar-search-wrapper search-input-wrapper @((Convert.ToBoolean(@TempData.Peek("menuHorizontal")).ToString() == "True") ? @ViewData["containerNav"] : "") d-none'>
+    <input type="text" class='form-control search-input @((Convert.ToBoolean(@TempData.Peek("menuHorizontal")).ToString() == "True") ? "" : @ViewData["containerNav"]) border-0' placeholder="Search..." aria-label="Search...">
+    <i class="bx bx-x bx-md search-toggler cursor-pointer"></i>
+</div>

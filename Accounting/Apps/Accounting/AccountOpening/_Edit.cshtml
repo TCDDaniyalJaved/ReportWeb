@@ -1,0 +1,241 @@
+﻿@model Accounting.ViewModel.AccountOpeningViewModel
+
+@{
+    ViewData["Title"] = "Account Opening";
+}
+
+<style>
+    .value-col ebit-label {
+        display: block;
+    }
+
+    .tab-content:not(.doc-example-content) {
+        padding: 0 !important;
+    }
+
+    .tab-pane {
+        transition: none !important;
+    }
+
+    .tab-pane.show {
+        opacity: 1 !important;
+    }
+</style>
+
+<!-- Page Header Buttons -->
+<ebit-section flex justify="between" align="center" mb="3" pt="3">
+    <ebit-section>
+        <ebit-button id="confirmBtn" radius="sm" type="primary" size="sm">Update</ebit-button>
+        <ebit-button id="gobacktolistbtn" type="secondary" radius="sm" size="sm">Cancel</ebit-button>
+    </ebit-section>
+</ebit-section>
+
+
+<!-- Form Card -->
+<ebit-section class="card">
+    <ebit-section class="card-body">
+
+        <!-- Form Header -->
+        <ebit-section>
+            <ebit-label class="h2" text="Draft"></ebit-label>
+        </ebit-section>
+
+        <!-- Main Form -->
+        <ebit-form action="/Accounting/AccountOpening/Edit" method="post" data-edit-mode="true" id="invoiceForm">
+            <input type="hidden" name="Master.Id" value="@Model.Master.Id" />
+            @Html.AntiForgeryToken()
+
+            <ebit-section class="row">
+
+                <!-- Date Field -->
+                <ebit-section class="row mb-3 align-items-center col-md-4">
+                    <ebit-label data="Master.Vdate" class="col-sm-2 form-label" text="Date"></ebit-label>
+                    <ebit-section class="col-sm-10">
+                        <ebit-datetime data="Master.Vdate" datatype="Date" placeholder="MM-DD-YYYY"></ebit-datetime>
+                    </ebit-section>
+                </ebit-section>
+
+                <!-- Company Dropdown -->
+                <ebit-section class="row mb-3 align-items-center col-md-8">
+                    <ebit-label data="Master.CompanyId" class="col-sm-2 form-label" text="Company"></ebit-label>
+                    <ebit-section class="col-sm-10">
+                        @if (ViewBag.CompanyCount == 1)
+                        {
+                            <!-- Hidden field for form -->
+                            <input type="hidden" asp-for="Master.CompanyId" value="@ViewBag.PrimaryCompanyId" />
+
+                            <!-- ebit-select locked mode -->
+                            <ebit-select data="Master.CompanyId"
+                                         selected="@ViewBag.PrimaryCompanyId"
+                                         placeholder="@ViewBag.PrimaryCompanyName"
+                                         style="pointer-events: none; ">
+                            </ebit-select>
+                        }
+                        else
+                        {
+                            <ebit-select selected="@Model.Master.CompanyId" data="Master.CompanyId"></ebit-select>
+                        }
+                    </ebit-section>
+                </ebit-section>
+                <!-- Navigation Tabs -->
+                <ebit-propertytab id="invoiceTabs" role="tablist">
+                    <!-- ================= (Details) ================= -->
+                    <ebit-propertypage target="lineitems" text="Details" active>
+
+                        <ebit-section class="row">
+
+                            <!-- LINE ITEMS TABLE -->
+                            <ebit-section class="tab-pane-body">
+
+                                <ebit-table id="ItemsTable" class="table">
+                                    <ebit-head>
+                                        <ebit-row>
+                                            <ebit-headcolumn width="35%">Account</ebit-headcolumn>
+                                            <ebit-headcolumn width="15%">Description</ebit-headcolumn>
+                                            <ebit-headcolumn width="15%" text-align:right;">Debit</ebit-headcolumn>
+                                            <ebit-headcolumn width="15%" text-align:right;">Credit</ebit-headcolumn>
+                                            <ebit-headcolumn width="5%"></ebit-headcolumn>
+                                        </ebit-row>
+                                    </ebit-head>
+
+                                    <ebit-body>
+                                        @for (int i = 0; i < Model.Details.Count; i++)
+                                        {
+                                            <ebit-row>
+                                                <ebit-bodycolumn>
+                                                    <input type="hidden" name="Details[@i].ActCode"
+                                                        value="@Model.Details[i].ActCode" />
+                                                    <div class="current-value">
+                                                        Current: @Model.Details[i].ActCode
+                                                    </div>
+                                                    <ebit-select data="Details[@i].ActCode"
+                                                        selected="@Model.Details[i].ActCode"
+                                                       >
+                                                    </ebit-select>
+                                                </ebit-bodycolumn>
+                                                <ebit-bodycolumn>
+                                                    <ebit-text value="@Model.Details[i].Remarks" data="Details[@i].Remarks">
+                                                </ebit-bodycolumn>
+                                                <ebit-bodycolumn>
+                                                    <ebit-number class="debit-field" data-debit
+                                                        value="@Model.Details[i].Debit"
+                                                        data="Details[@i].Debit"></ebit-number>
+
+                                                </ebit-bodycolumn>
+                                                <ebit-bodycolumn>
+                                                    <ebit-number class="credit-field" data-credit
+                                                        value="@Model.Details[i].Credit"
+                                                        data="Details[@i].Credit"></ebit-number>
+                                                </ebit-bodycolumn>
+                                                <ebit-bodycolumn>
+                                                    <ebit-button type="secondary" variant="ghost" size="sm"
+                                                        click="removeRow(this)" class="btn-icon">
+                                                        <i class="bx bx-trash fs-5"></i>
+                                                    </ebit-button>
+                                                </ebit-bodycolumn>
+                                            </ebit-row>
+                                        }
+                                    </ebit-body>
+                                </ebit-table>
+                                <!-- LAZY LOADING PROGRESS -->
+                                <ebit-section id="progressSection" class="mt-2" style="display: none;">
+                                    <ebit-progressbar value="0" id="progressBar" size="sm"></ebit-progressbar>
+                                    <ebit-label id="progressText" text="Loading rows..."
+                                                class="text-muted small d-block mt-1"></ebit-label>
+                                </ebit-section>
+                                <!-- TEMPLATE -->
+                                <template id="itemRowTemplate">
+                                    <ebit-row>
+                                        <ebit-bodycolumn>
+                                            <ebit-select data="Details[INDEX].ActCode"
+                                                data-url="UserWiseAccount"></ebit-select>
+                                        </ebit-bodycolumn>
+
+                                        <ebit-bodycolumn>
+                                            <ebit-text data="Details[INDEX].Remarks"></ebit-text>
+                                        </ebit-bodycolumn>
+
+                                        <ebit-bodycolumn>
+                                            <ebit-number class="debit-field" data-debit
+                                                data="Details[INDEX].Debit"></ebit-number>
+                                        </ebit-bodycolumn>
+
+                                        <ebit-bodycolumn>
+                                            <ebit-number class="credit-field" data-credit
+                                                data="Details[INDEX].Credit"></ebit-number>
+                                        </ebit-bodycolumn>
+
+                                        <ebit-bodycolumn>
+                                            <ebit-button type="secondary" variant="ghost" size="sm"
+                                                click="removeRow(this)" class="btn-icon">
+                                                <i class="bx bx-trash fs-5"></i>
+                                            </ebit-button>
+                                        </ebit-bodycolumn>
+                                    </ebit-row>
+                                </template>
+
+                                <!-- ADD MORE BUTTON -->
+                                <ebit-section class="p-3">
+                                    <ebit-button type="primary" variant="ghost" size="sm" click="addNewRow"
+                                        class="small ms-2 text-primary fw-bold">
+                                        Add More
+                                    </ebit-button>
+                                </ebit-section>
+
+                            </ebit-section>
+
+                        </ebit-section>
+
+                    </ebit-propertypage>
+
+                    <!-- ================= (Description) ================= -->
+                    <ebit-propertypage target="otherinfo" text="Description">
+
+                        <ebit-section class="tab-pane-body p-3">
+                            <ebit-section class="mb-3">
+                                <textarea asp-for="Master.Remarks" name="Master.Remarks" value="@Model.Master.Remarks"
+                                    placeholder="Remarks" class="form-control" rows="3"></textarea>
+                            </ebit-section>
+                        </ebit-section>
+
+                    </ebit-propertypage>
+
+                </ebit-propertytab>
+
+
+
+                <!-- Totals -->
+                <ebit-section class="mt-4 totals">
+                    <ebit-section class="border-top">
+                        <ebit-section class="totals-box">
+                            <ebit-section class="label-col">
+                                <ebit-label text="Total Debit:"></ebit-label>
+                                <ebit-label text="Total Credit:"></ebit-label>
+                                <ebit-label text="Difference:"></ebit-label>
+                            </ebit-section>
+                            <ebit-section class="value-col">
+                                <p data-fn="calculateValue('[data-debit]','sum')"></p>
+                                <p data-fn="calculateValue('[data-credit]','sum')"></p>
+                                <p
+                                    data-fn="calculateValue('[data-debit]','sum') - calculateValue('[data-credit]','sum')">
+                                </p>
+                            </ebit-section>
+                        </ebit-section>
+                    </ebit-section>
+                </ebit-section>
+
+            </ebit-section>
+        </ebit-form>
+
+    </ebit-section>
+</ebit-section>
+<!-- Page Scripts -->
+<script src="~/accounting/js/accountopening_detail.js"></script>
+<script src="~/js/dropdawn.js"></script>
+<script src="~/js/forms-editors.dist.js"></script>
+
+@section PageScripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

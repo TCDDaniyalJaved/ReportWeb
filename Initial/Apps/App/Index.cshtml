@@ -1,0 +1,243 @@
+﻿@* @model IEnumerable<Initial.Models.App> *@
+@* @{ *@
+@*     Layout = "_CommonMasterLayout"; *@
+@* } *@
+@* <script src="https://cdn.tailwindcss.com"></script> *@
+@* <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"> *@
+
+@* <header class="bg-white border-b sticky top-0 z-50"> *@
+@*     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"> *@
+@*         <div class="flex items-center gap-3"> *@
+@*             <div class="w-10 h-10 rounded-md bg-gradient-to-br from-indigo-300 to-indigo-500 flex items-center justify-center text-white font-bold">MC</div> *@
+@*             <div> *@
+@*                 <div class="text-lg font-semibold">My Company</div> *@
+@*                 <div class="text-xs text-gray-400">ERP · Website · Apps</div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <nav class="hidden md:flex gap-6 text-sm"> *@
+@*             <a href="#" class="hover:text-indigo-600">Home</a> *@
+@*             <a href="#" class="font-semibold hover:text-indigo-600">Apps</a> *@
+@*             <a href="#" class="hover:text-indigo-600">About</a> *@
+@*             <a href="#" class="hover:text-indigo-600">Contact</a> *@
+@*         </nav> *@
+@*         <button class="md:hidden px-3 py-2 rounded-md border">Menu</button> *@
+@*     </div> *@
+@* </header> *@
+@* <section class="bg-indigo-600 text-white py-10 text-center"> *@
+@*     <div class="max-w-4xl mx-auto"> *@
+@*         <h1 class="text-white fs-2">All Apps</h1> *@
+@*         <p class="mt-2 text-white">Unleash your growth potential — pick modules you need and scale your business.</p> *@
+@*     </div> *@
+@* </section> *@
+@* @if (TempData["Message"] != null) *@
+@* { *@
+@*     <div class="alert alert-success text-center mb-4"> *@
+@*         @TempData["Message"] *@
+@*     </div> *@
+@* } *@
+@* @if (TempData["Error"] != null) *@
+@* { *@
+@*     <div class="alert alert-danger text-center mb-4"> *@
+@*         @TempData["Error"] *@
+@*     </div> *@
+@* } *@
+
+@* <div class="max-w-7xl mx-auto px-6 py-10"> *@
+@*     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6"> *@
+@*         @foreach (var app in Model) *@
+@*         { *@
+@*             var isActive = app.Status == "Active"; *@
+@*             var cardClasses = "card shadow-sm border-0 cursor-pointer transition transform hover:-translate-y-1 hover:shadow-md"; *@
+@*             var cardStyle = $"border-left:5px solid {app.Color};"; *@
+
+@*             <div> *@
+@*                 @if (isActive) *@
+@*                 { *@
+@*                     <!-- Make whole card clickable --> *@
+@*                     <a href="@Url.Action("LoadModule", "App", new { id = app.Id })" class="block" style="text-decoration: none;"> *@
+@*                         <div class="@cardClasses" style="@cardStyle"> *@
+@*                             <div class="card-body text-center p-4"> *@
+@*                                 <i class="@app.Icon text-4xl mb-2" style="color: @app.Color"></i> *@
+@*                                 <h5 class="text-lg font-semibold">@app.Name</h5> *@
+@*                                 <p class="text-gray-500 mt-1">@app.Description</p> *@
+@*                             </div> *@
+@*                         </div> *@
+@*                     </a> *@
+@*                 } *@
+@*                 else *@
+@*                 { *@
+@*                     <div class="@cardClasses" style="@cardStyle"> *@
+@*                         <div class="card-body text-center p-4"> *@
+@*                             <i class="@app.Icon text-4xl mb-2" style="color: @app.Color"></i> *@
+@*                             <h5 class="text-lg font-semibold">@app.Name</h5> *@
+@*                             <div class="mt-3"> *@
+@*                                 @if (app.Status == "Pending") *@
+@*                                 { *@
+@*                                     <form action="/App/Activate" method="post"> *@
+@*                                         <input type="hidden" name="id" value="@app.Id" /> *@
+@*                                         <button type="submit" class="btn btn-success btn-sm">Accept & Activate</button> *@
+@*                                     </form> *@
+@*                                 } *@
+
+@*                             </div> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 } *@
+@*             </div> *@
+@*         } *@
+@*     </div> *@
+@* </div> *@
+@model IEnumerable<Initial.Models.App>
+@{
+    Layout = "_CommonMasterLayout";
+}
+
+<!-- Tailwind + Boxicons -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+@* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"> *@
+@* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script> *@
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> *@
+
+<header class="bg-white border-b sticky top-0 z-50"> 
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-md bg-gradient-to-br from-indigo-300 to-indigo-500 flex items-center justify-center text-white font-bold">MC</div>
+            <div>
+                <div class="text-lg font-semibold">My Company</div>
+                <div class="text-xs text-gray-400">ERP · Website · Apps</div>
+            </div>
+        </div>
+        <nav class="hidden md:flex gap-6 text-sm">
+            <a href="#" class="hover:text-indigo-600">Home</a>
+            <a href="#" class="font-semibold hover:text-indigo-600">Apps</a>
+            <a href="#" class="hover:text-indigo-600">About</a>
+        </nav>
+        <button class="md:hidden px-3 py-2 rounded-md border">Menu</button>
+</header>
+
+<section class="bg-indigo-600 text-white py-10 text-center">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-white fs-2">All Apps</h1>
+        <p class="mt-2 text-white">Unleash your growth potential — pick modules you need and scale your business.</p>
+    </div>
+</section>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success text-center my-4">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger text-center my-4">@TempData["Error"]</div>
+}
+
+<div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        @foreach (var app in Model)
+        {
+            var isActive = app.Status == "Active";
+            var cardClasses = "card shadow-sm border-0 cursor-pointer transition transform hover:-translate-y-1 hover:shadow-md";
+            var cardStyle = $"border-left:5px solid {app.Color};";
+
+            <div>
+                @if (isActive)
+                {
+                    <!-- Active App: Clickable -->
+                    <a href="@Url.Action("LoadModule", "App", new { id = app.Id })" class="block" style="text-decoration:none;">
+                        <div class="@cardClasses" style="@cardStyle">
+                            <div class="card-body text-center p-4">
+                                <i class="@app.Icon text-4xl mb-2" style="color:@app.Color"></i>
+                                <h5 class="text-lg font-semibold">@app.Name</h5>
+                                <p class="text-gray-500 mt-1">@app.Description</p>
+                            </div>
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <!-- Pending App: Activate via Modal -->
+                    <div class="@cardClasses" style="@cardStyle">
+                        <div class="card-body text-center p-4">
+                            <i class="@app.Icon text-4xl mb-2" style="color:@app.Color"></i>
+                            <h5 class="text-lg font-semibold">@app.Name</h5>
+                            <div class="mt-3 text-center">
+                                <button class="btn btn-success btn-sm"
+                                        onclick="openActivateModal(@app.Id, '@app.Name')">
+                                    Accept & Activate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+
+<div class="modal fade" id="activateModal" tabindex="-1" aria-labelledby="activateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="activateForm" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="activateModalLabel">Activate Module</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="appId" name="id" />
+
+                    <div class="mb-3">
+                        <label for="sqlFile" class="form-label">Upload SQL Script (optional)</label>
+                        <input type="file" id="sqlFile" name="sqlFile" class="form-control" accept=".sql" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sqlText" class="form-label">Or Paste SQL Script</label>
+                        <textarea id="sqlText" name="sqlText" rows="8" class="form-control" placeholder="CREATE TABLE ..."></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Run & Activate</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+    <script>
+        function openActivateModal(id, name) {
+            $('#appId').val(id);
+            $('#activateModalLabel').text("Activate Module: " + name);
+            $('#sqlFile').val('');
+            $('#sqlText').val('');
+            var modal = new bootstrap.Modal(document.getElementById('activateModal'));
+            modal.show();
+        }
+
+ 
+        $('#activateForm').submit(function (e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: '/App/Activate',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    location.reload(); // reload list to show Active status
+                },
+                error: function (xhr) {
+                    alert("Activation failed: " + xhr.responseText);
+                }
+            });
+        });
+    </script>
+}

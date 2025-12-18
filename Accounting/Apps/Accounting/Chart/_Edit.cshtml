@@ -1,0 +1,98 @@
+@model Accounting.Models.Chart
+
+<form method="post" action="/Accounting/Chart/Edit" id="EditChartForm">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" /> 
+    <!-- HEADER BAR -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <button type="button" class="btn btn-primary" id="btnCreate">New</button>
+            <h5 class="mb-0 fw-700" style="font-size:20px; color:#646E78">Chart of Account</h5>
+            <button type="submit" class="btn btn-outline-primary btn-icon btn-sm icon-button-sm" title="Update">
+                <i class="bx bx-save"></i>
+            </button>
+
+            <button type="reset" class="btn btn-label-danger btn-icon btn-sm icon-button-sm" title="Cancel">
+                <i class="bx bx-x"></i>
+            </button>
+
+        </div>
+
+
+    </div>
+    <hr />
+
+    <!-- Name  -->
+    <div class="row">
+        <div class="col-md-8 mb-3">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" name="Name" class="form-control no-border-input" value="@Model.Name" placeholder="e.g. Current Assets" />
+
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Nature -->
+    <div class="mb-3">
+        <label asp-for="NatureId" class="form-label">Nature</label>
+        <select name="NatureId" name="NatureId" asp-for="NatureId" class="form-select select2" id="NatureId"
+                data-url="/Dropdawn/GetNature"
+                data-placeholder="Select Nature..."
+                data-selected-id="@Model.NatureId">
+        </select>
+        <span asp-validation-for="NatureId" class="text-danger"></span>
+    </div>
+
+
+
+    <!-- Description -->
+    @* <div class="mb-3">
+		<label asp-for="Descript" class="form-label"></label>
+		<input placeholder="e.g. Brief description of this account" asp-for="Descript" autocomplete="off" class="form-control no-border-input" />
+		<span asp-validation-for="Descript" class="text-danger"></span>
+	</div> *@
+
+    <div class="mb-3">
+        <label asp-for="Descript" class="form-label">Description</label>
+        <input name="Descript" name="Descript" asp-for="Descript" placeholder="e.g. Brief description of this account" value="@Model.Descript" autocomplete="off" class="form-control no-border-input" />
+        <span asp-validation-for="Descript" class="text-danger"></span>
+    </div>
+
+    <!-- Group and Type -->
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="GroupId" class="form-label">Sub Of </label>
+            <select name="GroupId" name="GroupId" asp-for="GroupId" class="form-select select2" id="GroupId"
+                    data-url="/Dropdawn/GetGroups"
+                    data-placeholder="Select Group..."
+                    data-selected-id="@Model.GroupId">
+                <option value=""></option>
+            </select>
+            <span asp-validation-for="GroupId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-4">
+            <label asp-for="TypeId" class="form-label">Type</label>
+            <select name="TypeId" asp-for="TypeId" class="form-select select2" id="TypeId"
+                    data-url="/Dropdawn/GetTypes"
+                    data-placeholder="Select Type..."
+                    data-selected-id="@Model.TypeId">
+            </select>
+            <span asp-validation-for="TypeId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- IsActive -->
+    <div class="mb-3">
+        <label class="switch switch-square">
+            <input name="IsActive" type="checkbox" class="switch-input" id="IsActive" />
+            <span class="switch-toggle-slider"><span class="switch-on"></span><span class="switch-off"></span></span>
+            <span class="switch-label">
+                Mark a saving without any activity.
+            </span>
+        </label>
+    </div>
+</form>
+
+<script src="~/js/dropdawn.js"></script>
+<script src="~/js/error-message.js"></script>
+<script src="~/js/forms-editors.dist.js"></script>

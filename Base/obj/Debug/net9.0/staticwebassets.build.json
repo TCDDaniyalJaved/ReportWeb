@@ -1,0 +1,1145 @@
+{
+  "Version": 1,
+  "Hash": "NWZNukDSnqE4AALZpMNji7V5t6SH6sB/2y/7eJlrUEk=",
+  "Source": "Base",
+  "BasePath": "_content/Base",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Base\\wwwroot",
+      "Source": "Base",
+      "ContentRoot": "D:\\technocom projects\\mvc\\Ebit\\Base\\wwwroot\\",
+      "BasePath": "_content/Base",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\3sylvenl74-6pqz8bsss0.gz",
+      "SourceId": "Base",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/Base",
+      "RelativePath": "exampleJsInterop#[.{fingerprint=6pqz8bsss0}]?.js.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "D:\\technocom projects\\mvc\\Ebit\\Base\\wwwroot\\exampleJsInterop.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "vrr7rs2wfg",
+      "Integrity": "W5OYF2QMLswqQgt4f7ObfRYIFziQJY1EpIyGrVpg/uA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\technocom projects\\mvc\\Ebit\\Base\\wwwroot\\exampleJsInterop.js"
+    },
+    {
+      "Identity": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\dd3xluyx9n-u6qhnjdsqq.gz",
+      "SourceId": "Base",
+      "SourceType": "Computed",
+      "ContentRoot": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/Base",
+      "RelativePath": "Base#[.{fingerprint=u6qhnjdsqq}]!.bundle.scp.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\Base.bundle.scp.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "f2a5j8n9wq",
+      "Integrity": "N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\Base.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\r442sd3wrn-u6qhnjdsqq.gz",
+      "SourceId": "Base",
+      "SourceType": "Computed",
+      "ContentRoot": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/Base",
+      "RelativePath": "Base#[.{fingerprint=u6qhnjdsqq}]?.styles.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\bundle\\Base.styles.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "f2a5j8n9wq",
+      "Integrity": "N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\bundle\\Base.styles.css"
+    },
+    {
+      "Identity": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\bundle\\Base.styles.css",
+      "SourceId": "Base",
+      "SourceType": "Computed",
+      "ContentRoot": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\bundle\\",
+      "BasePath": "_content/Base",
+      "RelativePath": "Base#[.{fingerprint}]?.styles.css",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ApplicationBundle",
+      "Fingerprint": "u6qhnjdsqq",
+      "Integrity": "Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\bundle\\Base.styles.css"
+    },
+    {
+      "Identity": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\Base.bundle.scp.css",
+      "SourceId": "Base",
+      "SourceType": "Computed",
+      "ContentRoot": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\",
+      "BasePath": "_content/Base",
+      "RelativePath": "Base#[.{fingerprint}]!.bundle.scp.css",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ProjectBundle",
+      "Fingerprint": "u6qhnjdsqq",
+      "Integrity": "Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\Base.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\technocom projects\\mvc\\Ebit\\Base\\wwwroot\\background.png",
+      "SourceId": "Base",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\technocom projects\\mvc\\Ebit\\Base\\wwwroot\\",
+      "BasePath": "_content/Base",
+      "RelativePath": "background#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "x2rx4ajns0",
+      "Integrity": "WeOKCkI7IdJHs2kCqsKgLfiWX4/sNPbaRUspOLefkCY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\background.png"
+    },
+    {
+      "Identity": "D:\\technocom projects\\mvc\\Ebit\\Base\\wwwroot\\exampleJsInterop.js",
+      "SourceId": "Base",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\technocom projects\\mvc\\Ebit\\Base\\wwwroot\\",
+      "BasePath": "_content/Base",
+      "RelativePath": "exampleJsInterop#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "6pqz8bsss0",
+      "Integrity": "FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1+76qQ8B4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\exampleJsInterop.js"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "background.png",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\wwwroot\\background.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "378"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"WeOKCkI7IdJHs2kCqsKgLfiWX4/sNPbaRUspOLefkCY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:11:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-WeOKCkI7IdJHs2kCqsKgLfiWX4/sNPbaRUspOLefkCY="
+        }
+      ]
+    },
+    {
+      "Route": "background.x2rx4ajns0.png",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\wwwroot\\background.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "378"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"WeOKCkI7IdJHs2kCqsKgLfiWX4/sNPbaRUspOLefkCY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:11:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "x2rx4ajns0"
+        },
+        {
+          "Name": "label",
+          "Value": "background.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-WeOKCkI7IdJHs2kCqsKgLfiWX4/sNPbaRUspOLefkCY="
+        }
+      ]
+    },
+    {
+      "Route": "Base.bundle.scp.css",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\dd3xluyx9n-u6qhnjdsqq.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.005917159763"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "168"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE="
+        }
+      ]
+    },
+    {
+      "Route": "Base.bundle.scp.css",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\Base.bundle.scp.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "197"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE="
+        }
+      ]
+    },
+    {
+      "Route": "Base.bundle.scp.css.gz",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\dd3xluyx9n-u6qhnjdsqq.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "168"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw="
+        }
+      ]
+    },
+    {
+      "Route": "Base.styles.css",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\r442sd3wrn-u6qhnjdsqq.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.005917159763"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "168"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE="
+        }
+      ]
+    },
+    {
+      "Route": "Base.styles.css",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\bundle\\Base.styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "197"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE="
+        }
+      ]
+    },
+    {
+      "Route": "Base.styles.css.gz",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\r442sd3wrn-u6qhnjdsqq.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "168"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw="
+        }
+      ]
+    },
+    {
+      "Route": "Base.u6qhnjdsqq.bundle.scp.css",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\dd3xluyx9n-u6qhnjdsqq.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.005917159763"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "168"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u6qhnjdsqq"
+        },
+        {
+          "Name": "label",
+          "Value": "Base.bundle.scp.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE="
+        }
+      ]
+    },
+    {
+      "Route": "Base.u6qhnjdsqq.bundle.scp.css",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\Base.bundle.scp.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "197"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u6qhnjdsqq"
+        },
+        {
+          "Name": "label",
+          "Value": "Base.bundle.scp.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE="
+        }
+      ]
+    },
+    {
+      "Route": "Base.u6qhnjdsqq.bundle.scp.css.gz",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\dd3xluyx9n-u6qhnjdsqq.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "168"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u6qhnjdsqq"
+        },
+        {
+          "Name": "label",
+          "Value": "Base.bundle.scp.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw="
+        }
+      ]
+    },
+    {
+      "Route": "Base.u6qhnjdsqq.styles.css",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\r442sd3wrn-u6qhnjdsqq.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.005917159763"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "168"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u6qhnjdsqq"
+        },
+        {
+          "Name": "label",
+          "Value": "Base.styles.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE="
+        }
+      ]
+    },
+    {
+      "Route": "Base.u6qhnjdsqq.styles.css",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\scopedcss\\bundle\\Base.styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "197"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u6qhnjdsqq"
+        },
+        {
+          "Name": "label",
+          "Value": "Base.styles.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Ku6WNLRQBgeeXzOZgIkvUCe4Z1Bgv5vXmgV5Mx9karE="
+        }
+      ]
+    },
+    {
+      "Route": "Base.u6qhnjdsqq.styles.css.gz",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\r442sd3wrn-u6qhnjdsqq.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "168"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:18:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u6qhnjdsqq"
+        },
+        {
+          "Name": "label",
+          "Value": "Base.styles.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-N4Wylks6hsJSWLdQfUeVTX0eWaOJ9tv8Rm1Y5plepsw="
+        }
+      ]
+    },
+    {
+      "Route": "exampleJsInterop.6pqz8bsss0.js",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\3sylvenl74-6pqz8bsss0.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.005208333333"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "191"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"W5OYF2QMLswqQgt4f7ObfRYIFziQJY1EpIyGrVpg/uA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:11:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1+76qQ8B4=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6pqz8bsss0"
+        },
+        {
+          "Name": "label",
+          "Value": "exampleJsInterop.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1+76qQ8B4="
+        }
+      ]
+    },
+    {
+      "Route": "exampleJsInterop.6pqz8bsss0.js",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\wwwroot\\exampleJsInterop.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "247"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1+76qQ8B4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:11:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6pqz8bsss0"
+        },
+        {
+          "Name": "label",
+          "Value": "exampleJsInterop.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1+76qQ8B4="
+        }
+      ]
+    },
+    {
+      "Route": "exampleJsInterop.6pqz8bsss0.js.gz",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\3sylvenl74-6pqz8bsss0.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "191"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"W5OYF2QMLswqQgt4f7ObfRYIFziQJY1EpIyGrVpg/uA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:11:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6pqz8bsss0"
+        },
+        {
+          "Name": "label",
+          "Value": "exampleJsInterop.js.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-W5OYF2QMLswqQgt4f7ObfRYIFziQJY1EpIyGrVpg/uA="
+        }
+      ]
+    },
+    {
+      "Route": "exampleJsInterop.js",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\3sylvenl74-6pqz8bsss0.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.005208333333"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "191"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"W5OYF2QMLswqQgt4f7ObfRYIFziQJY1EpIyGrVpg/uA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:11:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1+76qQ8B4=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1+76qQ8B4="
+        }
+      ]
+    },
+    {
+      "Route": "exampleJsInterop.js",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\wwwroot\\exampleJsInterop.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "247"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1+76qQ8B4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:11:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1+76qQ8B4="
+        }
+      ]
+    },
+    {
+      "Route": "exampleJsInterop.js.gz",
+      "AssetFile": "D:\\technocom projects\\mvc\\Ebit\\Base\\obj\\Debug\\net9.0\\compressed\\3sylvenl74-6pqz8bsss0.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "191"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"W5OYF2QMLswqQgt4f7ObfRYIFziQJY1EpIyGrVpg/uA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Oct 2025 11:11:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-W5OYF2QMLswqQgt4f7ObfRYIFziQJY1EpIyGrVpg/uA="
+        }
+      ]
+    }
+  ]
+}

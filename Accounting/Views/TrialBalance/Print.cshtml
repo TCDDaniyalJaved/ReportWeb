@@ -1,0 +1,112 @@
+﻿@model Accounting.ViewModel.WorkingTrialBalanceViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+
+        .container {
+            padding: 10px 30px;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+            .report-table th, .report-table td {
+                padding: 8px;
+                border: 1px solid #ddd;
+                text-align: right;
+            }
+
+            .report-table th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>DEMO</div>
+            <div>Working Trial Balance</div>
+        </div>
+
+        <div class="info-row">
+            <div>
+                <strong>From:</strong> @Model.DateFrom.ToString("dd-MM-yyyy")
+                <strong>To:</strong> @Model.DateTo.ToString("dd-MM-yyyy")
+            </div>
+            <div>
+                <strong>Printed Date:</strong> @Model.PrintedDate
+                <strong>Time:</strong> @Model.PrintedTime
+            </div>
+        </div>
+
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>Account Name</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                </tr>
+            </thead>
+            <tbody>
+@foreach (var group in Model.Data)
+{
+                    <tr>
+                        <td colspan="3"><strong>@group.MainHead</strong></td>
+                    </tr>
+    @foreach (var item in group.Items)
+    {
+                        <tr>
+                            <td>@item.AccountName</td>
+                            <td>@item.Debit</td>
+                            <td>@item.Credit</td>
+                        </tr>
+    }
+                    <tr>
+                        <td><strong>Total for @group.MainHead</strong></td>
+                        <td>@group.TotalDebit</td>
+                        <td>@group.TotalCredit</td>
+                    </tr>
+}
+                <tr>
+                    <td><strong>Grand Total</strong></td>
+                    <td>@Model.GrandDebit.ToString("N2")</td>
+                    <td>@Model.GrandCredit.ToString("N2")</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            <div>Page 1 of 1</div>
+        </div>
+    </div>
+</body>
+</html>

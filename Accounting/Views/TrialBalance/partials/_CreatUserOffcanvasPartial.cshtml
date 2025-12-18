@@ -1,0 +1,104 @@
+@* @model AspnetCoreMvcFull.ViewModel.DummyViewModel; *@
+@model Accounting.Models.RpttrialBalance;
+
+@section VendorStyles {
+    <link rel="stylesheet" href="~/vendor/libs/flatpickr/flatpickr.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/jquery-timepicker/jquery-timepicker.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/pickr/pickr-themes.dist.css" />
+}
+
+@section VendorScripts {
+    <script src="~/vendor/libs/moment/moment.dist.js"></script>
+    <script src="~/vendor/libs/flatpickr/flatpickr.dist.js"></script>
+    <script src="~/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.dist.js"></script>
+    <script src="~/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.dist.js"></script>
+    <script src="~/vendor/libs/jquery-timepicker/jquery-timepicker.dist.js"></script>
+    <script src="~/vendor/libs/pickr/pickr.dist.js"></script>
+}
+<script src="~/js/forms-pickers.dist.js"></script>
+
+
+<!-- Include Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- Include Bootstrap Date Range Picker CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-daterangepicker/daterangepicker.css" />
+
+<!-- Include Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        flatpickr("#flatpickr-date-start", {
+            dateFormat: "Y-m-d",
+            showToday: true,
+            todayText: "Today"
+        });
+
+        flatpickr("#flatpickr-date-end", {
+             dateFormat: "Y-m-d",
+            showToday: true,
+            todayText: "Today"
+        });
+        flatpickr("#flatpickr-range", {
+             dateFormat: "Y-m-d",
+            showToday: true,
+            todayText: "Today",
+             mode: 'range'
+        });
+    });
+
+
+</script>
+<!-- Include Bootstrap Date Range Picker JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="createUserOffcanvas" aria-labelledby="createUserOffcanvasLabel">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="createUserOffcanvasLabel">Filter</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body mx-0 flex-grow-0">
+        <form id="createUserForm" autocomplete="off">
+
+            @*  <div class="col-md-12 col-12 mb-6" hidden>
+                <label for="flatpickr-date" class="form-label">Date Picker</label>
+                <input type="text" value="@ViewBag.fromDate" class="form-control" placeholder="YYYY-MM-DD" id="flatpickr-date-start" />
+
+            </div> *@
+            <div class="col-md-12 col-12 mb-6">
+                <label for="flatpickr-date" class="form-label">As On Date</label>
+                <input type="text" asp-for="Date" value="@ViewBag.currentDate" class="form-control" placeholder="YYYY-MM-DD" id="flatpickr-date-end" />
+
+            </div>
+            <div class="col-md-12 col-12 mb-6" hidden>
+                <label for="flatpickr-range" class="form-label">Range Picker</label>
+                <input type="text" class="form-control" placeholder="YYYY-MM-DD to YYYY-MM-DD" id="flatpickr-range" />
+            </div>
+
+            <!-- Add the rest of your form fields here -->
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" id="submitBtn" class="btn btn-primary me-3" data-bs-dismiss="offcanvas">Update</button>
+                    <button type="reset" class="btn btn-label-danger" data-bs-dismiss="offcanvas">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Get the form element by its ID
+    const form = document.getElementById("createUserForm");
+
+    // Add an event listener to the form submit event
+    form.addEventListener("submit", function(event) {
+      // Prevent the form from submitting (so you can process it with JS)
+      event.preventDefault();
+
+      table.ajax.reload();
+
+    });
+</script>

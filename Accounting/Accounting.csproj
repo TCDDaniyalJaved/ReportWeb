@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Apps\Accounting\Chart\**" />
+    <Compile Remove="Views\TrialBalance\**" />
+    <Content Remove="Apps\Accounting\Chart\**" />
+    <Content Remove="Views\TrialBalance\**" />
+    <EmbeddedResource Remove="Apps\Accounting\Chart\**" />
+    <EmbeddedResource Remove="Views\TrialBalance\**" />
+    <None Remove="Apps\Accounting\Chart\**" />
+    <None Remove="Views\TrialBalance\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controller\TrialBalanceController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="efpt.config.json.user" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DinkToPdf" Version="1.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.18" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.19">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
+		<PackageReference Include="PuppeteerSharp" Version="20.2.4" />
+		<PackageReference Include="QuestPDF" Version="2025.7.3" />
+		<PackageReference Include="Rotativa.AspNetCore" Version="1.4.0" />
+		<PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.2" />
+		<PackageReference Include="ClosedXML" Version="0.104.2" />
+
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Include="Base">
+	    <HintPath>bin\Release\net8.0\Apps\v1\Base.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Initial">
+	    <HintPath>bin\Release\net8.0\Apps\v1\Initial.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Folder Include="Views\" />
+	</ItemGroup>
+	<Target Name="NpmInstall" BeforeTargets="Build">
+		<Exec Command="npm install" Condition="!Exists('node_modules')" />
+	</Target>
+	<Target Name="BuildFrontend" BeforeTargets="BeforeBuild">
+		<Exec Command="npm run build" Condition="'$(Configuration)' == 'Release'" />
+		<Exec Command="npm run dev" Condition="'$(Configuration)' == 'Debug'" />
+	</Target>
+</Project>

@@ -1,0 +1,42 @@
+@* JS Bundle *@
+@if (Context.Request.Host.Value.Contains("localhost"))
+{
+    <!-- Development: Separate Files -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="~/vendor/libs/dropzone/dropzone.dist.js"></script>
+    <script src="~/js/forms-file-upload.dist.js"></script>
+    <script src="~/vendor/libs/flatpickr/flatpickr.dist.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/vendor/libs/moment/moment.dist.js"></script>
+    <script src="~/vendor/libs/datatables-bs5/datatables-bootstrap5.dist.js"></script>
+    <script src="~/vendor/libs/sweetalert2/sweetalert2.dist.js"></script>
+    <script src="~/vendor/libs/&#64;form-validation/popular.dist.js"></script>
+    <script src="~/vendor/libs/&#64;form-validation/bootstrap5.dist.js"></script>
+    <script src="~/vendor/libs/&#64;form-validation/auto-focus.dist.js"></script>
+    <script src="~/vendor/libs/cleavejs/cleave.dist.js"></script>
+    <script src="~/vendor/libs/cleavejs/cleave-phone.dist.js"></script>
+    <script src="~/vendor/libs/bs-stepper/bs-stepper.dist.js"></script>
+    <script src="~/vendor/libs/select2/select2.dist.js"></script>
+
+    <!-- Ebit Components -->
+    <script src="~/Accounting/js/components/ebit-section.js"></script>
+    <script src="~/Accounting/js/components/ebit-propertytab.js"></script>
+    <script src="~/Accounting/js/components/ebit-form.js"></script>
+    <script src="~/Accounting/js/components/ebit-button.js"></script>
+    <script src="~/Accounting/js/components/ebit-paragraph.js"></script>
+    <script src="~/Accounting/js/components/ebit-label.js"></script>
+    <script src="~/Accounting/js/components/ebit-select.js"></script>
+    <script src="~/Accounting/js/components/ebit-number.js"></script>
+    <script src="~/Accounting/js/components/ebit-datetime.js"></script>
+    <script src="~/Accounting/js/components/ebit-text.js"></script>
+    <script src="~/Accounting/js/components/ebit-table-component.js"></script>
+    <!-- calc.js -->
+    <script src="~/accounting/js/calc.js"></script>
+}
+else
+{
+    <!-- Production: Bundled File -->
+    <script src="~/dist/vendors.min.js" asp-append-version="true"></script>
+}
+

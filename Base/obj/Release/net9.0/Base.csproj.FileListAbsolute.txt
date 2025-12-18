@@ -1,0 +1,5 @@
+D:\technocom projects\mvc\Ebit\Base\obj\Release\net9.0\Base.csproj.AssemblyReference.cache
+D:\technocom projects\mvc\Ebit\Base\obj\Release\net9.0\Base.GeneratedMSBuildEditorConfig.editorconfig
+D:\technocom projects\mvc\Ebit\Base\obj\Release\net9.0\Base.AssemblyInfoInputs.cache
+D:\technocom projects\mvc\Ebit\Base\obj\Release\net9.0\Base.AssemblyInfo.cs
+D:\technocom projects\mvc\Ebit\Base\obj\Release\net9.0\Base.csproj.CoreCompileInputs.cache

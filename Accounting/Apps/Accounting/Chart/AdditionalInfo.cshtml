@@ -1,0 +1,58 @@
+@model Accounting.Models.Chart
+
+@section VendorStyles {
+    <link rel="stylesheet" href="~/vendor/libs/quill/typography.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/quill/katex.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/quill/editor.dist.css" />
+}
+
+@section VendorScripts {
+    <script src="~/vendor/libs/quill/katex.dist.js"></script>
+    <script src="~/vendor/libs/quill/quill.dist.js"></script>
+}
+@Html.AntiForgeryToken()
+<div class="wizard-step d-none" id="step2">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-6">
+                @* <h5 class="card-header">Description (with Quill Editor)</h5> *@
+                <h5 class="card-header" asp-for="Descript" ></h5>
+                <div class="card-body">
+                    <!-- Quill Toolbar -->
+                  @*   <div id="snow-toolbar">
+                        <span class="ql-formats">
+                            <select class="ql-font"></select>
+                            <select class="ql-size"></select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                        </span>
+                        <span class="ql-formats">
+                            <select class="ql-color"></select>
+                            <select class="ql-background"></select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-script" value="sub"></button>
+                            <button class="ql-script" value="super"></button>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-header" value="1"></button>
+                            <button class="ql-header" value="2"></button>
+                            <button class="ql-blockquote"></button>
+                            <button class="ql-code-block"></button>
+                        </span>
+                    </div> *@
+
+             
+                        <div id="snow-editor"></div>
+
+                        <input type="hidden" asp-for="Descript" />
+                        <span asp-validation-for="Descript" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,3 @@
+D:\technocom projects\mvc\Ebit\Base\wwwroot\exampleJsInterop.js
+wwwroot\background.png
+wwwroot\exampleJsInterop.js

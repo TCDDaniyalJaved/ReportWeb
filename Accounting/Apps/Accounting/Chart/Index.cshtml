@@ -1,0 +1,115 @@
+@model Accounting.Models.Chart;
+
+@{
+	Layout = "_HorizontalLayout";
+}
+@section VendorStyles {
+	<link rel="stylesheet" href="~/vendor/libs/dropzone/dropzone.dist.css" />
+	<link rel="stylesheet" href="~/vendor/libs/quill/typography.dist.css" />
+	<link rel="stylesheet" href="~/vendor/libs/quill/katex.dist.css" />
+	<link rel="stylesheet" href="~/vendor/libs/quill/editor.dist.css" />
+	<link rel="stylesheet" href="~/vendor/libs/quill/typography.dist.css" />
+	<link rel="stylesheet" href="~/vendor/libs/quill/katex.dist.css" />
+	<link rel="stylesheet" href="~/vendor/libs/quill/editor.dist.css" />
+	<link rel="stylesheet" href="~/vendor/libs/datatables-bs5/datatables.bootstrap5.dist.css">
+	<link rel="stylesheet" href="~/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.dist.css">
+	<link rel="stylesheet" href="~/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.dist.css">
+	<link rel="stylesheet" href="~/vendor/libs/sweetalert2/sweetalert2.dist.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<link rel="stylesheet" href="~/vendor/libs/&#64;form-validation/form-validation.dist.css" />
+	<link rel="stylesheet" href="~/vendor/libs/bs-stepper/bs-stepper.dist.css" />
+	<link rel="stylesheet" href="~/vendor/libs/select2/select2.dist.css" />
+	<link href="~/css/style.css" rel="stylesheet" />
+	<link href="~/vendor/libs/packages/SearchBuilder-1.4.0/css/searchBuilder.dataTables.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="~/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.dist.css">
+}
+
+
+@section VendorScripts {
+	<script src="~/vendor/libs/dropzone/dropzone.dist.js"></script>
+	<script src="~/js/forms-file-upload.dist.js"></script>
+	<script src="~/js/site.js"></script>
+	<script src="~/vendor/libs/moment/moment.dist.js"></script>
+	<script src="~/vendor/libs/datatables-bs5/datatables-bootstrap5.dist.js"></script>
+	<script src="~/vendor/libs/sweetalert2/sweetalert2.dist.js"></script>
+	<script src="~/vendor/libs/&#64;form-validation/popular.dist.js"></script>
+	<script src="~/vendor/libs/&#64;form-validation/bootstrap5.dist.js"></script>
+	<script src="~/vendor/libs/&#64;form-validation/auto-focus.dist.js"></script>
+	<script src="~/vendor/libs/cleavejs/cleave.dist.js"></script>
+	<script src="~/vendor/libs/cleavejs/cleave-phone.dist.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/vendor/libs/bs-stepper/bs-stepper.dist.js"></script>
+	<script src="~/vendor/libs/select2/select2.dist.js"></script>
+	<script src="~/vendor/libs/packages/full-screen.js"></script>
+	<script src="~/vendor/libs/packages/SearchBuilder-1.4.0/js/dataTables.searchBuilder.min.js"></script>
+}
+@section PageScripts {
+	<script src="~/js/tooltip.js"></script>
+	<script src="~/js/ChartOfAcount.js"></script>
+}
+
+
+<div id="fullscreenModalContainer"></div>
+<div class="col-12 mb-6">
+	<div id="wizardStepper" class="bs-stepper wizard-numbered mt-2">
+		<div class="bs-stepper-header d-none">
+			<div class="step" data-target="#account-details">
+				<button type="button" class="step-trigger">
+					<span class="bs-stepper-circle">1</span>
+					<span class="bs-stepper-label">
+						<span class="bs-stepper-title">Account Details</span>
+						<span class="bs-stepper-subtitle">Setup Account Details</span>
+					</span>
+				</button>
+			</div>
+			<div class="line">
+				<i class="bx bx-chevron-right"></i>
+			</div>
+			<div class="step" data-target="#personal-info">
+				<button type="button" class="step-trigger">
+					<span class="bs-stepper-circle">2</span>
+					<span class="bs-stepper-label">
+						<span class="bs-stepper-title">Personal Info</span>
+						<span class="bs-stepper-subtitle">Add personal info</span>
+					</span>
+
+				</button>
+			</div>
+			<div class="line">
+				<i class="bx bx-chevron-right"></i>
+			</div>
+
+		</div>
+		<div class="bs-stepper-content">
+
+			<div class="d-flex justify-content-end mb-2">
+				<button id="fullscreen-btn" class="btn btn-sm" title="Full Screen">
+					<i class="bx bx-fullscreen"></i>
+				</button>
+			</div>
+			<div id="account-details" class="content">
+				<div class="text-nowrap pb-0">
+
+
+					<table id="userTable" class="table table-hover nowrap w-100">
+						<thead class="border-top">
+							<tr>
+								<th></th>
+								<th>Account Description</th>
+								<th>Nature</th>
+								<th></th>
+							</tr>
+						</thead>
+					</table>
+
+				</div>
+
+
+			</div>
+
+			<div id="personal-info" class="content">
+			</div>
+		</div>
+
+	</div>
+
