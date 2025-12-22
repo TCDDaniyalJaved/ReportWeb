@@ -103,13 +103,9 @@
                                         {
                                             <ebit-row>
                                                 <ebit-bodycolumn>
-                                                    <input type="hidden" name="Details[@i].ActCode"
-                                                        value="@Model.Details[i].ActCode" />
-                                                    <div class="current-value">
-                                                        Current: @Model.Details[i].ActCode
-                                                    </div>
+                                                   
                                                     <ebit-select data="Details[@i].ActCode"
-                                                        selected="@Model.Details[i].ActCode"
+                                                        data-url="UserWiseAccount" selected="@Model.Details[i].ActCode"
                                                        >
                                                     </ebit-select>
                                                 </ebit-bodycolumn>

@@ -9,13 +9,33 @@ public partial class CashPaymentD
 {
     public int Id { get; set; }
 
-    public int RefId { get; set; }
+    public int PersonId { get; set; }
 
-    public int? AccountId { get; set; }
+    public decimal Amount { get; set; }
 
-    public string Description { get; set; }
+    public DateTime? ChkDate { get; set; }
 
-    public decimal? Amount { get; set; }
+    public int? ActCode { get; set; }
 
-    public virtual CashPaymentM Ref { get; set; }
+    public string Remarks { get; set; }
+
+    public string Cheque { get; set; }
+
+    public DateTime? CreateDate { get; set; }
+
+    public int? UserId { get; set; }
+
+    public string Po { get; set; }
+
+    public int? BrecNo2 { get; set; }
+
+    public int? BrecNo1 { get; set; }
+
+    public string ManualNo { get; set; }
+
+    public int? CostId { get; set; }
+
+    public virtual Chart ActCodeNavigation { get; set; }
+
+    public virtual CashPaymentM Person { get; set; }
 }

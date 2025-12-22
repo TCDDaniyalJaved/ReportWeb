@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="Apps\Accounting\Chart\**" />
+    <Compile Remove="Apps\Accounting\TrialBalance - Copy\**" />
     <Content Remove="Apps\Accounting\Chart\**" />
+    <Content Remove="Apps\Accounting\TrialBalance - Copy\**" />
     <EmbeddedResource Remove="Apps\Accounting\Chart\**" />
+    <EmbeddedResource Remove="Apps\Accounting\TrialBalance - Copy\**" />
     <None Remove="Apps\Accounting\Chart\**" />
+    <None Remove="Apps\Accounting\TrialBalance - Copy\**" />
   </ItemGroup>
 
   <ItemGroup>

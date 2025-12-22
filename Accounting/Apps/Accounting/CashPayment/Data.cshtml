@@ -1,0 +1,193 @@
+@{
+    ViewData["Title"] = "Dummy EBIT Test Page";
+}
+@section VendorStyles {
+    <link rel="stylesheet" href="~/vendor/libs/dropzone/dropzone.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/flatpickr/flatpickr.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/datatables-bs5/datatables.bootstrap5.dist.css">
+    <link rel="stylesheet" href="~/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.dist.css">
+    <link rel="stylesheet" href="~/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.dist.css">
+    <link rel="stylesheet" href="~/vendor/libs/sweetalert2/sweetalert2.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/&#64;form-validation/form-validation.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/bs-stepper/bs-stepper.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/select2/select2.dist.css" />
+    <link href="~/css/invoice-detail.css" rel="stylesheet" />
+    <link href="~/vendor/libs/packages/SearchBuilder-1.4.0/css/searchBuilder.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.dist.css">
+    <link href="~/accounting/css/style.css" rel="stylesheet" />
+}
+
+@section VendorScripts {
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+    <script src="~/js/dropdawn.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="~/vendor/libs/dropzone/dropzone.dist.js"></script>
+    <script src="~/js/forms-file-upload.dist.js"></script>
+    <script src="~/vendor/libs/flatpickr/flatpickr.dist.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/pagination.js"></script>
+    <script src="~/vendor/libs/moment/moment.dist.js"></script>
+    <script src="~/vendor/libs/datatables-bs5/datatables-bootstrap5.dist.js"></script>
+    <script src="~/vendor/libs/sweetalert2/sweetalert2.dist.js"></script>
+    <script src="~/vendor/libs/&#64;form-validation/popular.dist.js"></script>
+    <script src="~/vendor/libs/&#64;form-validation/bootstrap5.dist.js"></script>
+    <script src="~/vendor/libs/&#64;form-validation/auto-focus.dist.js"></script>
+    <script src="~/vendor/libs/cleavejs/cleave.dist.js"></script>
+    <script src="~/vendor/libs/cleavejs/cleave-phone.dist.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/libs/bs-stepper/bs-stepper.dist.js"></script>
+    <script src="~/vendor/libs/select2/select2.dist.js"></script>
+    <script src="~/vendor/libs/packages/SearchBuilder-1.4.0/js/dataTables.searchBuilder.min.js"></script>
+
+}
+@section PageScripts {
+
+    <!-- Ebit Components -->
+    <script src="~/Accounting/js/components/ebit-section.js"></script>
+    <script src="~/Accounting/js/components/ebit-propertytab.js"></script>
+    <script src="~/Accounting/js/components/ebit-form.js"></script>
+    <script src="~/Accounting/js/components/ebit-button.js"></script>
+    <script src="~/Accounting/js/components/ebit-paragraph.js"></script>
+    <script src="~/Accounting/js/components/ebit-label.js"></script>
+    <script src="~/Accounting/js/components/ebit-select.js"></script>
+    <script src="~/Accounting/js/components/ebit-number.js"></script>
+    <script src="~/Accounting/js/components/ebit-datetime.js"></script>
+    <script src="~/Accounting/js/components/ebit-text.js"></script>
+    <script src="~/Accounting/js/components/ebit-table-component.js"></script>
+    <!-- calc.js -->
+    <script src="~/accounting/js/calc.js"></script>
+}
+<div class="container mt-5">
+    <ebit-propertytab>
+        <ebit-propertypage target="tab1" text="Tab 1" active>
+            <ebit-section class="tab-pane show active" id="tab1" role="tabpanel">
+                <ebit-table class="table">
+                    <ebit-head>
+                        <ebit-row>
+                            <ebit-headcolumn scope="col">#</ebit-headcolumn>
+                            <ebit-headcolumn scope="col">First</ebit-headcolumn>
+                            <ebit-headcolumn scope="col">Last</ebit-headcolumn>
+                            <ebit-headcolumn scope="col">Handle</ebit-headcolumn>
+                        </ebit-row>
+                    </ebit-head>
+                    <ebit-body>
+                        <ebit-row>
+                            <ebit-head scope="row">1</ebit-head>
+                            <ebit-bodycolumn>Mark</ebit-bodycolumn>
+                            <ebit-bodycolumn>Otto</ebit-bodycolumn>
+                            <ebit-bodycolumn>@@mdo</ebit-bodycolumn>
+                        </ebit-row>
+                        <ebit-row>
+                            <ebit-head scope="row">2</ebit-head>
+                            <ebit-bodycolumn>Jacob</ebit-bodycolumn>
+                            <ebit-bodycolumn>Thornton</ebit-bodycolumn>
+                            <ebit-bodycolumn>@@fat</ebit-bodycolumn>
+                        </ebit-row>
+                        <ebit-row>
+                            <ebit-head scope="row">3</ebit-head>
+                            <ebit-bodycolumn colspan="2">Larry the Bird</ebit-bodycolumn>
+                            <ebit-bodycolumn>@@twitter</ebit-bodycolumn>
+                        </ebit-row>
+                    </ebit-body>
+                </ebit-table>
+            </ebit-section>
+
+
+        </ebit-propertypage>
+        <ebit-propertypage target="tab2" text="Tab 2">
+
+
+            <ebit-section>
+                <ebit-table id="DummyTable" class="table">
+                    <ebit-head>
+                        <ebit-row>
+                            <ebit-headcolumn>Account</ebit-headcolumn>
+                            <ebit-headcolumn>Debit</ebit-headcolumn>
+                            <ebit-headcolumn>Credit</ebit-headcolumn>
+                        </ebit-row>
+                    </ebit-head>
+                    <ebit-body>
+                        <ebit-row>
+                            <ebit-bodycolumn>
+                                <ebit-select data-url="userwiseAccount">
+                                </ebit-select>
+                            </ebit-bodycolumn>
+                            <ebit-bodycolumn>
+                                <ebit-number id="debit_0">
+                            </ebit-bodycolumn>
+                            <ebit-bodycolumn>
+                                <ebit-number id="credit_0">
+                            </ebit-bodycolumn>
+                        </ebit-row>
+                    </ebit-body>
+                </ebit-table>
+            </ebit-section>
+
+        </ebit-propertypage>
+    </ebit-propertytab>
+
+
+
+</div>
+<!-- Totals -->
+<ebit-section class="mt-4 totals">
+    <ebit-section class="border-top">
+        <ebit-section class="totals-box">
+            <ebit-section class="label-col">
+                <ebit-label text="Total Debit:"></ebit-label>
+                <ebit-label text="Total Credit:"></ebit-label>
+                <ebit-label text="Difference:"></ebit-label>
+            </ebit-section>
+            <ebit-section class="value-col">
+                <p data-fn="calculateValue('debit_0','sum')">0.00 Rs.</p>
+                <p data-fn="calculateValue('credit_0','sum')">0.00 Rs.</p>
+                <p data-fn="calculateValue('debit_0','sum') - calculateValue('credit_0','sum')">0.00 Rs.</p>
+            </ebit-section>
+        </ebit-section>
+    </ebit-section>
+</ebit-section>
+
+<div class="container ms-5 mb-5">
+    <form>
+
+        <!-- Name + Email in one row -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <ebit-label text="Name"></ebit-label>
+                <ebit-text placeholder="Your name">
+            </div>
+            <div class="col-md-6">
+                <ebit-label text="Email"></ebit-label>
+                <ebit-text placeholder="name@example.com">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <!-- Phone + other phone -->
+            <div class="col-md-4">
+                <ebit-label text="Phone Number"></ebit-label>
+                <ebit-number placeholder="+92xx-xxxxxxx">
+            </div>
+            <div class="col-md-4">
+                <ebit-label text="Other Phone Number"></ebit-label>
+                <ebit-number placeholder="+92xx-xxxxxxx">
+            </div>
+            <div class="col-md-4">
+                <ebit-label text="Whatsapp Phone Number"></ebit-label>
+                <ebit-number placeholder="+92xx-xxxxxxx">
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <ebit-label text="Address"></ebit-label>
+            <textarea class="form-control" rows="3" placeholder="Your address"></textarea>
+        </div>
+        <div class="d-grid">
+            <ebit-button type="primary" size="sm" click="addNewRow"
+                         class="small  text-primary fw-bold">
+                Sumbit
+            </ebit-button>
+        </div>
+
+    </form>
+</div>

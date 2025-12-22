@@ -96,7 +96,7 @@ public class AccountOpeningController : Controller
             {
                 Vdate = DateTime.Today,
                 // Auto-select if single company
-                CompanyId = companyCount == 1 ? companies.First().Code : null
+                CompanyId = companyCount == 1 ? companies.First().Code : 0
             },
             Details = new List<AccountOpeningD>()
         };
@@ -132,12 +132,15 @@ public class AccountOpeningController : Controller
                     e => e.Key,
                     e => e.Value.Errors.Select(err => err.ErrorMessage).ToArray());
 
+            Console.WriteLine("Validation Errors: " + System.Text.Json.JsonSerializer.Serialize(errors));
+
+
             return Json(new { success = false, errors });
         }
 
         try
         {
-            model.Master.Mcode = GetMCode(model.Master.CompanyId ?? 0);
+            model.Master.Mcode = GetMCode(model.Master.CompanyId);
             _context.AccountOpeningMs.Add(model.Master);
             await _context.SaveChangesAsync();
 

@@ -11,10 +11,8 @@ class EbitSelect extends HTMLElement {
 
     render() {
         const forAttr = this.getAttribute('data');
-        const placeholder = this.getAttribute('placeholder') || 'Select an option';
+        const placeholder = this.getAttribute('placeholder') || 'Choose One';
         const classes = this.getAttribute('class') || 'form-select select2';
-
-        // Agar 'disabled' attribute hai, toh disabled rakhna
         const disabledAttr = this.hasAttribute('disabled') ? 'disabled' : '';
 
         this.innerHTML = `
@@ -23,14 +21,15 @@ class EbitSelect extends HTMLElement {
             class="${classes}"
             style="width:100%"
             ${disabledAttr}> 
-            <option value="">${placeholder}</option>
+
+            <option value="" selected disabled hidden>
+                ${placeholder}
+            </option>
         </select>
         <span class="text-danger validation-message"></span>
     `;
     }
 
-    // Helper method to generate URL from data attribute
-    // Helper method to generate URL from data attribute
     // Helper method to generate URL from data attribute
     generateDataUrl() {
         let url = this.getAttribute('data-url');

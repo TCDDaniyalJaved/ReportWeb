@@ -56,6 +56,34 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEFjY291bnRPcGVuaW5nXF9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/Data.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XERhdGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XERlbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/Dummy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XER1bW15LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/Print.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XFByaW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/_Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XF9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/_Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XF9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEhvbWVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -86,12 +114,4 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Shared/_VendorStyles.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WZW5kb3JTdHlsZXMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/TrialBalance/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJpYWxCYWxhbmNlXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/TrialBalance/partials/_CreatUserOffcanvasPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJpYWxCYWxhbmNlXHBhcnRpYWxzXF9DcmVhdFVzZXJPZmZjYW52YXNQYXJ0aWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

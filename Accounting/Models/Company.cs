@@ -81,6 +81,8 @@ public partial class Company
 
     public string Remarks { get; set; }
 
+    public virtual ICollection<AccountOpeningM> AccountOpeningMs { get; set; } = new List<AccountOpeningM>();
+
     public virtual ICollection<BankPaymentM> BankPaymentMs { get; set; } = new List<BankPaymentM>();
 
     public virtual ICollection<BankReceiptM> BankReceiptMs { get; set; } = new List<BankReceiptM>();

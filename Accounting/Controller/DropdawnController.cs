@@ -126,47 +126,34 @@ namespace Accounting.Controllers
         }
         [HttpGet]
 
-        public async Task<IActionResult> UserWiseAccount(string term, int userId)
+        public async Task<IActionResult> UserWiseAccount(string term, int? id)
         {
-            // Await the async call to get the list of accounts
-            var accounts = await _procedures.GetUserWiseAccountAsync(userId, 0);
+            var query = await _procedures.GetUserWiseAccountAsync(1, 0);
+
+            if (id.HasValue)
+            {
+                var item = query
+                    .Where(x => x.ID == id.Value)
+                    .Select(x => new { id = x.ID, name = x.Name })
+                    .ToList();
+                return Json(item);
+            }
 
             if (!string.IsNullOrWhiteSpace(term))
             {
                 term = term.ToLower();
-                accounts = accounts
-                    .Where(a => a.Name != null && a.Name.ToLower().Contains(term))
-                    .ToList();
+                query = query
+                           .Where(a => a.Name != null && a.Name.ToLower().Contains(term))
+                         .ToList();
             }
 
-            var result = accounts
-                .Select(a => new { id = a.ID, name = a.Name })
+            var result = query
+                .Select(x => new { id = x.ID, name = x.Name })
                 .Take(20)
                 .ToList();
 
             return Json(result);
         }
-
-        //public async Task<IActionResult> ActCode(string term, int userId)
-        //{
-        //    // Await the async call to get the list of accounts
-        //    var accounts = await _procedures.GetUserWiseAccountAsync(userId, 0);
-
-        //    if (!string.IsNullOrWhiteSpace(term))
-        //    {
-        //        term = term.ToLower();
-        //        accounts = accounts
-        //            .Where(a => a.Name != null && a.Name.ToLower().Contains(term))
-        //            .ToList();
-        //    }
-
-        //    var result = accounts
-        //        .Select(a => new { id = a.ID, name = a.Name })
-        //        .Take(20)
-        //        .ToList();
-
-        //    return Json(result);
-        //}
         [HttpGet]
         public async Task<IActionResult> UserWiseCompany(string term, int userId)
         {

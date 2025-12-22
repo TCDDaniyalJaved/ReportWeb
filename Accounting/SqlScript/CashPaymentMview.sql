@@ -1,40 +1,54 @@
 USE [WebApp]
 GO
 
-/****** Object:  View [dbo].[CashPaymentMView]    Script Date: 12-15-2025 3:42:55 PM ******/
+/****** Object:  View [dbo].[CashPaymentMView]    Script Date: 12-19-2025 3:35:49 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
--- Check if the view exists, drop it if it does
-IF EXISTS (SELECT * FROM sys.views WHERE name = 'CashPaymentMView')
-BEGIN
-    DROP VIEW [dbo].[CashPaymentMView]
-    PRINT 'Existing view dropped.'
-END
-GO
-
--- Create the new view
 CREATE VIEW [dbo].[CashPaymentMView]
 AS
-SELECT 
-    C.Id,
-    Convert(Date, C.Date) AS Date,
-    N.Name AS Clientname,
-    C.Subtotal AS Total,
-    C.Subtotal AS Balance,
-    Convert(Date, C.Date) AS due_date,
-    C.InvoiceNumber as Voucher, 
-    CC.Prefix,
-    1 AS action
-FROM CashPaymentM C
-LEFT OUTER JOIN Chart N ON N.id = C.PartyID
-LEFT OUTER JOIN Company CC ON CC.Code = C.DivisionID
+/*
+Select A.Id,  Convert(date,Max(A.VDate)) Date, IsNull(Max(A.Remarks),'') Remarks, Max(A.BookCode) BookCode,
+		IsNull(Max(A.VoucherNo),'') VoucherNo, Max(A.MCode) MCode, A.Voucher, IsNull(A.CompanyID,0) CompanyID, Max(C.Name) Book, Sum(IsNull(B.Amount,0)) Amount,
+		COUNT(B.PersonID) TotalSeqNo, ISNULL(Max(A.InputType),'') InputType
+From CashPaymentM A 
+Left Outer Join CashPaymentD B on A.Id = B.PersonID
+		--And A.UserID = B.UserID
+Left Outer Join Chart C on A.BookCode = C.Id
+Group By A.CompanyID,A.Id, A.Voucher
+Union All
+Select A.Id,  Convert(date,Max(A.VDate)) Date, IsNull(Max(A.Remarks),'') Remarks, 0 BookCode,
+		IsNull(Max(A.VoucherNo),'') VoucherNo, Max(A.MCode) MCode, A.Voucher, IsNull(A.CompanyID,0) CompanyID, Max(C.Name) Book, Sum(IsNull(B.Amount,0)) Amount,
+		COUNT(B.PersonID) TotalSeqNo, ISNULL(Max(A.InputType),'') InputType
+From CashPaymentM A 
+Left Outer Join CashPaymentD B on A.Id = B.PersonID
+		--And A.UserID = B.UserID
+Left Outer Join Chart C on A.BookCode = C.Id
+Group By A.CompanyID,A.Id, A.Voucher
+*/
+Select A.Id,  Convert(date,A.VDate) Date, IsNull(A.Remarks,'') Remarks, A.BookCode BookCode, 
+		Format(A.VDate,'yyyy-MM-dd') VoucherNo, A.MCode MCode, A.Voucher, IsNull(A.CompanyID,0) CompanyID, C.Name Book, IsNull(B.Amount,0) Amount,
+		1 TotalSeqNo, A.InputType InputType, Case When IsNull(A.Posted,0) = 1 then 'Posted' else 'Un-Posted' End PO, B.Cheque, A.Posted, CC.Prefix
+From CashPaymentM A 
+Left Outer Join CashPaymentD B on A.Id = B.PersonID
+		--And A.UserID = B.UserID
+Left Outer Join Chart C on B.ActCode = C.Id
+left Outer Join Company CC on A.CompanyID = CC.Code
+
+--Union All
+
+--Select A.Id,  Convert(date,A.VDate) Date, IsNull(A.Remarks,'') Remarks, 0 BookCode,
+--		Format(A.VDate,'yyyy-MM-dd') VoucherNo, A.MCode MCode, A.Voucher, IsNull(A.CompanyID,0) CompanyID, C.Name Book, IsNull(B.Amount,0) Amount,
+--		1 TotalSeqNo, A.InputType InputType, Case When IsNull(A.Posted,0) = 1 then 'Posted' else 'Un-Posted' End PO,B.Cheque, A.Posted
+--From CashPaymentM A 
+--Left Outer Join CashPaymentD B on A.Id = B.PersonID
+--		--And A.UserID = B.UserID
+--Left Outer Join Chart C on B.ActCode = C.Id
+
+
 GO
 
--- Success message after view creation
-SELECT 'Operation completed successfully. The view [dbo].[CashPaymentMView] is now available.' AS Message
 
-GO

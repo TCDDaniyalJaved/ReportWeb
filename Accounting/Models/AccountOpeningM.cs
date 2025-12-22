@@ -19,7 +19,7 @@ public partial class AccountOpeningM
 
     public int Mcode { get; set; }
 
-    public int? CompanyId { get; set; }
+    public int CompanyId { get; set; }
 
     public DateTime? CurrentDate { get; set; }
 
@@ -30,6 +30,8 @@ public partial class AccountOpeningM
     public string Voucher { get; set; }
 
     public virtual ICollection<AccountOpeningD> AccountOpeningDs { get; set; } = new List<AccountOpeningD>();
+
+    public virtual Company Company { get; set; }
 
     public virtual User User { get; set; }
 }

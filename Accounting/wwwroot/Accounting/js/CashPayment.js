@@ -1,4 +1,4 @@
-﻿// Cashpayment.js
+﻿// Accountopening.js
 import {
     initializeDataTable,
     goBackToList,
@@ -8,7 +8,7 @@ import {
     initStepper
 } from './dataTableUtils.js';
 
-const BASE_PATH = '/Accounting/Cashpayment';
+const BASE_PATH = '/Accounting/CashPayment';
 let table;
 
 $(document).ready(() => {
@@ -16,7 +16,7 @@ $(document).ready(() => {
     handleDirectUrl(BASE_PATH);
     handleCreateButton(BASE_PATH);
 
-    table = initializeDataTable(BASE_PATH, '#masterTable', {
+    table = initializeDataTable(`${BASE_PATH}/GetData`, '#masterTable', {
         callbacks: {
             onDraw: () => {
                 handleRowActions(BASE_PATH, {

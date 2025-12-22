@@ -57,6 +57,10 @@ public partial class Chart
 
     public virtual ICollection<BankReceiptM> BankReceiptMs { get; set; } = new List<BankReceiptM>();
 
+    public virtual ICollection<CashPaymentD> CashPaymentDs { get; set; } = new List<CashPaymentD>();
+
+    public virtual ICollection<CashPaymentM> CashPaymentMs { get; set; } = new List<CashPaymentM>();
+
     public virtual ICollection<Dropdown> Dropdowns { get; set; } = new List<Dropdown>();
 
     public virtual ICollection<GjournalD> GjournalDs { get; set; } = new List<GjournalD>();

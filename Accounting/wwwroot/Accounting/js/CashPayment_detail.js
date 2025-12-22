@@ -2,295 +2,152 @@
 
 function initializeCashPaymentDetail() {
     const $tbody = $('#ItemsTable tbody');
+    const $form = $('#invoiceForm');
 
-    // Wait for ebit-number to render their <input> (critical!)
     setTimeout(() => {
-
-        // Ensure one default non-removable row
+        // Ensure at least one non-removable row
         if ($tbody.find('tr').length === 0) {
-            addNewRow();
-            const $firstRow = $tbody.find('tr').first();
-            $firstRow.addClass('nonRemovable');
-            $firstRow.find('.removeRowBtn')
-                .prop('disabled', true)
-                .css({ opacity: 0.5, cursor: 'not-allowed' });
+            addNewRow(true);
         }
-
         rowIndex = $tbody.find('tr').length;
+        attachAllEvents();
 
-        // Attach events to rows
-        attachEventsToExistingRows();
-
-        // Alt + N shortcut
-        $(document).off('keydown.addrow').on('keydown.addrow', function (e) {
-            if (e.altKey && e.key.toLowerCase() === 'n') {
-
+        // Alt + N shortcut & buttons
+        $(document).off('keydown.addrow').on('keydown.addrow', e => {
+            if (e.altKey && e.key === 'n') {
                 e.preventDefault();
-
-                if (typeof addNewRow === "function") {
-                    addNewRow();
-                }
+                addNewRow();
             }
         });
 
-
-        $('#addNewRowBtn').off('click').on('click', addNewRow);
-
-        $('#confirmBtn').on('click', function () {
-            $('#invoiceForm').submit();
+        $('#addNewRowBtn, #confirmBtn').off('click').on('click', function () {
+            this.id === 'confirmBtn' ? $form.submit() : addNewRow();
         });
 
-        // Controlled form submit
-        $('#invoiceForm').off('submit').on('submit', function (e) {
-
+        // Form submit with validation
+        $form.off('submit').on('submit', function (e) {
             e.preventDefault();
-            e.stopPropagation();
             clearFieldErrors();
-
-            //const debitCreditValid = validateDebitCreditRows();
-            //if (!debitCreditValid) {
-            //    showWarningAlert("Please fix the debit/credit errors before submitting.");
-            //    return;
-            //}
-
-            const $form = $(this);
-            const formData = $form.serialize();
-
             $.ajax({
-                url: $form.attr('action'),
+                url: this.action,
                 type: 'POST',
-                data: formData,
-                success: function (response) {
-
+                data: $form.serialize(),
+                success: response => {
                     if (!response.success) {
                         showValidationErrors(response.errors || {});
-                        showWarningAlert("Please fix all validation errors");
+                        showToast('warning', 'Please fix all validation errors.');
                         return;
                     }
-
-                    showSuccessAlert("Created");
-
-                    //  RESET FORM after success
+                    showToast('success', 'Cash PaymentCreated Successfully!');
                     $form[0].reset();
-
-                    // Reset rows
-                    $('#ItemsTable tbody').empty();
+                    $tbody.empty();
                     rowIndex = 0;
-                    addNewRow();
+                    addNewRow(true); // fresh first row
                 },
-
-                error: function (xhr) {
-                    console.error('AJAX Error:', xhr);
-
-                    // Extract actual error message from server response
-                    let message = 'Something went wrong. Please try again later.';
-
-                    if (xhr.responseJSON && xhr.responseJSON.error) {
-                        message = xhr.responseJSON.error; // Use error from JSON
-                    } else if (xhr.responseText) {
-                        // Sometimes server returns plain text
-                        message = xhr.responseText;
-                    }
-
-                    Swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        icon: 'error',
-                        text: message,
-                        showConfirmButton: false,
-                        timer: 5000,
-                        timerProgressBar: true,
-                        customClass: { popup: 'bootstrap-toast' },
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer);
-                            toast.addEventListener('mouseleave', Swal.resumeTimer);
-                        }
-                    });
-                }
-
+                error: () => showToast('error', 'Something went wrong. Please try again.')
             });
         });
 
         $(document).trigger('validation-errors-updated');
-
-    }, 100); // Critical delay for ebit-number
-}
-
-// Debit/Credit validation
-function validateDebitCreditRows() {
-    let hasError = false;
-
-    $('#ItemsTable tbody tr').each(function () {
-
-        const $row = $(this);
-
-        const $debit = $row.find('ebit-number[data-debit] input');
-        const $credit = $row.find('ebit-number[data-credit] input');
-
-        const debitVal = parseFloat($debit.val()) || 0;
-        const creditVal = parseFloat($credit.val()) || 0;
-
-        // Rule 1: Both can't be filled
-        if (debitVal > 0 && creditVal > 0) {
-            showFieldError($debit, "Either Debit or Credit is required.");
-            showFieldError($credit, "Either Debit or Credit is required.");
-            hasError = true;
-        }
-
-        // Rule 2: At least one must be filled
-        if (debitVal === 0 && creditVal === 0) {
-            showFieldError($debit, "Either Debit or Credit is required.");
-            showFieldError($credit, "Either Debit or Credit is required.");
-            hasError = true;
-        }
-    });
-
-    return !hasError;
+    }, 100);
 }
 
 
-function showFieldError($field, message) {
-    if ($field.length === 0) return;
-
-    $field.addClass('input-validation-error');
-
-    let $error = $field.closest('td, .col-sm-10, .mb-3').find('.text-danger').first();
-    if ($error.length === 0) {
-        $error = $('<span class="text-danger"></span>');
-        $field.after($error);
-    }
-
-    if ($error.text()) $error.append('<br>' + message);
-    else $error.text(message);
-}
-
-function clearFieldErrors() {
-    $('.text-danger').text('');
-    $('.input-validation-error').removeClass('input-validation-error');
-}
-
-function showValidationErrors(errors) {
-    clearFieldErrors();
-    let hasError = false;
-
-    $.each(errors, function (fieldName, messages) {
-        hasError = true;
-
-        const $field = $(`[name="${fieldName}"]`);
-        if ($field.length === 0) return;
-
-        showFieldError($field, messages[0]);
-    });
-
-    if (hasError && $('#validationSummary').length) {
-        const list = Object.values(errors).map(m => `<li>${m[0]}</li>`).join('');
-        $('#validationSummary').removeClass('d-none').find('ul').html(list);
-    }
-
-    $(document).trigger('validation-errors-updated');
-}
-
-function attachRowEvents($row) {
-    const $debitInput = $row.find('ebit-number[data-debit] input');
-    const $creditInput = $row.find('ebit-number[data-credit] input');
-
-    // Helper function to clear opposite field
-    const clearOpposite = function () {
-        if (this === $debitInput[0] && (parseFloat(this.value) || 0) > 0) {
-            $creditInput.val('').trigger('change'); // trigger change for ebit-number
-        } else if (this === $creditInput[0] && (parseFloat(this.value) || 0) > 0) {
-            $debitInput.val('').trigger('change');
-        }
-    };
-
-    // Multiple events jo value change ko catch kar sake
-    $debitInput.off('input.lock change.lock').on('input.lock change.lock', clearOpposite);
-    $creditInput.off('input.lock change.lock').on('input.lock change.lock', clearOpposite);
-
-    // Extra safety: Agar koi aur tarike se value set ho (jaise JS se ya copy-paste)
-    $debitInput.add($creditInput).on('blur.lock', function () {
-        setTimeout(clearOpposite.bind(this), 50); // ebit-number formatting ke baad
-    });
-}
-
-
-function attachEventsToExistingRows() {
+function attachAllEvents() {
     $('#ItemsTable tbody tr').each(function () {
         attachRowEvents($(this));
     });
 }
 
-function addNewRow() {
-    const template = $('#itemRowTemplate').html();
-    const newRow = template.replace(/INDEX/g, rowIndex);
+function attachRowEvents($row) {
+    const $debit = $row.find('[data-debit] input');
+    const $credit = $row.find('[data-credit] input');
 
-    const $newRow = $(newRow);
+    const clearOpposite = function () {
+        const val = parseFloat(this.value) || 0;
+        if (val > 0) {
+            (this === $debit[0] ? $credit : $debit).val('').trigger('change');
+        }
+    };
+
+    $debit.add($credit)
+        .off('input.lock change.lock blur.lock')
+        .on('input.lock change.lock', clearOpposite)
+        .on('blur.lock', () => setTimeout(clearOpposite.bind(this), 50));
+}
+
+function addNewRow(makeNonRemovable = false) {
+    const template = $('#itemRowTemplate').html().replace(/INDEX/g, rowIndex++);
+    const $newRow = $(template);
     $('#ItemsTable tbody').append($newRow);
 
-    // Force ebit-number to render input
     setTimeout(() => {
         $newRow.find('ebit-number').each(function () {
-            if (!this.querySelector('input')) {
-                this.connectedCallback();
-            }
+            if (!this.querySelector('input')) this.connectedCallback();
         });
-
         attachRowEvents($newRow);
-
+        if (makeNonRemovable) {
+            $newRow.addClass('nonRemovable')
+                .find('.btn-icon').prop('disabled', true)
+                .css({ opacity: 0.5, cursor: 'not-allowed' });
+        }
     }, 50);
 
-    rowIndex++;
     $(document).trigger('row-added');
 }
 
 window.removeRow = function (btn) {
     const $row = $(btn).closest('tr');
     if ($row.hasClass('nonRemovable')) {
-        showWarningAlert('The first row cannot be deleted.');
+        showToast('warning', 'The first row cannot be deleted.');
         return;
     }
-
     $row.remove();
 };
 
-window.initializeCashPaymentDetail = initializeCashPaymentDetail;
-
-$(document).ready(function () {
-    if ($('#invoiceForm').length) {
-        initializeCashPaymentDetail();
-    }
-});
-
-function showSuccessAlert(message) {
-    return Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'success',
-        text: 'Cash Payment ' + message + ' Successfully!',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        customClass: { popup: 'bootstrap-toast' },
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer);
-            toast.addEventListener('mouseleave', Swal.resumeTimer);
-        }
-    });
-}
-
-function showWarningAlert(message) {
+// Reusable Toast Function (No buttons at all!)
+function showToast(icon, text, timer = 3000) {
     Swal.fire({
         toast: true,
         position: 'top-end',
-        icon: 'warning',
-        text: 'Warning: ' + message,
+        icon: icon,
+        text: text,
         showConfirmButton: false,
-        timer: 3000,
+        showCloseButton: false,
+        showCancelButton: false,
+        timer: timer,
         timerProgressBar: true,
-        customClass: { popup: 'bootstrap-toast' },
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer);
-            toast.addEventListener('mouseleave', Swal.resumeTimer);
-        }
+        allowOutsideClick: false,
+        allowEscapeKey: false
     });
 }
+
+// Error handling
+function showFieldError($input, msg) {
+    if (!$input.length) return;
+    $input.addClass('input-validation-error');
+    let $error = $input.parent().find('.text-danger').first();
+    if (!$error.length) {
+        $error = $('<span class="text-danger"></span>');
+        $input.after($error);
+    }
+    $error.html($error.html() ? $error.html() + '<br>' + msg : msg);
+}
+
+function clearFieldErrors() {
+    $('.text-danger').empty();
+    $('.input-validation-error').removeClass('input-validation-error');
+}
+
+function showValidationErrors(errors) {
+    clearFieldErrors();
+    $.each(errors, (field, msgs) => {
+        const $field = $(`[name="${field}"]`);
+        if ($field.length) showFieldError($field, msgs[0]);
+    });
+    $(document).trigger('validation-errors-updated');
+}
+
+// Initialize
+window.initializeCashPaymentDetail = initializeCashPaymentDetail;
+$(document).ready(() => $('#invoiceForm').length && initializeCashPaymentDetail());

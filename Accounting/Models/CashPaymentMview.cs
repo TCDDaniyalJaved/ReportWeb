@@ -11,17 +11,31 @@ public partial class CashPaymentMview
 
     public DateOnly? Date { get; set; }
 
-    public string Clientname { get; set; }
+    public string Remarks { get; set; }
 
-    public decimal Total { get; set; }
+    public int? BookCode { get; set; }
 
-    public decimal Balance { get; set; }
+    public string VoucherNo { get; set; }
 
-    public DateOnly? DueDate { get; set; }
+    public int Mcode { get; set; }
 
     public string Voucher { get; set; }
 
-    public string Prefix { get; set; }
+    public int CompanyId { get; set; }
 
-    public int Action { get; set; }
+    public string Book { get; set; }
+
+    public decimal Amount { get; set; }
+
+    public int TotalSeqNo { get; set; }
+
+    public string InputType { get; set; }
+
+    public string Po { get; set; }
+
+    public string Cheque { get; set; }
+
+    public bool Posted { get; set; }
+
+    public string Prefix { get; set; }
 }

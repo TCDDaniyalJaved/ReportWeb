@@ -6,13 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Accounting.Models
 {
-    [ModelMetadataType(typeof(ChartValidation))]
-    public partial class Chart
-    {
-
-    }
-
-
     [ModelMetadataType(typeof(Validation.AccountOpeningMValidation))]
     public partial class AccountOpeningM
     {
@@ -32,6 +25,7 @@ namespace Accounting.Models
     public partial class CashPaymentD
     {
     }
+
 
 
 }

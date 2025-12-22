@@ -9,11 +9,33 @@ public partial class CashPaymentDview
 {
     public int Id { get; set; }
 
-    public int Refid { get; set; }
+    public int PersonId { get; set; }
 
-    public string Description { get; set; }
+    public decimal Amount { get; set; }
 
-    public string AccountName { get; set; }
+    public DateTime? ChkDate { get; set; }
 
-    public decimal? Amount { get; set; }
+    public int? ActCode { get; set; }
+
+    public string Remarks { get; set; }
+
+    public string Cheque { get; set; }
+
+    public DateTime? CreateDate { get; set; }
+
+    public int? UserId { get; set; }
+
+    public string Po { get; set; }
+
+    public int? BrecNo2 { get; set; }
+
+    public int? BrecNo1 { get; set; }
+
+    public string ManualNo { get; set; }
+
+    public int? CostId { get; set; }
+
+    public string Accounts { get; set; }
+
+    public string CostCenterName { get; set; }
 }
