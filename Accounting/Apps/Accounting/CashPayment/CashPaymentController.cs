@@ -312,9 +312,19 @@ public class CashPaymentController : Controller
                     kvp => kvp.Key,
                     kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray());
 
+            // Write validation errors to console
+            Console.WriteLine("ModelState validation failed:");
+            foreach (var error in errorsDict)
+            {
+                Console.WriteLine($"Field: {error.Key}");
+                foreach (var message in error.Value)
+                {
+                    Console.WriteLine($"  Error: {message}");
+                }
+            }
+
             return Json(new { success = false, errors = errorsDict });
         }
-
         try
         {
             var master = await _context.CashPaymentMs.FindAsync(model.Master.Id);

@@ -3,6 +3,7 @@ using Accounting.Models;
 using Accounting.Services;
 using Accounting.Services.Pdf;
 using Accounting.ViewModel;
+using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -21,6 +22,8 @@ public class TrialBalanceController : Controller
     private readonly webappContext _context;
     private readonly webappContextProcedures _contextprocedure;
     private readonly Base.Services.HtmlToPdfGenerator _pdfGenerator;
+    private readonly IConfiguration _configuration;
+
 
     #endregion
 
@@ -38,11 +41,14 @@ public class TrialBalanceController : Controller
     public TrialBalanceController(
         webappContext context,
         webappContextProcedures contextprocedure,
-        Base.Services.HtmlToPdfGenerator pdfGenerator)
+        Base.Services.HtmlToPdfGenerator pdfGenerator,
+         IConfiguration configuration)
     {
         _context = context;
         _contextprocedure = contextprocedure;
         _pdfGenerator = pdfGenerator;
+        _configuration = configuration;
+
     }
 
     #endregion
@@ -52,6 +58,12 @@ public class TrialBalanceController : Controller
     public IActionResult List()
     {
         return View(ViewPath("Index"));
+    }
+
+
+    public IActionResult Demo()
+    {
+        return View(ViewPath("Demo"));
     }
     #endregion
 
@@ -83,6 +95,43 @@ public class TrialBalanceController : Controller
             throw;
         }
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetTrialBalanceReport()
+    {
+        try
+        {
+            var connectionString = _configuration.GetConnectionString("Default");
+
+            using var conn = new SqlConnection(connectionString);
+            await conn.OpenAsync();
+
+            var result = await conn.QueryAsync(
+                "dbo.TrialBalanceReport",
+                new
+                {
+                    MenuID = 0,
+                    DateFrom1 = "03-01-2024",
+                    DateTo1 = "12-18-2025",
+                    DivisionFrom = "DEMO",
+                    DivisionTo = "DEMO",
+                    AccountFrom = "",
+                    AccountTo = "",
+                    cUserID = 0,
+                    IsSummmary = 1
+                },
+                commandType: CommandType.StoredProcedure
+            );
+            return Json(new { data = result });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
+
+
+
     #endregion
 
 }

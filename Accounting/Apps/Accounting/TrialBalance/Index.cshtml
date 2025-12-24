@@ -69,7 +69,7 @@
                     <ebit-section class="d-flex align-items-center gap-3">
 
                         <!-- Pagination Controls -->
-                        <ebit-section id="customPagination" class="d-none d-flex align-items-center gap-2">
+                        <ebit-section id="customPagination" class="d-none d-flex align-items-center gap-2" style="visibility: hidden;" " >
                             <button class="btn btn-sm btn-outline-primary rounded" id="prevPage">
                                 <i class="bx bx-chevron-left"></i>
                             </button>
@@ -80,7 +80,7 @@
                         </ebit-section>
 
                         <!-- Records Per Page Selector -->
-                        <select id="sharedLength" class="form-select form-select-sm" style="width: auto;">
+                        <select id="sharedLength" class="form-select form-select-sm" style="width: auto; visibility: hidden;">
                             <option value="7" selected>7 Records Per Page</option>
                             <option value="10">10 Records Per Page</option>
                             <option value="25">25 Records Per Page</option>
@@ -103,24 +103,12 @@
                                 <!-- Table Header -->
                                 <ebit-head class="border-top" style="background-color:#F9FAFB;">
                                     <ebit-row>
-                                        <ebit-headcolumn datafield="" render="edit" width="50px"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="date" header="Date" width="15%">Date</ebit-headcolumn>
                                         <ebit-headcolumn datafield="accountName" header="accountName" width="25%">Account Name</ebit-headcolumn>
                                         <ebit-headcolumn datafield="debit" header="Total Debit" width="15%">Total Debit</ebit-headcolumn>
                                         <ebit-headcolumn datafield="credit" header="Total Credit" width="15%">Total Credit</ebit-headcolumn>
-                                        <ebit-headcolumn datafield="" render="deleteprint" width="100px"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>
-
-                                <!-- Table Footer -->
-                                <ebit-footer>
-                                    <ebit-row class="bg-white">
-                                        <ebit-bodycolumn colspan="2">
-                                            Total Records : <span id="totalRecords">0</span>
-                                        </ebit-bodycolumn>
-                                    </ebit-row>
-                                </ebit-footer>
-
                             </ebit-table>
                         </ebit-section>
 

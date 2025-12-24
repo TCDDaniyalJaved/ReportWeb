@@ -1,0 +1,145 @@
+@model Accounting.ViewModel.AccountOpeningSPResult;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Account Opening Balance</title>
+   <style>
+    body {
+        font-family: Arial, sans-serif;
+        color: #2f4f7f;
+        margin: 40px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin: 0;
+    }
+
+    h2 {
+        font-size: 18px;
+        margin-top: 5px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    th {
+        background: #f1f1f1;
+        text-align: left;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .no-border td {
+        border: none;
+    }
+
+    .signature {
+        text-align: center;
+        padding-top: 40px;
+    }
+
+    .signature td {
+        width: 33%;
+    }
+
+    /* PRINT STYLES - REMOVE BROWSER HEADER/FOOTER */
+    @@media print {
+        @@page {
+            margin: 0;
+            size: A4;
+        }
+
+        body {
+            margin: 1.5cm;
+            print-color-adjust: exact;
+        }
+
+        /* Hide any unwanted elements */
+        .no-print { display: none; }
+
+        /* Clean layout */
+        h1, h2, table {
+            page-break-inside: avoid;
+        }
+    }
+</style>
+</head>
+<body>
+    <h1>@Model.Master.Companyname</h1>
+    <h2>Account Opening Balance</h2>
+
+    <table>
+        <tr>
+            <th>Voucher #:</th>
+            <td>@Model.Master.Voucher</td>
+            <th>Voucher Date:</th>
+            <td>@Model.Master.Date?.ToString("dd MMMM, yyyy")</td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th>Account Name / Description</th>
+            <th class="text-right">Debit</th>
+            <th class="text-right">Credit</th>
+        </tr>
+        @foreach (var item in Model.Details)
+        {
+            <tr>
+                <td>@item.Accounts</td>
+                <td class="text-right">@item.Debit?.ToString("N2")</td>
+                <td class="text-right">@item.Credit?.ToString("N2")</td>
+            </tr>
+        }
+        <tr>
+            <th>Total Amount</th>
+            <th class="text-right">@Model.Details.Sum(x => x.Debit ?? 0).ToString("N2")</th>
+            <th class="text-right">@Model.Details.Sum(x => x.Credit ?? 0).ToString("N2")</th>
+        </tr>
+    </table>
+
+    @* <p><b>Amount in Words:</b> @Model.AmountInWords</p> *@
+
+    <table class="no-border signature" style="width:100%; margin-top:40px;">
+        <tr>
+            <td style="text-align:center; padding: 40px 0;">
+                <div>Prepared By</div>
+                <div style="border-bottom: 1px solid #000; width: 200px; margin: 20px auto 80px;"></div>
+            </td>
+            <td style="text-align:center; padding: 40px 0;">
+                <div>Accountant</div>
+                <div style="border-bottom: 1px solid #000; width: 200px; margin: 20px auto 80px;"></div>
+            </td>
+            <td style="text-align:center; padding: 40px 0;">
+                <div>Approved By</div>
+                <div style="border-bottom: 1px solid #000; width: 200px; margin: 20px auto 80px;"></div>
+            </td>
+        </tr>
+    </table>
+
+
+    <script>
+        window.onload = function () {
+            window.print();
+        };
+    </script>
+
+</body>
+</html>

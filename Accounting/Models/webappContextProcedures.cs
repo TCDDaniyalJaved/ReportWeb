@@ -75,6 +75,26 @@ namespace Accounting.Models
             return _;
         }
 
+        public virtual async Task<List<GetAccountOpeningReportDataResult>> GetAccountOpeningReportDataAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<GetAccountOpeningReportDataResult>("EXEC @returnValue = [dbo].[GetAccountOpeningReportData]", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
         public virtual async Task<List<GetAllAccountsAllSubGroupResult>> GetAllAccountsAllSubGroupAsync(int? natureID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
@@ -286,6 +306,75 @@ namespace Accounting.Models
                 parameterreturnValue,
             };
             var _ = await _context.SqlQueryAsync<GetUserWiseCompanyResult>("EXEC @returnValue = [dbo].[GetUserWiseCompany] @cUserID = @cUserID", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<PurchaseReportResult>> PurchaseReportAsync(string dateFrom1, string dateTo1, string divisionFrom, string accountFrom, string itemFrom, string categoryFrom, string locationFrom, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "DateFrom1",
+                    Size = 10,
+                    Value = dateFrom1 ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "DateTo1",
+                    Size = 10,
+                    Value = dateTo1 ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "DivisionFrom",
+                    Size = -1,
+                    Value = divisionFrom ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "AccountFrom",
+                    Size = -1,
+                    Value = accountFrom ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "ItemFrom",
+                    Size = -1,
+                    Value = itemFrom ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "CategoryFrom",
+                    Size = -1,
+                    Value = categoryFrom ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "LocationFrom",
+                    Size = -1,
+                    Value = locationFrom ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<PurchaseReportResult>("EXEC @returnValue = [dbo].[PurchaseReport] @DateFrom1 = @DateFrom1, @DateTo1 = @DateTo1, @DivisionFrom = @DivisionFrom, @AccountFrom = @AccountFrom, @ItemFrom = @ItemFrom, @CategoryFrom = @CategoryFrom, @LocationFrom = @LocationFrom", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

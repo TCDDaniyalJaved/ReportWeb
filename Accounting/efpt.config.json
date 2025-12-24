@@ -236,6 +236,10 @@
          "ObjectType": 1
       },
       {
+         "Name": "[dbo].[GetAccountOpeningReportData]",
+         "ObjectType": 1
+      },
+      {
          "Name": "[dbo].[GetAllAccountsAllSubGroup]",
          "ObjectType": 1
       },
@@ -265,6 +269,10 @@
       },
       {
          "Name": "[dbo].[GetUserWiseCompany]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[PurchaseReport]",
          "ObjectType": 1
       },
       {

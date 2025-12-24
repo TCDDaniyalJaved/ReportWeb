@@ -76,7 +76,7 @@
                 <ebit-section class="row mb-3 align-items-center col-md-4">
                     <ebit-label data="Master.Vdate" class="col-sm-2 form-label" text="Date"></ebit-label>
                     <ebit-section class="col-sm-10">
-                        <ebit-datetime data="Master.Date" value="@Model.Master.Vdate" datatype="Date" placeholder="MM-DD-YYYY"></ebit-datetime>
+                        <ebit-datetime data="Master.Vdate" value="@Model.Master.Vdate" datatype="Date" placeholder="MM-DD-YYYY"></ebit-datetime>
                     </ebit-section>
                 </ebit-section>
                 <!-- Company Dropdown -->
@@ -123,7 +123,7 @@
                             <ebit-row>
                                 <ebit-headcolumn width="30%">Account</ebit-headcolumn>
                                 <ebit-headcolumn width="25%">Description</ebit-headcolumn>
-                                <ebit-headcolumn width="15%" text-align="right">Amount</ebit-headcolumn>
+                                <ebit-headcolumn width="15%" class="text-end">Amount</ebit-headcolumn>
                                 <ebit-headcolumn width="5%"></ebit-headcolumn>
                             </ebit-row>
                         </ebit-head>
@@ -138,7 +138,7 @@
                                         </ebit-select>
                                     </ebit-bodycolumn>
                                     <ebit-bodycolumn>
-                                        <ebit-text value="@Model.Details[i].Remarks" data="Details[@i].Description"></ebit-text>
+                                        <ebit-text value="@Model.Details[i].Remarks" data="Details[@i].Remarks"></ebit-text>
                                     </ebit-bodycolumn>
 
                                     <ebit-bodycolumn>
@@ -159,7 +159,7 @@
                     <template id="itemRowTemplate">
                         <ebit-row>
                             <ebit-bodycolumn>
-                                <ebit-select data="Details[INDEX].AccountId" data-url="UserWiseAccount"></ebit-select>
+                                <ebit-select data="Details[INDEX].ActCode" data-url="UserWiseAccount"></ebit-select>
                             </ebit-bodycolumn>
                             <ebit-bodycolumn>
                                 <ebit-text data="Details[INDEX].Description"></ebit-text>

@@ -1,10 +1,13 @@
 wwwroot\Accounting\css\style.css
 wwwroot\Accounting\js\AccountOpening.js
 wwwroot\Accounting\js\AccountOpening_detail.js
+wwwroot\Accounting\js\BankPayment.js
+wwwroot\Accounting\js\BankPayment_detail.js
 wwwroot\Accounting\js\calc.js
 wwwroot\Accounting\js\CashPayment.js
 wwwroot\Accounting\js\CashPayment_detail.js
 wwwroot\Accounting\js\cashreceipt.js
+wwwroot\Accounting\js\ChartOfAcount.js
 wwwroot\Accounting\js\components\ebit-button.js
 wwwroot\Accounting\js\components\ebit-datetime.js
 wwwroot\Accounting\js\components\ebit-form.js
@@ -17,7 +20,10 @@ wwwroot\Accounting\js\components\ebit-select.js
 wwwroot\Accounting\js\components\ebit-table-component.js
 wwwroot\Accounting\js\components\ebit-text.js
 wwwroot\Accounting\js\dataTableUtils.js
+wwwroot\Accounting\js\dropdawn.js
+wwwroot\Accounting\js\dummy.js
 wwwroot\Accounting\js\DummyAccountOpening.js
+wwwroot\Accounting\js\DummyTrialBalance.js
 wwwroot\Accounting\js\ebit-components.js
 wwwroot\Accounting\js\PerivousDatatableUtilis.js
 wwwroot\Accounting\js\PurchaseReport.js

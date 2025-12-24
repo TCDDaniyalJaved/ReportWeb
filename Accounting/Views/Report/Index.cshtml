@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Account Opening Report</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .group-header {
+            background-color: #e6f3ff;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+            button:hover {
+                opacity: 0.8;
+            }
+
+        #message {
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h2>Account Opening Report</h2>
+
+    <!-- Control Buttons -->
+    <div>
+        <button onclick="groupBy('Companyname')">Group by Company</button>
+        <button onclick="groupBy('LedgerName')">Group by Account</button>
+        <button onclick="groupBy('Date')">Group by Date</button>
+        <button onclick="showAll()">Show All (No Group)</button>
+        <button onclick="loadData()" style="background-color: blue;">Refresh Data</button>
+    </div>
+
+    <!-- Message Display -->
+    <div id="message"></div>
+
+    <!-- Report Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Company</th>
+                <th>Voucher No</th>
+                <th>Account</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Remarks</th>
+                <th>Book</th>
+                <th>Cheque</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Data will load here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Global variable to store data
+        let allData = [];
+
+        // Load data when page loads
+        window.onload = function() {
+            loadData();
+        };
+
+        // Function to load data from server
+        async function loadData() {
+            showMessage("Loading data...", "black");
+
+            try {
+                const response = await fetch('/Report/GetData');
+
+                // First check if response is ok
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Get response text first to debug
+                const responseText = await response.text();
+                console.log("Response:", responseText);
+
+                // Parse JSON
+                const result = JSON.parse(responseText);
+
+                if (result.success) {
+                    allData = result.data;
+                    showMessage(`Data loaded successfully! ${result.count} records found.`, "green");
+                    showAll(); // Show all data without grouping
+                } else {
+                    showMessage("Error: " + result.message, "red");
+                }
+            } catch (error) {
+                showMessage("Error loading data: " + error.message, "red");
+                console.error("Error details:", error);
+            }
+        }
+
+        // Function to show all data without grouping
+        function showAll() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            if (allData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9">No data available</td></tr>';
+                return;
+            }
+
+            allData.forEach(item => {
+                addRow(item, tbody);
+            });
+
+            showMessage(`Showing ${allData.length} records`, "blue");
+        }
+
+        // Function to group data by column
+        function groupBy(columnName) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            if (allData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9">No data available</td></tr>';
+                return;
+            }
+
+            // Create groups
+            const groups = {};
+
+            allData.forEach(item => {
+                let groupKey = item[columnName];
+
+                // Handle null/undefined
+                if (groupKey === null || groupKey === undefined || groupKey === '') {
+                    groupKey = '(Not Specified)';
+                }
+
+                // Format date if grouping by Date
+                if (columnName === 'Date') {
+                    const date = new Date(groupKey);
+                    groupKey = date.toLocaleDateString();
+                }
+
+                // Add to group
+                if (!groups[groupKey]) {
+                    groups[groupKey] = [];
+                }
+                groups[groupKey].push(item);
+            });
+
+            // Count total groups
+            const groupKeys = Object.keys(groups);
+
+            // Show each group
+            groupKeys.forEach(key => {
+                const items = groups[key];
+
+                // Add group header row
+                const headerRow = document.createElement('tr');
+                headerRow.className = 'group-header';
+                headerRow.innerHTML = `<td colspan="9">${key} (${items.length} records)</td>`;
+                tbody.appendChild(headerRow);
+
+                // Add items in this group
+                items.forEach(item => {
+                    addRow(item, tbody);
+                });
+            });
+
+            showMessage(`Grouped by ${columnName} - ${groupKeys.length} groups`, "blue");
+        }
+
+        // Function to add a single row to table
+        function addRow(item, tbody) {
+            const row = document.createElement('tr');
+
+            // Format date
+            const date = new Date(item.Date);
+            const dateStr = date.toLocaleDateString();
+
+            // Format numbers
+            const debit = formatNumber(item.DetailDebit);
+            const credit = formatNumber(item.DetailCredit);
+
+            row.innerHTML = `
+                <td>${dateStr}</td>
+                <td>${item.Companyname}</td>
+                <td>${item.VoucherNo}</td>
+                <td>${item.LedgerName}</td>
+                <td align="right">${debit}</td>
+                <td align="right">${credit}</td>
+                <td>${item.MasterRemarks}</td>
+                <td>${item.Book}</td>
+                <td>${item.Cheque}</td>
+            `;
+
+            tbody.appendChild(row);
+        }
+
+        // Helper function to format numbers
+        function formatNumber(num) {
+            return parseFloat(num).toFixed(2);
+        }
+
+        // Helper function to show messages
+        function showMessage(text, color) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = text;
+            messageDiv.style.color = color;
+        }
+    </script>
+</body>
+</html>

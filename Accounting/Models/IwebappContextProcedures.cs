@@ -14,6 +14,7 @@ namespace Accounting.Models
     public partial interface IwebappContextProcedures
     {
         Task<List<AccountOpeningVoucherResult>> AccountOpeningVoucherAsync(int? companyID, int? id, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GetAccountOpeningReportDataResult>> GetAccountOpeningReportDataAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<GetAllAccountsAllSubGroupResult>> GetAllAccountsAllSubGroupAsync(int? natureID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<getdumpdataliveResult>> getdumpdataliveAsync(string svalue1, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<getdumpdataofflineResult>> getdumpdataofflineAsync(string svalue, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
@@ -22,6 +23,7 @@ namespace Accounting.Models
         Task<List<GetSubMenuItemResult>> GetSubMenuItemAsync(int? userid, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<GetUserWiseAccountResult>> GetUserWiseAccountAsync(int? cUserID, int? natureID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<GetUserWiseCompanyResult>> GetUserWiseCompanyAsync(int? cUserID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<PurchaseReportResult>> PurchaseReportAsync(string dateFrom1, string dateTo1, string divisionFrom, string accountFrom, string itemFrom, string categoryFrom, string locationFrom, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<TrialBalanceReportResult>> TrialBalanceReportAsync(int? menuID, string dateFrom1, string dateTo1, string divisionFrom, string divisionTo, string accountFrom, string accountTo, int? cUserID, byte? isSummmary, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
     }
 }

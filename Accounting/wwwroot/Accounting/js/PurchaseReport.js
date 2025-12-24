@@ -1,4 +1,4 @@
-﻿// Accountopening.js
+﻿// PurchaseReport.js
 import {
     initializeDataTable,
     goBackToList,

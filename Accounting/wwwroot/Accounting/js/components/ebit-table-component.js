@@ -39,10 +39,14 @@ class EbitHead extends HTMLElement {
             while (this.firstChild) {
                 thead.appendChild(this.firstChild);
             }
+
+            // Add text-align right style to the <thead>
+            thead.style.textAlign = "right"; // This will apply the text alignment to the whole <thead>
         }
     }
 }
 customElements.define("ebit-head", EbitHead);
+
 
 // ------------------ EbitBody ------------------
 class EbitBody extends HTMLElement {

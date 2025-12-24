@@ -74,6 +74,9 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
                     <i class="bx bx-trash"></i>
                 </button>`;
         }
+        else if (renderType === 'empty') {
+            colDef.render = (data, type, row) => ``;
+        }
         // Checkbox column
         else if (renderType === 'checkbox') {
             colDef.render = () =>
