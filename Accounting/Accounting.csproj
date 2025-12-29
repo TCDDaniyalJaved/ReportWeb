@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controller\ReportController - Copy.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Apps\Accounting\Chart\AdditionalInfo.cshtml" />
     <Content Remove="Apps\Accounting\Chart\Basic.cshtml" />
     <Content Remove="Apps\Accounting\Chart\Datatable.cshtml" />
@@ -21,6 +25,7 @@
     <Content Remove="Apps\Accounting\Chart\Report.cshtml" />
     <Content Remove="Apps\Accounting\Chart\Reports.cshtml" />
     <Content Remove="Apps\Accounting\Chart\_Search.cshtml" />
+    <Content Remove="Views\Report\index - Copy.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,147 @@
+@{
+    /* Page Layout */
+    Layout = "_HorizontalLayout";
+}
+
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+
+@section VendorStyles {
+    @await Html.PartialAsync("_VendorStyles")
+}
+@section VendorScripts {
+    @await Html.PartialAsync("_VendorScripts")
+
+}
+
+@section PageScripts {
+    <script type="module" src="/Accounting/js/OpeningMasterDemo.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+<style>
+    .select2-container {
+        display: none !important;
+    }
+</style>
+
+<script>
+
+    $(document).ready(function () {
+           $('#groupBySelect').select2({
+               placeholder: "Select items",
+               closeOnSelect: false
+           });
+       });
+</script>
+
+<ebit-section p="0" m="0">
+    <div id="wizardStepper" class="bs-stepper wizard-numbered" style="box-shadow:none;">
+
+        <!-- Wizard Header (Hidden) -->
+        <ebit-section class="bs-stepper-header d-none">
+            <ebit-section class="step" data-target="#account-details">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+            <ebit-section class="line"><i class="bx bx-chevron-right"></i></ebit-section>
+            <ebit-section class="step" data-target="#personal-info">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+        </ebit-section>
+
+        <!-- Wizard Content -->
+        <ebit-section class="bs-stepper-content p-0 m-0">
+
+            <!-- Page Header Section -->
+            <ebit-section class="d-flex justify-content-between align-items-center pb-3 flex-wrap create-header w-100 px-5 pt-3">
+                <ebit-section class="d-flex align-items-center justify-content-between flex-wrap w-100" id="pageHeader">
+
+                    <!-- Left Section: Create Button + Title -->
+                    <ebit-section class="d-flex align-items-start gap-3">
+                        <div>
+                            <!-- Main Heading -->
+                            <h4 class="mb-1 fw-bold d-flex align-items-center gap-2">
+                               Account Opening
+                                <i class="bx bx-cog text-muted" style="cursor:pointer; font-size:1.1rem;"></i>
+                            </h4>
+
+                            <!-- Sub Heading -->
+                            <h6 class="mb-0 text-muted fw-normal">
+                                Account Opening
+                            </h6>
+                        </div>
+                    </ebit-section>
+
+                    <!-- Center Section: Universal Search Bar -->
+                    <ebit-section class="flex-grow-1 d-flex justify-content-center px-4">
+                        <ebit-section class="input-group" style="width: 100%; max-width: 560px;">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bx bx-search text-muted"></i>
+                            </span>
+                            <input type="search" id="universalSearch" class="form-control border-start-0"
+                                   placeholder="Search by voucher, date, amount..."
+                                   style="height: 44px; font-size: 0.95rem;">
+                        </ebit-section>
+                    </ebit-section>
+
+                    <!-- Right Section: Pagination & Length Menu -->
+                    <ebit-section class="d-flex align-items-center gap-3">
+
+                        <!-- Pagination Controls -->
+                        <ebit-section id="customPagination" class="d-none d-flex align-items-center gap-2">
+                            <button class="btn btn-sm btn-outline-primary rounded" id="prevPage">
+                                <i class="bx bx-chevron-left"></i>
+                            </button>
+                            <span id="pageInfo" class="fw-medium text-primary px-2">1 / 2</span>
+                            <button class="btn btn-sm btn-outline-primary rounded" id="nextPage">
+                                <i class="bx bx-chevron-right"></i>
+                            </button>
+                        </ebit-section>
+
+                        <!-- Records Per Page Selector -->
+                        <select id="groupBySelect" class="form-select form-select-sm" multiple>
+                            <option value="">No Grouping</option>
+                            <option value="Date">Group by Date</option>
+                            <option value="Voucher" selected>Group by Voucher</option>
+                            <option value="Companyname" selected >Group by Company</option>
+                        </select>
+                        
+                    </ebit-section>
+                </ebit-section>
+            </ebit-section>
+
+            <!-- Table Section -->
+            <ebit-section id="account-details" class="content">
+                <ebit-section id="innerWizard" class="wizard">
+                    <ebit-section class="wizard-content p-0 m-0">
+
+                        <ebit-section id="inner-step1" class="wizard-step p-0 m-0">
+                            <ebit-table id="masterTable" class="table bg-white mt-0 pt-0">
+
+                                <!-- Table Header -->
+                                <ebit-head class="border-top" style="background-color:#F9FAFB;">
+                                    <ebit-row>
+                                        <ebit-headcolumn datafield="Date" header="Date" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="Voucher" header="Voucher" width="25%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="Companyname" header="Company" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="TotalSeqNo" header="#" width="10%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="TotalDebit" header="Total Debit" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="DetailCredit" header="Total Credit" width="15%"></ebit-headcolumn>
+                                    </ebit-row>
+                                </ebit-head>
+                            </ebit-table>
+                        </ebit-section>
+
+                    </ebit-section>
+                </ebit-section>
+            </ebit-section>
+
+            <!-- Secondary Wizard Section -->
+            <ebit-section id="personal-info" class="content p-0 px-5"></ebit-section>
+        </ebit-section>
+    </div>
+</ebit-section>
+
+                                  

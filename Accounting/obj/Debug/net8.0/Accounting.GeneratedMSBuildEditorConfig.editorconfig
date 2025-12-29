@@ -168,8 +168,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xfVmlld1N0YXJ0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Report/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XEluZGV4LmNzaHRtbA==
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Report/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XERlbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Report/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XGluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Shared/_VendorScripts.cshtml]

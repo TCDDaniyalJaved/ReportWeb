@@ -1,252 +1,171 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title>Account Opening Report</title>
-    <style>
-        body {
-            font-family: Arial;
-            padding: 20px;
+﻿@{
+    /* Page Layout */
+    Layout = "_HorizontalLayout";
+}
+
+@section VendorStyles {
+    @await Html.PartialAsync("_VendorStyles")
+}
+
+@section VendorScripts {
+    @await Html.PartialAsync("_VendorScripts")
+}
+
+@section PageScripts {
+    <script type="module" src="/Accounting/js/OpeningMaster.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+<style>
+   
+
+    .group-row {
+        background-color: #f8f9fa !important;
+        border-left: 4px solid #0d6efd;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-weight: 600;
+    }
+
+        .group-row:hover {
+            background-color: #e9ecef !important;
         }
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .group-header {
-            background-color: #e6f3ff;
+        .group-row .toggle-icon {
             font-weight: bold;
+            margin-right: 8px;
+            transition: transform 0.2s;
+            display: inline-block;
         }
 
-        button {
-            padding: 8px 15px;
-            margin: 5px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
+        .group-row.collapsed .toggle-icon {
+            transform: rotate(-90deg); /* ▼ ko ▶ banane ke liye */
         }
 
-            button:hover {
-                opacity: 0.8;
-            }
-
-        #message {
-            padding: 10px;
-            margin: 10px 0;
+        /* Level-wise different colors */
+        .group-row.level-0 {
+            border-left-color: #0d6efd;
         }
 
-        .error {
-            color: red;
+        .group-row.level-1 {
+            border-left-color: #6c757d;
+            padding-left: 30px;
         }
 
-        .success {
-            color: green;
+        .group-row.level-2 {
+            border-left-color: #20c997;
+            padding-left: 50px;
         }
-    </style>
-</head>
-<body>
-    <h2>Account Opening Report</h2>
 
-    <!-- Control Buttons -->
-    <div>
-        <button onclick="groupBy('Companyname')">Group by Company</button>
-        <button onclick="groupBy('LedgerName')">Group by Account</button>
-        <button onclick="groupBy('Date')">Group by Date</button>
-        <button onclick="showAll()">Show All (No Group)</button>
-        <button onclick="loadData()" style="background-color: blue;">Refresh Data</button>
+        .group-row.level-3 {
+            border-left-color: #fd7e14;
+            padding-left: 70px;
+        }
+
+</style>
+
+
+<ebit-section p="0" m="0">
+    <div id="wizardStepper" class="bs-stepper wizard-numbered" style="box-shadow:none;">
+
+        <!-- Wizard Header (Hidden) -->
+        <ebit-section class="bs-stepper-header d-none">
+            <ebit-section class="step" data-target="#account-details">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+            <ebit-section class="line"><i class="bx bx-chevron-right"></i></ebit-section>
+            <ebit-section class="step" data-target="#personal-info">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+        </ebit-section>
+
+        <!-- Wizard Content -->
+        <ebit-section class="bs-stepper-content p-0 m-0">
+
+            <!-- Page Header Section -->
+            <ebit-section class="d-flex justify-content-between align-items-center pb-3 flex-wrap create-header w-100 px-5 pt-3">
+                <ebit-section class="d-flex align-items-center justify-content-between flex-wrap w-100" id="pageHeader">
+
+                    <!-- Left Section: Create Button + Title -->
+                    <ebit-section class="d-flex align-items-start gap-3">
+                        <div>
+                            <!-- Main Heading -->
+                            <h4 class="mb-1 fw-bold d-flex align-items-center gap-2">
+                               Account Opening
+                                <i class="bx bx-cog text-muted" style="cursor:pointer; font-size:1.1rem;"></i>
+                            </h4>
+
+                            <!-- Sub Heading -->
+                            <h6 class="mb-0 text-muted fw-normal">
+                                Account Opening
+                            </h6>
+                        </div>
+                    </ebit-section>
+
+                    <!-- Center Section: Universal Search Bar -->
+                    <ebit-section class="flex-grow-1 d-flex justify-content-center px-4">
+                        <ebit-section class="input-group" style="width: 100%; max-width: 560px;">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bx bx-search text-muted"></i>
+                            </span>
+                            <input type="search" id="universalSearch" class="form-control border-start-0"
+                                   placeholder="Search by voucher, date, amount..."
+                                   style="height: 44px; font-size: 0.95rem;">
+                        </ebit-section>
+                    </ebit-section>
+
+                    <!-- Right Section: Pagination & Length Menu -->
+                    <ebit-section class="d-flex align-items-center gap-3">
+
+                        <!-- Pagination Controls -->
+                        <ebit-section id="customPagination" class="d-none d-flex align-items-center gap-2">
+                            <button class="btn btn-sm btn-outline-primary rounded" id="prevPage">
+                                <i class="bx bx-chevron-left"></i>
+                            </button>
+                            <span id="pageInfo" class="fw-medium text-primary px-2">1 / 2</span>
+                            <button class="btn btn-sm btn-outline-primary rounded" id="nextPage">
+                                <i class="bx bx-chevron-right"></i>
+                            </button>
+                        </ebit-section>
+                        <!-- Records Per Page Selector -->
+                        <select id="groupBySelect" class="form-select form-select-sm" style="width: auto;">
+                            <option value="">No Grouping</option>
+                            <option value="Date">Group by Date</option>
+                            <option value="Voucher" selected>Group by Voucher</option>
+                            <option value="Companyname" >Group by Company</option>
+                        </select>
+                        
+                    </ebit-section>
+                </ebit-section>
+            </ebit-section>
+
+            <!-- Table Section -->
+            <ebit-section id="account-details" class="content">
+                <ebit-section id="innerWizard" class="wizard">
+                    <ebit-section class="wizard-content p-0 m-0">
+
+                        <ebit-section id="inner-step1" class="wizard-step p-0 m-0">
+                            <ebit-table id="masterTable" class="table bg-white mt-0 pt-0">
+
+                                <!-- Table Header -->
+                                <ebit-head class="border-top" style="background-color:#F9FAFB;">
+                                    <ebit-row>
+                                        <ebit-headcolumn datafield="Date" header="Date" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="Voucher" header="Voucher" width="25%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="Companyname" header="Company" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="TotalSeqNo" header="#" width="10%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="TotalDebit" header="Total Debit" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="DetailCredit" header="Total Credit" width="15%"></ebit-headcolumn>
+                                    </ebit-row>
+                                </ebit-head>
+                            </ebit-table>
+                        </ebit-section>
+
+                    </ebit-section>
+                </ebit-section>
+            </ebit-section>
+
+            <!-- Secondary Wizard Section -->
+            <ebit-section id="personal-info" class="content p-0 px-5"></ebit-section>
+        </ebit-section>
     </div>
-
-    <!-- Message Display -->
-    <div id="message"></div>
-
-    <!-- Report Table -->
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Company</th>
-                <th>Voucher No</th>
-                <th>Account</th>
-                <th>Debit</th>
-                <th>Credit</th>
-                <th>Remarks</th>
-                <th>Book</th>
-                <th>Cheque</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-            <!-- Data will load here -->
-        </tbody>
-    </table>
-
-    <script>
-        // Global variable to store data
-        let allData = [];
-
-        // Load data when page loads
-        window.onload = function() {
-            loadData();
-        };
-
-        // Function to load data from server
-        async function loadData() {
-            showMessage("Loading data...", "black");
-
-            try {
-                const response = await fetch('/Report/GetData');
-
-                // First check if response is ok
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                // Get response text first to debug
-                const responseText = await response.text();
-                console.log("Response:", responseText);
-
-                // Parse JSON
-                const result = JSON.parse(responseText);
-
-                if (result.success) {
-                    allData = result.data;
-                    showMessage(`Data loaded successfully! ${result.count} records found.`, "green");
-                    showAll(); // Show all data without grouping
-                } else {
-                    showMessage("Error: " + result.message, "red");
-                }
-            } catch (error) {
-                showMessage("Error loading data: " + error.message, "red");
-                console.error("Error details:", error);
-            }
-        }
-
-        // Function to show all data without grouping
-        function showAll() {
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '';
-
-            if (allData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9">No data available</td></tr>';
-                return;
-            }
-
-            allData.forEach(item => {
-                addRow(item, tbody);
-            });
-
-            showMessage(`Showing ${allData.length} records`, "blue");
-        }
-
-        // Function to group data by column
-        function groupBy(columnName) {
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '';
-
-            if (allData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9">No data available</td></tr>';
-                return;
-            }
-
-            // Create groups
-            const groups = {};
-
-            allData.forEach(item => {
-                let groupKey = item[columnName];
-
-                // Handle null/undefined
-                if (groupKey === null || groupKey === undefined || groupKey === '') {
-                    groupKey = '(Not Specified)';
-                }
-
-                // Format date if grouping by Date
-                if (columnName === 'Date') {
-                    const date = new Date(groupKey);
-                    groupKey = date.toLocaleDateString();
-                }
-
-                // Add to group
-                if (!groups[groupKey]) {
-                    groups[groupKey] = [];
-                }
-                groups[groupKey].push(item);
-            });
-
-            // Count total groups
-            const groupKeys = Object.keys(groups);
-
-            // Show each group
-            groupKeys.forEach(key => {
-                const items = groups[key];
-
-                // Add group header row
-                const headerRow = document.createElement('tr');
-                headerRow.className = 'group-header';
-                headerRow.innerHTML = `<td colspan="9">${key} (${items.length} records)</td>`;
-                tbody.appendChild(headerRow);
-
-                // Add items in this group
-                items.forEach(item => {
-                    addRow(item, tbody);
-                });
-            });
-
-            showMessage(`Grouped by ${columnName} - ${groupKeys.length} groups`, "blue");
-        }
-
-        // Function to add a single row to table
-        function addRow(item, tbody) {
-            const row = document.createElement('tr');
-
-            // Format date
-            const date = new Date(item.Date);
-            const dateStr = date.toLocaleDateString();
-
-            // Format numbers
-            const debit = formatNumber(item.DetailDebit);
-            const credit = formatNumber(item.DetailCredit);
-
-            row.innerHTML = `
-                <td>${dateStr}</td>
-                <td>${item.Companyname}</td>
-                <td>${item.VoucherNo}</td>
-                <td>${item.LedgerName}</td>
-                <td align="right">${debit}</td>
-                <td align="right">${credit}</td>
-                <td>${item.MasterRemarks}</td>
-                <td>${item.Book}</td>
-                <td>${item.Cheque}</td>
-            `;
-
-            tbody.appendChild(row);
-        }
-
-        // Helper function to format numbers
-        function formatNumber(num) {
-            return parseFloat(num).toFixed(2);
-        }
-
-        // Helper function to show messages
-        function showMessage(text, color) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.innerHTML = text;
-            messageDiv.style.color = color;
-        }
-    </script>
-</body>
-</html>
+</ebit-section>

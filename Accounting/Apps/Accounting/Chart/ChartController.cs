@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
@@ -50,57 +50,124 @@ public class ChartController : Controller
             int pageSize = length != null ? Convert.ToInt32(length) : 10;
             int skip = start != null ? Convert.ToInt32(start) : 0;
 
-            // Fetch sortable column name safely
             var columnName = Request.Form[$"columns[{sortColumnIndex}][name]"].FirstOrDefault();
 
             var query = await _contextproc.GetAllAccountsAllSubGroupAsync(0);
 
-            //// Apply search filtering
             if (!string.IsNullOrEmpty(searchValue))
             {
                 query = query.Where(m => m.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase)).ToList();
-                //query = query.Where(m => m.Name.Contains(searchValue)).ToList();
             }
 
-            //// Set a default column if columnName is empty or null
             if (string.IsNullOrEmpty(columnName))
             {
-                columnName = "Id"; // Default to primary key or another default column
+                columnName = "Id"; 
             }
 
-            ////// Apply sorting dynamically
-            //if (!string.IsNullOrEmpty(columnName))
-            //{
-            //  if (sortColumnDirection == "asc")
-            //  {
-            //    query = query.OrderBy(e => EF.Property<object>(e, columnName)).ToList();
-            //  }
-            //  else
-            //  {
-            //    query = query.OrderByDescending(e => EF.Property<object>(e, columnName)).ToList();
-            //  }
-            //}
 
-            //// Get total records count before pagination (total records without filtering)
             int recordsTotal = query.Count();
 
-            //// Apply pagination
-            // var data = query.Skip(skip).Take(pageSize).ToList();
             var data = pageSize == -1
-              ? query.ToList()  // Fetch all records if "All" is selected
+              ? query.ToList() 
               : query.Skip(skip).Take(pageSize).ToList();
-            //return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
             var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
             return Ok(jsonData);
         }
         catch (Exception ex)
         {
-            // You may want to log the exception for better debugging
             return StatusCode(500, "Internal server error: " + ex.Message);
         }
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetData(
+    int draw = 1,
+    int start = 0,
+    int length = 10,
+    string search = ""
+)
+    {
+        try
+        {
+            // 🔹 Stored Procedure Call
+            var dataList = await _contextproc.GetAllAccountsAllSubGroupAsync(0);
 
+            // 🔹 Search Filter
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                dataList = dataList
+                    .Where(x => x.Name != null &&
+                                x.Name.Contains(search, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            int recordsTotal = dataList.Count;
+
+            // 🔹 Paging
+            var data = length == -1
+                ? dataList
+                : dataList.Skip(start).Take(length).ToList();
+
+            // 🔹 Return JSON
+            return Ok(new
+            {
+                draw = draw,
+                recordsTotal = recordsTotal,
+                recordsFiltered = recordsTotal,
+                data = data
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                message = "Internal server error",
+                error = ex.Message
+            });
+        }
+    }
+
+
+
+
+    [HttpPost]
+    public async Task<IActionResult> GetData2()
+    {
+        try
+        {
+            var draw = Request.Form["draw"].FirstOrDefault();
+            var start = Convert.ToInt32(Request.Form["start"].FirstOrDefault());
+            var length = Convert.ToInt32(Request.Form["length"].FirstOrDefault());
+            var sortColumnIndex = Request.Form["order[0][column]"].FirstOrDefault();
+            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+            var searchValue = Request.Form["customSearch"].FirstOrDefault();
+
+            int pageSize = length == -1 ? -1 : length;
+            int skip = start;
+
+            var columnName = Request.Form[$"columns[{sortColumnIndex}][name]"].FirstOrDefault();
+            if (string.IsNullOrEmpty(columnName))
+                columnName = "Id";
+
+            var query = await _contextproc.GetAllAccountsAllSubGroupAsync(0);
+
+            if (string.IsNullOrEmpty(columnName))
+            {
+                columnName = "Id";
+            }
+            int recordsTotal = query.Count();
+
+            var data = pageSize == -1
+              ? query.ToList()
+              : query.Skip(skip).Take(pageSize).ToList();
+            var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+            return Ok(jsonData);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
 
     // Create GET
     [HttpGet]

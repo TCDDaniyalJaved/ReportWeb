@@ -19,6 +19,11 @@ public class ReportController : Controller
         return View();
     }
 
+
+    public IActionResult Demo()
+    {
+        return View();
+    }
     public JsonResult GetData()
     {
         try
