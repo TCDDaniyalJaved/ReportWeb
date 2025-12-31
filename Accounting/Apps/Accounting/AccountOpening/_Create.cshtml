@@ -20,6 +20,11 @@
             opacity: 1 !important;
         }
 </style>
+
+<script>
+    $('#customPagination')[0].style.setProperty('display', 'none', 'important');
+</script>
+
 <!-- Page-specific Scripts -->
 <script src="~/accounting/js/accountopening_detail.js"></script>
 <script src="~/js/forms-editors.dist.js"></script>
@@ -106,7 +111,7 @@
                                 {
                                     <ebit-row>
                                         <ebit-bodycolumn>
-                                            <ebit-select data="Details[@i].ActCode" data-url="UserWiseAccount"></ebit-select>
+                                            <ebit-select data="Details[@i].ActCode" data-params='{"natureId": 3}' data-url="UserWiseAccount"></ebit-select>
                                         </ebit-bodycolumn>
                                         <ebit-bodycolumn>
                                             <ebit-text data="Details[@i].Remarks"></ebit-text>
@@ -132,7 +137,8 @@
                         <template id="itemRowTemplate">
                             <ebit-row>
                                 <ebit-bodycolumn>
-                                    <ebit-select data="Details[INDEX].ActCode" data-url="UserWiseAccount"></ebit-select>
+                                    <ebit-select data="Details[INDEX].ActCode"  data-url="UserWiseAccount"></ebit-select>
+                                    @* <ebit-select data="Details[INDEX].ActCode" data-params='{"natureId": 3}' data-url="UserWiseAccount"></ebit-select> *@
                                 </ebit-bodycolumn>
                                 <ebit-bodycolumn>
                                     <ebit-text data="Details[INDEX].Remarks"></ebit-text>

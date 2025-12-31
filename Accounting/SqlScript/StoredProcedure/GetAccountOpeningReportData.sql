@@ -7,7 +7,7 @@ BEGIN
  
     SELECT 
         m.Id,
-        m.Date,
+        Convert(Date, m.Date) Date,
         m.Remarks AS MasterRemarks,
         m.BookCode,
         m.Companyname,

@@ -47,7 +47,9 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-
+<script>
+    $('#customPagination')[0].style.setProperty('display', 'none', 'important');
+</script>
 <!-- Page Header Buttons -->
 <ebit-section flex justify="between" align="center" mb="3" pt="3">
     <ebit-section>

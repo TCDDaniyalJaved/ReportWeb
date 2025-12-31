@@ -1,6 +1,6 @@
 ﻿// dataTableUtils.js
 let activeTables = new Map();
-let currentGroupBy = ''; 
+let currentGroupBy = '';
 
 // Generate columns from table headers - REUSABLE FUNCTION
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {

@@ -1,5 +1,4 @@
-﻿//working ebit-select.js
-class EbitSelect extends HTMLElement {
+﻿class EbitSelect extends HTMLElement {
     connectedCallback() {
         setTimeout(() => {
             this.render();
@@ -21,7 +20,6 @@ class EbitSelect extends HTMLElement {
             class="${classes}"
             style="width:100%"
             ${disabledAttr}> 
-
             <option value="" selected disabled hidden>
                 ${placeholder}
             </option>
@@ -30,21 +28,16 @@ class EbitSelect extends HTMLElement {
     `;
     }
 
-    // Helper method to generate URL from data attribute
     generateDataUrl() {
         let url = this.getAttribute('data-url');
 
-        // Agar data-url explicitly diya gaya hai
         if (url) {
-            // Agar relative path hai (slash se start nahi hota), toh base path add karo
             if (!url.startsWith('/') && !url.startsWith('http')) {
-                return `/Dropdawn/${url}`; // "/Dropdawn/UserWiseAccount"
+                return `/Dropdawn/${url}`;
             }
-            // Agar absolute path ya full URL hai, toh use as it is
             return url;
         }
 
-        // Agar data-url nahi hai, toh automatically generate karo
         const dataAttr = this.getAttribute('data');
         if (dataAttr) {
             const lastPart = dataAttr.split('.').pop();
@@ -54,25 +47,43 @@ class EbitSelect extends HTMLElement {
         return null;
     }
 
+    getExtraParams() {
+        const paramsAttr = this.getAttribute('data-params');
+        if (!paramsAttr) return {};
+
+        try {
+            return JSON.parse(paramsAttr);
+        } catch (e) {
+            console.error('Invalid JSON in data-params:', e);
+            return {};
+        }
+    }
+
     initSelect2() {
         const select = this.querySelector('select');
         const url = this.generateDataUrl();
         const placeholder = this.getAttribute('placeholder');
 
-        // Agar select disabled hai, toh select2 initialize mat karo
         if (this.hasAttribute('disabled')) {
             $(select).select2({
                 placeholder: placeholder,
                 dropdownParent: $(this),
-                disabled: true // Yahan bhi disabled karo
+                disabled: true
             });
-            return; // Function yahan se return ho jaye
-        }
-
-        // Normal process jab disabled nahi hai
-        if (!url) {
             return;
         }
+
+        if (!url) {
+            $(select).select2({
+                placeholder: placeholder,
+                dropdownParent: $(this)
+            });
+            return;
+        }
+
+        const extraParams = this.getExtraParams();
+        console.log('Extra Params:', extraParams);
+
 
         $(select).select2({
             placeholder: placeholder,
@@ -81,18 +92,28 @@ class EbitSelect extends HTMLElement {
                 url: url,
                 dataType: 'json',
                 delay: 250,
-                data: (params) => ({ term: params.term || '' }),
+                data: (params) => {
+                    const requestData = {
+                        term: params.term || ''
+                    };
+
+                    // Add extra parameters to request
+                    Object.keys(extraParams).forEach(key => {
+                        requestData[key] = extraParams[key];
+                    });
+
+                    return requestData;
+                },
                 processResults: (data) => ({
                     results: data.map(item => ({
                         id: item.id.toString(),
-                        text: item.name
+                        text: item.name || item.text
                     }))
                 }),
                 cache: true
             }
         });
 
-        // Validation ke liye change event
         $(select).on('change', () => {
             this.validate();
         });
@@ -102,53 +123,52 @@ class EbitSelect extends HTMLElement {
         const selectedId = this.getAttribute('selected');
         if (!selectedId) return;
 
-        const url = this.generateDataUrl(); // Updated: use generated URL
-
-        // Agar URL nahi hai, toh kuch na karo
-        if (!url) {
-            return;
-        }
+        const url = this.generateDataUrl();
+        if (!url) return;
 
         const select = this.querySelector('select');
-
+        const extraParams = this.getExtraParams();
 
         try {
-            // Try different parameter formats based on your API
-            const response = await fetch(`${url}?term=${selectedId}`);
+            // Build URL with all parameters
+            const urlObj = new URL(url, window.location.origin);
+            urlObj.searchParams.set('id', selectedId);
+
+            // Add extra parameters
+            Object.keys(extraParams).forEach(key => {
+                urlObj.searchParams.set(key, extraParams[key]);
+            });
+
+            const response = await fetch(urlObj.toString());
             const data = await response.json();
 
-
-            if (data && data.length > 0) {
-                // Find the item that matches our selectedId
-                const item = data.find(opt => opt.id.toString() === selectedId.toString());
-
-                if (item) {
-                    const option = new Option(item.text || item.name, item.id, true, true);
-                    $(select).append(option).trigger('change');
-                } else {
-                    this.loadSingleOption(selectedId);
-                }
+            if (data) {
+                const option = new Option(data.text || data.name, data.id, true, true);
+                $(select).append(option).trigger('change');
             } else {
-                this.loadSingleOption(selectedId);
+                await this.loadSingleOption(selectedId, extraParams);
             }
         } catch (err) {
-            this.loadSingleOption(selectedId);
+            await this.loadSingleOption(selectedId, extraParams);
         }
     }
 
-    // Fallback method to load single option
-    async loadSingleOption(selectedId) {
-        const url = this.generateDataUrl(); // Updated: use generated URL
-
-        if (!url) {
-            return;
-        }
+    async loadSingleOption(selectedId, extraParams = {}) {
+        const url = this.generateDataUrl();
+        if (!url) return;
 
         const select = this.querySelector('select');
 
         try {
-            // Try to get the specific item by ID
-            const response = await fetch(`${url}?id=${selectedId}`);
+            const urlObj = new URL(url, window.location.origin);
+            urlObj.searchParams.set('term', selectedId);
+
+            // Add extra parameters
+            Object.keys(extraParams).forEach(key => {
+                urlObj.searchParams.set(key, extraParams[key]);
+            });
+
+            const response = await fetch(urlObj.toString());
             const data = await response.json();
 
             if (data && data.length > 0) {
@@ -156,12 +176,10 @@ class EbitSelect extends HTMLElement {
                 const option = new Option(item.text || item.name, item.id, true, true);
                 $(select).append(option).trigger('change');
             } else {
-                // Last resort: create option with just the ID
                 const option = new Option(selectedId, selectedId, true, true);
                 $(select).append(option).trigger('change');
             }
         } catch (err) {
-            // Final fallback
             const option = new Option(selectedId, selectedId, true, true);
             $(select).append(option).trigger('change');
         }
@@ -172,9 +190,7 @@ class EbitSelect extends HTMLElement {
         const form = this.closest('form');
         if (!form) return;
 
-        // parse form for unobtrusive validation (dynamic rows)
         $.validator.unobtrusive.parse(form);
-
         const validator = $(form).data('validator');
         if (!validator) return;
 

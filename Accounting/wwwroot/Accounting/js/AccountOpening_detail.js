@@ -110,6 +110,7 @@ function addNewRow(makeNonRemovable = false) {
         if (makeNonRemovable) {
             $newRow.addClass('nonRemovable')
                 .find('.btn-icon').prop('disabled', true)
+                .removeAttr('onclick') 
                 .css({ opacity: 0.5, cursor: 'not-allowed' });
         }
     }, 50);
@@ -121,7 +122,7 @@ window.removeRow = function (btn) {
     const $row = $(btn).closest('tr');
     if ($row.hasClass('nonRemovable')) {
         showToast('warning', 'The first row cannot be deleted.');
-        return;
+        return false;
     }
     $row.remove();
 };

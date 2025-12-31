@@ -1,7 +1,8 @@
+using Accounting.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Accounting.Models;
 
 namespace Accounting.Controllers
 {
@@ -124,21 +125,25 @@ namespace Accounting.Controllers
 
             return Json(result);
         }
+        //Dropdawn/userWiseAccount?term=ABDUL%20BASIT
         [HttpGet]
-
-        public async Task<IActionResult> UserWiseAccount(string term, int? id)
+        public async Task<IActionResult> UserWiseAccount(string term, int? id, int? natureId)
         {
-            var query = await _procedures.GetUserWiseAccountAsync(1, 0);
+            int currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+
+            int finalNatureId = natureId ?? 0;
+
+            var query = await _procedures.GetUserWiseAccountAsync(currentUserId, finalNatureId);
 
             if (id.HasValue)
             {
                 var item = query
                     .Where(x => x.ID == id.Value)
-                    .Select(x => new { id = x.ID, name = x.Name })
-                    .ToList();
+                    .Select(x => new { id = x.ID, text = x.Name }) 
+                    .FirstOrDefault();
+
                 return Json(item);
             }
-
             if (!string.IsNullOrWhiteSpace(term))
             {
                 term = term.ToLower();
@@ -154,6 +159,37 @@ namespace Accounting.Controllers
 
             return Json(result);
         }
+
+        //[HttpGet]
+
+        //public async Task<IActionResult> UserWiseAccount(string term, int? id)
+        //{
+        //    var query = await _procedures.GetUserWiseAccountAsync(1, 0);
+
+        //    if (id.HasValue)
+        //    {
+        //        var item = query
+        //            .Where(x => x.ID == id.Value)
+        //            .Select(x => new { id = x.ID, name = x.Name })
+        //            .ToList();
+        //        return Json(item);
+        //    }
+
+        //    if (!string.IsNullOrWhiteSpace(term))
+        //    {
+        //        term = term.ToLower();
+        //        query = query
+        //                   .Where(a => a.Name != null && a.Name.ToLower().Contains(term))
+        //                 .ToList();
+        //    }
+
+        //    var result = query
+        //        .Select(x => new { id = x.ID, name = x.Name })
+        //        .Take(20)
+        //        .ToList();
+
+        //    return Json(result);
+        //}
         [HttpGet]
         public async Task<IActionResult> UserWiseCompany(string term, int userId)
         {
