@@ -14,7 +14,7 @@ namespace Accounting.Models
     public partial interface IwebappContextProcedures
     {
         Task<List<AccountOpeningVoucherResult>> AccountOpeningVoucherAsync(int? companyID, int? id, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<GetAccountOpeningReportDataResult>> GetAccountOpeningReportDataAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GetAccountOpeningReportDataResult>> GetAccountOpeningReportDataAsync(string searchValue, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<GetAllAccountsAllSubGroupResult>> GetAllAccountsAllSubGroupAsync(int? natureID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<getdumpdataliveResult>> getdumpdataliveAsync(string svalue1, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<getdumpdataofflineResult>> getdumpdataofflineAsync(string svalue, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);

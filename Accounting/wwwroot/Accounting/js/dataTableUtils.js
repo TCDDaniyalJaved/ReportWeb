@@ -95,10 +95,16 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
             };
         }
 
-        // Number formatting for amount/debit/credit columns
-        const amountFields = ['debit', 'credit', 'amount', 'balance', 'total'];
-        if (amountFields.includes(datafield)) {
-            colDef.render = $.fn.dataTable.render.number(',', '.', 2);
+        const isAmount = th.attr('isamount') === 'true';
+        if (isAmount) {
+            const currency = th.attr('currency') || '';
+            colDef.render = (data) =>
+                data != null
+                    ? `${currency}${Number(data).toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })}`
+                    : '';
             colDef.className = (colDef.className || '') + ' text-end';
         }
 

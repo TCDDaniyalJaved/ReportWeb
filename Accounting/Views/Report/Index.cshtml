@@ -132,9 +132,9 @@
                         <!-- Records Per Page Selector -->
                         <select id="groupBySelect" class="form-select form-select-sm" style="width: auto;"multiple>
                             <option value="">No Grouping</option>
-                            <option value="Date">Group by Date</option>
-                            <option value="Voucher" selected>Group by Voucher</option>
+                            <option value="Voucher" >Group by Voucher</option>
                             <option value="Companyname" >Group by Company</option>
+                            <option value="Date">Group by Date</option>
                         </select>
                         
                     </ebit-section>
@@ -155,9 +155,9 @@
                                         <ebit-headcolumn datafield="Date" header="Date" width="15%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="Voucher" header="Voucher" width="25%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="Companyname" header="Company" width="15%"></ebit-headcolumn>
-                                        <ebit-headcolumn datafield="TotalSeqNo" header="#" width="10%"></ebit-headcolumn>
-                                        <ebit-headcolumn datafield="TotalDebit" header="Total Debit" width="15%"></ebit-headcolumn>
-                                        <ebit-headcolumn datafield="DetailCredit" header="Total Credit" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="TotalSeqNo" isamount="true" header="#" width="10%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="TotalDebit" isamount="true" header="Total Debit" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="DetailCredit" isamount="true" header="Total Credit" width="15%"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>
                             </ebit-table>

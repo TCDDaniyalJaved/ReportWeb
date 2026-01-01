@@ -130,7 +130,7 @@ customElements.define("ebit-row", EbitRow);
 // ------------------ EbitColumn ------------------
 class EbitHeadcolumn extends HTMLElement {
     static get observedAttributes() {
-        return ["align", "width", "sortable", "datafield", "header", "render", "active"];
+        return ["align", "width", "sortable", "datafield", "header", "render", "active", "isamount","currency"];
     }
 
     connectedCallback() {
@@ -168,6 +168,13 @@ class EbitHeadcolumn extends HTMLElement {
         if (active === "false") {
             th.setAttribute("data-active", "false"); // DataTables will check it
         }
+
+
+        ["datafield", "render", "isamount", "currency"].forEach(attr => {
+            if (this.hasAttribute(attr)) {
+                th.setAttribute(attr, this.getAttribute(attr));
+            }
+        });
 
         // ---- DataTables helper attributes to pass along ----
         ["datafield", "render"].forEach(attr => {

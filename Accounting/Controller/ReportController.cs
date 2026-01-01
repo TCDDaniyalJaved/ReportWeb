@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json; 
 using System.Data;
 using System.Data.SqlClient;
-using Newtonsoft.Json; 
 
 public class ReportController : Controller
 {
@@ -24,11 +24,13 @@ public class ReportController : Controller
     {
         return View();
     }
-    public JsonResult GetData()
+    public JsonResult GetData(string customSearch)
     {
         try
         {
             string connectionString = _configuration.GetConnectionString("Default");
+
+             
             var data = new List<Dictionary<string, object>>();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -36,6 +38,8 @@ public class ReportController : Controller
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("GetAccountOpeningReportData", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SearchValue", string.IsNullOrEmpty(customSearch) ? (object)DBNull.Value : customSearch);
+
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {

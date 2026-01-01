@@ -1,32 +1,33 @@
-﻿// dataTableUtils.js
-let activeTables = new Map();
-let currentGroupBy = ''; 
+﻿let activeTables = new Map();
 
-// Generate columns from table headers - REUSABLE FUNCTION
+let groupBySelectionOrder = [];
+
+// ==================== COLUMN GENERATION FROM HEADERS ====================
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     const columns = [];
 
     $(`${tableSelector} thead th`).each(function () {
-        const th = $(this);
-        const datafield = th.attr('datafield');
-        const header = th.attr('header') || th.text().trim();
-        const width = th.attr('width');
-        const align = th.attr('align');
-        const active = th.attr('active') !== 'false';
-        const renderType = th.attr('render');
+        const $th = $(this);
+        const datafield = $th.attr('datafield');
+        const header = $th.attr('header') || $th.text().trim();
+        const width = $th.attr('width');
+        const align = $th.attr('align');
+        const isActive = $th.attr('active') !== 'false';
 
-        const colDef = { title: header };
+        const colDef = {
+            title: header,
+            visible: isActive,
+            width: width || undefined,
+        };
 
-        if (!active) colDef.visible = false;
-        if (width) colDef.width = width;
-
-        // Alignment classes
+        // Alignment handling
         if (align) {
-            const alignment = align === 'right' ? 'end' :
-                align === 'center' ? 'center' : 'start';
-            colDef.className = `text-${alignment}`;
+            const alignMap = { right: 'end', center: 'center', left: 'start' };
+            const textAlign = alignMap[align.toLowerCase()] || 'start';
+            colDef.className = `text-${textAlign}`;
         }
 
+        // Data mapping
         if (datafield) {
             colDef.data = datafield;
         } else {
@@ -34,81 +35,18 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
             colDef.orderable = false;
         }
 
-        // Edit button column
-        if (renderType === 'edit') {
-            colDef.render = (data, type, row) =>
-                `<button class="btn btn-icon btn-sm edit-btn" title="Edit"
-                    data-id="${row.id || ''}"
-                    data-voucher="${row.voucher || ''}"
-                    data-compprefix="${row.prefix || ''}">
-                    <i class="bx bx-edit"></i>
-                </button>`;
-        }
-
-        // Action buttons column
-        else if (renderType === 'deleteprint') {
-            colDef.render = (data, type, row) => `
-                <button class="btn btn-icon btn-sm delete-btn me-1" title="Delete" 
-                    data-id="${row.id || ''}">
-                    <i class="bx bx-trash"></i>
-                </button>
-                <button class="btn btn-icon btn-sm print-btn" title="Print"
-                    data-id="${row.id || ''}" 
-                    data-voucher="${row.voucher || ''}" 
-                    data-compprefix="${row.prefix || ''}">
-                    <i class="bx bx-printer"></i>
-                </button>`;
-        }
-        else if (renderType === 'print') {
-            colDef.render = (data, type, row) => `
-                <button class="btn btn-icon btn-sm print-btn" title="Print"
-                    data-id="${row.id || ''}" 
-                    data-voucher="${row.voucher || ''}" 
-                    data-compprefix="${row.prefix || ''}">
-                    <i class="bx bx-printer"></i>
-                </button>`;
-        }
-        else if (renderType === 'delete') {
-            colDef.render = (data, type, row) => `
-                <button class="btn btn-icon btn-sm delete-btn me-1" title="Delete" 
-                    data-id="${row.id || ''}">
-                    <i class="bx bx-trash"></i>
-                </button>`;
-        }
-        else if (renderType === 'empty') {
-            colDef.render = (data, type, row) => ``;
-        }
-        // Checkbox column
-        else if (renderType === 'checkbox') {
-            colDef.render = () =>
-                '<input type="checkbox" class="row-selector form-check-input">';
-            colDef.orderable = false;
-        }
-
-        // Status column with badges
-        else if (renderType === 'status') {
-            colDef.render = (data, type, row) => {
-                const status = row.status || data;
-                const badgeClass = status === 'Active' ? 'badge bg-success' :
-                    status === 'Inactive' ? 'badge bg-danger' :
-                        'badge bg-secondary';
-                return `<span class="${badgeClass}">${status}</span>`;
-            };
-        }
-
-        // Number formatting for amount/debit/credit columns
-        const amountFields = ['debit', 'credit', 'amount', 'balance', 'total'];
-        if (amountFields.includes(datafield)) {
+        // Auto-format: Financial amounts
+        const amountKeywords = ['debit', 'credit', 'amount', 'balance'];
+        if (datafield && amountKeywords.some(k => datafield.toLowerCase().includes(k))) {
             colDef.render = $.fn.dataTable.render.number(',', '.', 2);
             colDef.className = (colDef.className || '') + ' text-end';
         }
 
-        // Date formatting
-        if (datafield && (datafield.includes('date') || datafield.includes('Date'))) {
+        // Auto-format: Dates (Indian format)
+        if (datafield && /date/i.test(datafield)) {
             colDef.render = (data) => {
                 if (!data) return '';
-                const date = new Date(data);
-                return date.toLocaleDateString('en-IN');
+                return new Date(data).toLocaleDateString('en-IN');
             };
         }
 
@@ -118,12 +56,101 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     return columns;
 }
 
-// Main DataTable initialization function 
-export function initializeDataTable(
-    endpoint,
-    tableSelector = '#masterTable',
-    options = {}
-) {
+// ==================== GET GROUPING FIELDS IN USER'S SELECTION ORDER ====================
+function getGroupByFieldsInOrder() {
+    return groupBySelectionOrder;
+}
+
+// ==================== CREATE GROUP HEADER ROW ====================
+function createGroupHeaderRow(field, value, count, level, totalColumns) {
+    const fieldName = field.charAt(0).toUpperCase() + field.slice(1);
+    const displayValue = value || '(Blank)';
+    const headerText = `${fieldName}: ${displayValue} ${count > 0 ? `(${count})` : ''}`;
+
+    return $(`
+        <tr class="group-row level-${level}">
+            <td colspan="${totalColumns}">
+                <span class="toggle-icon" style="display:inline-block; width:20px; text-align:center;">
+                    <i class="bx bx-chevron-down"></i>
+                </span>
+                <span>${headerText}</span>
+            </td>
+        </tr>
+    `);
+}
+
+// ==================== COUNT RECORDS IN CURRENT GROUP LEVEL ====================
+function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, currentGroupValues) {
+    let count = 0;
+    for (let i = startIndex; i < rowDataArray.length; i++) {
+        const rowData = rowDataArray[i];
+        let stillInGroup = true;
+
+        for (let l = 0; l <= level; l++) {
+            const field = groupByFields[l];
+            const expected = l === level ? currentGroupValues[level] : currentGroupValues[l];
+            const actual = rowData[field] ?? '(Blank)';
+            if (expected !== actual) {
+                stillInGroup = false;
+                break;
+            }
+        }
+
+        if (!stillInGroup) break;
+        count++;
+    }
+    return count;
+}
+
+// ==================== SETUP COLLAPSE/EXPAND FOR GROUP ROWS ====================
+function setupGroupRowToggle() {
+    $('#masterTable tbody').off('click', 'tr.group-row').on('click', 'tr.group-row', function () {
+        const $groupRow = $(this);
+        const levelMatch = this.className.match(/level-(\d+)/);
+        if (!levelMatch) return;
+        const level = parseInt(levelMatch[1]);
+
+        const isCollapsed = $groupRow.hasClass('collapsed');
+        const $icon = $groupRow.find('.toggle-icon i');
+
+        // Toggle icon and class
+        if (isCollapsed) {
+            $icon.removeClass('bx-chevron-right').addClass('bx-chevron-down');
+            $groupRow.removeClass('collapsed');
+        } else {
+            $icon.removeClass('bx-chevron-down').addClass('bx-chevron-right');
+            $groupRow.addClass('collapsed');
+        }
+
+        // Traverse next rows and hide/show accordingly
+        let $next = $groupRow.next();
+        while ($next.length) {
+            if ($next.hasClass('group-row')) {
+                const nextLevelMatch = $next[0].className.match(/level-(\d+)/);
+                if (!nextLevelMatch) break;
+                const nextLevel = parseInt(nextLevelMatch[1]);
+
+                if (nextLevel <= level) break;
+
+                // Nested group rows: follow parent state
+                if (isCollapsed) {
+                    $next.show().removeClass('collapsed');
+                    $next.find('.toggle-icon i').removeClass('bx-chevron-right').addClass('bx-chevron-down');
+                } else {
+                    $next.hide().addClass('collapsed');
+                    $next.find('.toggle-icon i').removeClass('bx-chevron-down').addClass('bx-chevron-right');
+                }
+            } else {
+                // Regular data rows
+                $next.toggle(isCollapsed);
+            }
+            $next = $next.next();
+        }
+    });
+}
+
+// ==================== MAIN DATATABLE INITIALIZATION ====================
+export function initializeDataTable(endpoint, tableSelector = '#masterTable', options = {}) {
     const {
         columns = generateColumnsFromHeaders(tableSelector),
         pageLength = 7,
@@ -133,7 +160,7 @@ export function initializeDataTable(
     const $table = $(tableSelector);
     if (!$table.length) return null;
 
-    // Reinitialize if exists
+    // Destroy existing instance
     if ($.fn.DataTable.isDataTable(tableSelector)) {
         $table.DataTable().destroy();
         $table.empty();
@@ -144,38 +171,31 @@ export function initializeDataTable(
         scrollX: true,
         serverSide: true,
         paging: true,
-        dom: 't', // hide default pagination
+        dom: 't', // Only table, no default controls
         pageLength,
         searching: false,
         ordering: true,
         info: false,
-
         ajax: {
             url: endpoint,
             type: 'POST',
             data: function (d) {
                 const len = parseInt($('#sharedLength').val()) || pageLength;
                 const currentPage = parseInt($('#pageInfo').data('page')) || 1;
-
                 d.start = (currentPage - 1) * len;
                 d.length = len;
                 d.customSearch = $('#universalSearch').val() || '';
-
                 const token = $('input[name="__RequestVerificationToken"]').val();
                 if (token) d.__RequestVerificationToken = token;
             }
         },
-
         columns,
-
         drawCallback: function () {
-            // Remove old group rows and collapse states
+            // Clean previous grouping
             $('#masterTable tbody tr.group-row').remove();
-            $('#masterTable tbody tr').removeClass('d-none').show();
+            $('#masterTable tbody tr').show();
 
-            let selectedFields = $('#groupBySelect').val() || [];
-            if (!Array.isArray(selectedFields)) selectedFields = [selectedFields];
-            const groupByFields = selectedFields.filter(f => f);
+            const groupByFields = getGroupByFieldsInOrder();
 
             if (groupByFields.length === 0) {
                 updateCustomPagination(table);
@@ -184,289 +204,86 @@ export function initializeDataTable(
             }
 
             const rows = table.rows({ page: 'current' }).nodes();
-            let lastGroup = [];
+            const rowDataArray = rows.toArray().map(node => table.row(node).data());
+            const totalColumns = table.columns().count();
+            const lastGroupValues = [];
 
-            $.each(rows, function () {
-                const rowData = table.row(this).data();
+            rows.toArray().forEach((rowNode, index) => {
+                const rowData = rowDataArray[index];
                 if (!rowData) return;
 
-                let insertAt = this;
-
-                groupByFields.forEach((field, index) => {
+                groupByFields.forEach((field, level) => {
                     const value = rowData[field] ?? '(Blank)';
-                    const currentKey = lastGroup.slice(0, index).join('|') + '|' + value;
 
-                    // Agar yeh level ka group change hua hai
-                    if (lastGroup[index] !== value) {
-                        const displayValue = value || '(Blank)';
-                        const headerText = field.charAt(0).toUpperCase() + field.slice(1) + ': ' + displayValue;
+                    if (lastGroupValues[level] !== value) {
+                        const currentGroupValues = [...lastGroupValues.slice(0, level), value];
+                        const count = countRecordsInGroup(rowDataArray, index, groupByFields, level, currentGroupValues);
 
-                        const groupRow = $(`
-                    <tr class="group-row level-${index}" data-group-key="${currentKey}">
-                        <td colspan="${table.columns().count()}">
-                            <span class="toggle-icon">▼</span>
-                            <span>${headerText}</span>
-                        </td>
-                    </tr>
-                `);
+                        const groupRow = createGroupHeaderRow(field, value, count, level, totalColumns);
+                        $(rowNode).before(groupRow);
 
-                        // Insert before current row
-                        $(insertAt).before(groupRow);
+                        lastGroupValues[level] = value;
 
-                        // Update lastGroup
-                        lastGroup[index] = value;
                         // Reset deeper levels
-                        for (let j = index + 1; j < groupByFields.length; j++) {
-                            lastGroup[j] = undefined;
+                        for (let j = level + 1; j < groupByFields.length; j++) {
+                            lastGroupValues[j] = undefined;
                         }
                     }
                 });
             });
 
-            // Ab click handler attach karo (sirf naye group rows par)
-            $('#masterTable tbody').off('click', 'tr.group-row').on('click', 'tr.group-row', function () {
-                const $groupRow = $(this);
-                const groupKeyPrefix = $groupRow.data('group-key') + '|';
-
-                let isCollapsed = $groupRow.hasClass('collapsed');
-
-                // Toggle collapse class
-                $groupRow.toggleClass('collapsed', !isCollapsed);
-
-                // Icon change
-                $groupRow.find('.toggle-icon').text(isCollapsed ? '▼' : '▶');
-
-                // Find all child rows that belong to this group (next rows until next group at same/same level)
-                let $next = $groupRow.next();
-                while ($next.length && !$next.hasClass('group-row')) {
-                    $next.toggle(!isCollapsed ? false : true); // hide if collapsing
-                    $next = $next.next();
-                }
-
-                // Agar multi-level hai to deeper groups bhi handle karo
-                if (groupByFields.length > 1) {
-                    let level = parseInt($groupRow.attr('class').match(/level-(\d+)/)[1]);
-                    let $sibling = $groupRow.next();
-
-                    while ($sibling.length) {
-                        if ($sibling.hasClass('group-row')) {
-                            let siblingLevel = parseInt($sibling.attr('class').match(/level-(\d+)/)[1]);
-                            if (siblingLevel <= level) break; // higher or same level group found → stop
-                        }
-                        $sibling.toggle(!isCollapsed ? true : false);
-                        $sibling = $sibling.next();
-                    }
-                }
-            });
-
+            setupGroupRowToggle();
             updateCustomPagination(table);
             callbacks.onDraw?.();
         }
-
     });
 
-    // Search
+    // ==================== UNIVERSAL SEARCH ====================
     $('#universalSearch').off('keyup').on('keyup', function () {
         $('#pageInfo').data('page', 1);
         table.ajax.reload();
     });
 
-    // Page length
-    $('#sharedLength').off('change').on('change', function () {
-        $('#pageInfo').data('page', 1);
-        table.ajax.reload();
-    });
-
-    // Pagination buttons
-    $('#prevPage').off('click').on('click', function () {
-        let page = $('#pageInfo').data('page') || 1;
-        if (page > 1) {
-            $('#pageInfo').data('page', page - 1);
-            table.ajax.reload();
-        }
-    });
-
-    $('#nextPage').off('click').on('click', function () {
-        let page = $('#pageInfo').data('page') || 1;
-        let total = $('#pageInfo').data('total') || 1;
-        if (page < total) {
-            $('#pageInfo').data('page', page + 1);
-            table.ajax.reload();
-        }
-    });
-
+    // ==================== GROUP BY SELECTION WITH ORDER TRACKING ====================
     $('#groupBySelect').off('change').on('change', function () {
-        currentGroupBy = $(this).val() || '';
+        const currentlySelected = $(this).val() || [];
+
+        // Remove deselected fields
+        groupBySelectionOrder = groupBySelectionOrder.filter(field =>
+            currentlySelected.includes(field)
+        );
+
+        // Add newly selected fields to the end (preserves selection order)
+        const newlySelected = currentlySelected.filter(field =>
+            !groupBySelectionOrder.includes(field)
+        );
+        groupBySelectionOrder.push(...newlySelected);
+
         $('#pageInfo').data('page', 1);
         table.ajax.reload();
     });
+
+    // Initialize order on page load if pre-selected
+    const preSelected = $('#groupBySelect').val();
+    if (preSelected && preSelected.length > 0) {
+        groupBySelectionOrder = [...preSelected]; // fallback to DOM order initially
+    }
 
     activeTables.set(tableSelector, table);
     return table;
 }
 
-
-// Initialize stepper
+// ==================== STEPPER INITIALIZATION ====================
 export function initStepper() {
     const el = document.querySelector('#wizardStepper');
-    if (el) window.stepper = new Stepper(el, { linear: false });
-    return window.stepper;
-}
-
-// Load form for create/edit
-export function loadForm(basePath, mode, id = null, voucherNo = null, compprefix = null) {
-    const url = mode === 'create'
-        ? `${basePath}/Create`
-        : `${basePath}/Edit/${id}`;
-
-    const newPath = mode === 'create'
-        ? `${basePath}/Create`
-        : `${basePath}/${voucherNo}-${compprefix}`;
-
-    window.history.pushState({ mode, id }, '', newPath);
-
-    $('#personal-info').css('background-color', 'var(--bs-body-bg)');
-    $('#btnCreate').removeClass('btn-primary').addClass('btn-outline-primary btn-sm shadow-none');
-    $('#universalSearch, #sharedLength, #customPagination, .input-group-text').hide();
-
-    $.get(url).done(html => {
-        $('#personal-info').html(html);
-        if (window.stepper) window.stepper.to(2);
-    });
-}
-
-// Handle direct URL navigation
-export function handleDirectUrl(basePath) {
-    const parts = location.pathname.split('/').filter(p => p);
-    const action = parts.pop();
-    const maybeId = parts.pop();
-
-    if (action === 'Create') loadForm(basePath, 'create');
-    else if (action === 'Edit' && maybeId) loadForm(basePath, 'edit', maybeId);
-}
-
-// Return to list view
-export function goBackToList(table, basePath) {
-    $('#personal-info').empty();
-    $('#btnCreate').removeClass('btn-outline-primary btn-sm shadow-none').addClass('btn-primary');
-    $('#universalSearch, #sharedLength, #customPagination, .input-group-text').show();
-
-    if (window.stepper) window.stepper.to(1);
-
-    if ($.fn.DataTable.isDataTable('#masterTable')) {
-        table.clear().destroy();
+    if (el) {
+        window.stepper = new Stepper(el, { linear: false });
+        return window.stepper;
     }
-
-    $('#masterTable tbody').empty();
-
-    window.history.pushState({}, '', `${basePath}/list`);
-    location.reload();
+    return null;
 }
 
-// Handle create button click
-export function handleCreateButton(basePath) {
-    $('#btnCreate').off('click').on('click', () => loadForm(basePath, 'create'));
-}
-
-// Handle row actions (edit, delete, print)
-export function handleRowActions(basePath, callbacks = {}) {
-    $(document).off('click', '#masterTable .edit-btn, #masterTable .delete-btn, #masterTable .print-btn');
-
-    // Edit button
-    $(document).on('click', '#masterTable .edit-btn', function (e) {
-        e.stopPropagation();
-        const id = $(this).data('id');
-        const voucher = $(this).data('voucher');
-        const compprefix = $(this).data('compprefix');
-        if (id) loadForm(basePath, 'edit', id, voucher, compprefix);
-    });
-
-    // Delete button
-    $(document).on('click', '#masterTable .delete-btn', function () {
-        const id = $(this).data('id');
-        if (id) {
-            Swal.fire({
-                title: 'Delete Record?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Delete',
-                cancelButtonText: 'Cancel'
-            }).then(result => {
-                if (result.isConfirmed) {
-                    const $row = $(this).closest('tr');
-                    $.post(`${basePath}/Delete`, { id })
-                        .done(res => {
-                            if (res.success) {
-                                showToast('Success', 'Deleted!', 'success');
-                                if (callbacks.onDelete) callbacks.onDelete(id, $row);
-                            } else {
-                                showToast('Error', res.message || 'Failed', 'error');
-                            }
-                        })
-                        .fail(() => showToast('Error', 'Server Error', 'error'));
-                }
-            });
-        }
-    });
-
-    // Print button
-    $(document).on('click', '#masterTable .print-btn', function () {
-        const id = $(this).data('id');
-        if (id) {
-            if (callbacks.onPrint) {
-                callbacks.onPrint(id);
-            } else {
-                window.open(`${basePath}/Pdf/${id}`, '_blank');
-            }
-        }
-    });
-}
-
-// Update custom pagination UI
+// ==================== HELPER: UPDATE TOTAL RECORDS ====================
 function updateCustomPagination(table) {
-    if (!table) return;
-
-    const info = table.page.info ? table.page.info() : { recordsDisplay: 0, pages: 1, page: 0 };
-    const len = parseInt($('#sharedLength').val()) || table.page.len();
-    const totalRecords = info.recordsDisplay || 0;
-    const totalPages = Math.ceil(totalRecords / len) || 1;
-    const currentPage = $('#pageInfo').data('page') || 1;
-
-    // Update page display
-    $('#pageInfo').text(`${currentPage} / ${totalPages}`);
-    $('#pageInfo').data('total', totalPages);
-
-    // Enable/disable buttons
-    $('#prevPage').prop('disabled', currentPage <= 1);
-    $('#nextPage').prop('disabled', currentPage >= totalPages);
-
-    // Toggle pagination visibility
-    $('#customPagination').toggleClass('d-none', totalRecords === 0);
-}
-
-// Show toast notification
-export function showToast(title = '', text = 'Saved!', icon = 'success') {
-    Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon,
-        title: text,
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer);
-            toast.addEventListener('mouseleave', Swal.resumeTimer);
-        }
-    });
-}
-
-// Destroy all active tables
-export function destroyAllTables() {
-    activeTables.forEach((table, selector) => {
-        if ($.fn.DataTable.isDataTable(selector)) {
-            table.destroy();
-        }
-    });
-    activeTables.clear();
+    $('#totalRecords').text(table.page.info().recordsDisplay || 0);
 }

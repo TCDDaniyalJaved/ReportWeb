@@ -75,7 +75,7 @@ namespace Accounting.Models
             return _;
         }
 
-        public virtual async Task<List<GetAccountOpeningReportDataResult>> GetAccountOpeningReportDataAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<GetAccountOpeningReportDataResult>> GetAccountOpeningReportDataAsync(string searchValue, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -86,9 +86,16 @@ namespace Accounting.Models
 
             var sqlParameters = new []
             {
+                new SqlParameter
+                {
+                    ParameterName = "SearchValue",
+                    Size = 200,
+                    Value = searchValue ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<GetAccountOpeningReportDataResult>("EXEC @returnValue = [dbo].[GetAccountOpeningReportData]", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<GetAccountOpeningReportDataResult>("EXEC @returnValue = [dbo].[GetAccountOpeningReportData] @SearchValue = @SearchValue", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
