@@ -25,6 +25,7 @@ wwwroot\Accounting\js\dummy.js
 wwwroot\Accounting\js\DummyAccountOpening.js
 wwwroot\Accounting\js\DummyTrialBalance.js
 wwwroot\Accounting\js\ebit-components.js
+wwwroot\Accounting\js\ItemReport.js
 wwwroot\Accounting\js\OpeningMaster.js
 wwwroot\Accounting\js\OpeningMasterDemo.js
 wwwroot\Accounting\js\PerivousDatatableUtilis.js

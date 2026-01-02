@@ -180,13 +180,8 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
             url: endpoint,
             type: 'POST',
             data: function (d) {
-                const len = parseInt($('#sharedLength').val()) || pageLength;
-                const currentPage = parseInt($('#pageInfo').data('page')) || 1;
-                d.start = (currentPage - 1) * len;
-                d.length = len;
                 d.customSearch = $('#universalSearch').val() || '';
-                const token = $('input[name="__RequestVerificationToken"]').val();
-                if (token) d.__RequestVerificationToken = token;
+                d.groupByFields = $('#groupBySelect').val() || [];
             }
         },
         columns,
