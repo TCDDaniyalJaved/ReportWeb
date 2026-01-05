@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "ContainingType": "Accounting.Controllers.ReportsController",
+    "Method": "GetData",
+    "RelativePath": "api/Reports/GetData",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Accounting.DTOs.ReportRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

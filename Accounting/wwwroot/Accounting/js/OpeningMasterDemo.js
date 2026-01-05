@@ -5,12 +5,12 @@ import {
     initStepper
 } from './ReportdataTableUtilsDemo.js';
 
-const BASE_PATH = '/Report';
+const BASE_PATH = '/Accounting/Report';
 let table;
 
 $(document).ready(() => {
     initStepper();
-    table = initializeDataTable(`${BASE_PATH}/GetData`, '#masterTable', {
+    table = initializeDataTable(`${BASE_PATH}/GetData2`, '#masterTable', {
         callbacks: {
             onDraw: () => {
                 handleRowActions(BASE_PATH, {

@@ -1,0 +1,302 @@
+﻿@{
+    /* Page Layout */
+    Layout = "_HorizontalLayout";
+}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+@section VendorStyles {
+    @await Html.PartialAsync("_VendorStyles")
+}
+
+@section VendorScripts {
+    @await Html.PartialAsync("_VendorScripts")
+}
+
+@section PageScripts {
+    <script type="module" src="/Accounting/js/OpeningMaster.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleIcon = document.getElementById("searchFilterToggle");
+            const dropdown = document.getElementById("advancedDropdown");
+
+            if (!toggleIcon || !dropdown) return;
+
+            toggleIcon.addEventListener("click", function (e) {
+                e.stopPropagation();
+                dropdown.classList.toggle("d-none");
+            });
+
+            document.addEventListener("click", function (e) {
+                if (!e.target.closest(".input-group")) {
+                    dropdown.classList.add("d-none");
+                }
+            });
+
+            // Handle Group By clicks
+            document.querySelectorAll("[data-group]").forEach(item => {
+                item.addEventListener("click", function () {
+                    const groupBy = this.dataset.group;
+                    console.log("Group By:", groupBy);
+                    // TODO: call your grouping function here
+                });
+            });
+
+            // Handle Filter clicks (optional)
+            document.querySelectorAll("[data-filter]").forEach(item => {
+                item.addEventListener("click", function () {
+                    const filter = this.dataset.filter;
+                    console.log("Filter:", filter);
+                    // TODO: call your filter function here
+                });
+            });
+        });
+    </script>
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+<style>
+    .advanced-dropdown {
+        position: absolute;
+        top: 110%;
+        right: 0;
+        width: 760px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        display: flex;
+        z-index: 9999;
+    }
+
+        .advanced-dropdown .col {
+            flex: 1;
+            padding: 16px;
+        }
+
+            .advanced-dropdown .col:not(:last-child) {
+                border-right: 1px solid #eee;
+            }
+
+        .advanced-dropdown h6 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .advanced-dropdown ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .advanced-dropdown li {
+            padding: 6px 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+            .advanced-dropdown li:hover {
+                color: #0d6efd;
+            }
+
+        .advanced-dropdown .add {
+            color: #0d6efd;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+    /* Existing group-row styles */
+    .group-row {
+        background-color: #f8f9fa !important;
+        border-left: 4px solid #0d6efd;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-weight: 600;
+    }
+
+        .group-row:hover {
+            background-color: #e9ecef !important;
+        }
+
+        .group-row .toggle-icon {
+            font-weight: bold;
+            margin-right: 8px;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+
+        .group-row.collapsed .toggle-icon {
+            transform: rotate(-90deg); /* ▼ ko ▶ banane ke liye */
+        }
+
+        /* Level-wise different colors */
+        .group-row.level-0 {
+            border-left-color: #0d6efd;
+        }
+
+        .group-row.level-1 {
+            border-left-color: #6c757d;
+            padding-left: 30px;
+        }
+
+        .group-row.level-2 {
+            border-left-color: #20c997;
+            padding-left: 50px;
+        }
+
+        .group-row.level-3 {
+            border-left-color: #fd7e14;
+            padding-left: 70px;
+        }
+</style>
+
+<ebit-section p="0" m="0">
+    <div id="wizardStepper" class="bs-stepper wizard-numbered" style="box-shadow:none;">
+
+        <!-- Wizard Header (Hidden) -->
+        <ebit-section class="bs-stepper-header d-none">
+            <ebit-section class="step" data-target="#account-details">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+            <ebit-section class="line"><i class="bx bx-chevron-right"></i></ebit-section>
+            <ebit-section class="step" data-target="#personal-info">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+        </ebit-section>
+
+        <!-- Wizard Content -->
+        <ebit-section class="bs-stepper-content p-0 m-0">
+
+            <!-- Page Header Section -->
+            <ebit-section class="d-flex justify-content-between align-items-center pb-3 flex-wrap create-header w-100 px-5 pt-3">
+                <ebit-section class="d-flex align-items-center justify-content-between flex-wrap w-100" id="pageHeader">
+
+                    <!-- Left Section: Create Button + Title -->
+                    <ebit-section class="d-flex align-items-start gap-3">
+                        <div>
+                            <!-- Main Heading -->
+                            <h4 class="mb-1 fw-bold d-flex align-items-center gap-2">
+                                Account Opening
+                                <i class="bx bx-cog text-muted" style="cursor:pointer; font-size:1.1rem;"></i>
+                            </h4>
+
+                            <!-- Sub Heading -->
+                            <h6 class="mb-0 text-muted fw-normal">
+                                Account Opening
+                            </h6>
+                        </div>
+                    </ebit-section>
+
+                    <!-- Center Section: Universal Search Bar -->
+                    <ebit-section class="input-group" style="width: 100%; max-width: 560px; position:relative;">
+
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="bx bx-search text-muted"></i>
+                        </span>
+
+                        <input type="search"
+                               id="universalSearch"
+                               class="form-control border-start-0 border-end-0"
+                               placeholder="Search by voucher, date, amount..."
+                               style="height: 44px; font-size: 0.95rem;">
+
+                        <!-- 🔽 END ICON -->
+                        <span class="input-group-text bg-white border-start-0"
+                              id="searchFilterToggle"
+                              style="cursor:pointer;">
+                            <i class="bx bx-filter-alt text-muted"></i>
+                        </span>
+
+                        <!-- Advanced Dropdown -->
+                        <div id="advancedDropdown" class="advanced-dropdown d-none" style="right:0;">
+                            <!-- Filters -->
+                            <div class="col">
+                                <h6><i class="bx bx-filter"></i> Filters</h6>
+                                <ul>
+                                    <li data-filter="Individuals">Individuals</li>
+                                    <li data-filter="Companies">Companies</li>
+                                    <li data-filter="Employees">Employees</li>
+                                    <li data-filter="CustomerInvoices">Customer Invoices</li>
+                                    <li data-filter="VendorBills">Vendor Bills</li>
+                                    <li class="add">+ Add Custom Filter</li>
+                                </ul>
+                            </div>
+
+                            <!-- Group By -->
+                            <div class="col">
+                                <h6><i class="bx bx-grid-alt"></i> Group By</h6>
+                                <ul>
+                                    <li data-group="Voucher">Voucher</li>
+                                    <li data-group="Companyname">Company</li>
+                                    <li data-group="Date">Date</li>
+                                    <li class="add">+ Add Custom Group</li>
+                                </ul>
+                            </div>
+
+                            <!-- Favorites -->
+                            <div class="col">
+                                <h6><i class="bx bx-star"></i> Favorites</h6>
+                                <ul>
+                                    <li>Save current search</li>
+                                    <li>Daniyal Javadia</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </ebit-section>
+
+                    <!-- Right Section: Pagination & Length Menu -->
+                    <ebit-section class="d-flex align-items-center gap-3">
+
+                        <!-- Pagination Controls -->
+                        <ebit-section id="customPagination" class="d-none d-flex align-items-center gap-2">
+                            <button class="btn btn-sm btn-outline-primary rounded" id="prevPage">
+                                <i class="bx bx-chevron-left"></i>
+                            </button>
+                            <span id="pageInfo" class="fw-medium text-primary px-2">1 / 2</span>
+                            <button class="btn btn-sm btn-outline-primary rounded" id="nextPage">
+                                <i class="bx bx-chevron-right"></i>
+                            </button>
+                        </ebit-section>
+                    </ebit-section>
+                </ebit-section>
+            </ebit-section>
+
+            <!-- Table Section -->
+            <ebit-section id="account-details" class="content">
+                <ebit-section id="innerWizard" class="wizard">
+                    <ebit-section class="wizard-content p-0 m-0">
+
+                        <ebit-section id="inner-step1" class="wizard-step p-0 m-0">
+                            <ebit-table id="masterTable" class="table bg-white mt-0 pt-0">
+
+                                <!-- Table Header -->
+                                <ebit-head class="border-top" style="background-color:#F9FAFB;">
+                                    <ebit-row>
+                                        <ebit-headcolumn datafield="Date" header="Date" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="Voucher" header="Voucher" width="25%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="Companyname" header="Company" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="TotalSeqNo" header="#" width="10%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="TotalDebit" isamount="true" header="Total Debit" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="DetailCredit" isamount="true" header="Total Credit" width="15%"></ebit-headcolumn>
+                                    </ebit-row>
+                                </ebit-head>
+                            </ebit-table>
+                        </ebit-section>
+
+                    </ebit-section>
+                </ebit-section>
+            </ebit-section>
+
+            <!-- Secondary Wizard Section -->
+            <ebit-section id="personal-info" class="content p-0 px-5"></ebit-section>
+        </ebit-section>
+    </div>
+</ebit-section>

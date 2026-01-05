@@ -45,6 +45,7 @@ context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "Dink
 
 // Register DinkToPdf converter
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+builder.Services.AddScoped<IReportService, ReportService>();
 
 // Your custom PDF service
 builder.Services.AddScoped<HtmlToPdfGenerator>();

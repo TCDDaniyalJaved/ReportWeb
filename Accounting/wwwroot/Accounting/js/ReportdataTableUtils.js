@@ -2,7 +2,7 @@
 
 let groupBySelectionOrder = [];
 
-// ==================== COLUMN GENERATION FROM HEADERS ====================
+//  COLUMN GENERATION FROM HEADERS 
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     const columns = [];
 
@@ -56,12 +56,12 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     return columns;
 }
 
-// ==================== GET GROUPING FIELDS IN USER'S SELECTION ORDER ====================
+//  GET GROUPING FIELDS IN USER'S SELECTION ORDER 
 function getGroupByFieldsInOrder() {
     return groupBySelectionOrder;
 }
 
-// ==================== CREATE GROUP HEADER ROW ====================
+//  CREATE GROUP HEADER ROW 
 function createGroupHeaderRow(field, value, count, level, totalColumns) {
     const fieldName = field.charAt(0).toUpperCase() + field.slice(1);
     const displayValue = value || '(Blank)';
@@ -79,7 +79,7 @@ function createGroupHeaderRow(field, value, count, level, totalColumns) {
     `);
 }
 
-// ==================== COUNT RECORDS IN CURRENT GROUP LEVEL ====================
+//  COUNT RECORDS IN CURRENT GROUP LEVEL 
 function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, currentGroupValues) {
     let count = 0;
     for (let i = startIndex; i < rowDataArray.length; i++) {
@@ -102,7 +102,7 @@ function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, cur
     return count;
 }
 
-// ==================== SETUP COLLAPSE/EXPAND FOR GROUP ROWS ====================
+//  SETUP COLLAPSE/EXPAND FOR GROUP ROWS 
 function setupGroupRowToggle() {
     $('#masterTable tbody').off('click', 'tr.group-row').on('click', 'tr.group-row', function () {
         const $groupRow = $(this);
@@ -149,7 +149,7 @@ function setupGroupRowToggle() {
     });
 }
 
-// ==================== MAIN DATATABLE INITIALIZATION ====================
+//  MAIN DATATABLE INITIALIZATION 
 export function initializeDataTable(endpoint, tableSelector = '#masterTable', options = {}) {
     const {
         columns = generateColumnsFromHeaders(tableSelector),
@@ -184,6 +184,7 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
                 d.groupByFields = $('#groupBySelect').val() || [];
             }
         },
+
         columns,
         drawCallback: function () {
             // Clean previous grouping
@@ -233,13 +234,13 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
         }
     });
 
-    // ==================== UNIVERSAL SEARCH ====================
+    //  UNIVERSAL SEARCH 
     $('#universalSearch').off('keyup').on('keyup', function () {
         $('#pageInfo').data('page', 1);
         table.ajax.reload();
     });
 
-    // ==================== GROUP BY SELECTION WITH ORDER TRACKING ====================
+    //  GROUP BY SELECTION WITH ORDER TRACKING 
     $('#groupBySelect').off('change').on('change', function () {
         const currentlySelected = $(this).val() || [];
 
@@ -268,7 +269,7 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
     return table;
 }
 
-// ==================== STEPPER INITIALIZATION ====================
+// STEPPER INITIALIZATION 
 export function initStepper() {
     const el = document.querySelector('#wizardStepper');
     if (el) {
@@ -278,7 +279,7 @@ export function initStepper() {
     return null;
 }
 
-// ==================== HELPER: UPDATE TOTAL RECORDS ====================
+//  HELPER: UPDATE TOTAL RECORDS 
 function updateCustomPagination(table) {
     $('#totalRecords').text(table.page.info().recordsDisplay || 0);
 }

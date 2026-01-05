@@ -4,7 +4,7 @@ import {
     initStepper
 } from './ReportdataTableUtils.js';
 
-const BASE_PATH = '/Report';
+const BASE_PATH = '/Accounting/Report';
 let table;
 
 $(document).ready(() => {
