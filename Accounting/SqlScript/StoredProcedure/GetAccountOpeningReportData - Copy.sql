@@ -7,12 +7,21 @@ GO
 
 CREATE PROCEDURE GetAccountOpeningReportData
     @SearchValue NVARCHAR(100) = NULL,
-    @OrderBy NVARCHAR(500) = 'm.Date DESC'  -- Default order (tumhara purana order)
+    @OrderBy NVARCHAR(500) = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
 
     DECLARE @Sql NVARCHAR(MAX);
+    DECLARE @FinalOrderBy NVARCHAR(500);
+
+    --  Default order if NULL or empty
+    SET @FinalOrderBy = 
+        CASE 
+            WHEN @OrderBy IS NULL OR LTRIM(RTRIM(@OrderBy)) = '' 
+            THEN 'm.Date DESC'
+            ELSE @OrderBy
+        END;
 
     SET @Sql = N'
     SELECT
@@ -32,7 +41,6 @@ BEGIN
         m.InputType,
         m.Accounts AS MasterAccounts,
         m.Prefix,
-       
         d.Accounts AS LedgerName,
         d.TotalDebit,
         d.Credit AS DetailCredit,
@@ -47,13 +55,13 @@ BEGIN
         @SearchValue IS NULL OR
         m.Voucher LIKE ''%'' + @SearchValue + ''%'' OR
         CAST(m.TotalSeqNo AS NVARCHAR(50)) LIKE ''%'' + @SearchValue + ''%'' OR
-        CAST(m.Date AS NVARCHAR(50)) LIKE ''%'' + @SearchValue + ''%'' OR
         m.Companyname LIKE ''%'' + @SearchValue + ''%'' OR
         CAST(m.Debit AS NVARCHAR(50)) LIKE ''%'' + @SearchValue + ''%'' OR
         CONVERT(NVARCHAR(50), m.Date, 120) LIKE ''%'' + @SearchValue + ''%''
-    ORDER BY ' + @OrderBy + ';';
+    ORDER BY ' + @FinalOrderBy;
 
-    EXEC sp_executesql @Sql,
+    EXEC sp_executesql 
+        @Sql,
         N'@SearchValue NVARCHAR(100)',
         @SearchValue;
 END

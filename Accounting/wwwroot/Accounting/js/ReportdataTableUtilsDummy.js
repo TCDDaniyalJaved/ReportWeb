@@ -105,12 +105,13 @@ function createGroupHeaderRow(field, value, count, level, totalColumns, totals, 
         const col = columns[i];
         if (i === 0) {
             // First column: show group name + count
-            tds += `<td colspan="${1}" style="padding-left:${level * 20}px;">
-                        <span class="toggle-icon" style="width:20px; display:inline-block;">
-                            <i class="bx bx-chevron-down"></i>
-                        </span>
-                        <strong>${fieldName}:</strong> ${displayValue} (${count})
-                    </td>`;
+            tds += `<td colspan="${1}" style="padding-left:${level * 20}px;" class="text-nowrap">
+    <span class="toggle-icon d-inline-block" style="width:20px;">
+        <i class="bx bx-chevron-down"></i>
+    </span>
+    ${displayValue} <small class="text-muted">(${count})</small>
+</td>
+`;
         } else if (col.groupTotal) {
             // Column marked group-total: show total
             tds += `<td class="text-end fw-semibold">

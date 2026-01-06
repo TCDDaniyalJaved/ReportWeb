@@ -12,7 +12,10 @@ body{
     cursor: pointer;
 }
 
-
+table.dataTable {
+    width: 100% !important;
+    background-color: var(--bs-table-bg) !important;
+}
 
 @media (max-width: 992px) {
     #pageHeader {

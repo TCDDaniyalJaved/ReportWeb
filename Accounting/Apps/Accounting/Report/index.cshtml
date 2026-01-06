@@ -20,19 +20,15 @@
 }
 <style>
    
-
     .group-row {
-        background-color: #f8f9fa !important;
+        background-color: var(--bs-table-bg) !important;
         border-left: 4px solid #0d6efd;
         cursor: pointer;
         transition: all 0.2s;
         font-weight: 600;
     }
 
-        .group-row:hover {
-            background-color: #e9ecef !important;
-        }
-
+      
         .group-row .toggle-icon {
             font-weight: bold;
             margin-right: 8px;
@@ -107,7 +103,7 @@
                     <!-- Center Section: Universal Search Bar -->
                     <ebit-section class="flex-grow-1 d-flex justify-content-center px-4">
                         <ebit-section class="input-group" style="width: 100%; max-width: 560px;">
-                            <span class="input-group-text bg-white border-end-0">
+                            <span class="input-group-text  border-end-0">
                                 <i class="bx bx-search text-muted"></i>
                             </span>
                             <input type="search" id="universalSearch" class="form-control border-start-0"
@@ -150,7 +146,7 @@
                             <ebit-table id="masterTable" class="table bg-white mt-0 pt-0">
 
                                 <!-- Table Header -->
-                                <ebit-head class="border-top" style="background-color:#F9FAFB;">
+                                <ebit-head class="border-top">
                                     <ebit-row>
                                         <ebit-headcolumn datafield="Date" header="Date" width="15%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="Voucher" header="Voucher" width="25%"></ebit-headcolumn>
