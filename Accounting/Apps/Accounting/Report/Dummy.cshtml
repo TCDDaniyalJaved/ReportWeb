@@ -15,7 +15,7 @@
 }
 
 @section PageScripts {
-    <script type="module" src="/Accounting/js/OpeningMaster.js"></script>
+    <script type="module" src="/Accounting/js/OpeningMasterDummy.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -136,25 +136,30 @@
             transform: rotate(-90deg); /* ▼ ko ▶ banane ke liye */
         }
 
-        /* Level-wise different colors */
-        .group-row.level-0 {
-            border-left-color: #0d6efd;
+
+    .group-item.active {
+        background-color: #e7f1ff;
+        color: #0d6efd;
+        font-weight: 600;
+    }
+
+    .group-item {
+        transition: all 0.15s;
+    }
+
+    .group-header-content {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        max-width: 100%;
+    }
+
+        .group-header-content .group-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .group-row.level-1 {
-            border-left-color: #6c757d;
-            padding-left: 30px;
-        }
-
-        .group-row.level-2 {
-            border-left-color: #20c997;
-            padding-left: 50px;
-        }
-
-        .group-row.level-3 {
-            border-left-color: #fd7e14;
-            padding-left: 70px;
-        }
 </style>
 
 <ebit-section p="0" m="0">
@@ -176,96 +181,72 @@
 
             <!-- Page Header Section -->
             <ebit-section class="d-flex justify-content-between align-items-center pb-3 flex-wrap create-header w-100 px-5 pt-3">
-                <ebit-section class="d-flex align-items-center justify-content-between flex-wrap w-100" id="pageHeader">
+                <ebit-section class="d-flex align-items-center w-100" id="pageHeader">
 
-                    <!-- Left Section: Create Button + Title -->
-                    <ebit-section class="d-flex align-items-start gap-3">
+                    <ebit-section class="d-flex align-items-start gap-3" style="flex: 0 0 auto; min-width: 200px;">
                         <div>
-                            <!-- Main Heading -->
                             <h4 class="mb-1 fw-bold d-flex align-items-center gap-2">
                                 Account Opening
                                 <i class="bx bx-cog text-muted" style="cursor:pointer; font-size:1.1rem;"></i>
                             </h4>
-
-                            <!-- Sub Heading -->
                             <h6 class="mb-0 text-muted fw-normal">
                                 Account Opening
                             </h6>
                         </div>
                     </ebit-section>
 
-                    <!-- Center Section: Universal Search Bar -->
-                    <ebit-section class="input-group" style="width: 100%; max-width: 560px; position:relative;">
+                    <ebit-section class="d-flex justify-content-center flex-grow-1">
+                        <div class="input-group" style="width: 100%; max-width: 560px; position:relative;">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bx bx-search text-muted"></i>
+                            </span>
 
-                        <span class="input-group-text bg-white border-end-0">
-                            <i class="bx bx-search text-muted"></i>
-                        </span>
+                            <input type="search"
+                                   id="universalSearch"
+                                   class="form-control border-start-0 border-end-0"
+                                   placeholder="Search by voucher, date, amount..."
+                                   style="height: 44px; font-size: 0.95rem;">
 
-                        <input type="search"
-                               id="universalSearch"
-                               class="form-control border-start-0 border-end-0"
-                               placeholder="Search by voucher, date, amount..."
-                               style="height: 44px; font-size: 0.95rem;">
+                            <span class="input-group-text bg-white border-start-0"
+                                  id="searchFilterToggle"
+                                  style="cursor:pointer;">
+                                <i class="bx bx-filter-alt text-muted"></i>
+                            </span>
 
-                        <!-- 🔽 END ICON -->
-                        <span class="input-group-text bg-white border-start-0"
-                              id="searchFilterToggle"
-                              style="cursor:pointer;">
-                            <i class="bx bx-filter-alt text-muted"></i>
-                        </span>
+                            <div id="advancedDropdown" class="advanced-dropdown d-none" style="right:0;">
+                                <div class="col">
+                                    <h6><i class="bx bx-filter"></i> Filters</h6>
+                                    <ul>
+                                        <li data-filter="Individuals">Individuals</li>
+                                        <li data-filter="Companies">Companies</li>
+                                        <li data-filter="Employees">Employees</li>
+                                        <li data-filter="CustomerInvoices">Customer Invoices</li>
+                                        <li data-filter="VendorBills">Vendor Bills</li>
+                                    </ul>
+                                </div>
 
-                        <!-- Advanced Dropdown -->
-                        <div id="advancedDropdown" class="advanced-dropdown d-none" style="right:0;">
-                            <!-- Filters -->
-                            <div class="col">
-                                <h6><i class="bx bx-filter"></i> Filters</h6>
-                                <ul>
-                                    <li data-filter="Individuals">Individuals</li>
-                                    <li data-filter="Companies">Companies</li>
-                                    <li data-filter="Employees">Employees</li>
-                                    <li data-filter="CustomerInvoices">Customer Invoices</li>
-                                    <li data-filter="VendorBills">Vendor Bills</li>
-                                    <li class="add">+ Add Custom Filter</li>
-                                </ul>
-                            </div>
+                                <div class="col">
+                                    <h6><i class="bx bx-grid-alt"></i> Group By</h6>
+                                    <ul id="groupByList">
+                                        <li data-group="Voucher" class="group-item">Voucher</li>
+                                        <li data-group="Companyname" class="group-item">Company</li>
+                                        <li data-group="Date" class="group-item">Date</li>
+                                    </ul>
+                                </div>
 
-                            <!-- Group By -->
-                            <div class="col">
-                                <h6><i class="bx bx-grid-alt"></i> Group By</h6>
-                                <ul>
-                                    <li data-group="Voucher">Voucher</li>
-                                    <li data-group="Companyname">Company</li>
-                                    <li data-group="Date">Date</li>
-                                    <li class="add">+ Add Custom Group</li>
-                                </ul>
-                            </div>
-
-                            <!-- Favorites -->
-                            <div class="col">
-                                <h6><i class="bx bx-star"></i> Favorites</h6>
-                                <ul>
-                                    <li>Save current search</li>
-                                    <li>Daniyal Javadia</li>
-                                </ul>
+                                <div class="col">
+                                    <h6><i class="bx bx-star"></i> Favorites</h6>
+                                    <ul>
+                                        <li>Save current search</li>
+                                        <li>Daniyal Javadia</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-
                     </ebit-section>
 
-                    <!-- Right Section: Pagination & Length Menu -->
-                    <ebit-section class="d-flex align-items-center gap-3">
+                    <div style="flex: 0 0 auto; min-width: 200px;"></div>
 
-                        <!-- Pagination Controls -->
-                        <ebit-section id="customPagination" class="d-none d-flex align-items-center gap-2">
-                            <button class="btn btn-sm btn-outline-primary rounded" id="prevPage">
-                                <i class="bx bx-chevron-left"></i>
-                            </button>
-                            <span id="pageInfo" class="fw-medium text-primary px-2">1 / 2</span>
-                            <button class="btn btn-sm btn-outline-primary rounded" id="nextPage">
-                                <i class="bx bx-chevron-right"></i>
-                            </button>
-                        </ebit-section>
-                    </ebit-section>
                 </ebit-section>
             </ebit-section>
 
@@ -283,9 +264,9 @@
                                         <ebit-headcolumn datafield="Date" header="Date" width="15%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="Voucher" header="Voucher" width="25%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="Companyname" header="Company" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="TotalDebit" isamount="true" group-total="true" header="Total Debit" width="15%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="TotalSeqNo" header="#" width="10%"></ebit-headcolumn>
-                                        <ebit-headcolumn datafield="TotalDebit" isamount="true" header="Total Debit" width="15%"></ebit-headcolumn>
-                                        <ebit-headcolumn datafield="DetailCredit" isamount="true" header="Total Credit" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="DetailCredit" isamount="true" group-total="true" header="Total Credit" width="15%"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>
                             </ebit-table>

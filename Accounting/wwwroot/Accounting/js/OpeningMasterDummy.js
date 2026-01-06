@@ -1,0 +1,19 @@
+﻿// OpeningMaster.js
+import {
+    initializeDataTable,
+    initStepper
+} from './ReportdataTableUtilsDummy.js';
+
+const BASE_PATH = '/Accounting/Report';
+let table;
+
+$(document).ready(() => {
+    initStepper();
+    table = initializeDataTable(`${BASE_PATH}/GetData`, '#masterTable', {
+        callbacks: {
+            onDraw: () => {
+                $('#totalRecords').text(table?.page.info().recordsDisplay || 0);
+            }
+        }
+    });
+});

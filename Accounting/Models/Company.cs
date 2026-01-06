@@ -81,6 +81,8 @@ public partial class Company
 
     public string Remarks { get; set; }
 
+    public virtual ICollection<AccountOnRole> AccountOnRoles { get; set; } = new List<AccountOnRole>();
+
     public virtual ICollection<AccountOpeningM> AccountOpeningMs { get; set; } = new List<AccountOpeningM>();
 
     public virtual ICollection<BankPaymentM> BankPaymentMs { get; set; } = new List<BankPaymentM>();
@@ -90,4 +92,8 @@ public partial class Company
     public virtual ICollection<CashPaymentM> CashPaymentMs { get; set; } = new List<CashPaymentM>();
 
     public virtual ICollection<GjournalM> GjournalMs { get; set; } = new List<GjournalM>();
+
+    public virtual ICollection<PinvoiceM> PinvoiceMs { get; set; } = new List<PinvoiceM>();
+
+    public virtual ICollection<PpinvoiceM> PpinvoiceMs { get; set; } = new List<PpinvoiceM>();
 }

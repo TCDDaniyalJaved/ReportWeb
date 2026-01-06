@@ -8,5 +8,17 @@ namespace Accounting.Models
 {
     public partial class PurchaseReportResult
     {
+        [StringLength(100)]
+        public string Company { get; set; }
+        public DateOnly? TranDate { get; set; }
+        [StringLength(100)]
+        public string ItemName { get; set; }
+        [Column("TotalQty", TypeName = "money")]
+        public decimal? TotalQty { get; set; }
+        [Column("TotalAmount", TypeName = "money")]
+        public decimal? TotalAmount { get; set; }
+        [Column("NetAmount", TypeName = "money")]
+        public decimal? NetAmount { get; set; }
+        public int? TotalRows { get; set; }
     }
 }

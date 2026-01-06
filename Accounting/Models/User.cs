@@ -27,7 +27,13 @@ public partial class User
 
     public bool? IsAdmin { get; set; }
 
+    public virtual ICollection<AccountOnRole> AccountOnRoles { get; set; } = new List<AccountOnRole>();
+
     public virtual ICollection<AccountOpeningM> AccountOpeningMs { get; set; } = new List<AccountOpeningM>();
 
     public virtual ICollection<Chart> Charts { get; set; } = new List<Chart>();
+
+    public virtual ICollection<PinvoiceM> PinvoiceMs { get; set; } = new List<PinvoiceM>();
+
+    public virtual ICollection<PpinvoiceM> PpinvoiceMs { get; set; } = new List<PpinvoiceM>();
 }

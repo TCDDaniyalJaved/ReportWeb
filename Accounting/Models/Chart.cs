@@ -67,5 +67,7 @@ public partial class Chart
 
     public virtual ICollection<GjournalM> GjournalMs { get; set; } = new List<GjournalM>();
 
+    public virtual ICollection<PinvoiceM> PinvoiceMs { get; set; } = new List<PinvoiceM>();
+
     public virtual User User { get; set; }
 }

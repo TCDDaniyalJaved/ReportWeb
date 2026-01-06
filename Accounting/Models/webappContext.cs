@@ -13,6 +13,10 @@ public partial class webappContext : DbContext
     {
     }
 
+    public virtual DbSet<Abc> Abcs { get; set; }
+
+    public virtual DbSet<AccountOnRole> AccountOnRoles { get; set; }
+
     public virtual DbSet<AccountOpeningD> AccountOpeningDs { get; set; }
 
     public virtual DbSet<AccountOpeningDview> AccountOpeningDviews { get; set; }
@@ -28,6 +32,8 @@ public partial class webappContext : DbContext
     public virtual DbSet<BankPaymentDview> BankPaymentDviews { get; set; }
 
     public virtual DbSet<BankPaymentM> BankPaymentMs { get; set; }
+
+    public virtual DbSet<BankPaymentMview> BankPaymentMviews { get; set; }
 
     public virtual DbSet<BankPaymentView> BankPaymentViews { get; set; }
 
@@ -54,6 +60,8 @@ public partial class webappContext : DbContext
     public virtual DbSet<CashReceiptM> CashReceiptMs { get; set; }
 
     public virtual DbSet<CashReceiptMview> CashReceiptMviews { get; set; }
+
+    public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Chart> Charts { get; set; }
 
@@ -89,7 +97,17 @@ public partial class webappContext : DbContext
 
     public virtual DbSet<GjournalM> GjournalMs { get; set; }
 
+    public virtual DbSet<IbbookEntry> IbbookEntries { get; set; }
+
+    public virtual DbSet<IcbookEntry> IcbookEntries { get; set; }
+
+    public virtual DbSet<IchequeReqEntry> IchequeReqEntries { get; set; }
+
+    public virtual DbSet<IgmultiEntry> IgmultiEntries { get; set; }
+
     public virtual DbSet<Item> Items { get; set; }
+
+    public virtual DbSet<Ledger> Ledgers { get; set; }
 
     public virtual DbSet<MainMenu> MainMenus { get; set; }
 
@@ -97,9 +115,21 @@ public partial class webappContext : DbContext
 
     public virtual DbSet<Module> Modules { get; set; }
 
+    public virtual DbSet<MyDatum> MyData { get; set; }
+
     public virtual DbSet<Operation> Operations { get; set; }
 
+    public virtual DbSet<PinvoiceD> PinvoiceDs { get; set; }
+
+    public virtual DbSet<PinvoiceM> PinvoiceMs { get; set; }
+
+    public virtual DbSet<PpinvoiceD> PpinvoiceDs { get; set; }
+
+    public virtual DbSet<PpinvoiceM> PpinvoiceMs { get; set; }
+
     public virtual DbSet<PublishedDesign> PublishedDesigns { get; set; }
+
+    public virtual DbSet<Report> Reports { get; set; }
 
     public virtual DbSet<RpttrialBalance> RpttrialBalances { get; set; }
 
@@ -115,14 +145,56 @@ public partial class webappContext : DbContext
 
     public virtual DbSet<Service> Services { get; set; }
 
+    public virtual DbSet<Setting> Settings { get; set; }
+
+    public virtual DbSet<TrialBalance> TrialBalances { get; set; }
+
     public virtual DbSet<Unit> Units { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
+    public virtual DbSet<UsersBackup> UsersBackups { get; set; }
+
+    public virtual DbSet<UsersDetail> UsersDetails { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Abc>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__ABC__3214EC0745672BB7");
+
+            entity.ToTable("ABC");
+
+            entity.Property(e => e.Description).HasMaxLength(500);
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(200);
+        });
+
+        modelBuilder.Entity<AccountOnRole>(entity =>
+        {
+            entity.HasKey(e => e.RightsId);
+
+            entity.ToTable("AccountOnRole");
+
+            entity.Property(e => e.RightsId).HasColumnName("RightsID");
+            entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
+            entity.Property(e => e.GroupId).HasColumnName("GroupID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.AccountOnRoles)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_AccountOnRole_Company");
+
+            entity.HasOne(d => d.User).WithMany(p => p.AccountOnRoles)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_AccountOnRole_User");
+        });
+
         modelBuilder.Entity<AccountOpeningD>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_dbo.AccountOpeningD");
@@ -388,6 +460,41 @@ public partial class webappContext : DbContext
                 .HasForeignKey(d => d.CompanyId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_BankPaymentM_Company");
+        });
+
+        modelBuilder.Entity<BankPaymentMview>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("BankPaymentMView");
+
+            entity.Property(e => e.Amount).HasColumnType("money");
+            entity.Property(e => e.Book)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Cheque)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
+            entity.Property(e => e.InputType)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.Mcode).HasColumnName("MCode");
+            entity.Property(e => e.Po)
+                .IsRequired()
+                .HasMaxLength(9)
+                .IsUnicode(false)
+                .HasColumnName("PO");
+            entity.Property(e => e.Prefix)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.Remarks)
+                .IsRequired()
+                .IsUnicode(false);
+            entity.Property(e => e.Voucher)
+                .HasMaxLength(12)
+                .IsUnicode(false);
+            entity.Property(e => e.VoucherNo).HasMaxLength(4000);
         });
 
         modelBuilder.Entity<BankPaymentView>(entity =>
@@ -789,6 +896,27 @@ public partial class webappContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false);
             entity.Property(e => e.Total).HasColumnType("money");
+        });
+
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.ToTable("Category");
+
+            entity.HasIndex(e => e.Name, "IX_Category").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CosactId).HasColumnName("COSActID");
+            entity.Property(e => e.Description).IsUnicode(false);
+            entity.Property(e => e.InvactId).HasColumnName("INVActID");
+            entity.Property(e => e.IsActive).HasAnnotation("Relational:DefaultConstraintName", "DF_Category_IsActive");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.NatureId).HasColumnName("NatureID");
+            entity.Property(e => e.SlactId).HasColumnName("SLActID");
+            entity.Property(e => e.SlractId).HasColumnName("SLRActID");
+            entity.Property(e => e.WipactId).HasColumnName("WIPActID");
         });
 
         modelBuilder.Entity<Chart>(entity =>
@@ -1292,6 +1420,142 @@ public partial class webappContext : DbContext
                 .HasConstraintName("FK_GJournalM_Company");
         });
 
+        modelBuilder.Entity<IbbookEntry>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("IBBookEntry");
+
+            entity.Property(e => e.AccountId).HasColumnName("AccountID");
+            entity.Property(e => e.ChqDate).HasColumnType("datetime");
+            entity.Property(e => e.ChqNo)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CostRate).HasColumnType("money");
+            entity.Property(e => e.Credit).HasColumnType("money");
+            entity.Property(e => e.CurrentDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasAnnotation("Relational:DefaultConstraintName", "DF_IBBookEntry_CurrentDate")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Date).HasColumnType("datetime");
+            entity.Property(e => e.Debit).HasColumnType("money");
+            entity.Property(e => e.DepartmentId).HasColumnName("DepartmentID");
+            entity.Property(e => e.Description)
+                .HasMaxLength(1000)
+                .IsUnicode(false);
+            entity.Property(e => e.DivisionId).HasColumnName("DivisionID");
+            entity.Property(e => e.InputType)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
+            entity.Property(e => e.LoginId).HasColumnName("LoginID");
+            entity.Property(e => e.Quantity).HasColumnType("money");
+            entity.Property(e => e.SoseqNo).HasColumnName("SOSeqNo");
+        });
+
+        modelBuilder.Entity<IcbookEntry>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("ICBookEntry");
+
+            entity.Property(e => e.AccountId).HasColumnName("AccountID");
+            entity.Property(e => e.ChqDate).HasColumnType("datetime");
+            entity.Property(e => e.ChqNo)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CostRate).HasColumnType("money");
+            entity.Property(e => e.Credit).HasColumnType("money");
+            entity.Property(e => e.CurrentDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasAnnotation("Relational:DefaultConstraintName", "DF_ICBookEntry_CurrentDate")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Date).HasColumnType("datetime");
+            entity.Property(e => e.Debit).HasColumnType("money");
+            entity.Property(e => e.DepartmentId).HasColumnName("DepartmentID");
+            entity.Property(e => e.Description)
+                .HasMaxLength(1000)
+                .IsUnicode(false);
+            entity.Property(e => e.DivisionId).HasColumnName("DivisionID");
+            entity.Property(e => e.InputType)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
+            entity.Property(e => e.LoginId).HasColumnName("LoginID");
+            entity.Property(e => e.Quantity).HasColumnType("money");
+            entity.Property(e => e.SoseqNo).HasColumnName("SOSeqNo");
+        });
+
+        modelBuilder.Entity<IchequeReqEntry>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("IChequeReqEntry");
+
+            entity.Property(e => e.AccountId).HasColumnName("AccountID");
+            entity.Property(e => e.ChqDate).HasColumnType("datetime");
+            entity.Property(e => e.ChqNo)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CostRate).HasColumnType("money");
+            entity.Property(e => e.Credit).HasColumnType("money");
+            entity.Property(e => e.CurrentDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasAnnotation("Relational:DefaultConstraintName", "DF_IChequeReqEntry_CurrentDate")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Date).HasColumnType("datetime");
+            entity.Property(e => e.Debit).HasColumnType("money");
+            entity.Property(e => e.DepartmentId).HasColumnName("DepartmentID");
+            entity.Property(e => e.Description)
+                .HasMaxLength(1000)
+                .IsUnicode(false);
+            entity.Property(e => e.DivisionId).HasColumnName("DivisionID");
+            entity.Property(e => e.InputType)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
+            entity.Property(e => e.LoginId).HasColumnName("LoginID");
+            entity.Property(e => e.Quantity).HasColumnType("money");
+            entity.Property(e => e.SoseqNo).HasColumnName("SOSeqNo");
+        });
+
+        modelBuilder.Entity<IgmultiEntry>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("IGmultiEntry");
+
+            entity.Property(e => e.AccountId).HasColumnName("AccountID");
+            entity.Property(e => e.ChqDate).HasColumnType("datetime");
+            entity.Property(e => e.ChqNo)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CostRate).HasColumnType("money");
+            entity.Property(e => e.Credit).HasColumnType("money");
+            entity.Property(e => e.CurrentDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasAnnotation("Relational:DefaultConstraintName", "DF_IGmultiEntry_CurrentDate")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Date).HasColumnType("datetime");
+            entity.Property(e => e.Debit).HasColumnType("money");
+            entity.Property(e => e.DepartmentId).HasColumnName("DepartmentID");
+            entity.Property(e => e.Description)
+                .HasMaxLength(1000)
+                .IsUnicode(false);
+            entity.Property(e => e.DivisionId).HasColumnName("DivisionID");
+            entity.Property(e => e.InputType)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
+            entity.Property(e => e.LoginId).HasColumnName("LoginID");
+            entity.Property(e => e.Quantity).HasColumnType("money");
+            entity.Property(e => e.SoseqNo).HasColumnName("SOSeqNo");
+        });
+
         modelBuilder.Entity<Item>(entity =>
         {
             entity
@@ -1312,6 +1576,27 @@ public partial class webappContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Packing).HasColumnType("money");
             entity.Property(e => e.UnitId).HasColumnName("UnitID");
+        });
+
+        modelBuilder.Entity<Ledger>(entity =>
+        {
+            entity.HasKey(e => e.LedgerId).HasName("PK__Ledger__AE70E0CF50C41202");
+
+            entity.ToTable("Ledger");
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Credit).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.Debit).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.Narration)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            entity.Property(e => e.VoucherNo)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<MainMenu>(entity =>
@@ -1396,6 +1681,15 @@ public partial class webappContext : DbContext
                 .HasColumnName("url");
         });
 
+        modelBuilder.Entity<MyDatum>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__MyData__3214EC07D60B9C40");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.Name2).HasMaxLength(100);
+        });
+
         modelBuilder.Entity<Operation>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Operatio__3214EC07F6727354");
@@ -1404,6 +1698,170 @@ public partial class webappContext : DbContext
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(200);
+        });
+
+        modelBuilder.Entity<PinvoiceD>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_dbo.PInvoiceD");
+
+            entity.ToTable("PInvoiceD");
+
+            entity.Property(e => e.Amount).HasComputedColumnSql("(round([Pcs]*[Rate],(0)))", false);
+            entity.Property(e => e.BrandId).HasColumnName("BrandID");
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.IrefId).HasColumnName("IRefID");
+            entity.Property(e => e.IrefSeq).HasColumnName("IRefSeq");
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
+            entity.Property(e => e.LessWhAmt).HasColumnType("money");
+            entity.Property(e => e.LocationId).HasColumnName("LocationID");
+            entity.Property(e => e.NetAmount).HasComputedColumnSql("(round(round([Quantity]*[Rate],(2))+round((round([Quantity]*[Rate],(2))*isnull([Tax],(2)))/(100),(2)),(0))-((round((round([Quantity]*[Rate],(2))*isnull([Tax],(0)))/(100),(2))*isnull([WHTax],(0)))/(100)+isnull([LessWhAmt],(0))))", false);
+            entity.Property(e => e.Packing).HasColumnType("money");
+            entity.Property(e => e.Pcs).HasColumnType("money");
+            entity.Property(e => e.QualityId).HasColumnName("QualityID");
+            entity.Property(e => e.Quantity).HasColumnType("money");
+            entity.Property(e => e.RefId).HasColumnName("RefID");
+            entity.Property(e => e.Remarks).IsUnicode(false);
+            entity.Property(e => e.SizeId).HasColumnName("SizeID");
+            entity.Property(e => e.Tax).HasColumnType("money");
+            entity.Property(e => e.TaxAmount).HasComputedColumnSql("(round((round([Quantity]*[Rate],(2))*isnull([Tax],(0)))/(100),(2)))", false);
+            entity.Property(e => e.Unit)
+                .HasMaxLength(12)
+                .IsUnicode(false);
+            entity.Property(e => e.UnitId).HasColumnName("UnitID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.WhTaxAmount).HasComputedColumnSql("((round((round([Quantity]*[Rate],(2))*isnull([Tax],(0)))/(100),(2))*isnull([WHTax],(0)))/(100))", false);
+            entity.Property(e => e.Whtax)
+                .HasColumnType("money")
+                .HasColumnName("WHTax");
+
+            entity.HasOne(d => d.Ref).WithMany(p => p.PinvoiceDs)
+                .HasForeignKey(d => d.RefId)
+                .HasConstraintName("FK_PInvoiceD_PInvoiceM");
+        });
+
+        modelBuilder.Entity<PinvoiceM>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_dbo.PInvoiceM");
+
+            entity.ToTable("PInvoiceM");
+
+            entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasAnnotation("Relational:DefaultConstraintName", "DF_PInvoiceM_CreateDate")
+                .HasColumnType("datetime");
+            entity.Property(e => e.CurrentDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasAnnotation("Relational:DefaultConstraintName", "DF_PInvoiceM_CurrentDate")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Discount).HasColumnType("money");
+            entity.Property(e => e.DrefNo)
+                .HasMaxLength(12)
+                .IsUnicode(false)
+                .HasComputedColumnSql("(([inputtype]+'-')+right('000000'+CONVERT([varchar](6),[RefNo]),(6)))", false)
+                .HasColumnName("DRefNo");
+            entity.Property(e => e.InputType)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.Mwhtax)
+                .HasColumnType("money")
+                .HasColumnName("MWHTax");
+            entity.Property(e => e.PartyId).HasColumnName("PartyID");
+            entity.Property(e => e.PrefNo)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("PRefNo");
+            entity.Property(e => e.RefId).HasColumnName("RefID");
+            entity.Property(e => e.RefNo).HasAnnotation("Relational:DefaultConstraintName", "DF_PInvoiceM_MCode");
+            entity.Property(e => e.Remarks).IsUnicode(false);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.PinvoiceMs)
+                .HasForeignKey(d => d.CompanyId)
+                .HasConstraintName("FK_PInvoiceM_Company");
+
+            entity.HasOne(d => d.Party).WithMany(p => p.PinvoiceMs)
+                .HasForeignKey(d => d.PartyId)
+                .HasConstraintName("FK_PInvoiceM_Chart");
+
+            entity.HasOne(d => d.User).WithMany(p => p.PinvoiceMs)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_PInvoiceM_Users");
+        });
+
+        modelBuilder.Entity<PpinvoiceD>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_dbo.PPInvoiceD");
+
+            entity.ToTable("PPInvoiceD");
+
+            entity.Property(e => e.Amount)
+                .HasComputedColumnSql("(round([Quantity]*[Rate],(2)))", false)
+                .HasColumnType("money");
+            entity.Property(e => e.BrandId).HasColumnName("BrandID");
+            entity.Property(e => e.ComPerc).HasColumnType("money");
+            entity.Property(e => e.CommAmt)
+                .HasComputedColumnSql("(round((round([Quantity]*[Rate],(2))*isnull([ComPerc],(0)))/(100),(2)))", false)
+                .HasColumnType("money");
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.GstPerc).HasColumnType("money");
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
+            entity.Property(e => e.LocationId).HasColumnName("LocationID");
+            entity.Property(e => e.NetAmount)
+                .HasComputedColumnSql("(round([Quantity]*[Rate],(2))+round((round([Quantity]*[Rate],(2))*isnull([ComPerc],(0)))/(100),(2)))", false)
+                .HasColumnType("money");
+            entity.Property(e => e.Packing).HasColumnType("money");
+            entity.Property(e => e.Pcs).HasColumnType("money");
+            entity.Property(e => e.QualityId).HasColumnName("QualityID");
+            entity.Property(e => e.Quantity).HasColumnType("money");
+            entity.Property(e => e.Rate).HasColumnType("money");
+            entity.Property(e => e.RefId).HasColumnName("RefID");
+            entity.Property(e => e.Remarks).IsUnicode(false);
+            entity.Property(e => e.SizeId).HasColumnName("SizeID");
+            entity.Property(e => e.Unit)
+                .HasMaxLength(12)
+                .IsUnicode(false);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Ref).WithMany(p => p.PpinvoiceDs)
+                .HasForeignKey(d => d.RefId)
+                .HasConstraintName("FK_dbo.PPInvoiceD_dbo.PPInvoiceM_RefID");
+        });
+
+        modelBuilder.Entity<PpinvoiceM>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_dbo.PPInvoiceM");
+
+            entity.ToTable("PPInvoiceM");
+
+            entity.Property(e => e.ChallanNo)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
+            entity.Property(e => e.CurrentDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasAnnotation("Relational:DefaultConstraintName", "DF_PPInvoiceM_CurrentDate")
+                .HasColumnType("datetime");
+            entity.Property(e => e.DrefNo)
+                .HasMaxLength(12)
+                .IsUnicode(false)
+                .HasComputedColumnSql("(([inputtype]+'-')+right('000000'+CONVERT([varchar](6),[RefNo]),(6)))", false)
+                .HasColumnName("DRefNo");
+            entity.Property(e => e.InputType)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.PartyId).HasColumnName("PartyID");
+            entity.Property(e => e.RefNo).HasAnnotation("Relational:DefaultConstraintName", "DF_PPInvoiceM_MCode");
+            entity.Property(e => e.Remarks).IsUnicode(false);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.PpinvoiceMs)
+                .HasForeignKey(d => d.CompanyId)
+                .HasConstraintName("FK_PPInvoiceM_Company");
+
+            entity.HasOne(d => d.User).WithMany(p => p.PpinvoiceMs)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_PPInvoiceM_Users");
         });
 
         modelBuilder.Entity<PublishedDesign>(entity =>
@@ -1415,6 +1873,18 @@ public partial class webappContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.PublishedOn).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<Report>(entity =>
+        {
+            entity.HasKey(e => e.ReportKey).HasName("PK__Reports__0261CF2C5FB83704");
+
+            entity.Property(e => e.ReportKey).HasMaxLength(50);
+            entity.Property(e => e.Description).HasMaxLength(250);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.StoredProcedure)
+                .IsRequired()
+                .HasMaxLength(100);
         });
 
         modelBuilder.Entity<RpttrialBalance>(entity =>
@@ -1615,6 +2085,100 @@ public partial class webappContext : DbContext
                 .HasMaxLength(200);
         });
 
+        modelBuilder.Entity<Setting>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__settings__3213E83F8A9CDD3B");
+
+            entity.ToTable("settings");
+
+            entity.HasIndex(e => e.SettingName, "UQ__settings__9C01CC5A984628D2").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.SettingName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("setting_name");
+            entity.Property(e => e.SettingValue)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("setting_value");
+        });
+
+        modelBuilder.Entity<TrialBalance>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("TrialBalance");
+
+            entity.Property(e => e.AccountId).HasColumnName("AccountID");
+            entity.Property(e => e.AccountName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.AdjWt).HasColumnType("money");
+            entity.Property(e => e.AvgWt).HasColumnType("money");
+            entity.Property(e => e.ChqNo)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.ChqStatus)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Code)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Credit).HasColumnType("money");
+            entity.Property(e => e.CurrentDate).HasColumnType("datetime");
+            entity.Property(e => e.Debit)
+                .HasDefaultValue(0m)
+                .HasAnnotation("Relational:DefaultConstraintName", "DF_TrialBalance_IsActive")
+                .HasColumnType("money");
+            entity.Property(e => e.DepartmentId).HasColumnName("DepartmentID");
+            entity.Property(e => e.DepartmentName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Description).IsUnicode(false);
+            entity.Property(e => e.Description2).IsUnicode(false);
+            entity.Property(e => e.Division)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.DivisionId).HasColumnName("DivisionID");
+            entity.Property(e => e.FlockId).HasColumnName("FlockID");
+            entity.Property(e => e.FlockName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.GrossWt).HasColumnType("money");
+            entity.Property(e => e.GroupId).HasColumnName("GroupID");
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("id");
+            entity.Property(e => e.InputType)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ItemName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Less).HasColumnType("money");
+            entity.Property(e => e.NetWt).HasColumnType("money");
+            entity.Property(e => e.OppName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Pcs).HasColumnType("money");
+            entity.Property(e => e.Quantity).HasColumnType("money");
+            entity.Property(e => e.Rate).HasColumnType("money");
+            entity.Property(e => e.VehicleNo)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.VoucherNo)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Unit>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__unit__3214EC07952F0943");
@@ -1648,6 +2212,48 @@ public partial class webappContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(50);
         });
 
+        modelBuilder.Entity<UsersBackup>(entity =>
+        {
+            entity.HasKey(e => e.UserId).HasName("PK_Users");
+
+            entity.ToTable("Users_Backup");
+
+            entity.HasIndex(e => e.UserName, "IX_Users").IsUnique();
+
+            entity.Property(e => e.Creatdate).HasColumnType("datetime");
+            entity.Property(e => e.CreateUser)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.IsAdmin).HasAnnotation("Relational:DefaultConstraintName", "DF_Users_IsAdmin");
+            entity.Property(e => e.Password)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Phone)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.TypeId).HasColumnName("TypeID");
+            entity.Property(e => e.UserEmail)
+                .HasMaxLength(150)
+                .IsUnicode(false);
+            entity.Property(e => e.UserName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Type).WithMany(p => p.UsersBackups)
+                .HasForeignKey(d => d.TypeId)
+                .HasConstraintName("FK_Users_UserRole");
+        });
+
+        modelBuilder.Entity<UsersDetail>(entity =>
+        {
+            entity.ToTable("UsersDetail");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.RoleId).HasColumnName("RoleID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+        });
+
+        OnModelCreatingGeneratedFunctions(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
     }
 

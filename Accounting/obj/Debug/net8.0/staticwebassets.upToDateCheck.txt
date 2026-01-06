@@ -2118,5 +2118,7 @@ wwwroot\vendor\scss\_theme\_common.scss
 wwwroot\vendor\scss\_theme\_libs.scss
 wwwroot\vendor\scss\_theme\_pages.scss
 wwwroot\vendor\scss\_theme\_theme.scss
+wwwroot\Accounting\js\OpeningMasterDummy.js
+wwwroot\Accounting\js\ReportdataTableUtilsDummy.js
 wwwroot\dist\vendors.min.css
 wwwroot\dist\vendors.min.js

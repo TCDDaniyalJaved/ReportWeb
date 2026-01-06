@@ -12,4 +12,6 @@ public partial class UserRole
     public string Name { get; set; }
 
     public string Iconclass { get; set; }
+
+    public virtual ICollection<UsersBackup> UsersBackups { get; set; } = new List<UsersBackup>();
 }
