@@ -26,12 +26,13 @@ BEGIN
     SET @Sql = N'
     SELECT
         m.Id,
-        CONVERT(DATE, m.Date) AS Date,
+       CONVERT(VARCHAR(10), m.Date, 23) AS Date,
         m.Remarks AS MasterRemarks,
         m.BookCode,
         m.Companyname,
         m.VoucherNo,
         m.MCode,
+        45 as Amount,
         m.Voucher,
         m.CompanyID,
         m.Book,

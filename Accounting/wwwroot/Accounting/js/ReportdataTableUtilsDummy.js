@@ -1,9 +1,8 @@
 ﻿let activeTables = new Map();
 let groupBySelectionOrder = [];
 
-// -----------------------------
 //  Generate columns from table header
-// -----------------------------
+
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     const columns = [];
 
@@ -51,16 +50,16 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     return columns;
 }
 
-// -----------------------------
+
 //  Get active group-by fields
-// -----------------------------
+
 function getGroupByFieldsInOrder() {
     return groupBySelectionOrder;
 }
 
-// -----------------------------
+
 //  Calculate totals for group
-// -----------------------------
+
 function calculateGroupTotals(rowDataArray, startIndex, groupByFields, level, currentGroupValues, columns) {
     const totals = {};
     for (const col of columns) {
@@ -92,9 +91,9 @@ function calculateGroupTotals(rowDataArray, startIndex, groupByFields, level, cu
     return totals;
 }
 
-// -----------------------------
+
 //  Create group header row
-// -----------------------------
+
 function createGroupHeaderRow(field, value, count, level, totalColumns, totals, columns) {
     const fieldName = field.charAt(0).toUpperCase() + field.slice(1);
     const displayValue = value || '(Blank)';
@@ -127,9 +126,9 @@ function createGroupHeaderRow(field, value, count, level, totalColumns, totals, 
 }
 
 
-// -----------------------------
+
 //  Count records in a group
-// -----------------------------
+
 function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, currentGroupValues) {
     let count = 0;
     for (let i = startIndex; i < rowDataArray.length; i++) {
@@ -150,9 +149,9 @@ function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, cur
     return count;
 }
 
-// -----------------------------
+
 //  Setup collapse/expand toggle
-// -----------------------------
+
 function setupGroupRowToggle() {
     $('#masterTable tbody').off('click', 'tr.group-row').on('click', 'tr.group-row', function () {
         const $groupRow = $(this);
@@ -193,9 +192,9 @@ function setupGroupRowToggle() {
     });
 }
 
-// -----------------------------
+
 //  Initialize DataTable
-// -----------------------------
+
 export function initializeDataTable(endpoint, tableSelector = '#masterTable', options = {}) {
     const {
         columns = generateColumnsFromHeaders(tableSelector),
@@ -298,9 +297,9 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
     return table;
 }
 
-// -----------------------------
+
 //  Stepper init
-// -----------------------------
+
 export function initStepper() {
     const el = document.querySelector('#wizardStepper');
     if (el) {
@@ -310,9 +309,8 @@ export function initStepper() {
     return null;
 }
 
-// -----------------------------
 //  Update pagination
-// -----------------------------
+
 function updateCustomPagination(table) {
     $('#totalRecords').text(table.page.info().recordsDisplay || 0);
 }

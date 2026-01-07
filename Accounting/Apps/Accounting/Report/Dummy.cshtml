@@ -1,5 +1,4 @@
 ﻿@{
-    /* Page Layout */
     Layout = "_HorizontalLayout";
 }
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -56,7 +55,16 @@
 }
 
 <style>
-   
+    #masterTable {
+        table-layout: fixed !important;
+        width: 100% !important;
+    }
+
+    .dataTables_scrollBody table,
+    .dataTables_scrollHeadInner table {
+        table-layout: fixed !important;
+        width: 100% !important;
+    }
     table.dataTable {
         width: 100% !important;
         background-color: var(--bs-table-bg)!important;
@@ -121,7 +129,7 @@
             margin-top: 8px;
         }
 
-    /* Existing group-row styles */
+ 
     .group-row {
         background-color: var(--bs-table-bg) !important;
         border-left: 4px solid #0d6efd;
@@ -142,7 +150,7 @@
         }
 
         .group-row.collapsed .toggle-icon {
-            transform: rotate(-90deg); /* ▼ ko ▶ banane ke liye */
+            transform: rotate(-90deg); 
         }
 
 
@@ -226,9 +234,7 @@
                                 <div class="col">
                                     <h6><i class="bx bx-filter"></i> Filters</h6>
                                     <ul>
-                                        <li data-filter="Individuals">Individuals</li>
                                         <li data-filter="Companies">Companies</li>
-                                        <li data-filter="Employees">Employees</li>
                                         <li data-filter="CustomerInvoices">Customer Invoices</li>
                                         <li data-filter="VendorBills">Vendor Bills</li>
                                     </ul>
@@ -272,6 +278,7 @@
                                     <ebit-row>
                                         <ebit-headcolumn datafield="Date" header="Date" width="15%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="Voucher" header="Voucher" width="25%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="Amount" group-total="true" header="Amount" width="15%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="Companyname" header="Company" width="15%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="TotalSeqNo" header="#" width="10%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="TotalDebit" isamount="true" group-total="true" header="Total Debit" width="15%"></ebit-headcolumn>
