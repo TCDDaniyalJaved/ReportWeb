@@ -1,21 +1,24 @@
-﻿//ReportdataTableUtilsDummy.js
+﻿// ReportdataTableUtilsDummy.js
+
 let activeTables = new Map();
-let groupBySelectionOrder = [];
-let pageFilterConfig = {};
+let groupBySelectionOrder = [];      
+let pageFilterConfig = {};          
 
 const FILTER_ICON = `
 <svg viewBox="0 0 24 24" width="14" height="14" class="me-1">
     <path d="M3,4H21V6H3V4M6,10H18V12H6V10M10,16H14V18H10V16Z"></path>
 </svg>`;
-
 const GROUP_ICON = `
 <svg viewBox="0 0 24 24" width="14" height="14" class="me-1">
     <path d="M3,13H9V19H3V13M3,5H9V11H3V5M11,5H21V11H11V5M11,13H21V19H11V13Z"></path>
 </svg>`;
+
+// Set page-specific filter configuration (e.g., Companies, Customers)
 export function setPageFilterConfig(config) {
     pageFilterConfig = { ...config };
 }
-// Generate columns from table header
+
+// Generate DataTable columns dynamically from <thead> attributes
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     const columns = [];
     $(`${tableSelector} thead th`).each(function () {
@@ -47,12 +50,14 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
             colDef.orderable = false;
         }
 
+        // Auto-format amount columns (debit, credit, amount, balance)
         const amountKeywords = ['debit', 'credit', 'amount', 'balance'];
         if (datafield && amountKeywords.some(k => datafield.toLowerCase().includes(k))) {
             colDef.render = $.fn.dataTable.render.number(',', '.', 2);
             colDef.className = (colDef.className || '') + ' text-end';
         }
 
+        // Format date columns to Indian locale
         if (datafield && /date/i.test(datafield)) {
             colDef.render = (data) => (!data ? '' : new Date(data).toLocaleDateString('en-IN'));
         }
@@ -62,12 +67,12 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     return columns;
 }
 
-// Get active group-by fields
+// Get current group-by fields in selected order
 function getGroupByFieldsInOrder() {
     return groupBySelectionOrder;
 }
 
-// Calculate totals for group
+// Calculate sum totals for a group (only for columns with group-total=true)
 function calculateGroupTotals(rowDataArray, startIndex, groupByFields, level, currentGroupValues, columns) {
     const totals = {};
     for (const col of columns) {
@@ -99,12 +104,12 @@ function calculateGroupTotals(rowDataArray, startIndex, groupByFields, level, cu
     return totals;
 }
 
-// Create group header row
+// Create HTML for group header row with toggle icon and totals
 function createGroupHeaderRow(field, value, count, level, columns, totals) {
     const fieldName = field.charAt(0).toUpperCase() + field.slice(1);
     const displayValue = value || '(Blank)';
-
     let tds = '';
+
     for (let i = 0; i < columns.length; i++) {
         const col = columns[i];
         if (i === 0) {
@@ -125,12 +130,13 @@ function createGroupHeaderRow(field, value, count, level, columns, totals) {
     return $(`<tr class="group-row level-${level}">${tds}</tr>`);
 }
 
-// Count records in group
+// Count number of records belonging to current group
 function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, currentGroupValues) {
     let count = 0;
     for (let i = startIndex; i < rowDataArray.length; i++) {
         const rowData = rowDataArray[i];
         let stillInGroup = true;
+
         for (let l = 0; l <= level; l++) {
             const field = groupByFields[l];
             const expected = currentGroupValues[l];
@@ -140,13 +146,14 @@ function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, cur
                 break;
             }
         }
+
         if (!stillInGroup) break;
         count++;
     }
     return count;
 }
 
-// Setup collapse/expand toggle
+// Setup click handler for collapsing/expanding group rows
 function setupGroupRowToggle() {
     $('#masterTable tbody')
         .off('click', 'tr.group-row')
@@ -185,15 +192,11 @@ function setupGroupRowToggle() {
         });
 }
 
-// Add badge to search box (edit icon only for filters)
+// Add visual badge for active Group By or Filter
 function addSearchBadge(type, value, displayText) {
     if ($(`.badge-tag[data-type="${type}"][data-value="${value}"]`).length) return;
 
-    const icon =
-        type === 'Group'
-            ? GROUP_ICON
-            : `<span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>`;
-
+    const icon = type === 'Group' ? GROUP_ICON : `<span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>`;
     const $badge = $(`
         <span class="badge-tag d-inline-flex align-items-center"
               data-type="${type}"
@@ -204,7 +207,7 @@ function addSearchBadge(type, value, displayText) {
         </span>
     `);
 
-    //  Remove badge
+    // Remove badge and reload table
     $badge.find('.remove-btn').on('click', function (e) {
         e.stopPropagation();
         $badge.remove();
@@ -213,7 +216,7 @@ function addSearchBadge(type, value, displayText) {
         }
     });
 
-    //  Open modal ONLY when clicking filter icon
+    // Open filter modal when clicking filter icon
     if (type === 'Filter') {
         $badge.find('.filter-icon').on('click', function (e) {
             e.stopPropagation();
@@ -224,52 +227,40 @@ function addSearchBadge(type, value, displayText) {
     $('#universalSearch').before($badge);
 }
 
-
-
-
+// Open modal to select filter value
 function openFilterModal(filterType, $badge) {
     const config = pageFilterConfig[filterType];
-
     if (!config || !config.divId || !config.backendKey) {
         alert('Filter not configured properly: ' + filterType);
         return;
     }
 
     const $modal = $('#filterModal');
-
-    // Set modal title
     $('#filterModalTitle').text(config.title || 'Select Option');
 
-    // Hide all filter sections
     $modal.find('.filter-option').hide();
-
-    // Show the selected filter section
     const $filterDiv = $(`#${config.divId}`);
     $filterDiv.show();
 
-    // Pre-select current badge value if exists
+    // Pre-select current value if badge exists
     if ($badge && $badge.data('value')) {
         $filterDiv.find('select').val($badge.data('value'));
     } else {
         $filterDiv.find('select').val($filterDiv.find('option:first').val());
     }
 
-    // Apply button logic
+    // Apply button - update or create badge and reload table
     $modal.find('#applyFilterBtn').off('click').on('click', function () {
         const $select = $filterDiv.find('select').first();
         const selectedValue = $select.val();
         const selectedText = $select.find('option:selected').text().trim() || 'Selected';
+        const config = pageFilterConfig[filterType];
 
-        const config = pageFilterConfig[filterType]; // e.g. MY_FILTERS['Companies']
-
-        // If no selection or "0" (default), remove badge if exists
         if (!selectedValue || selectedValue === '0' || selectedValue === '') {
-            if ($badge) {
-                $badge.remove();
-            }
+            if ($badge) $badge.remove();
         } else {
             if (!$badge) {
-                // Create NEW badge
+                // Create new filter badge
                 const icon = `<span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>`;
                 $badge = $(`
                 <span class="badge-tag d-inline-flex align-items-center"
@@ -282,7 +273,6 @@ function openFilterModal(filterType, $badge) {
                 </span>
             `);
 
-                // Attach remove handler
                 $badge.find('.remove-btn').on('click', function (e) {
                     e.stopPropagation();
                     $badge.remove();
@@ -291,40 +281,31 @@ function openFilterModal(filterType, $badge) {
                     }
                 });
 
-                // Re-attach filter icon click to reopen modal
                 $badge.find('.filter-icon').on('click', function (e) {
                     e.stopPropagation();
                     openFilterModal(filterType, $badge);
                 });
 
-                // Insert before search input
                 $('#universalSearch').before($badge);
             } else {
-                // UPDATE existing badge
+                // Update existing badge
                 $badge.data('value', selectedValue);
-                $badge.data('key', config.backendKey);        // safety
-                $badge.attr('data-key', config.backendKey);    // DOM update
+                $badge.data('key', config.backendKey);
+                $badge.attr('data-key', config.backendKey);
                 $badge.find('.badge-text').text(selectedText);
             }
         }
 
-        // Close modal
         bootstrap.Modal.getInstance($modal[0]).hide();
-
-        // Reload table to apply new filters
         if (activeTables.has('#masterTable')) {
             activeTables.get('#masterTable').ajax.reload();
         }
     });
 
-    // Show the modal
     new bootstrap.Modal($modal[0]).show();
 }
 
-
-
-
-// Initialize DataTable
+// Initialize DataTable with server-side processing, grouping and filters
 export function initializeDataTable(endpoint, tableSelector = '#masterTable', options = {}) {
     const {
         columns = generateColumnsFromHeaders(tableSelector),
@@ -357,13 +338,12 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
                 d.customSearch = $('#universalSearch').val() || '';
                 d.groupByFields = groupBySelectionOrder || [];
 
-                // === DYNAMIC FILTERS FROM BADGES ===
+                // Collect all active filter badges and send to backend
                 const filterBadges = $('.badge-tag[data-type="Filter"]');
                 filterBadges.each(function () {
                     const $badge = $(this);
-                    const backendKey = $badge.data('key');     
-                    const value = $badge.data('value');         
-
+                    const backendKey = $badge.data('key');
+                    const value = $badge.data('value');
                     if (backendKey && value) {
                         if (d[backendKey]) {
                             if (Array.isArray(d[backendKey])) {
@@ -372,7 +352,7 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
                                 d[backendKey] = [d[backendKey], value];
                             }
                         } else {
-                            d[backendKey] = [value];  
+                            d[backendKey] = [value];
                         }
                     }
                 });
@@ -381,9 +361,9 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
                 return d;
             }
         },
-
         columns,
         drawCallback: function () {
+            // Remove old group rows
             $('#masterTable tbody tr.group-row').remove();
             $('#masterTable tbody tr').show();
 
@@ -409,6 +389,7 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
                         const count = countRecordsInGroup(rowDataArray, index, groupByFields, level, currentGroupValues);
                         const totals = calculateGroupTotals(rowDataArray, index, groupByFields, level, currentGroupValues, columns);
                         const groupRow = createGroupHeaderRow(field, value, count, level, columns, totals);
+
                         $(rowNode).before(groupRow);
 
                         lastGroupValues[level] = value;
@@ -423,13 +404,13 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
         }
     });
 
-    // Universal search
+    // Universal search input handler
     $('#universalSearch').off('keyup').on('keyup', function () {
         $('#pageInfo').data('page', 1);
         table.ajax.reload();
     });
 
-    // Group By Click Handler
+    // Group By list click handler
     $(document).off('click', '#groupByList li[data-group]').on('click', '#groupByList li[data-group]', function () {
         const $item = $(this);
         const field = $item.data('group');
@@ -450,7 +431,7 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
         table.ajax.reload();
     });
 
-    // Filter Click Handler (from dropdown)
+    // Direct filter item click handler (from dropdown)
     $(document).off('click', '[data-filter]').on('click', '[data-filter]', function () {
         const filterValue = this.dataset.filter;
         const displayText = this.textContent.trim();
@@ -470,7 +451,7 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
     return table;
 }
 
-// Stepper init
+// Initialize Bootstrap Stepper wizard (if present)
 export function initStepper() {
     const el = document.querySelector('#wizardStepper');
     if (el) {
@@ -480,7 +461,7 @@ export function initStepper() {
     return null;
 }
 
-// Update pagination
+// Update total records display in custom pagination
 function updateCustomPagination(table) {
     $('#totalRecords').text(table.page.info().recordsDisplay || 0);
 }
