@@ -7,7 +7,8 @@ GO
 
 CREATE PROCEDURE GetAccountOpeningReportData
     @SearchValue NVARCHAR(100) = NULL,
-    @OrderBy NVARCHAR(500) = NULL
+    @OrderBy NVARCHAR(500) = NULL,
+    @Companyname NVARCHAR(100) = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -26,7 +27,7 @@ BEGIN
     SET @Sql = N'
     SELECT
         m.Id,
-       CONVERT(VARCHAR(10), m.Date, 23) AS Date,
+        CONVERT(VARCHAR(10), m.Date, 23) AS Date,
         m.Remarks AS MasterRemarks,
         m.BookCode,
         m.Companyname,
@@ -53,17 +54,21 @@ BEGIN
     FROM AccountOpeningMView m
     INNER JOIN AccountOpeningDView d ON m.Id = d.PersonID
     WHERE
-        @SearchValue IS NULL OR
+        (@SearchValue IS NULL OR
         m.Voucher LIKE ''%'' + @SearchValue + ''%'' OR
         CAST(m.TotalSeqNo AS NVARCHAR(50)) LIKE ''%'' + @SearchValue + ''%'' OR
         m.Companyname LIKE ''%'' + @SearchValue + ''%'' OR
         CAST(m.Debit AS NVARCHAR(50)) LIKE ''%'' + @SearchValue + ''%'' OR
-        CONVERT(NVARCHAR(50), m.Date, 120) LIKE ''%'' + @SearchValue + ''%''
-    ORDER BY ' + @FinalOrderBy;
+        CONVERT(NVARCHAR(50), m.Date, 120) LIKE ''%'' + @SearchValue + ''%'')';
+
+    -- Add dynamic filters only if they are not null
+    IF @Companyname IS NOT NULL
+        SET @Sql = @Sql + ' AND m.Companyname = @Companyname';
+
+    SET @Sql = @Sql + ' ORDER BY ' + @FinalOrderBy;
 
     EXEC sp_executesql 
         @Sql,
-        N'@SearchValue NVARCHAR(100)',
-        @SearchValue;
+        N'@SearchValue NVARCHAR(100), @Companyname NVARCHAR(100)',
+        @SearchValue, @Companyname;
 END
-GO
