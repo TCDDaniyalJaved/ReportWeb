@@ -83,7 +83,9 @@ public class ReportController : Controller
         public string CustomSearch { get; set; }
         public List<string> GroupByFields { get; set; } = new();
 
-        public List<string> CompanyName { get; set; } = new();
+        public List<string> CompanyId { get; set; } = new();
+        public int Start { get; set; } // offset
+        public int Length { get; set; } // page size
 
 
     }
@@ -109,8 +111,14 @@ public class ReportController : Controller
             cmd.Parameters.AddWithValue("@OrderBy",orderBy == null ? (object)DBNull.Value : orderBy);
 
 
-            cmd.Parameters.AddWithValue("@Companyname",request.CompanyName == null || !request.CompanyName.Any()? (object)DBNull.Value: string.Join(",", request.CompanyName));
+            cmd.Parameters.AddWithValue("@Companyname",request.CompanyId == null || !request.CompanyId.Any()? (object)DBNull.Value: string.Join(",", request.CompanyId));
+            System.Diagnostics.Debug.WriteLine($"Received Start: {request.Start}, Length: {request.Length}");
 
+
+            int start = request.Start >= 0 ? request.Start : 0;
+            int length = request.Length > 0 ? request.Length : 10;
+            cmd.Parameters.AddWithValue("@Start", start);
+            cmd.Parameters.AddWithValue("@Length", length);
             using (SqlDataReader r = cmd.ExecuteReader())
             {
                 while (r.Read())
@@ -125,7 +133,12 @@ public class ReportController : Controller
             }
         }
 
-        return Json(new { data, recordsTotal = data.Count, recordsFiltered = data.Count });
+        return Json(new
+        {
+            data,
+            recordsTotal = data.Count + request.Start, // total so far
+            recordsFiltered = data.Count + request.Start // filtered count so far
+        });
     }
 
 

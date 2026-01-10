@@ -8,7 +8,9 @@ GO
 CREATE PROCEDURE GetAccountOpeningReportData
     @SearchValue NVARCHAR(100) = NULL,
     @OrderBy NVARCHAR(500) = NULL,
-    @Companyname NVARCHAR(100) = NULL
+    @Companyname NVARCHAR(100) = NULL,
+    @Start INT = 0,   -- For paging offset
+    @Length INT = 10  -- Number of records to fetch
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -16,7 +18,7 @@ BEGIN
     DECLARE @Sql NVARCHAR(MAX);
     DECLARE @FinalOrderBy NVARCHAR(500);
 
-    --  Default order if NULL or empty
+    -- Default order if NULL or empty
     SET @FinalOrderBy = 
         CASE 
             WHEN @OrderBy IS NULL OR LTRIM(RTRIM(@OrderBy)) = '' 
@@ -61,14 +63,18 @@ BEGIN
         CAST(m.Debit AS NVARCHAR(50)) LIKE ''%'' + @SearchValue + ''%'' OR
         CONVERT(NVARCHAR(50), m.Date, 120) LIKE ''%'' + @SearchValue + ''%'')';
 
-    -- Add dynamic filters only if they are not null
+    -- Dynamic company filter
     IF @Companyname IS NOT NULL
         SET @Sql = @Sql + ' AND m.Companyname = @Companyname';
 
-    SET @Sql = @Sql + ' ORDER BY ' + @FinalOrderBy;
+    -- Final ORDER BY + OFFSET / FETCH
+    SET @Sql = @Sql + ' ORDER BY ' + @FinalOrderBy + 
+               ' OFFSET @Start ROWS FETCH NEXT @Length ROWS ONLY';
 
+    -- Execute dynamic SQL with parameters
     EXEC sp_executesql 
         @Sql,
-        N'@SearchValue NVARCHAR(100), @Companyname NVARCHAR(100)',
-        @SearchValue, @Companyname;
+        N'@SearchValue NVARCHAR(100), @Companyname NVARCHAR(100), @Start INT, @Length INT',
+        @SearchValue, @Companyname, @Start, @Length;
 END
+GO

@@ -54,7 +54,7 @@
         try {
             return JSON.parse(paramsAttr);
         } catch (e) {
-            console.error('Invalid JSON in data-params:', e);
+            //console.error('Invalid JSON in data-params:', e);
             return {};
         }
     }
@@ -82,7 +82,7 @@
         }
 
         const extraParams = this.getExtraParams();
-        console.log('Extra Params:', extraParams);
+        //console.log('Extra Params:', extraParams);
 
 
         $(select).select2({

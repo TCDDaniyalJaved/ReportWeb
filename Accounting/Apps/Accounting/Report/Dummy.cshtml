@@ -13,47 +13,6 @@
     @await Html.PartialAsync("_VendorScripts")
 }
 
-@section PageScripts {
-    <script type="module" src="/Accounting/js/OpeningMasterDummy.js"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const toggleIcon = document.getElementById("searchFilterToggle");
-            const dropdown = document.getElementById("advancedDropdown");
-
-            if (!toggleIcon || !dropdown) return;
-
-            toggleIcon.addEventListener("click", function (e) {
-                e.stopPropagation();
-                dropdown.classList.toggle("d-none");
-            });
-
-            document.addEventListener("click", function (e) {
-                if (!e.target.closest(".input-group")) {
-                    dropdown.classList.add("d-none");
-                }
-            });
-
-            // Handle Group By clicks
-            document.querySelectorAll("[data-group]").forEach(item => {
-                item.addEventListener("click", function () {
-                    const groupBy = this.dataset.group;
-                });
-            });
-
-            // Handle Filter clicks (optional)
-            document.querySelectorAll("[data-filter]").forEach(item => {
-                item.addEventListener("click", function () {
-                    const filter = this.dataset.filter;
-                });
-            });
-        });
-
-    </script>
-
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}
-
 <style>
     #masterTable {
         table-layout: fixed !important;
@@ -245,8 +204,48 @@
     }
 
 </style>
+@section PageScripts {
+    <script src="/Accounting/js/dropdawn.js"></script>
+    <script type="module" src="~/Accounting/js/OpeningMasterDummy.js"></script>
 
-<div p="0" m="0">
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleIcon = document.getElementById("searchFilterToggle");
+        const dropdown = document.getElementById("advancedDropdown");
+
+        if (!toggleIcon || !dropdown) return;
+
+        toggleIcon.addEventListener("click", function (e) {
+            e.stopPropagation();
+            dropdown.classList.toggle("d-none");
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!e.target.closest(".input-group")) {
+                dropdown.classList.add("d-none");
+            }
+        });
+
+        // Handle Group By clicks
+        document.querySelectorAll("[data-group]").forEach(item => {
+            item.addEventListener("click", function () {
+                const groupBy = this.dataset.group;
+            });
+        });
+
+        // Handle Filter clicks (optional)
+        document.querySelectorAll("[data-filter]").forEach(item => {
+            item.addEventListener("click", function () {
+                const filter = this.dataset.filter;
+            });
+        });
+    });
+
+</script>
+
+<ebit-section p="0" m="0">
     <div id="wizardStepper" class="bs-stepper wizard-numbered" style="box-shadow:none;">
 
         <!-- Wizard Header (Hidden) -->
@@ -262,8 +261,6 @@
 
         <!-- Wizard Content -->
         <ebit-section class="bs-stepper-content p-0 m-0">
-
-            <!-- Page Header Section -->
             <ebit-section class="d-flex justify-content-between align-items-center pb-3 flex-wrap create-header w-100 px-5 pt-3">
                 <ebit-section class="d-flex align-items-center w-100" id="pageHeader">
 
@@ -278,7 +275,6 @@
                             </h6>
                         </div>
                     </ebit-section>
-
                     <ebit-section class="d-flex justify-content-center flex-grow-1">
                         <div class="input-group" style="width: 100%; max-width: 560px; position:relative;">
                             <span class="input-group-text border-end-0">
@@ -355,6 +351,24 @@
                                         <ebit-headcolumn datafield="DetailCredit" isamount="true" group-total="true" header="Total Credit" width="15%"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>
+                                <!-- Table Footer -->
+                                <ebit-footer>
+                                    <ebit-row class="">
+                                        <ebit-bodycolumn colspan="2">
+                                            Total Records : <span id="totalRecords">0</span>
+                                        </ebit-bodycolumn>
+                                    </ebit-row>
+                                    <ebit-row class="">
+                                        <ebit-bodycolumn colspan="2">
+                                            <button id="loadMoreBtn" class="btn bg-transparent" style="display:none;">
+                                                    Load More
+                                                    <span class="spinner-border spinner-border-sm d-none" id="loadMoreSpinner"></span>
+                                                </button>
+
+                                        </ebit-bodycolumn>
+                                    </ebit-row>
+                                </ebit-footer>
+
                             </ebit-table>
                         </ebit-section>
 
@@ -380,11 +394,10 @@
 
                     <!-- Company Filter -->
                     <div id="filter-company" class="filter-option">
-                        <select class="form-select">
-                            <option value="0">Select Company</option>
-                            <option value="VINTAGE SOLUTIONS PRIVATE LTD">VINTAGE SOLUTIONS PRIVATE LTD</option>
-                            <option value="BEST MOBILE">BEST MOBILE</option>
-                        </select>
+                        <select class="form-select select2"
+                                data-url="/Dropdawn/Companyid"
+                                data-placeholder="Select Company..."
+                                name="CompanyId"></select>
                     </div>
 
                     <!-- Customer Invoice -->
@@ -400,7 +413,7 @@
                     <!-- Vendor Bill -->
                     <div class="filter-option" id="filter-vendorbill" style="display:none;">
                         <label class="form-label">Select Vendor Bill</label>
-                        <ebit-select  data-url="UserWiseAccount">
+                        <ebit-select data-url="UserWiseAccount">
                             <option value="0">Choose One</option>
                         </ebit-select>
                     </div>
@@ -420,7 +433,3 @@
             </div>
         </div>
     </div>
-
-
-
-</div>

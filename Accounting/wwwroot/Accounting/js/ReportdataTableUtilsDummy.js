@@ -1,8 +1,14 @@
 ﻿// ReportdataTableUtilsDummy.js
 
 let activeTables = new Map();
-let groupBySelectionOrder = [];      
-let pageFilterConfig = {};          
+let groupBySelectionOrder = [];
+let pageFilterConfig = {};
+let currentOffset = 0;
+const PAGE_SIZE = 10;
+let allLoadedData = [];
+let isAppendMode = false;
+
+
 
 const FILTER_ICON = `
 <svg viewBox="0 0 24 24" width="14" height="14" class="me-1">
@@ -192,6 +198,19 @@ function setupGroupRowToggle() {
         });
 }
 
+// Update Load More button visibility
+function updateLoadMoreButton(returnedRecords) {
+    if (returnedRecords < PAGE_SIZE) {
+        // No more records
+        $('#loadMoreBtn').hide();
+        $('#noMoreRecords').show();
+    } else {
+        // More records available
+        $('#loadMoreBtn').show();
+        $('#noMoreRecords').hide();
+    }
+}
+
 // Add visual badge for active Group By or Filter
 function addSearchBadge(type, value, displayText) {
     if ($(`.badge-tag[data-type="${type}"][data-value="${value}"]`).length) return;
@@ -238,41 +257,47 @@ function openFilterModal(filterType, $badge) {
     const $modal = $('#filterModal');
     $('#filterModalTitle').text(config.title || 'Select Option');
 
+    // Hide all filter blocks, show current
     $modal.find('.filter-option').hide();
     const $filterDiv = $(`#${config.divId}`);
     $filterDiv.show();
 
-    // Pre-select current value if badge exists
-    if ($badge && $badge.data('value')) {
-        $filterDiv.find('select').val($badge.data('value'));
+    const $select = $filterDiv.find('select').first();
+
+    // Preselect value (ID based)
+    if ($badge && $badge.data('id')) {
+        $select.val($badge.data('id'));
     } else {
-        $filterDiv.find('select').val($filterDiv.find('option:first').val());
+        $select.val($select.find('option:first').val());
     }
 
-    // Apply button - update or create badge and reload table
+    // Apply filter
     $modal.find('#applyFilterBtn').off('click').on('click', function () {
-        const $select = $filterDiv.find('select').first();
-        const selectedValue = $select.val();
-        const selectedText = $select.find('option:selected').text().trim() || 'Selected';
-        const config = pageFilterConfig[filterType];
 
-        if (!selectedValue || selectedValue === '0' || selectedValue === '') {
+        const selectedId = $select.val(); // ID
+        const selectedText = $select.find('option:selected').text().trim(); // NAME
+
+        if (!selectedId || selectedId === '0' || selectedId === '') {
             if ($badge) $badge.remove();
         } else {
-            if (!$badge) {
-                // Create new filter badge
-                const icon = `<span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>`;
-                $badge = $(`
-                <span class="badge-tag d-inline-flex align-items-center"
-                      data-type="Filter"
-                      data-key="${config.backendKey}"
-                      data-value="${selectedValue}">
-                    ${icon}
-                    <span class="badge-text ms-1">${selectedText}</span>
-                    <span class="remove-btn ms-1" style="cursor:pointer;">×</span>
-                </span>
-            `);
 
+            if (!$badge) {
+                // Create badge
+                const icon = `<span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>`;
+
+                $badge = $(`
+                    <span class="badge-tag d-inline-flex align-items-center"
+                          data-type="Filter"
+                          data-key="${config.backendKey}"   <!-- e.g. Companyname -->
+                          data-id="${selectedId}"           <!-- ID -->
+                          data-value="${selectedText}">     <!-- NAME -->
+                        ${icon}
+                        <span class="badge-text ms-1">${selectedText}</span>
+                        <span class="remove-btn ms-1" style="cursor:pointer;">×</span>
+                    </span>
+                `);
+
+                // Remove filter
                 $badge.find('.remove-btn').on('click', function (e) {
                     e.stopPropagation();
                     $badge.remove();
@@ -281,6 +306,7 @@ function openFilterModal(filterType, $badge) {
                     }
                 });
 
+                // Edit filter
                 $badge.find('.filter-icon').on('click', function (e) {
                     e.stopPropagation();
                     openFilterModal(filterType, $badge);
@@ -288,15 +314,16 @@ function openFilterModal(filterType, $badge) {
 
                 $('#universalSearch').before($badge);
             } else {
-                // Update existing badge
-                $badge.data('value', selectedValue);
-                $badge.data('key', config.backendKey);
+                // Update badge
+                $badge.data('id', selectedId);
+                $badge.data('value', selectedText);
                 $badge.attr('data-key', config.backendKey);
                 $badge.find('.badge-text').text(selectedText);
             }
         }
 
         bootstrap.Modal.getInstance($modal[0]).hide();
+
         if (activeTables.has('#masterTable')) {
             activeTables.get('#masterTable').ajax.reload();
         }
@@ -305,11 +332,12 @@ function openFilterModal(filterType, $badge) {
     new bootstrap.Modal($modal[0]).show();
 }
 
+
 // Initialize DataTable with server-side processing, grouping and filters
 export function initializeDataTable(endpoint, tableSelector = '#masterTable', options = {}) {
     const {
         columns = generateColumnsFromHeaders(tableSelector),
-        pageLength = 7,
+        pageLength = PAGE_SIZE,
         callbacks = {}
     } = options;
 
@@ -321,11 +349,16 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
         $table.empty();
     }
 
+    // Reset global variables
+    currentOffset = 0;
+    allLoadedData = [];
+    isAppendMode = false;
+
     const table = $table.DataTable({
         autoWidth: false,
         scrollX: true,
         serverSide: true,
-        paging: true,
+        paging: false,
         dom: 't',
         pageLength,
         searching: false,
@@ -337,6 +370,8 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
             data: function (d) {
                 d.customSearch = $('#universalSearch').val() || '';
                 d.groupByFields = groupBySelectionOrder || [];
+                d.start = currentOffset;
+                d.length = PAGE_SIZE;
 
                 // Collect all active filter badges and send to backend
                 const filterBadges = $('.badge-tag[data-type="Filter"]');
@@ -359,6 +394,26 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
 
                 console.log('AJAX payload:', d);
                 return d;
+            },
+            dataSrc: function (json) {
+                // Handle the data for append mode
+                if (isAppendMode) {
+                    // Append new data to existing data
+                    allLoadedData = [...allLoadedData, ...json.data];
+
+                    // Update Load More button
+                    updateLoadMoreButton(json.data.length);
+
+                    return allLoadedData;
+                } else {
+                    // First load or search/filter - replace data
+                    allLoadedData = json.data;
+
+                    // Update Load More button
+                    updateLoadMoreButton(json.data.length);
+
+                    return allLoadedData;
+                }
             }
         },
         columns,
@@ -371,14 +426,20 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
             if (groupByFields.length === 0) {
                 updateCustomPagination(table);
                 callbacks.onDraw?.();
+
+                // Reset append mode flag
+                isAppendMode = false;
                 return;
             }
 
-            const rows = table.rows({ page: 'current' }).nodes();
-            const rowDataArray = rows.toArray().map(node => table.row(node).data());
+            // Use allLoadedData for grouping
+            const rowDataArray = allLoadedData;
             const lastGroupValues = [];
 
-            rows.toArray().forEach((rowNode, index) => {
+            // Get all table rows (tbody tr that are not group rows)
+            const tableRows = $('#masterTable tbody tr:not(.group-row)').toArray();
+
+            tableRows.forEach((rowNode, index) => {
                 const rowData = rowDataArray[index];
                 if (!rowData) return;
 
@@ -401,12 +462,39 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
             setupGroupRowToggle();
             updateCustomPagination(table);
             callbacks.onDraw?.();
+
+            // Reset append mode flag
+            isAppendMode = false;
         }
+    });
+
+    // Load More Button Click Handler
+    $('#loadMoreBtn').off('click').on('click', function () {
+        const $btn = $(this);
+        const $spinner = $('#loadMoreSpinner');
+
+        // Show loading spinner
+        $spinner.removeClass('d-none');
+        $btn.prop('disabled', true);
+
+        // Increase offset for next batch
+        currentOffset += PAGE_SIZE;
+
+        // Set append mode
+        isAppendMode = true;
+
+        // Reload DataTable (append mode)
+        table.ajax.reload(function () {
+            // Hide spinner and enable button
+            $spinner.addClass('d-none');
+            $btn.prop('disabled', false);
+        }, false); // false = don't reset paging
     });
 
     // Universal search input handler
     $('#universalSearch').off('keyup').on('keyup', function () {
-        $('#pageInfo').data('page', 1);
+        currentOffset = 0; // Reset to first page
+        isAppendMode = false; // Reset append mode
         table.ajax.reload();
     });
 
@@ -428,6 +516,8 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
             $(`.badge-tag[data-type="Group"][data-value="${field}"]`).remove();
         }
 
+        currentOffset = 0; // Reset to first page
+        isAppendMode = false; // Reset append mode
         table.ajax.reload();
     });
 
@@ -444,8 +534,20 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
             $(`.badge-tag[data-type="Filter"][data-value="${filterValue}"]`).remove();
         }
 
+        currentOffset = 0; // Reset to first page
+        isAppendMode = false; // Reset append mode
         table.ajax.reload();
     });
+
+    // Filter badge remove handler (update to reset offset)
+    $(document).off('click', '.badge-tag .remove-btn').on('click', '.badge-tag .remove-btn', function () {
+        currentOffset = 0; // Reset to first page
+        isAppendMode = false; // Reset append mode
+        // Reload will be triggered by the badge remove event
+    });
+
+    // Show Load More button initially
+    $('#loadMoreBtn').show();
 
     activeTables.set(tableSelector, table);
     return table;
@@ -464,4 +566,13 @@ export function initStepper() {
 // Update total records display in custom pagination
 function updateCustomPagination(table) {
     $('#totalRecords').text(table.page.info().recordsDisplay || 0);
+}
+
+// Reset to first page function
+export function resetToFirstPage() {
+    currentOffset = 0;
+    isAppendMode = false;
+    if (activeTables.has('#masterTable')) {
+        activeTables.get('#masterTable').ajax.reload();
+    }
 }

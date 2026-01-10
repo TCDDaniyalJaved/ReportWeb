@@ -1,9 +1,9 @@
 ﻿// OpeningMasterDummy.js
 // Import   
 import {
-    initializeDataTable,   
-    initStepper,           
-    setPageFilterConfig    
+    initializeDataTable,
+    initStepper,
+    setPageFilterConfig
 } from './ReportdataTableUtilsDummy.js';
 
 const BASE_PATH = '/Accounting/Report';
@@ -13,9 +13,9 @@ let table;
 // Configuration object 
 const MY_FILTERS = {
     'Companies': {
-        divId: 'filter-company',         
-        title: 'Select Company',          
-        backendKey: 'CompanyName'         
+        divId: 'filter-company',
+        title: 'Select Company',
+        backendKey: 'Companyid'
     },
     'CustomerInvoice': {
         divId: 'filter-customerinvoice',
@@ -31,13 +31,13 @@ const MY_FILTERS = {
 };
 
 $(document).ready(() => {
-    initStepper();                       
+    initStepper();
 
-    setPageFilterConfig(MY_FILTERS);       
+    setPageFilterConfig(MY_FILTERS);
 
     table = initializeDataTable(
-        `${BASE_PATH}/GetData`,          
-        '#masterTable',                 
+        `${BASE_PATH}/GetData`,
+        '#masterTable',
         {
             callbacks: {
                 onDraw: () => {

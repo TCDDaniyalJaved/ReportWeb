@@ -1,74 +1,95 @@
-function select2dropdawn() {
+﻿// dropdown.js 
+// Last updated: January 2026
+
+$(document).ready(function () {
     $('.select2').each(function () {
-        // Skip selects that belong to ebit-select components
-        if ($(this).closest('ebit-select').length > 0) {
-            console.log('Skipping select2 init for ebit-select element:', this.name);
-            return;
-        }
+        const $select = $(this);
+        const isAjax = !!$select.data('url');           
+        const url = $select.data('url');
+        const placeholder = $select.data('placeholder') || 'Select...';
+        const selectedId = $select.data('selected-id');
 
-        var $select = $(this);
-        var url = $select.data('url');
-        var placeholder = $select.data('placeholder') || '';
-        var selectedId = $select.data('selected-id');
+        const $modal = $select.closest('.modal');
+        const dropdownParent = $modal.length ? $modal : $('body');
 
-        console.log("Initializing select2 for:", $select.attr('id') || $select.attr('name'));
-        console.log("URL:", url);
-        console.log("Placeholder:", placeholder);
-        console.log("Selected ID:", selectedId);
-
-        $select.select2({
+        const baseOptions = {
             placeholder: placeholder,
+            allowClear: true,                      
             minimumInputLength: 0,
-            ajax: {
-                url: url,
-                dataType: 'json',
-                delay: 300,
-                data: function (params) {
-                    console.log("AJAX request params.term:", params.term);
-                    return {
-                        term: params.term || ''
-                    };
-                },
-                processResults: function (data) {
-                    console.log("AJAX response data:", data);
-                    var results = data.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.name
-                        };
-                    });
-                    console.log("Processed results:", results);
-                    return { results: results };
-                },
-                cache: true
+            width: '100%',
+            dropdownParent: dropdownParent,
+            language: {
+                noResults: function () {
+                    return "No results found";
+                }
             }
-        });
+        };
 
-        // Load pre-selected item if any
-        if (selectedId) {
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: { id: selectedId },
-                dataType: 'json'
-            }).then(function (data) {
-                if (data && data.length > 0) {
-                    var option = new Option(data[0].name, data[0].id, true, true);
-                    $select.append(option).trigger('change');
+    
+        if (isAjax && url) {
+            $select.select2({
+                ...baseOptions,
+                ajax: {
+                    url: url,
+                    dataType: 'json',
+                    delay: 250,
+                    cache: true,
+                    data: function (params) {
+                        return {
+                            term: params.term?.trim() || ''
+                        };
+                    },
+                    processResults: function (data) {
+                        let results = [];
+
+                        if (Array.isArray(data)) {
+                            results = data.map(item => ({
+                                id: item.id ?? item.value ?? item.Id,
+                                text: item.name ?? item.text ?? item.title ?? 'Unnamed'
+                            }));
+                        }
+
+                        return { results };
+                    }
                 }
             });
+
+            if (selectedId) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    data: { id: selectedId },
+                    dataType: 'json',
+                    cache: true
+                })
+                    .done(function (data) {
+                        let item = null;
+
+                        if (Array.isArray(data) && data.length > 0) {
+                            item = data[0];
+                        } else if (data && data.id) {
+                            item = data;
+                        }
+
+                        if (item) {
+                            const option = new Option(
+                                item.name || item.text || 'Selected',
+                                item.id,
+                                true,
+                                true
+                            );
+                            $select.append(option).trigger('change');
+                        }
+                    })
+                    .fail(function () {
+                        console.warn(`Pre-selected value ${selectedId} load nahi hua from ${url}`);
+                    });
+            }
+        }
+
+        else {
+            $select.select2(baseOptions);
         }
     });
-}
 
-
-function clearDevCache() {
-    localStorage.clear();
-    sessionStorage.clear();
-    caches.keys().then(function (names) {
-        for (let name of names)
-            caches.delete(name);
-    });
-    alert("Cache cleared! Refreshing...");
-    location.reload(true);
-}
+});

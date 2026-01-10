@@ -210,7 +210,7 @@ class EbitButton extends HTMLElement {
                 }
                 
                 .btn-ghost-primary:hover {
-                    background-color: rgba(13, 110, 253, 0.1);
+                    background-color: transparent;
                 }
                 
                 .btn-ghost-secondary {
