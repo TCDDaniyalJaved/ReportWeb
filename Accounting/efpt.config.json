@@ -232,6 +232,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[UserReportViews]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[UserRole]",
          "ObjectType": 0
       },

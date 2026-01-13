@@ -147,15 +147,15 @@
         }
 
     #searchContainer {
-        gap: 4px; /* Space between badges and input */
-        padding: 4px 8px; /* Inner padding */
-        flex-wrap: nowrap; /* Default: no wrap, but switch to wrap on small screens if needed */
-        overflow-x: auto; /* Scroll horizontally if too many badges */
-        scrollbar-width: none; /* Hide scrollbar for cleaner look */
+        gap: 4px;
+        padding: 4px 8px; 
+        flex-wrap: nowrap; 
+        overflow-x: auto; 
+        scrollbar-width: none;
     }
 
         #searchContainer::-webkit-scrollbar {
-            display: none; /* Hide scrollbar in WebKit */
+            display: none; 
         }
 
     .badge-tag {
@@ -181,16 +181,16 @@
                 color: #dc3545;
             }
 
-    /* Responsive: On small screens, allow wrapping */
+   
     @@media (max-width: 768px) {
         #searchContainer {
             flex-wrap: wrap;
-            height: auto !important; /* Dynamic height */
+            height: auto !important;
             min-height: 44px;
         }
 
         #universalSearch {
-            order: 999; /* Input last in wrap mode */
+            order: 999; 
             width: 100% !important;
         }
     }
@@ -298,6 +298,7 @@
                                     <h6><i class="bx bx-filter"></i> Filters</h6>
                                     <ul>
                                         <li data-filter="Companies" class="filter-item">Companies</li>
+                                        <li data-filter="LedgerName" class="filter-item">LedgerName</li>
                                         <li data-filter="CustomerInvoice" class="filter-item">Customer Invoices</li>
                                         <li data-filter="VendorBill" class="filter-item">Vendor Bills</li>
 
@@ -309,15 +310,17 @@
                                     <ul id="groupByList">
                                         <li data-group="Voucher" class="group-item ">Voucher</li>
                                         <li data-group="Companyname" class="group-item">Company</li>
+                                        <li data-group="LedgerName" class="group-item">Ledger</li>
                                         <li data-group="Date" class="group-item">Date</li>
                                     </ul>
                                 </div>
 
-                                <div class="col">
+                                <div class="col" id="favorites">
                                     <h6><i class="bx bx-star"></i> Favorites</h6>
                                     <ul>
-                                        <li>Save current search</li>
-                                        <li>Daniyal Javadia</li>
+                                        <li id="saveFavorite">Save current search</li>
+                                    </ul>
+                                    <ul id="favoritesList">
                                     </ul>
                                 </div>
                             </div>
@@ -346,6 +349,7 @@
                                         <ebit-headcolumn datafield="Voucher" header="Voucher" width="25%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="Amount" group-total="true" header="Amount" width="15%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="Companyname" header="Company" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="LedgerName" header="Ledger" width="15%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="TotalSeqNo" header="#" width="10%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="TotalDebit" isamount="true" group-total="true" header="Total Debit" width="15%"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="DetailCredit" isamount="true" group-total="true" header="Total Credit" width="15%"></ebit-headcolumn>
@@ -381,6 +385,26 @@
         </ebit-section>
     </div>
 
+    <!-- Save Favorite Modal -->
+    <div class="modal fade" id="saveFavoriteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Save Current View as Favorite</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="favoriteName" class="form-label">Favorite Name</label>
+                    <input type="text" id="favoriteName" class="form-control" placeholder="Enter favorite name">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="saveFavoriteConfirm" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Filter Modal -->
     <div class="modal fade" id="filterModal" tabindex="-1">
@@ -394,12 +418,18 @@
 
                     <!-- Company Filter -->
                     <div id="filter-company" class="filter-option">
-                        <select class="form-select select2"
+                        <select  class="form-select select2"
                                 data-url="/Dropdawn/Companyid"
                                 data-placeholder="Select Company..."
                                 name="CompanyId"></select>
                     </div>
-
+                    <!-- LedgerName Filter -->
+                    <div id="filter-LedgerName" class="filter-option">
+                        <select class="form-select select2"
+                                data-url="/Dropdawn/UserWiseAccount"
+                                data-placeholder="Select LedgerName..."
+                                name="LedgerId"></select>
+                    </div>
                     <!-- Customer Invoice -->
                     <div class="filter-option" id="filter-customerinvoice" style="display:none;">
                         <label class="form-label">Select Customer Invoice</label>

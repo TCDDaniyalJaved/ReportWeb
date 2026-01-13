@@ -75,7 +75,7 @@ namespace Accounting.Models
             return _;
         }
 
-        public virtual async Task<int> GetAccountOpeningReportDataAsync(string searchValue, string orderBy, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<GetAccountOpeningReportDataResult>> GetAccountOpeningReportDataAsync(string searchValue, string orderBy, string companyname, int? start, int? length, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -100,9 +100,28 @@ namespace Accounting.Models
                     Value = orderBy ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.NVarChar,
                 },
+                new SqlParameter
+                {
+                    ParameterName = "Companyname",
+                    Size = 200,
+                    Value = companyname ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Start",
+                    Value = start ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Length",
+                    Value = length ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
                 parameterreturnValue,
             };
-            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[GetAccountOpeningReportData] @SearchValue = @SearchValue, @OrderBy = @OrderBy", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<GetAccountOpeningReportDataResult>("EXEC @returnValue = [dbo].[GetAccountOpeningReportData] @SearchValue = @SearchValue, @OrderBy = @OrderBy, @Companyname = @Companyname, @Start = @Start, @Length = @Length", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

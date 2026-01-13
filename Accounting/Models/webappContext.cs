@@ -153,6 +153,8 @@ public partial class webappContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<UserReportView> UserReportViews { get; set; }
+
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
     public virtual DbSet<UsersBackup> UsersBackups { get; set; }
@@ -2202,6 +2204,23 @@ public partial class webappContext : DbContext
             entity.Property(e => e.TypeId).HasColumnName("TypeID");
             entity.Property(e => e.UserEmail).HasMaxLength(100);
             entity.Property(e => e.UserName).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<UserReportView>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UserRepo__3214EC075F776123");
+
+            entity.HasIndex(e => new { e.UserId, e.ReportKey, e.ViewName }, "UK_UserReportView").IsUnique();
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.IsFavorite).HasDefaultValue(true);
+            entity.Property(e => e.ReportKey)
+                .IsRequired()
+                .HasMaxLength(100)
+                .HasDefaultValue("OpeningMaster");
+            entity.Property(e => e.ViewName)
+                .IsRequired()
+                .HasMaxLength(200);
         });
 
         modelBuilder.Entity<UserRole>(entity =>

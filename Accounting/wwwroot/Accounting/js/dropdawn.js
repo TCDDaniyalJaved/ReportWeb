@@ -1,6 +1,4 @@
 ﻿// dropdown.js 
-// Last updated: January 2026
-
 $(document).ready(function () {
     $('.select2').each(function () {
         const $select = $(this);
@@ -14,7 +12,7 @@ $(document).ready(function () {
 
         const baseOptions = {
             placeholder: placeholder,
-            allowClear: true,                      
+            allowClear: false,                      
             minimumInputLength: 0,
             width: '100%',
             dropdownParent: dropdownParent,

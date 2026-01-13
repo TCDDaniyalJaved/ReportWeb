@@ -1,7 +1,7 @@
 ﻿// ReportdataTableUtilsDummy.js
 
 let activeTables = new Map();
-let groupBySelectionOrder = [];
+export let groupBySelectionOrder = [];
 let pageFilterConfig = {};
 let currentOffset = 0;
 const PAGE_SIZE = 10;
@@ -212,7 +212,7 @@ function updateLoadMoreButton(returnedRecords) {
 }
 
 // Add visual badge for active Group By or Filter
-function addSearchBadge(type, value, displayText) {
+export function addSearchBadge(type, value, displayText) {
     if ($(`.badge-tag[data-type="${type}"][data-value="${value}"]`).length) return;
 
     const icon = type === 'Group' ? GROUP_ICON : `<span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>`;
@@ -392,7 +392,7 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
                     }
                 });
 
-                console.log('AJAX payload:', d);
+                //console.log('AJAX payload:', d);
                 return d;
             },
             dataSrc: function (json) {

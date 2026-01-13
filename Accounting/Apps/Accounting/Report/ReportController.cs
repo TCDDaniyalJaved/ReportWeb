@@ -16,6 +16,7 @@ using System.Configuration;
 using System.Data;
 using System.Data;
 using System.Data.SqlClient;
+using System.Security.Claims;
 
 namespace Accounting.Controllers;
 
@@ -106,12 +107,12 @@ public class ReportController : Controller
                 ? (object)DBNull.Value
                 : request.CustomSearch);
 
-            string orderBy = request.GroupByFields.Any() ? string.Join(",", request.GroupByFields): null;
+            string orderBy = request.GroupByFields.Any() ? string.Join(",", request.GroupByFields) : null;
 
-            cmd.Parameters.AddWithValue("@OrderBy",orderBy == null ? (object)DBNull.Value : orderBy);
+            cmd.Parameters.AddWithValue("@OrderBy", orderBy == null ? (object)DBNull.Value : orderBy);
 
 
-            cmd.Parameters.AddWithValue("@Companyname",request.CompanyId == null || !request.CompanyId.Any()? (object)DBNull.Value: string.Join(",", request.CompanyId));
+            cmd.Parameters.AddWithValue("@Companyname", request.CompanyId == null || !request.CompanyId.Any() ? (object)DBNull.Value : string.Join(",", request.CompanyId));
             System.Diagnostics.Debug.WriteLine($"Received Start: {request.Start}, Length: {request.Length}");
 
 
@@ -204,5 +205,44 @@ public class ReportController : Controller
         }
     }
 
-}
+    [HttpPost]
+    public IActionResult SaveReportView([FromBody] UserReportView view)
+    {
+        if (view == null) return BadRequest();
 
+        view.CreatedAt = DateTime.Now;
+        view.UpdatedAt = DateTime.Now;
+
+        int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        view.UserId = userId;
+
+      
+        if (view.Filters != null && !(view.Filters is string))
+            view.Filters = JsonConvert.SerializeObject(view.Filters);
+
+        if (view.GroupBy != null && !(view.GroupBy is string))
+            view.GroupBy = JsonConvert.SerializeObject(view.GroupBy);
+
+        _context.UserReportViews.Add(view);
+        _context.SaveChanges();
+
+        return Ok(new { success = true, id = view.Id });
+    }
+    [HttpGet]
+    public IActionResult GetUserReportViews(string reportKey)
+    {
+        int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var views = _context.UserReportViews
+            .Where(v => v.UserId == userId && v.ReportKey == reportKey)
+            .OrderByDescending(v => v.CreatedAt)
+            .Select(v => new {
+                v.Id,
+                v.ViewName,
+                Filters = v.Filters ?? "{}",
+                GroupBy = v.GroupBy ?? "[]"
+            }).ToList();
+
+        return Ok(views);
+    }
+
+}
