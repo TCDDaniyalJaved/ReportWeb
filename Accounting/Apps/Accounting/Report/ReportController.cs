@@ -231,18 +231,26 @@ public class ReportController : Controller
     [HttpGet]
     public IActionResult GetUserReportViews(string reportKey)
     {
+        // Get current logged-in user
         int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        // Fetch user's saved views for this report
         var views = _context.UserReportViews
             .Where(v => v.UserId == userId && v.ReportKey == reportKey)
-            .OrderByDescending(v => v.CreatedAt)
-            .Select(v => new {
+            .Select(v => new
+            {
                 v.Id,
                 v.ViewName,
-                Filters = v.Filters ?? "{}",
-                GroupBy = v.GroupBy ?? "[]"
-            }).ToList();
+                v.Filters,
+                v.GroupBy,
+                v.IsDefault,
+                v.IsLocked
+            })
+            .OrderByDescending(v => v.IsDefault) // default view first
+            .ThenBy(v => v.ViewName)
+            .ToList();
 
-        return Ok(views);
+        return Json(views);
     }
 
 }

@@ -24,4 +24,8 @@ public partial class UserReportView
     public DateTime CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+
+    public bool IsDefault { get; set; }
+
+    public bool IsLocked { get; set; }
 }
