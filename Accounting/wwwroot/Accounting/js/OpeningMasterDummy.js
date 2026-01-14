@@ -1,5 +1,6 @@
 ﻿// OpeningMasterDummy.js
-// Import utility functions from ReportdataTableUtilsDummy.js
+
+// Imports & Constants
 import {
     initializeDataTable,
     addSearchBadge,
@@ -9,35 +10,26 @@ import {
     resetToFirstPage,
 } from './ReportdataTableUtilsDummy.js';
 
-// SVG icons for Filter and Group badges
-const FILTER_ICON = `
-<svg viewBox="0 0 24 24" width="14" height="14" class="me-1">
-    <path d="M3,4H21V6H3V4M6,10H18V12H6V10M10,16H14V18H10V16Z"></path>
-</svg>`;
-
-const GROUP_ICON = `
-<svg viewBox="0 0 24 24" width="14" height="14" class="me-1">
-    <path d="M3,13H9V19H3V13M3,5H9V11H3V5M11,5H21V11H11V5M11,13H21V19H11V13Z"></path>
-</svg>`;
+// SVG icons used in filter/group badges
+const FILTER_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"><path d="M3,4H21V6H3V4M6,10H18V12H6V10M10,16H14V18H10V16Z"></path></svg>`;
+const GROUP_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"><path d="M3,13H9V19H3V13M3,5H9V11H3V5M11,5H21V11H11V5M11,13H21V19H11V13Z"></path></svg>`;
 
 const BASE_PATH = '/Accounting/Report';
-let table;
 
-// Page-specific filter configuration
+let table;  // reference to the DataTable instance
+
+// Page-specific filter mapping (UI → backend)
 const MY_FILTERS = {
     'Companies': { divId: 'filter-company', title: 'Select Company', backendKey: 'Companyid' },
     'CustomerInvoice': { divId: 'filter-customerinvoice', title: 'Select Customer', backendKey: 'CustomerName' },
     'VendorBill': { divId: 'filter-vendorbill', title: 'Select Vendor', backendKey: 'VendorName' }
 };
 
+// Document Ready - Main Initialization
 $(document).ready(() => {
-    // Initialize stepper if present
-    initStepper();
-
-    // Setup page filters
-    setPageFilterConfig(MY_FILTERS);
-
-    // Initialize master table
+    initStepper();                      // setup wizard stepper if present
+    setPageFilterConfig(MY_FILTERS);    // register page-specific filter handlers
+    // Initialize main master table with server-side data
     table = initializeDataTable(
         `${BASE_PATH}/GetData`,
         '#masterTable',
@@ -48,18 +40,18 @@ $(document).ready(() => {
         }
     );
 
-    // Open Save Favorite modal
+    // ── Save Favorite Modal triggers ──
     $('#saveFavorite').on('click', () => {
         $('#favoriteName').val('');
         new bootstrap.Modal($('#saveFavoriteModal')[0]).show();
     });
 
-    // Save Favorite
+    // Save current view (filters + grouping) as favorite
     $('#saveFavoriteConfirm').on('click', function () {
         const viewName = $('#favoriteName').val().trim();
-        if (!viewName) return alert('Please enter a name for the view');
+        if (!viewName) return showToast('warning', 'Please enter a name for the view');
 
-        // Collect current filters
+        // Collect active filter badges
         const filters = {};
         $('.badge-tag[data-type="Filter"]').each(function () {
             const key = $(this).data('key');
@@ -68,8 +60,7 @@ $(document).ready(() => {
             filters[key].push(value);
         });
 
-        // Collect current groupBy
-        const groupBy = [...groupBySelectionOrder];
+        const groupBy = [...groupBySelectionOrder];  // current group order
 
         const payload = {
             ViewName: viewName,
@@ -78,7 +69,6 @@ $(document).ready(() => {
             GroupBy: JSON.stringify(groupBy)
         };
 
-        // AJAX save
         $.ajax({
             url: '/Accounting/Report/SaveReportView',
             type: 'POST',
@@ -86,15 +76,14 @@ $(document).ready(() => {
             data: JSON.stringify(payload),
             success: () => {
                 bootstrap.Modal.getInstance($('#saveFavoriteModal')[0]).hide();
-                alert('Favorite saved successfully!');
-                loadFavorites();
+                showToast('success', 'Favorite saved successfully!');
+                loadFavorites();  // refresh list
             },
-            error: () => alert('Failed to save favorite')
+            error: () => showToast('warning', 'Failed to save favorite')
         });
     });
 
-    // Load favorites from backend
-    // Load favorites from backend
+    // Favorites Management
     function loadFavorites() {
         $.get('/Accounting/Report/GetUserReportViews', { reportKey: 'OpeningMaster' }, function (data) {
             const $list = $('#favoritesList');
@@ -107,100 +96,103 @@ $(document).ready(() => {
 
             let defaultView = null;
 
-            // Optional: Log raw data for debugging (you can remove later)
-            //console.log("Raw favorites from backend:", data);
-
             data.forEach(v => {
                 const filtersStr = v.filters || '{}';
                 const groupByStr = v.groupBy || '[]';
-
-                // FIXED: use lowercase 'isDefault' and 'isLocked' to match backend JSON
                 const isDefault = !!v.isDefault;
                 const isLocked = !!v.isLocked;
 
-                // Track the default view if found
-                if (v.isDefault) {
+                if (isDefault) {
                     defaultView = v;
-                   // console.log(`Found default favorite: ${v.viewName} (isDefault: true)`);
                 }
 
-                // Create list item
                 const $li = $('<li>')
                     .addClass('favorite-item')
-                    .attr('data-filters', filtersStr)
-                    .attr('data-groupby', groupByStr)
-                    .attr('data-isdefault', isDefault ? '1' : '0')
-                    .attr('data-islocked', isLocked ? '1' : '0')
+                    .attr({
+                        'data-filters': filtersStr,
+                        'data-groupby': groupByStr,
+                        'data-isdefault': isDefault ? '1' : '0',
+                        'data-islocked': isLocked ? '1' : '0'
+                    })
                     .html('⭐ ' + (v.viewName || 'Unnamed View'))
-                    // Optional: visual highlight for default item
                     .toggleClass('default-favorite text-primary fw-bold', isDefault);
 
                 $list.append($li);
             });
 
-            // Auto-apply the real default favorite (if exists)
+            // Auto-apply default view on first load (if exists)
             if (defaultView) {
-                //console.log('Auto-applying default favorite:', 
-                //{
-                //    viewName: defaultView.viewName,
-                //    isDefault: defaultView.isDefault,
-                //    isLocked: defaultView.isLocked
-                //});
-
                 applyFavorite({
                     filters: defaultView.filters || '{}',
                     groupBy: defaultView.groupBy || '[]',
-                    IsLocked: !!defaultView.isLocked   // consistent with your applyFavorite usage
+                    IsLocked: !!defaultView.isLocked
                 });
-            } 
-
-        }).fail((jqXHR, textStatus, errorThrown) => {
-            //console.error('Failed to load favorites:', textStatus, errorThrown);
+            }
+        }).fail(() => {
             $('#favoritesList').html('<li class="text-danger">Error loading favorites</li>');
         });
     }
-    // Apply favorite (filters + group)
+
+    // Apply saved view (clear current → restore filters & groups)
     function applyFavorite(view) {
         let filters = {};
         let groups = [];
 
-        try { filters = JSON.parse(view.filters || '{}'); } catch { console.error('Invalid filters JSON'); }
-        try { groups = JSON.parse(view.groupBy || '[]'); } catch { console.error('Invalid groupBy JSON'); }
+        try { filters = JSON.parse(view.filters || '{}'); } catch { }
+        try { groups = JSON.parse(view.groupBy || '[]'); } catch { }
 
-        // Clear existing badges and group selection
+        // Reset UI state
         $('.badge-tag').remove();
         groupBySelectionOrder.length = 0;
         $('#groupByList li').removeClass('active');
 
+        const isLocked = !!view.IsLocked;
+
         // Restore filter badges
         Object.keys(filters).forEach(key => {
-            (filters[key] || []).forEach(val => addSearchBadge('Filter', key, val, view.IsLocked));
+            (filters[key] || []).forEach(val => {
+                addSearchBadge('Filter', key, val, isLocked);
+            });
         });
 
-        // Restore groupBy badges
+        // Restore group badges & internal order
         groups.forEach(g => {
             if (!groupBySelectionOrder.includes(g)) {
                 groupBySelectionOrder.push(g);
                 $('#groupByList li[data-group="' + g + '"]').addClass('active');
-                addSearchBadge('Group', g, g.charAt(0).toUpperCase() + g.slice(1), view.IsLocked);
+                addSearchBadge('Group', g, g.charAt(0).toUpperCase() + g.slice(1), isLocked);
             }
         });
 
-        // Reload table
-        resetToFirstPage();
+        resetToFirstPage();  // trigger table reload with new state
     }
 
-    // Favorite click handler
+    // Click handler for favorite items
     $(document).on('click', '.favorite-item', function () {
         const $item = $(this);
-        const view = {
+        applyFavorite({
             filters: $item.attr('data-filters'),
             groupBy: $item.attr('data-groupby'),
-            IsLocked: $item.attr('data-islocked') == '1'
-        };
-        applyFavorite(view);
+            IsLocked: $item.attr('data-islocked') === '1'
+        });
     });
 
-    // Initial favorites load
+    // Initial Load
     loadFavorites();
 });
+
+function showToast(icon, text, timer = 3000) {
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: icon,
+        text: text,
+        showConfirmButton: false,
+        showCloseButton: false,
+        showCancelButton: false,
+        timer: timer,
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+    });
+}

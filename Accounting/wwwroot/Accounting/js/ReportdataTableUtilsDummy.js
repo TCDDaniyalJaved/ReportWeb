@@ -1,30 +1,25 @@
 ﻿// ReportdataTableUtilsDummy.js
+// Shared utilities for DataTable initialization, grouping, custom pagination, badges, filters in reports
 
-let activeTables = new Map();
-export let groupBySelectionOrder = [];
-let pageFilterConfig = {};
-let currentOffset = 0;
-const PAGE_SIZE = 10;
-let allLoadedData = [];
-let isAppendMode = false;
+// Global state & constants
+let activeTables = new Map();               // stores DataTable instances by selector
+export let groupBySelectionOrder = [];      // maintains order of selected group-by fields
+let pageFilterConfig = {};                  // page-specific filter mappings (UI → backend)
+let currentOffset = 0;                      // manual offset for "Load More" style pagination
+const PAGE_SIZE = 10;                       // records per "page" / load batch
+let allLoadedData = [];                     // accumulates all loaded rows for client-side grouping
+let isAppendMode = false;                   // flag to know if we're appending vs replacing data
 
+const FILTER_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"><path d="M3,4H21V6H3V4M6,10H18V12H6V10M10,16H14V18H10V16Z"></path></svg>`;
+const GROUP_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"><path d="M3,13H9V19H3V13M3,5H9V11H3V5M11,5H21V11H11V5M11,13H21V19H11V13Z"></path></svg>`;
 
-
-const FILTER_ICON = `
-<svg viewBox="0 0 24 24" width="14" height="14" class="me-1">
-    <path d="M3,4H21V6H3V4M6,10H18V12H6V10M10,16H14V18H10V16Z"></path>
-</svg>`;
-const GROUP_ICON = `
-<svg viewBox="0 0 24 24" width="14" height="14" class="me-1">
-    <path d="M3,13H9V19H3V13M3,5H9V11H3V5M11,5H21V11H11V5M11,13H21V19H11V13Z"></path>
-</svg>`;
-
-// Set page-specific filter configuration (e.g., Companies, Customers)
+// Configuration & Column Generation
+// Store page-specific filter config (used in badge → modal → backend key mapping)
 export function setPageFilterConfig(config) {
     pageFilterConfig = { ...config };
 }
 
-// Generate DataTable columns dynamically from <thead> attributes
+// Dynamically build DataTable column definitions from <ebit-headcolumn> attributes
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     const columns = [];
     $(`${tableSelector} thead th`).each(function () {
@@ -45,27 +40,22 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
 
         if (align) {
             const alignMap = { right: 'end', center: 'center', left: 'start' };
-            const textAlign = alignMap[align.toLowerCase()] || 'start';
-            colDef.className = `text-${textAlign}`;
+            colDef.className = `text-${alignMap[align.toLowerCase()] || 'start'}`;
         }
 
-        if (datafield) {
-            colDef.data = datafield;
-        } else {
-            colDef.data = null;
-            colDef.orderable = false;
-        }
+        if (datafield) colDef.data = datafield;
+        else colDef.orderable = false;
 
-        // Auto-format amount columns (debit, credit, amount, balance)
+        // Auto-format amount-like columns
         const amountKeywords = ['debit', 'credit', 'amount', 'balance'];
         if (datafield && amountKeywords.some(k => datafield.toLowerCase().includes(k))) {
             colDef.render = $.fn.dataTable.render.number(',', '.', 2);
             colDef.className = (colDef.className || '') + ' text-end';
         }
 
-        // Format date columns to Indian locale
+        // Format dates to Indian style (DD-MM-YYYY)
         if (datafield && /date/i.test(datafield)) {
-            colDef.render = (data) => (!data ? '' : new Date(data).toLocaleDateString('en-IN'));
+            colDef.render = (data) => data ? new Date(data).toLocaleDateString('en-IN') : '';
         }
 
         columns.push(colDef);
@@ -73,283 +63,215 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     return columns;
 }
 
-// Get current group-by fields in selected order
+// Grouping Helpers
 function getGroupByFieldsInOrder() {
     return groupBySelectionOrder;
 }
 
-// Calculate sum totals for a group (only for columns with group-total=true)
+// Calculate totals for group-total columns within current group
 function calculateGroupTotals(rowDataArray, startIndex, groupByFields, level, currentGroupValues, columns) {
     const totals = {};
-    for (const col of columns) {
-        if (!col.groupTotal) continue;
-        totals[col.data] = 0;
-    }
+    columns.forEach(col => { if (col.groupTotal) totals[col.data] = 0; });
 
     for (let i = startIndex; i < rowDataArray.length; i++) {
         const row = rowDataArray[i];
         let stillInGroup = true;
-
         for (let l = 0; l <= level; l++) {
             const field = groupByFields[l];
-            const expected = currentGroupValues[l];
-            const actual = row[field] ?? '(Blank)';
-            if (expected !== actual) {
+            if (currentGroupValues[l] !== (row[field] ?? '(Blank)')) {
                 stillInGroup = false;
                 break;
             }
         }
-
         if (!stillInGroup) break;
 
-        for (const col of columns) {
-            if (!col.groupTotal) continue;
-            totals[col.data] += Number(row[col.data] || 0);
-        }
+        columns.forEach(col => {
+            if (col.groupTotal) totals[col.data] += Number(row[col.data] || 0);
+        });
     }
     return totals;
 }
 
-// Create HTML for group header row with toggle icon and totals
-function createGroupHeaderRow(field, value, count, level, columns, totals) {
-    const fieldName = field.charAt(0).toUpperCase() + field.slice(1);
-    const displayValue = value || '(Blank)';
-    let tds = '';
-
-    for (let i = 0; i < columns.length; i++) {
-        const col = columns[i];
-        if (i === 0) {
-            tds += `<td colspan="1" style="padding-left:${level * 20}px;" class="text-nowrap">
-                <span class="toggle-icon d-inline-block" style="width:20px;">
-                    <i class="bx bx-chevron-down"></i>
-                </span>
-                ${displayValue} <small class="text-muted">(${count})</small>
-            </td>`;
-        } else if (col.groupTotal) {
-            tds += `<td class="text-end fw-semibold">
-                ${totals[col.data].toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </td>`;
-        } else {
-            tds += `<td></td>`;
-        }
-    }
-    return $(`<tr class="group-row level-${level}">${tds}</tr>`);
-}
-
-// Count number of records belonging to current group
+// Count how many records belong to the current group
 function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, currentGroupValues) {
     let count = 0;
     for (let i = startIndex; i < rowDataArray.length; i++) {
-        const rowData = rowDataArray[i];
+        const row = rowDataArray[i];
         let stillInGroup = true;
-
         for (let l = 0; l <= level; l++) {
-            const field = groupByFields[l];
-            const expected = currentGroupValues[l];
-            const actual = rowData[field] ?? '(Blank)';
-            if (expected !== actual) {
+            if (currentGroupValues[l] !== (row[groupByFields[l]] ?? '(Blank)')) {
                 stillInGroup = false;
                 break;
             }
         }
-
         if (!stillInGroup) break;
         count++;
     }
     return count;
 }
 
-// Setup click handler for collapsing/expanding group rows
+// Create DOM row for group header (with toggle + totals)
+function createGroupHeaderRow(field, value, count, level, columns, totals) {
+    const displayValue = value || '(Blank)';
+    let tds = `<td colspan="1" style="padding-left:${level * 20}px;" class="text-nowrap">
+        <span class="toggle-icon d-inline-block" style="width:20px;"><i class="bx bx-chevron-down"></i></span>
+        ${displayValue} <small class="text-muted">(${count})</small>
+    </td>`;
+
+    columns.forEach((col, i) => {
+        if (i === 0) return;
+        if (col.groupTotal) {
+            tds += `<td class="text-end fw-semibold">
+                ${totals[col.data]?.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || ''}
+            </td>`;
+        } else {
+            tds += '<td></td>';
+        }
+    });
+
+    return $(`<tr class="group-row level-${level}">${tds}</tr>`);
+}
+
+// Toggle expand/collapse for group rows and nested content
 function setupGroupRowToggle() {
     $('#masterTable tbody')
         .off('click', 'tr.group-row')
         .on('click', 'tr.group-row', function () {
-            const $groupRow = $(this);
-            const levelMatch = this.className.match(/level-(\d+)/);
-            if (!levelMatch) return;
-            const level = parseInt(levelMatch[1]);
-            const isCollapsed = $groupRow.hasClass('collapsed');
-            const $icon = $groupRow.find('.toggle-icon i');
+            const $row = $(this);
+            const level = parseInt($row[0].className.match(/level-(\d+)/)?.[1] || 0);
+            const willCollapse = !$row.hasClass('collapsed');
 
-            $groupRow.toggleClass('collapsed', !isCollapsed);
-            $icon.toggleClass('bx-chevron-down', isCollapsed)
-                .toggleClass('bx-chevron-right', !isCollapsed);
+            $row.toggleClass('collapsed', willCollapse);
+            $row.find('.toggle-icon i')
+                .toggleClass('bx-chevron-down', !willCollapse)
+                .toggleClass('bx-chevron-right', willCollapse);
 
-            let $next = $groupRow.next();
+            let $next = $row.next();
             while ($next.length) {
-                if ($next.hasClass('group-row')) {
-                    const nextLevelMatch = $next[0].className.match(/level-(\d+)/);
-                    if (!nextLevelMatch) break;
-                    const nextLevel = parseInt(nextLevelMatch[1]);
-                    if (nextLevel <= level) break;
+                const nextLevel = parseInt($next[0].className.match(/level-(\d+)/)?.[1] || 999);
+                if (nextLevel <= level) break;
 
-                    if (isCollapsed) {
-                        $next.show().removeClass('collapsed');
-                        $next.find('.toggle-icon i').removeClass('bx-chevron-right').addClass('bx-chevron-down');
-                    } else {
+                if ($next.hasClass('group-row')) {
+                    if (willCollapse) {
                         $next.hide().addClass('collapsed');
                         $next.find('.toggle-icon i').removeClass('bx-chevron-down').addClass('bx-chevron-right');
+                    } else {
+                        $next.show().removeClass('collapsed');
+                        $next.find('.toggle-icon i').removeClass('bx-chevron-right').addClass('bx-chevron-down');
                     }
                 } else {
-                    $next.toggle(isCollapsed);
+                    $next.toggle(!willCollapse);
                 }
                 $next = $next.next();
             }
         });
 }
 
-// Update Load More button visibility
-function updateLoadMoreButton(returnedRecords) {
-    if (returnedRecords < PAGE_SIZE) {
-        // No more records
-        $('#loadMoreBtn').hide();
-        $('#noMoreRecords').show();
-    } else {
-        // More records available
-        $('#loadMoreBtn').show();
-        $('#noMoreRecords').hide();
-    }
-}
-
-// Add visual badge for active Group By or Filter
-export function addSearchBadge(type, value, displayText) {
+// Badges & Filter Modal
+// Add visual badge for active filter or group-by
+export function addSearchBadge(type, value, displayText, isLocked = false) {
     if ($(`.badge-tag[data-type="${type}"][data-value="${value}"]`).length) return;
 
     const icon = type === 'Group' ? GROUP_ICON : `<span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>`;
+    const removeBtn = isLocked ? '' : '<span class="remove-btn ms-1" style="cursor:pointer;">×</span>';
+    const lockedClass = isLocked ? 'opacity-75 cursor-not-allowed' : '';
+
     const $badge = $(`
-        <span class="badge-tag d-inline-flex align-items-center"
-              data-type="${type}"
-              data-value="${value}">
+        <span class="badge-tag d-inline-flex align-items-center ${lockedClass}"
+              data-type="${type}" data-value="${value}" data-locked="${isLocked ? '1' : '0'}">
             ${icon}
             <span class="badge-text ms-1">${displayText}</span>
-            <span class="remove-btn ms-1" style="cursor:pointer;">×</span>
+            ${removeBtn}
         </span>
     `);
 
-    // Remove badge and reload table
-    $badge.find('.remove-btn').on('click', function (e) {
-        e.stopPropagation();
-        $badge.remove();
-        if (activeTables.has('#masterTable')) {
-            activeTables.get('#masterTable').ajax.reload();
-        }
-    });
-
-    // Open filter modal when clicking filter icon
-    if (type === 'Filter') {
-        $badge.find('.filter-icon').on('click', function (e) {
+    if (!isLocked) {
+        $badge.find('.remove-btn').on('click', function (e) {
             e.stopPropagation();
-            openFilterModal(value, $badge);
+            const $b = $(this).closest('.badge-tag');
+            const t = $b.data('type'), v = $b.data('value');
+
+            if (t === 'Group') {
+                groupBySelectionOrder = groupBySelectionOrder.filter(f => f !== v);
+                $(`#groupByList li[data-group="${v}"]`).removeClass('active');
+            }
+            $b.remove();
+            currentOffset = 0;
+            isAppendMode = false;
+            activeTables.get('#masterTable')?.ajax.reload();
         });
+
+        if (type === 'Filter') {
+            $badge.find('.filter-icon').on('click', function (e) {
+                e.stopPropagation();
+                openFilterModal(value, $badge);
+            });
+        }
     }
 
     $('#universalSearch').before($badge);
 }
 
-// Open modal to select filter value
-function openFilterModal(filterType, $badge) {
+// Open filter selection modal and handle apply
+function openFilterModal(filterType, $badge = null) {
     const config = pageFilterConfig[filterType];
-    if (!config || !config.divId || !config.backendKey) {
-        alert('Filter not configured properly: ' + filterType);
-        return;
-    }
+    if (!config) return alert('Filter not configured: ' + filterType);
 
     const $modal = $('#filterModal');
     $('#filterModalTitle').text(config.title || 'Select Option');
 
-    // Hide all filter blocks, show current
     $modal.find('.filter-option').hide();
-    const $filterDiv = $(`#${config.divId}`);
-    $filterDiv.show();
+    const $div = $(`#${config.divId}`).show();
+    const $select = $div.find('select').first();
 
-    const $select = $filterDiv.find('select').first();
+    if ($badge?.data('id')) $select.val($badge.data('id'));
+    else $select.val($select.find('option:first').val());
 
-    // Preselect value (ID based)
-    if ($badge && $badge.data('id')) {
-        $select.val($badge.data('id'));
-    } else {
-        $select.val($select.find('option:first').val());
-    }
-
-    // Apply filter
     $modal.find('#applyFilterBtn').off('click').on('click', function () {
+        const id = $select.val();
+        const text = $select.find('option:selected').text().trim();
 
-        const selectedId = $select.val(); // ID
-        const selectedText = $select.find('option:selected').text().trim(); // NAME
-
-        if (!selectedId || selectedId === '0' || selectedId === '') {
-            if ($badge) $badge.remove();
+        if (!id || id === '0') {
+            $badge?.remove();
+        } else if (!$badge) {
+            // create new badge
+            const $newBadge = $(`
+                <span class="badge-tag d-inline-flex align-items-center" data-type="Filter"
+                      data-key="${config.backendKey}" data-id="${id}" data-value="${text}">
+                    <span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>
+                    <span class="badge-text ms-1">${text}</span>
+                    <span class="remove-btn ms-1" style="cursor:pointer;">×</span>
+                </span>
+            `);
+            $newBadge.find('.remove-btn').on('click', () => { $newBadge.remove(); activeTables.get('#masterTable')?.ajax.reload(); });
+            $newBadge.find('.filter-icon').on('click', () => openFilterModal(filterType, $newBadge));
+            $('#universalSearch').before($newBadge);
         } else {
-
-            if (!$badge) {
-                // Create badge
-                const icon = `<span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>`;
-
-                $badge = $(`
-                    <span class="badge-tag d-inline-flex align-items-center"
-                          data-type="Filter"
-                          data-key="${config.backendKey}"   <!-- e.g. Companyname -->
-                          data-id="${selectedId}"           <!-- ID -->
-                          data-value="${selectedText}">     <!-- NAME -->
-                        ${icon}
-                        <span class="badge-text ms-1">${selectedText}</span>
-                        <span class="remove-btn ms-1" style="cursor:pointer;">×</span>
-                    </span>
-                `);
-
-                // Remove filter
-                $badge.find('.remove-btn').on('click', function (e) {
-                    e.stopPropagation();
-                    $badge.remove();
-                    if (activeTables.has('#masterTable')) {
-                        activeTables.get('#masterTable').ajax.reload();
-                    }
-                });
-
-                // Edit filter
-                $badge.find('.filter-icon').on('click', function (e) {
-                    e.stopPropagation();
-                    openFilterModal(filterType, $badge);
-                });
-
-                $('#universalSearch').before($badge);
-            } else {
-                // Update badge
-                $badge.data('id', selectedId);
-                $badge.data('value', selectedText);
-                $badge.attr('data-key', config.backendKey);
-                $badge.find('.badge-text').text(selectedText);
-            }
+            // update existing
+            $badge.data({ id, value: text });
+            $badge.find('.badge-text').text(text);
         }
 
         bootstrap.Modal.getInstance($modal[0]).hide();
-
-        if (activeTables.has('#masterTable')) {
-            activeTables.get('#masterTable').ajax.reload();
-        }
+        activeTables.get('#masterTable')?.ajax.reload();
     });
 
     new bootstrap.Modal($modal[0]).show();
 }
 
-
-// Initialize DataTable with server-side processing, grouping and filters
+// Core DataTable Initialization
 export function initializeDataTable(endpoint, tableSelector = '#masterTable', options = {}) {
-    const {
-        columns = generateColumnsFromHeaders(tableSelector),
-        pageLength = PAGE_SIZE,
-        callbacks = {}
-    } = options;
-
+    const { columns = generateColumnsFromHeaders(tableSelector), pageLength = PAGE_SIZE, callbacks = {} } = options;
     const $table = $(tableSelector);
     if (!$table.length) return null;
 
+    // Clean up previous instance
     if ($.fn.DataTable.isDataTable(tableSelector)) {
         $table.DataTable().destroy();
         $table.empty();
     }
 
-    // Reset global variables
+    // Reset state
     currentOffset = 0;
     allLoadedData = [];
     isAppendMode = false;
@@ -367,94 +289,65 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
         ajax: {
             url: endpoint,
             type: 'POST',
-            data: function (d) {
+            data: d => {
                 d.customSearch = $('#universalSearch').val() || '';
-                d.groupByFields = groupBySelectionOrder || [];
+                d.groupByFields = groupBySelectionOrder;
                 d.start = currentOffset;
                 d.length = PAGE_SIZE;
 
-                // Collect all active filter badges and send to backend
-                const filterBadges = $('.badge-tag[data-type="Filter"]');
-                filterBadges.each(function () {
-                    const $badge = $(this);
-                    const backendKey = $badge.data('key');
-                    const value = $badge.data('value');
-                    if (backendKey && value) {
-                        if (d[backendKey]) {
-                            if (Array.isArray(d[backendKey])) {
-                                d[backendKey].push(value);
-                            } else {
-                                d[backendKey] = [d[backendKey], value];
-                            }
-                        } else {
-                            d[backendKey] = [value];
-                        }
+                $('.badge-tag[data-type="Filter"]').each(function () {
+                    const key = $(this).data('key');
+                    const val = $(this).data('value');
+                    if (key && val) {
+                        d[key] = d[key] ? [].concat(d[key], val) : [val];
                     }
                 });
 
-                //console.log('AJAX payload:', d);
+                console.log('ajax request payload:', d);
                 return d;
             },
-            dataSrc: function (json) {
-                // Handle the data for append mode
+            dataSrc: json => {
                 if (isAppendMode) {
-                    // Append new data to existing data
                     allLoadedData = [...allLoadedData, ...json.data];
-
-                    // Update Load More button
                     updateLoadMoreButton(json.data.length);
-
                     return allLoadedData;
                 } else {
-                    // First load or search/filter - replace data
                     allLoadedData = json.data;
-
-                    // Update Load More button
                     updateLoadMoreButton(json.data.length);
-
                     return allLoadedData;
                 }
             }
         },
         columns,
         drawCallback: function () {
-            // Remove old group rows
             $('#masterTable tbody tr.group-row').remove();
             $('#masterTable tbody tr').show();
 
-            const groupByFields = getGroupByFieldsInOrder();
-            if (groupByFields.length === 0) {
+            const groupFields = getGroupByFieldsInOrder();
+            if (!groupFields.length) {
                 updateCustomPagination(table);
                 callbacks.onDraw?.();
-
-                // Reset append mode flag
                 isAppendMode = false;
                 return;
             }
 
-            // Use allLoadedData for grouping
-            const rowDataArray = allLoadedData;
-            const lastGroupValues = [];
+            const rowData = allLoadedData;
+            const lastValues = [];
+            const bodyRows = $('#masterTable tbody tr:not(.group-row)').toArray();
 
-            // Get all table rows (tbody tr that are not group rows)
-            const tableRows = $('#masterTable tbody tr:not(.group-row)').toArray();
+            bodyRows.forEach((node, idx) => {
+                const data = rowData[idx];
+                if (!data) return;
 
-            tableRows.forEach((rowNode, index) => {
-                const rowData = rowDataArray[index];
-                if (!rowData) return;
-
-                groupByFields.forEach((field, level) => {
-                    const value = rowData[field] ?? '(Blank)';
-                    if (lastGroupValues[level] !== value) {
-                        const currentGroupValues = [...(lastGroupValues.slice(0, level) || []), value];
-                        const count = countRecordsInGroup(rowDataArray, index, groupByFields, level, currentGroupValues);
-                        const totals = calculateGroupTotals(rowDataArray, index, groupByFields, level, currentGroupValues, columns);
-                        const groupRow = createGroupHeaderRow(field, value, count, level, columns, totals);
-
-                        $(rowNode).before(groupRow);
-
-                        lastGroupValues[level] = value;
-                        for (let j = level + 1; j < groupByFields.length; j++) lastGroupValues[j] = undefined;
+                groupFields.forEach((field, lvl) => {
+                    const val = data[field] ?? '(Blank)';
+                    if (lastValues[lvl] !== val) {
+                        const groupVals = [...lastValues.slice(0, lvl), val];
+                        const cnt = countRecordsInGroup(rowData, idx, groupFields, lvl, groupVals);
+                        const totals = calculateGroupTotals(rowData, idx, groupFields, lvl, groupVals, columns);
+                        $(node).before(createGroupHeaderRow(field, val, cnt, lvl, columns, totals));
+                        lastValues[lvl] = val;
+                        for (let j = lvl + 1; j < groupFields.length; j++) lastValues[j] = undefined;
                     }
                 });
             });
@@ -462,117 +355,88 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
             setupGroupRowToggle();
             updateCustomPagination(table);
             callbacks.onDraw?.();
-
-            // Reset append mode flag
             isAppendMode = false;
         }
     });
 
-    // Load More Button Click Handler
+    // ── Load More ──
     $('#loadMoreBtn').off('click').on('click', function () {
-        const $btn = $(this);
-        const $spinner = $('#loadMoreSpinner');
-
-        // Show loading spinner
-        $spinner.removeClass('d-none');
+        const $btn = $(this), $spin = $('#loadMoreSpinner');
+        $spin.removeClass('d-none');
         $btn.prop('disabled', true);
 
-        // Increase offset for next batch
         currentOffset += PAGE_SIZE;
-
-        // Set append mode
         isAppendMode = true;
 
-        // Reload DataTable (append mode)
-        table.ajax.reload(function () {
-            // Hide spinner and enable button
-            $spinner.addClass('d-none');
+        table.ajax.reload(() => {
+            $spin.addClass('d-none');
             $btn.prop('disabled', false);
-        }, false); // false = don't reset paging
+        }, false);
     });
 
-    // Universal search input handler
-    $('#universalSearch').off('keyup').on('keyup', function () {
-        currentOffset = 0; // Reset to first page
-        isAppendMode = false; // Reset append mode
+    // ── Event handlers ──
+    $('#universalSearch').off('keyup').on('keyup', () => {
+        currentOffset = 0;
+        isAppendMode = false;
         table.ajax.reload();
     });
 
-    // Group By list click handler
     $(document).off('click', '#groupByList li[data-group]').on('click', '#groupByList li[data-group]', function () {
-        const $item = $(this);
-        const field = $item.data('group');
-        const displayText = $item.text().trim();
+        const $li = $(this), field = $li.data('group'), txt = $li.text().trim();
+        $li.toggleClass('active');
 
-        $item.toggleClass('active');
-
-        if ($item.hasClass('active')) {
-            if (!groupBySelectionOrder.includes(field)) {
-                groupBySelectionOrder.push(field);
-            }
-            addSearchBadge('Group', field, displayText);
+        if ($li.hasClass('active')) {
+            if (!groupBySelectionOrder.includes(field)) groupBySelectionOrder.push(field);
+            addSearchBadge('Group', field, txt);
         } else {
             groupBySelectionOrder = groupBySelectionOrder.filter(f => f !== field);
             $(`.badge-tag[data-type="Group"][data-value="${field}"]`).remove();
         }
-
-        currentOffset = 0; // Reset to first page
-        isAppendMode = false; // Reset append mode
+        currentOffset = 0;
+        isAppendMode = false;
         table.ajax.reload();
     });
 
-    // Direct filter item click handler (from dropdown)
     $(document).off('click', '[data-filter]').on('click', '[data-filter]', function () {
-        const filterValue = this.dataset.filter;
-        const displayText = this.textContent.trim();
-
+        const val = this.dataset.filter, txt = this.textContent.trim();
         $(this).toggleClass('active');
 
-        if ($(this).hasClass('active')) {
-            addSearchBadge('Filter', filterValue, displayText);
-        } else {
-            $(`.badge-tag[data-type="Filter"][data-value="${filterValue}"]`).remove();
-        }
+        if ($(this).hasClass('active')) addSearchBadge('Filter', val, txt);
+        else $(`.badge-tag[data-type="Filter"][data-value="${val}"]`).remove();
 
-        currentOffset = 0; // Reset to first page
-        isAppendMode = false; // Reset append mode
+        currentOffset = 0;
+        isAppendMode = false;
         table.ajax.reload();
     });
 
-    // Filter badge remove handler (update to reset offset)
-    $(document).off('click', '.badge-tag .remove-btn').on('click', '.badge-tag .remove-btn', function () {
-        currentOffset = 0; // Reset to first page
-        isAppendMode = false; // Reset append mode
-        // Reload will be triggered by the badge remove event
-    });
-
-    // Show Load More button initially
+    activeTables.set(tableSelector, table);
     $('#loadMoreBtn').show();
 
-    activeTables.set(tableSelector, table);
     return table;
 }
 
-// Initialize Bootstrap Stepper wizard (if present)
+// Misc Helpers
 export function initStepper() {
     const el = document.querySelector('#wizardStepper');
-    if (el) {
-        window.stepper = new Stepper(el, { linear: false });
-        return window.stepper;
-    }
-    return null;
+    return el ? new Stepper(el, { linear: false }) : null;
 }
 
-// Update total records display in custom pagination
+function updateLoadMoreButton(returnedCount) {
+    if (returnedCount < PAGE_SIZE) {
+        $('#loadMoreBtn').hide();
+        // $('#noMoreRecords').show(); // uncomment if you add this element
+    } else {
+        $('#loadMoreBtn').show();
+        // $('#noMoreRecords').hide();
+    }
+}
+
 function updateCustomPagination(table) {
     $('#totalRecords').text(table.page.info().recordsDisplay || 0);
 }
 
-// Reset to first page function
 export function resetToFirstPage() {
     currentOffset = 0;
     isAppendMode = false;
-    if (activeTables.has('#masterTable')) {
-        activeTables.get('#masterTable').ajax.reload();
-    }
+    activeTables.get('#masterTable')?.ajax.reload();
 }
