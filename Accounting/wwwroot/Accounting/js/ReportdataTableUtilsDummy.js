@@ -236,25 +236,38 @@ function openFilterModal(filterType, $badge = null) {
         } else if (!$badge) {
             // create new badge
             const $newBadge = $(`
-                <span class="badge-tag d-inline-flex align-items-center" data-type="Filter"
-                      data-key="${config.backendKey}" data-id="${id}" data-value="${text}">
-                    <span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>
-                    <span class="badge-text ms-1">${text}</span>
-                    <span class="remove-btn ms-1" style="cursor:pointer;">×</span>
-                </span>
-            `);
-            $newBadge.find('.remove-btn').on('click', () => { $newBadge.remove(); activeTables.get('#masterTable')?.ajax.reload(); });
+            <span class="badge-tag d-inline-flex align-items-center" 
+                  data-type="Filter" 
+                  data-value="${text}" 
+                  data-id="${id}">
+                <span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>
+                <span class="badge-text ms-1">${text}</span>
+                <span class="remove-btn ms-1" style="cursor:pointer;">×</span>
+            </span>
+        `);
+
+            //  Add backend key attribute here
+            $newBadge.attr('data-key', config.backendKey);
+
+            $newBadge.find('.remove-btn').on('click', () => {
+                $newBadge.remove();
+                activeTables.get('#masterTable')?.ajax.reload();
+            });
             $newBadge.find('.filter-icon').on('click', () => openFilterModal(filterType, $newBadge));
             $('#universalSearch').before($newBadge);
         } else {
-            // update existing
+            // update existing badge
             $badge.data({ id, value: text });
             $badge.find('.badge-text').text(text);
+
+            //  Ensure backend key attribute is set on existing badge too
+            $badge.attr('data-key', config.backendKey);
         }
 
         bootstrap.Modal.getInstance($modal[0]).hide();
         activeTables.get('#masterTable')?.ajax.reload();
     });
+
 
     new bootstrap.Modal($modal[0]).show();
 }
@@ -296,7 +309,7 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
                 d.length = PAGE_SIZE;
 
                 $('.badge-tag[data-type="Filter"]').each(function () {
-                    const key = $(this).data('key');
+                    const key = $(this).data('key');//||'companyid';
                     const val = $(this).data('value');
                     if (key && val) {
                         d[key] = d[key] ? [].concat(d[key], val) : [val];

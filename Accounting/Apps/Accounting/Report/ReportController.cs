@@ -110,8 +110,8 @@ public class ReportController : Controller
             string orderBy = request.GroupByFields.Any() ? string.Join(",", request.GroupByFields) : null;
 
             cmd.Parameters.AddWithValue("@OrderBy", orderBy == null ? (object)DBNull.Value : orderBy);
-
-
+            //var comapnyname = "best mobile";
+            //cmd.Parameters.AddWithValue("@Companyname", comapnyname);
             cmd.Parameters.AddWithValue("@Companyname", request.CompanyId == null || !request.CompanyId.Any() ? (object)DBNull.Value : string.Join(",", request.CompanyId));
             System.Diagnostics.Debug.WriteLine($"Received Start: {request.Start}, Length: {request.Length}");
 
