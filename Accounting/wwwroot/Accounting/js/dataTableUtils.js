@@ -79,10 +79,22 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
         }
         // Checkbox column
         else if (renderType === 'checkbox') {
-            colDef.render = () =>
-                '<input type="checkbox" class="row-selector form-check-input">';
+            colDef.title = '<div class="text-center"><input type="checkbox" id="select-all" class="form-check-input"></div>';
+            colDef.render = function (data, type, row, meta) {
+                if (type === 'display') {
+                    return '<div class="text-center"><input type="checkbox" class="row-selector form-check-input" data-id="' + (row.id || '') + '"></div>';
+                }
+                return data;
+            };
             colDef.orderable = false;
-        }
+            colDef.searchable = false;
+            }
+         // Checkbox column
+        //else if (renderType === 'checkbox') {
+        //    colDef.render = () =>
+        //        '<input type="checkbox" class="row-selector form-check-input">';
+        //    colDef.orderable = false;
+        //}
 
         // Status column with badges
         else if (renderType === 'status') {
@@ -147,9 +159,10 @@ export function initializeDataTable(
     const table = $table.DataTable({
         autoWidth: false,
         scrollX: true,
+        autoWidth: false,
         serverSide: true,
         paging: true,
-        dom: 't', // hide default pagination
+        dom: 't', 
         pageLength,
         searching: false,
         ordering: true,
@@ -221,7 +234,76 @@ export function initStepper() {
     return window.stepper;
 }
 
-// Load form for create/edit
+export function initCheckboxSelection(table, tableSelector = '#masterTable') {
+    const $table = $(tableSelector);
+    const $searchContainer = $('#universalSearch').closest('.input-group'); // Assuming search is in an input-group
+    const $selectedBadge = $('<div class="badge bg-primary d-none" id="selected-badge" style="align-items: center; display: flex;">' +
+        '<span id="selected-count"></span>' +
+        '<button type="button" class="btn-close btn-close-white ms-2" id="deselect-all" aria-label="Deselect all" style="font-size: 0.8rem;"></button>' +
+        '</div>');
+
+    // Append badge to search container's parent or appropriate place
+    $searchContainer.after($selectedBadge);
+
+    // Function to update UI based on selection
+    function updateSelectionUI() {
+        const $checkboxes = $table.find('tbody .row-selector');
+        const checked = $checkboxes.filter(':checked').length;
+
+        if (checked > 0) {
+            $('#selected-count').text(`${checked} record${checked > 1 ? 's' : ''} selected`);
+            $searchContainer.addClass('d-none');
+            $selectedBadge.removeClass('d-none');
+        } else {
+            $searchContainer.removeClass('d-none');
+            $selectedBadge.addClass('d-none');
+        }
+
+        // Update header checkbox
+        $('#select-all')
+            .prop('checked', checked > 0 && checked === $checkboxes.length)
+            .prop('indeterminate', checked > 0 && checked < $checkboxes.length);
+    }
+
+    // Select All
+    $(document).on('change', '#select-all', function () {
+        const isChecked = this.checked;
+        $table.find('tbody .row-selector').prop('checked', isChecked);
+        $table.find('tbody tr').toggleClass('table-active', isChecked);
+        updateSelectionUI();
+    });
+
+    // Individual checkbox
+    $(document).on('change', `${tableSelector} .row-selector`, function () {
+        $(this).closest('tr').toggleClass('table-active', this.checked);
+        updateSelectionUI();
+    });
+
+    // Deselect all button
+    $(document).on('click', '#deselect-all', function () {
+        clearAllSelections(tableSelector);
+        updateSelectionUI();
+    });
+
+    // After draw
+    table.on('draw', () => {
+        updateSelectionUI();
+    });
+}
+
+export function getSelectedIds(tableSelector = '#masterTable') {
+    return $(`${tableSelector} .row-selector:checked`)
+        .map((i, el) => $(el).data('id'))
+        .get();
+}
+
+export function clearAllSelections(tableSelector = '#masterTable') {
+    $(`${tableSelector} #select-all`).prop({ checked: false, indeterminate: false });
+    $(`${tableSelector} .row-selector`).prop('checked', false);
+    $(`${tableSelector} tr.table-active`).removeClass('table-active');
+}
+
+ //Load form for create/edit
 export function loadForm(basePath, mode, id = null, voucherNo = null, compprefix = null) {
     const url = mode === 'create'
         ? `${basePath}/Create`
@@ -329,7 +411,11 @@ export function handleRowActions(basePath, callbacks = {}) {
         }
     });
 }
-
+window.addEventListener('resize', function () {
+    if ($.fn.DataTable.isDataTable('#masterTable')) {
+        $('#masterTable').DataTable().columns.adjust().draw(false);
+    }
+});
 // Update custom pagination UI
 function updateCustomPagination(table) {
     if (!table) return;

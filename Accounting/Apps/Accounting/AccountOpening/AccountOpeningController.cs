@@ -64,6 +64,11 @@ public class AccountOpeningController : Controller
         return View(ViewPath("Index"));
     }
 
+    public IActionResult List2()
+    {
+        return View(ViewPath("Index2"));
+    }
+
     [HttpGet("{id}")]
     public IActionResult Print(int id)
     {

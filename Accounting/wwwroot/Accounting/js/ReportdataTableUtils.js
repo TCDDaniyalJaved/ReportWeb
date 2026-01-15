@@ -50,7 +50,11 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
 
     return columns;
 }
-
+window.addEventListener('resize', function () {
+    if ($.fn.DataTable.isDataTable('#masterTable')) {
+        $('#masterTable').DataTable().columns.adjust().draw(false);
+    }
+});
 // -----------------------------
 //  Get active group-by fields
 // -----------------------------

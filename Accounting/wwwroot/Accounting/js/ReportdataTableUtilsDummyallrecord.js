@@ -17,7 +17,11 @@ const GROUP_ICON = `
 export function setPageFilterConfig(config) {
     pageFilterConfig = { ...config };
 }
-
+window.addEventListener('resize', function () {
+    if ($.fn.DataTable.isDataTable('#masterTable')) {
+        $('#masterTable').DataTable().columns.adjust().draw(false);
+    }
+});
 // Generate DataTable columns dynamically from <thead> attributes
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     const columns = [];

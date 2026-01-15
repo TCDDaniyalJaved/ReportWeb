@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Apps\Accounting\AccountOpening - Copy\**" />
     <Compile Remove="Apps\Accounting\TrialBalance - Copy\**" />
+    <Content Remove="Apps\Accounting\AccountOpening - Copy\**" />
     <Content Remove="Apps\Accounting\TrialBalance - Copy\**" />
+    <EmbeddedResource Remove="Apps\Accounting\AccountOpening - Copy\**" />
     <EmbeddedResource Remove="Apps\Accounting\TrialBalance - Copy\**" />
+    <None Remove="Apps\Accounting\AccountOpening - Copy\**" />
     <None Remove="Apps\Accounting\TrialBalance - Copy\**" />
   </ItemGroup>
 

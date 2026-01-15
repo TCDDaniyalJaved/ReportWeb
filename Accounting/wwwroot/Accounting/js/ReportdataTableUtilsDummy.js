@@ -18,7 +18,11 @@ const GROUP_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"
 export function setPageFilterConfig(config) {
     pageFilterConfig = { ...config };
 }
-
+window.addEventListener('resize', function () {
+    if ($.fn.DataTable.isDataTable('#masterTable')) {
+        $('#masterTable').DataTable().columns.adjust().draw(false);
+    }
+});
 // Dynamically build DataTable column definitions from <ebit-headcolumn> attributes
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     const columns = [];
