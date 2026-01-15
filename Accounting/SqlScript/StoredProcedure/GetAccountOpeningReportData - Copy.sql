@@ -60,6 +60,7 @@ BEGIN
         m.Voucher LIKE ''%'' + @SearchValue + ''%'' OR
         CAST(m.TotalSeqNo AS NVARCHAR(50)) LIKE ''%'' + @SearchValue + ''%'' OR
         m.Companyname LIKE ''%'' + @SearchValue + ''%'' OR
+        d.Accounts LIKE ''%'' + @SearchValue + ''%'' OR
         CAST(m.Debit AS NVARCHAR(50)) LIKE ''%'' + @SearchValue + ''%'' OR
         CONVERT(NVARCHAR(50), m.Date, 120) LIKE ''%'' + @SearchValue + ''%'')';
 

@@ -311,6 +311,9 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
                 $('.badge-tag[data-type="Filter"]').each(function () {
                     const key = $(this).data('key');//||'companyid';
                     const val = $(this).data('value');
+
+
+                    console.log('backend key: ' + key);
                     if (key && val) {
                         d[key] = d[key] ? [].concat(d[key], val) : [val];
                     }
