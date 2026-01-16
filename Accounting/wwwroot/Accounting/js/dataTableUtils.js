@@ -1,7 +1,6 @@
 ﻿// dataTableUtils.js
 let activeTables = new Map();
-const selectedRowIds = new Set();   
-let selectAllState = false;
+
 // Generate columns from table headers - REUSABLE FUNCTION
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     const columns = [];
@@ -89,13 +88,7 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
             };
             colDef.orderable = false;
             colDef.searchable = false;
-            }
-         // Checkbox column
-        //else if (renderType === 'checkbox') {
-        //    colDef.render = () =>
-        //        '<input type="checkbox" class="row-selector form-check-input">';
-        //    colDef.orderable = false;
-        //}
+        }
 
         // Status column with badges
         else if (renderType === 'status') {
@@ -163,7 +156,7 @@ export function initializeDataTable(
         autoWidth: false,
         serverSide: true,
         paging: true,
-        dom: 't', 
+        dom: 't',
         pageLength,
         searching: false,
         ordering: true,
@@ -227,7 +220,6 @@ export function initializeDataTable(
     return table;
 }
 
-
 // Initialize stepper
 export function initStepper() {
     const el = document.querySelector('#wizardStepper');
@@ -235,22 +227,46 @@ export function initStepper() {
     return window.stepper;
 }
 
-/**
- * Initializes persistent checkbox selection for server-side DataTable
- * with cog icon + configurable dropdown menu for selection actions
- * 
- * @param {DataTable} table - DataTables instance
- * @param {string} tableSelector - Table selector (default: '#masterTable')
- * @param {Array} dropdownConfig - Array of dropdown menu items (optional)
- */
-export function initCheckboxSelection(table, tableSelector = '#masterTable', dropdownConfig = []) {
-    // Persistent storage of selected IDs (survives page/length/search changes)
+// Generic Checkbox Selection Function with Bulk Actions
+export function initCheckboxSelection(table, tableSelector = '#masterTable', dropdownConfig = [], bulkDeleteEndpoint = null) {
+    // Persistent storage of selected IDs
     const selectedRowIds = new Set();
 
     const $table = $(tableSelector);
 
     // ── Create selection controls: Cog + Dropdown + Badge ───────────────────────
     const $searchContainer = $('#universalSearch').closest('.input-group');
+
+    // Default actions
+    const defaultDropdownConfig = [
+        {
+            id: 'action-select-all',
+            label: 'Select All (this page)',
+            icon: 'bx bx-check-square',
+            class: ''
+        },
+        {
+            id: 'action-select-none',
+            label: 'Clear Selection',
+            icon: 'bx bx-x-circle',
+            class: '',
+            requiresSelection: true
+        }
+    ];
+
+    // Add bulk delete if endpoint provided
+    if (bulkDeleteEndpoint) {
+        defaultDropdownConfig.push({
+            id: 'action-bulk-delete',
+            label: 'Delete Selected',
+            icon: 'bx bx-trash',
+            class: 'text-danger',
+            requiresSelection: true
+        });
+    }
+
+    // Use custom config if provided, otherwise use default
+    const finalDropdownConfig = dropdownConfig.length > 0 ? dropdownConfig : defaultDropdownConfig;
 
     const $selectionControls = $(`
         <div class="d-flex align-items-center gap-2 ms-2">
@@ -265,21 +281,12 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
                 <div class="dropdown-menu dropdown-menu-end shadow-sm p-1" 
                      id="selection-actions-menu" 
                      style="min-width: 200px; font-size:0.9rem; z-index: 1050;">
-                    ${dropdownConfig.length > 0
-            ? dropdownConfig.map(item => `
-                            <button class="dropdown-item py-1 ${item.class || ''}" 
-                                    id="${item.id}">
-                                <i class="${item.icon} me-2"></i>${item.label}
-                            </button>
-                        `).join('')
-            : `
-                            <button class="dropdown-item py-1" id="action-select-all">
-                                <i class="bx bx-check-square me-2"></i>Select All (this page)
-                            </button>
-                            <button class="dropdown-item py-1 text-danger" id="action-select-none">
-                                <i class="bx bx-x-circle me-2"></i>Select None
-                            </button>
-                        `}
+                    ${finalDropdownConfig.map(item => `
+                        <button class="dropdown-item py-1 ${item.class || ''}" 
+                                id="${item.id}">
+                            <i class="${item.icon} me-2"></i>${item.label}
+                        </button>
+                    `).join('')}
                 </div>
             </div>
 
@@ -296,7 +303,115 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
 
     $searchContainer.after($selectionControls);
 
-    // ── UI Update ───────────────────────────────────────────────────────────────
+    // ── Bulk Delete Function ──────────────────────────────────────────────────
+    function performBulkDelete() {
+        if (selectedRowIds.size === 0) {
+            Swal.fire({
+                title: 'No Selection',
+                text: 'Please select at least one item to delete.',
+                icon: 'warning',
+                timer: 2000
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: 'Confirm Bulk Delete',
+            html: `Are you sure you want to delete <strong>${selectedRowIds.size}</strong> selected item(s)?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete them!',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Show loading
+                const loadingToast = Swal.fire({
+                    title: 'Deleting...',
+                    text: 'Please wait while we delete the selected items',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Prepare data for API
+                const data = {
+                    ids: Array.from(selectedRowIds),
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                };
+
+                // AJAX call for bulk delete
+                $.ajax({
+                    url: bulkDeleteEndpoint,
+                    method: 'POST',
+                    data: data,
+                    success: function (response) {
+                        loadingToast.close();
+
+                        if (response.success) {
+                            // Clear selection
+                            selectedRowIds.clear();
+
+                            // Show success message
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: response.message || `${selectedRowIds.size} item(s) deleted successfully.`,
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+
+                            // Refresh the table
+                            table.ajax.reload(null, false);
+                            updateSelectionUI();
+                        } else {
+                            Swal.fire('Error!', response.message || 'Failed to delete items', 'error');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        loadingToast.close();
+                        Swal.fire('Error!', 'An error occurred while deleting items. Please try again.', 'error');
+                        console.error('Bulk delete error:', error);
+                    }
+                });
+            }
+        });
+    }
+
+    // ── Select All Function (Current Page Only) ──────────────────────────────
+    function selectAllCurrentPage() {
+        $table.find('tbody .row-selector').each(function () {
+            const $cb = $(this);
+            const id = String($cb.data('id') ?? '');
+
+            if (id) {
+                selectedRowIds.add(id);
+                $cb.prop('checked', true);
+                $cb.closest('tr').addClass('table-active');
+            }
+        });
+        updateSelectionUI();
+    }
+
+    // ── Select None Function ────────────────────────────────────────────────
+    function selectNone() {
+        $table.find('tbody .row-selector').each(function () {
+            const $cb = $(this);
+            const id = String($cb.data('id') ?? '');
+
+            if (id) {
+                selectedRowIds.delete(id);
+                $cb.prop('checked', false);
+                $cb.closest('tr').removeClass('table-active');
+            }
+        });
+        updateSelectionUI();
+    }
+
+    // ── UI Update Function ──────────────────────────────────────────────────
     function updateSelectionUI() {
         const count = selectedRowIds.size;
 
@@ -304,9 +419,15 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
             $('#selected-count').text(`${count} selected`);
             $('#selected-badge').removeClass('d-none');
             $searchContainer.addClass('d-none');
+
+            // Enable buttons that require selection
+            $('#action-bulk-delete').prop('disabled', false);
         } else {
             $('#selected-badge').addClass('d-none');
             $searchContainer.removeClass('d-none');
+
+            // Disable buttons that require selection
+            $('#action-bulk-delete').prop('disabled', true);
         }
 
         // Header checkbox (select-all) state
@@ -335,21 +456,25 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         });
     }
 
-    // ── Events ──────────────────────────────────────────────────────────────────
+    // ── Event Handlers ──────────────────────────────────────────────────────
 
     // Header "Select All" checkbox (current page only)
     $(document).on('change', '#select-all', function () {
         const isChecked = this.checked;
 
         $table.find('tbody .row-selector').each(function () {
-            const id = String($(this).data('id') ?? '');
+            const $cb = $(this);
+            const id = String($cb.data('id') ?? '');
             if (!id) return;
 
-            if (isChecked) selectedRowIds.add(id);
-            else selectedRowIds.delete(id);
+            if (isChecked) {
+                selectedRowIds.add(id);
+            } else {
+                selectedRowIds.delete(id);
+            }
 
-            $(this).prop('checked', isChecked);
-            $(this).closest('tr').toggleClass('table-active', isChecked);
+            $cb.prop('checked', isChecked);
+            $cb.closest('tr').toggleClass('table-active', isChecked);
         });
 
         updateSelectionUI();
@@ -360,8 +485,11 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         const id = String($(this).data('id') ?? '');
         if (!id) return;
 
-        if (this.checked) selectedRowIds.add(id);
-        else selectedRowIds.delete(id);
+        if (this.checked) {
+            selectedRowIds.add(id);
+        } else {
+            selectedRowIds.delete(id);
+        }
 
         $(this).closest('tr').toggleClass('table-active', this.checked);
         updateSelectionUI();
@@ -380,39 +508,34 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         }
     });
 
-    // Default actions (when no custom config provided)
-    if (dropdownConfig.length === 0) {
-        $(document).on('click', '#action-select-all', function () {
-            $table.find('tbody .row-selector').each(function () {
-                const id = String($(this).data('id') ?? '');
-                if (id) {
-                    selectedRowIds.add(id);
-                    $(this).prop('checked', true);
-                    $(this).closest('tr').addClass('table-active');
-                }
-            });
-            $('#selection-actions-menu').removeClass('show');
-            updateSelectionUI();
-        });
+    // Select All button in dropdown
+    $(document).on('click', '#action-select-all', function (e) {
+        e.preventDefault();
+        selectAllCurrentPage();
+        $('#selection-actions-menu').removeClass('show');
+    });
 
-        $(document).on('click', '#action-select-none', function () {
-            $table.find('tbody .row-selector').each(function () {
-                const id = String($(this).data('id') ?? '');
-                if (id) {
-                    selectedRowIds.delete(id);
-                    $(this).prop('checked', false);
-                    $(this).closest('tr').removeClass('table-active');
-                }
-            });
+    // Clear Selection button in dropdown
+    $(document).on('click', '#action-select-none', function (e) {
+        e.preventDefault();
+        selectNone();
+        $('#selection-actions-menu').removeClass('show');
+    });
+
+    // Bulk Delete button
+    if (bulkDeleteEndpoint) {
+        $(document).on('click', '#action-bulk-delete', function (e) {
+            e.preventDefault();
+            performBulkDelete();
             $('#selection-actions-menu').removeClass('show');
-            updateSelectionUI();
         });
     }
 
-    // Custom actions from config
+    // Handle custom actions from config
     dropdownConfig.forEach(item => {
         if (item.id && item.action && typeof item.action === 'function') {
-            $(document).on('click', `#${item.id}`, function () {
+            $(document).on('click', `#${item.id}`, function (e) {
+                e.preventDefault();
                 item.action(table, $table, selectedRowIds);
                 $('#selection-actions-menu').removeClass('show');
                 updateSelectionUI();
@@ -420,13 +543,24 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         }
     });
 
-    // Clear all (× button)
-    $(document).on('click', '#deselect-all', function () {
+    // Clear all (× button on badge)
+    $(document).on('click', '#deselect-all', function (e) {
+        e.preventDefault();
         selectedRowIds.clear();
         $table.find('.row-selector').prop('checked', false);
         $table.find('tr.table-active').removeClass('table-active');
         $('#select-all').prop({ checked: false, indeterminate: false });
         updateSelectionUI();
+    });
+
+    // Keyboard shortcut for bulk delete (Ctrl+Shift+D)
+    $(document).on('keydown', function (e) {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'D') {
+            e.preventDefault();
+            if (bulkDeleteEndpoint && selectedRowIds.size > 0) {
+                performBulkDelete();
+            }
+        }
     });
 
     // After draw & init
@@ -443,8 +577,23 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         selectedRowIds.clear();
         updateSelectionUI();
     };
+    if (bulkDeleteEndpoint) {
+        table.bulkDelete = performBulkDelete;
+    }
+
+    return {
+        getSelectedIds: () => [...selectedRowIds],
+        clearSelection: () => {
+            selectedRowIds.clear();
+            updateSelectionUI();
+        },
+        updateUI: updateSelectionUI,
+        selectAll: selectAllCurrentPage,
+        selectNone: selectNone
+    };
 }
 
+// Utility functions
 export function getSelectedIds(tableSelector = '#masterTable') {
     return $(`${tableSelector} .row-selector:checked`)
         .map((i, el) => $(el).data('id'))
@@ -457,7 +606,7 @@ export function clearAllSelections(tableSelector = '#masterTable') {
     $(`${tableSelector} tr.table-active`).removeClass('table-active');
 }
 
- //Load form for create/edit
+//Load form for create/edit
 export function loadForm(basePath, mode, id = null, voucherNo = null, compprefix = null) {
     const url = mode === 'create'
         ? `${basePath}/Create`
@@ -565,11 +714,13 @@ export function handleRowActions(basePath, callbacks = {}) {
         }
     });
 }
+
 window.addEventListener('resize', function () {
     if ($.fn.DataTable.isDataTable('#masterTable')) {
         $('#masterTable').DataTable().columns.adjust().draw(false);
     }
 });
+
 // Update custom pagination UI
 function updateCustomPagination(table) {
     if (!table) return;

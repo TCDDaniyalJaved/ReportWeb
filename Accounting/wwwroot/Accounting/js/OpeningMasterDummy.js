@@ -31,7 +31,7 @@ $(document).ready(() => {
     setPageFilterConfig(MY_FILTERS);    // register page-specific filter handlers
     // Initialize main master table with server-side data
     table = initializeDataTable(
-        `${BASE_PATH}/GetData`,
+        `${BASE_PATH}/GetDataStatic`,
         '#masterTable',
         {
             callbacks: {

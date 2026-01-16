@@ -207,6 +207,56 @@ public class AccountOpeningController : Controller
 
     #endregion
 
+    #region BulkDelete
+
+    [HttpPost]
+    public async Task<JsonResult> BulkDelete(List<int> ids)
+    {
+
+        try
+        {
+            if (ids == null || ids.Count == 0)
+            {
+                return Json(new { success = false, message = "No accounts selected" });
+            }
+            var details = await _context.AccountOpeningDs
+           .Where(d => ids.Contains(d.PersonId))
+           .ToListAsync();
+
+            _context.AccountOpeningDs.RemoveRange(details);
+
+            // Get all master records
+            var masters = await _context.AccountOpeningMs
+                .Where(m => ids.Contains(m.Id))
+                .ToListAsync();
+
+            if (!masters.Any())
+            {
+                return Json(new { success = false, message = "No records found" });
+            }
+
+            _context.AccountOpeningMs.RemoveRange(masters);
+
+            await _context.SaveChangesAsync();
+
+
+            return Json(new
+            {
+                success = true,
+                message = $"{ids.Count} account(s) deleted successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return Json(new
+            {
+                success = false,
+                message = "Error deleting accounts: " + ex.Message
+            });
+        }
+    }
+
+    #endregion
     #region Print PDF
 
     [HttpGet("{id}")]

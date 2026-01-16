@@ -144,6 +144,60 @@ public class ReportController : Controller
 
 
 
+
+
+    [HttpPost]
+    public JsonResult GetDataStatic(ReportRequest request)
+    {
+        string cs = _configuration.GetConnectionString("Default");
+        var data = new List<Dictionary<string, object>>();
+
+        using (SqlConnection con = new SqlConnection(cs))
+        {
+            con.Open();
+            SqlCommand cmd = new SqlCommand("GetAccountOpeningReportData_Static", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@SearchValue",
+                string.IsNullOrWhiteSpace(request.CustomSearch)
+                ? (object)DBNull.Value
+                : request.CustomSearch);
+
+            string orderBy = request.GroupByFields.Any() ? string.Join(",", request.GroupByFields) : null;
+
+            cmd.Parameters.AddWithValue("@OrderBy", orderBy == null ? (object)DBNull.Value : orderBy);
+            //var comapnyname = "best mobile";
+            //cmd.Parameters.AddWithValue("@Companyname", comapnyname);
+            cmd.Parameters.AddWithValue("@Companyname", request.CompanyId == null || !request.CompanyId.Any() ? (object)DBNull.Value : string.Join(",", request.CompanyId));
+            System.Diagnostics.Debug.WriteLine($"Received Start: {request.Start}, Length: {request.Length}");
+
+
+            int start = request.Start >= 0 ? request.Start : 0;
+            int length = request.Length > 0 ? request.Length : 10;
+            cmd.Parameters.AddWithValue("@Start", start);
+            cmd.Parameters.AddWithValue("@Length", length);
+            using (SqlDataReader r = cmd.ExecuteReader())
+            {
+                while (r.Read())
+                {
+                    var row = new Dictionary<string, object>();
+                    for (int i = 0; i < r.FieldCount; i++)
+                    {
+                        row[r.GetName(i)] = r.IsDBNull(i) ? "" : r.GetValue(i);
+                    }
+                    data.Add(row);
+                }
+            }
+        }
+
+        return Json(new
+        {
+            data,
+            recordsTotal = data.Count + request.Start, // total so far
+            recordsFiltered = data.Count + request.Start // filtered count so far
+        });
+    }
+
     public JsonResult GetData2()
     {
         try
