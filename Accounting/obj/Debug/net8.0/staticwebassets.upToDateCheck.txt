@@ -1,6 +1,4 @@
-wwwroot\Accounting\css\style.css
 wwwroot\Accounting\js\AccountOpening.js
-wwwroot\Accounting\js\AccountOpening2.js
 wwwroot\Accounting\js\AccountOpening_detail.js
 wwwroot\Accounting\js\BankPayment.js
 wwwroot\Accounting\js\BankPayment_detail.js
@@ -31,6 +29,10 @@ wwwroot\Accounting\js\OpeningMasterDemo.js
 wwwroot\Accounting\js\OpeningMasterDummy.js
 wwwroot\Accounting\js\PerivousDatatableUtilis.js
 wwwroot\Accounting\js\PurchaseReport.js
+wwwroot\Accounting\js\ReportdataTableUtils.js
+wwwroot\Accounting\js\ReportdataTableUtilsDemo.js
+wwwroot\Accounting\js\ReportdataTableUtilsDummy.js
+wwwroot\Accounting\js\ReportdataTableUtilsDummyallrecord.js
 wwwroot\Accounting\js\TrialBalance.js
 wwwroot\audio\Water_Lily.mp3
 wwwroot\css\demo.css
@@ -2117,10 +2119,8 @@ wwwroot\vendor\scss\_theme\_common.scss
 wwwroot\vendor\scss\_theme\_libs.scss
 wwwroot\vendor\scss\_theme\_pages.scss
 wwwroot\vendor\scss\_theme\_theme.scss
+wwwroot\Accounting\css\style.css
+wwwroot\Accounting\js\AccountOpening2.js
 wwwroot\Accounting\js\dataTableUtils.js
-wwwroot\Accounting\js\ReportdataTableUtils.js
-wwwroot\Accounting\js\ReportdataTableUtilsDemo.js
-wwwroot\Accounting\js\ReportdataTableUtilsDummy.js
-wwwroot\Accounting\js\ReportdataTableUtilsDummyallrecord.js
 wwwroot\dist\vendors.min.css
 wwwroot\dist\vendors.min.js

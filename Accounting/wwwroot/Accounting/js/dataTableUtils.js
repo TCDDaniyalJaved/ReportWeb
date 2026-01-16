@@ -1,6 +1,7 @@
 ﻿// dataTableUtils.js
 let activeTables = new Map();
-
+const selectedRowIds = new Set();   
+let selectAllState = false;
 // Generate columns from table headers - REUSABLE FUNCTION
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     const columns = [];
@@ -33,7 +34,6 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
             colDef.orderable = false;
         }
 
-        // Edit button column
         if (renderType === 'edit') {
             colDef.render = (data, type, row) =>
                 `<button class="btn btn-icon btn-sm edit-btn" title="Edit"
@@ -74,6 +74,7 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
                     <i class="bx bx-trash"></i>
                 </button>`;
         }
+
         else if (renderType === 'empty') {
             colDef.render = (data, type, row) => ``;
         }
@@ -234,61 +235,214 @@ export function initStepper() {
     return window.stepper;
 }
 
-export function initCheckboxSelection(table, tableSelector = '#masterTable') {
+/**
+ * Initializes persistent checkbox selection for server-side DataTable
+ * with cog icon + configurable dropdown menu for selection actions
+ * 
+ * @param {DataTable} table - DataTables instance
+ * @param {string} tableSelector - Table selector (default: '#masterTable')
+ * @param {Array} dropdownConfig - Array of dropdown menu items (optional)
+ */
+export function initCheckboxSelection(table, tableSelector = '#masterTable', dropdownConfig = []) {
+    // Persistent storage of selected IDs (survives page/length/search changes)
+    const selectedRowIds = new Set();
+
     const $table = $(tableSelector);
-    const $searchContainer = $('#universalSearch').closest('.input-group'); // Assuming search is in an input-group
-    const $selectedBadge = $('<div class="badge bg-primary d-none" id="selected-badge" style="align-items: center; display: flex;">' +
-        '<span id="selected-count"></span>' +
-        '<button type="button" class="btn-close btn-close-white ms-2" id="deselect-all" aria-label="Deselect all" style="font-size: 0.8rem;"></button>' +
-        '</div>');
 
-    // Append badge to search container's parent or appropriate place
-    $searchContainer.after($selectedBadge);
+    // ── Create selection controls: Cog + Dropdown + Badge ───────────────────────
+    const $searchContainer = $('#universalSearch').closest('.input-group');
 
-    // Function to update UI based on selection
+    const $selectionControls = $(`
+        <div class="d-flex align-items-center gap-2 ms-2">
+            <!-- Cog Icon (dropdown trigger) -->
+            <div class="position-relative">
+                <i class="bx bx-cog text-muted" 
+                   style="cursor:pointer; font-size:1.2rem;" 
+                   id="selection-actions-toggle"
+                   title="Selection Actions"></i>
+
+                <!-- Dropdown Menu -->
+                <div class="dropdown-menu dropdown-menu-end shadow-sm p-1" 
+                     id="selection-actions-menu" 
+                     style="min-width: 200px; font-size:0.9rem; z-index: 1050;">
+                    ${dropdownConfig.length > 0
+            ? dropdownConfig.map(item => `
+                            <button class="dropdown-item py-1 ${item.class || ''}" 
+                                    id="${item.id}">
+                                <i class="${item.icon} me-2"></i>${item.label}
+                            </button>
+                        `).join('')
+            : `
+                            <button class="dropdown-item py-1" id="action-select-all">
+                                <i class="bx bx-check-square me-2"></i>Select All (this page)
+                            </button>
+                            <button class="dropdown-item py-1 text-danger" id="action-select-none">
+                                <i class="bx bx-x-circle me-2"></i>Select None
+                            </button>
+                        `}
+                </div>
+            </div>
+
+            <!-- Selected count badge -->
+            <div class="badge bg-primary d-none" id="selected-badge" 
+                 style="display:flex; align-items:center; font-size:0.85rem;">
+                <span id="selected-count"></span>
+                <button type="button" class="btn-close btn-close-white ms-2" 
+                        id="deselect-all" style="font-size:0.7rem;" 
+                        aria-label="Clear selection"></button>
+            </div>
+        </div>
+    `);
+
+    $searchContainer.after($selectionControls);
+
+    // ── UI Update ───────────────────────────────────────────────────────────────
     function updateSelectionUI() {
-        const $checkboxes = $table.find('tbody .row-selector');
-        const checked = $checkboxes.filter(':checked').length;
+        const count = selectedRowIds.size;
 
-        if (checked > 0) {
-            $('#selected-count').text(`${checked} record${checked > 1 ? 's' : ''} selected`);
+        if (count > 0) {
+            $('#selected-count').text(`${count} selected`);
+            $('#selected-badge').removeClass('d-none');
             $searchContainer.addClass('d-none');
-            $selectedBadge.removeClass('d-none');
         } else {
+            $('#selected-badge').addClass('d-none');
             $searchContainer.removeClass('d-none');
-            $selectedBadge.addClass('d-none');
         }
 
-        // Update header checkbox
+        // Header checkbox (select-all) state
+        const $visible = $table.find('tbody .row-selector');
+        const checkedCount = $visible.filter(':checked').length;
+        const totalVisible = $visible.length;
+
         $('#select-all')
-            .prop('checked', checked > 0 && checked === $checkboxes.length)
-            .prop('indeterminate', checked > 0 && checked < $checkboxes.length);
+            .prop('checked', totalVisible > 0 && checkedCount === totalVisible)
+            .prop('indeterminate', checkedCount > 0 && checkedCount < totalVisible);
     }
 
-    // Select All
+    // ── Restore selections after redraw ────────────────────────────────────────
+    function restoreSelections() {
+        $table.find('tbody .row-selector').each(function () {
+            const $cb = $(this);
+            const id = String($cb.data('id') ?? '');
+
+            if (id && selectedRowIds.has(id)) {
+                $cb.prop('checked', true);
+                $cb.closest('tr').addClass('table-active');
+            } else {
+                $cb.prop('checked', false);
+                $cb.closest('tr').removeClass('table-active');
+            }
+        });
+    }
+
+    // ── Events ──────────────────────────────────────────────────────────────────
+
+    // Header "Select All" checkbox (current page only)
     $(document).on('change', '#select-all', function () {
         const isChecked = this.checked;
-        $table.find('tbody .row-selector').prop('checked', isChecked);
-        $table.find('tbody tr').toggleClass('table-active', isChecked);
+
+        $table.find('tbody .row-selector').each(function () {
+            const id = String($(this).data('id') ?? '');
+            if (!id) return;
+
+            if (isChecked) selectedRowIds.add(id);
+            else selectedRowIds.delete(id);
+
+            $(this).prop('checked', isChecked);
+            $(this).closest('tr').toggleClass('table-active', isChecked);
+        });
+
         updateSelectionUI();
     });
 
-    // Individual checkbox
+    // Individual row checkbox
     $(document).on('change', `${tableSelector} .row-selector`, function () {
+        const id = String($(this).data('id') ?? '');
+        if (!id) return;
+
+        if (this.checked) selectedRowIds.add(id);
+        else selectedRowIds.delete(id);
+
         $(this).closest('tr').toggleClass('table-active', this.checked);
         updateSelectionUI();
     });
 
-    // Deselect all button
+    // Cog → Toggle dropdown
+    $(document).on('click', '#selection-actions-toggle', function (e) {
+        e.stopPropagation();
+        $('#selection-actions-menu').toggleClass('show');
+    });
+
+    // Click outside → close dropdown
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('#selection-actions-toggle, #selection-actions-menu').length) {
+            $('#selection-actions-menu').removeClass('show');
+        }
+    });
+
+    // Default actions (when no custom config provided)
+    if (dropdownConfig.length === 0) {
+        $(document).on('click', '#action-select-all', function () {
+            $table.find('tbody .row-selector').each(function () {
+                const id = String($(this).data('id') ?? '');
+                if (id) {
+                    selectedRowIds.add(id);
+                    $(this).prop('checked', true);
+                    $(this).closest('tr').addClass('table-active');
+                }
+            });
+            $('#selection-actions-menu').removeClass('show');
+            updateSelectionUI();
+        });
+
+        $(document).on('click', '#action-select-none', function () {
+            $table.find('tbody .row-selector').each(function () {
+                const id = String($(this).data('id') ?? '');
+                if (id) {
+                    selectedRowIds.delete(id);
+                    $(this).prop('checked', false);
+                    $(this).closest('tr').removeClass('table-active');
+                }
+            });
+            $('#selection-actions-menu').removeClass('show');
+            updateSelectionUI();
+        });
+    }
+
+    // Custom actions from config
+    dropdownConfig.forEach(item => {
+        if (item.id && item.action && typeof item.action === 'function') {
+            $(document).on('click', `#${item.id}`, function () {
+                item.action(table, $table, selectedRowIds);
+                $('#selection-actions-menu').removeClass('show');
+                updateSelectionUI();
+            });
+        }
+    });
+
+    // Clear all (× button)
     $(document).on('click', '#deselect-all', function () {
-        clearAllSelections(tableSelector);
+        selectedRowIds.clear();
+        $table.find('.row-selector').prop('checked', false);
+        $table.find('tr.table-active').removeClass('table-active');
+        $('#select-all').prop({ checked: false, indeterminate: false });
         updateSelectionUI();
     });
 
-    // After draw
+    // After draw & init
     table.on('draw', () => {
+        restoreSelections();
         updateSelectionUI();
     });
+
+    table.on('init', updateSelectionUI);
+
+    // Public API
+    table.getSelectedIds = () => [...selectedRowIds];
+    table.clearSelection = () => {
+        selectedRowIds.clear();
+        updateSelectionUI();
+    };
 }
 
 export function getSelectedIds(tableSelector = '#masterTable') {

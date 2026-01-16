@@ -61,12 +61,13 @@ window.addEventListener('resize', function() {
                                 <ebit-head class="border-top">
                                     <ebit-row>
                                         <ebit-headcolumn render="checkbox" width="1%"></ebit-headcolumn>
+                                        @* <ebit-headcolumn render="edit" width="8%"></ebit-headcolumn> *@
                                         <ebit-headcolumn datafield="date" header="Date" width="15%">Date</ebit-headcolumn>
                                         <ebit-headcolumn datafield="voucher" header="Voucher" width="25%">Voucher</ebit-headcolumn>
                                         <ebit-headcolumn datafield="totalSeqNo" header="#" width="10%">#</ebit-headcolumn>
                                         <ebit-headcolumn datafield="debit" isamount="true" header="Total Debit" width="15%">Total Debit</ebit-headcolumn>
-                                        <ebit-headcolumn datafield="credit" isamount="true"  header="Total Credit" width="15%">Total Credit</ebit-headcolumn>
-                                        <ebit-headcolumn datafield="" render="deleteprint" width="1%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="credit" isamount="true" header="Total Credit" width="15%">Total Credit</ebit-headcolumn>
+                                        <ebit-headcolumn  render="deleteprint" width="8%"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>
 

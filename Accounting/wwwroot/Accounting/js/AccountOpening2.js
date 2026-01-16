@@ -32,5 +32,32 @@ $(document).ready(() => {
         }
     });
 
-    initCheckboxSelection(table, '#masterTable');
+    //initCheckboxSelection(table, '#masterTable');
+
+initCheckboxSelection(table, '#masterTable', [
+    {
+        id: 'action-select-all',
+        label: 'Select All (this page)',
+        icon: 'bx bx-check-square',
+        action: (table, $table, selectedIds) => {
+            $table.find('tbody .row-selector').each(function () {
+                const id = String($(this).data('id') ?? '');
+                if (id) selectedIds.add(id);
+                $(this).prop('checked', true);
+                $(this).closest('tr').addClass('table-active');
+            });
+        }
+    },
+    {
+        id: 'action-select-none',
+        label: 'Clear Selection',
+        icon: 'bx bx-x-circle',
+        action: (table, $table, selectedIds) => {
+            selectedIds.clear();
+            $table.find('.row-selector').prop('checked', false);
+            $table.find('tr').removeClass('table-active');
+        }
+    }
+    // You can add more actions like bulk delete, export, etc.
+]);
 });
