@@ -1,0 +1,240 @@
+﻿@{
+    ViewData["Title"] = "Dashboard - Analytics";
+}
+
+@section VendorStyles {
+    <link rel="stylesheet" href="~/vendor/libs/apex-charts/apex-charts.dist.css" />
+}
+
+@section VendorScripts {
+    <script src="~/vendor/libs/apex-charts/apexcharts.dist.js"></script>
+    <script src="~/Accounting/js/chart-helper.js"></script>
+}
+
+<div class="container-fluid px-4 py-5">
+    <h4 class="mb-4 text-center fw-bold">Financial Analytics Dashboard</h4>
+
+    <div class="row g-4">
+        <!-- 1. Main Ledger View (most important) -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Ledger-wise Debit & Credit</h5>
+                </div>
+                <div class="card-body">
+                    <div id="ledgerChart" style="height: 420px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Small compact stats (order style donut) -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Current Month Overview</h5>
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    <div id="orderStatisticsChart" style="height: 220px; width: 220px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+        <!-- 3. Company wise (horizontal for many companies) -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Company-wise Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div id="companyChart" style="height: 420px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Voucher / Type wise -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Voucher Type Distribution</h5>
+                </div>
+                <div class="card-body">
+                    <div id="voucherChart" style="height: 420px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-4 mt-2">
+        <!-- 3. Company wise (horizontal for many companies) -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Account-wise Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div id="companyChart1" style="height: 420px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Voucher / Type wise -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Month Wise Debit</h5>
+                </div>
+                <div class="card-body">
+                    <div id="monthpiechart" style="height: 420px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-4 mt-2">
+        <!-- 5. Monthly trend -->
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Monthly Debit & Credit Trend</h5>
+                </div>
+                <div class="card-body">
+                    <div id="monthlyTrendChart" style="height: 380px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+    <script>
+        renderPieChart({
+            containerId: "monthpiechart",
+            chartTitle: "Month Wise Debit",
+            endpoint: "/Dashboards/getalldatamonth",
+            labelField: "month",
+            valueField: "totalDebit",
+            valuePrefix: "Rs. ",
+            colors: ["#FF9800", "#F44336", "#9C27B0", "#2196F3", "#4CAF50"]
+        });
+
+
+        // Ledger wise (main view)
+        renderGroupedBarChart({
+            containerId: "ledgerChart",
+            chartTitle: "Ledger-wise Debit & Credit",
+            endpoint: "/Dashboards/getalldata",
+            xField: "accounts",
+            seriesConfig: [
+                { name: "Debit", field: "totalDebit", color: "#2196F3" },
+                { name: "Credit", field: "credit", color: "#F44336" }
+            ],
+            valuePrefix: "Rs. ",
+            height: 420,
+            yAxisTitle: "",
+        });
+
+        //  Company wise (horizontal)
+        renderGroupedBarChart({
+            containerId: "companyChart",
+            chartTitle: "Company-wise Debit & Credit",
+            endpoint: "/Dashboards/getall",
+            xField: "companyname",
+            seriesConfig: [
+                { name: "Debit", field: "debit", color: "#4CAF50" },
+                { name: "Credit", field: "credit", color: "#FF5252" }
+            ],
+            horizontal: true,
+            height: 420,
+            valuePrefix: "Rs. ",
+            valueSuffix: "",
+            yAxisTitle: "Company",
+
+        });
+
+        //  Voucher type distribution (stacked or grouped)
+        renderGroupedBarChart({
+            containerId: "voucherChart",
+            chartTitle: "Voucher Type-wise Summary",
+            endpoint: "/Dashboards/getalldata",
+            xField: "voucher",
+            seriesConfig: [
+                { name: "Debit", field: "debit", color: "#FF9800" },
+                { name: "Credit", field: "credit", color: "#607D8B" }
+            ],
+            stacked: true,
+            height: 420,
+            yAxisTitle: "",
+            valuePrefix: "Rs. "
+        });
+
+
+        //  Company wise (horizontal)
+        renderPieChart({
+            containerId: "companyChart1",
+            chartTitle: "Account Wise Debit",
+            endpoint: "/Dashboards/getAllData",
+            labelField: "accounts",
+            valueField: "totalDebit",
+            valuePrefix: "Rs. ",
+            colors: ["#FF9800", "#F44336", "#9C27B0", "#2196F3", "#4CAF50"]
+
+        });
+
+        //  Voucher type distribution (stacked or grouped)
+        renderGroupedBarChart({
+            containerId: "voucherChart1",
+            chartTitle: "Voucher Type-wise Summary",
+            endpoint: "/Dashboards/getalldata",
+            xField: "voucher",
+            seriesConfig: [
+                { name: "Debit", field: "debit", color: "#FF9800" },
+                { name: "Credit", field: "credit", color: "#607D8B" }
+            ],
+            stacked: true,
+            height: 420,
+            valuePrefix: "Rs. "
+        });
+
+        //  Monthly trend
+        renderGroupedBarChart({
+            containerId: "monthlyTrendChart",
+            chartTitle: "Monthly Debit & Credit Trend",
+            endpoint: "/Dashboards/getalldatamonth",
+            xField: "month",
+            seriesConfig: [
+                { name: "Debit", field: "totalDebit", color: "#2196F3" },
+                { name: "Credit", field: "totalCredit", color: "#F44336" }
+            ],
+            valuePrefix: "Rs. ",
+            height: 380,
+            valueSuffix: "",
+            yAxisTitle: "Debit Credit",
+
+        });
+
+        //  renderOrderStatisticsChart({
+        //     containerId: "orderStatisticsChart",
+        //     chartTitle: "Order Statistics",
+        //     labels: ['Electronic', 'Sports', 'Decor', 'Fashion'],
+        //     series: [50, 85, 25, 40],
+        //     colors: ['#00E396', '#008FFB', '#FEB019', '#FF4560'],
+        //     height: 145,
+        //     width: 110,
+        //     centerLabel: 'Weekly',
+        //     centerValue: '38%'
+        // });
+
+
+
+        renderOrderStatisticsChart({
+             containerId: "orderStatisticsChart",
+             chartTitle: "Order Statistics",
+             endpoint: "/Dashboards/GetOrderStatistics",
+             colors: ['#00E396', '#008FFB', '#FEB019', '#FF4560'],
+             height: 300,
+             width: 300,
+             centerLabel: 'Weekly'
+         });
+
+    </script>
+}

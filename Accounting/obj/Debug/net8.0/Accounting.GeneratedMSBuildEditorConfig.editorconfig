@@ -180,6 +180,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xEYXNoYm9hcmRzXENSTS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Dashboards/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xEYXNoYm9hcmRzXERlbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Dashboards/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xEYXNoYm9hcmRzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

@@ -8,6 +8,7 @@ wwwroot\Accounting\js\calc.js
 wwwroot\Accounting\js\CashPayment.js
 wwwroot\Accounting\js\CashPayment_detail.js
 wwwroot\Accounting\js\cashreceipt.js
+wwwroot\Accounting\js\chart-helper.js
 wwwroot\Accounting\js\ChartOfAcount.js
 wwwroot\Accounting\js\components\ebit-button.js
 wwwroot\Accounting\js\components\ebit-datetime.js
@@ -29,6 +30,7 @@ wwwroot\Accounting\js\ebit-components.js
 wwwroot\Accounting\js\ItemReport.js
 wwwroot\Accounting\js\OpeningMaster.js
 wwwroot\Accounting\js\OpeningMasterDemo.js
+wwwroot\Accounting\js\OpeningMasterDummy.js
 wwwroot\Accounting\js\PerivousDatatableUtilis.js
 wwwroot\Accounting\js\PurchaseReport.js
 wwwroot\Accounting\js\ReportdataTableUtils.js
@@ -2121,6 +2123,5 @@ wwwroot\vendor\scss\_theme\_common.scss
 wwwroot\vendor\scss\_theme\_libs.scss
 wwwroot\vendor\scss\_theme\_pages.scss
 wwwroot\vendor\scss\_theme\_theme.scss
-wwwroot\Accounting\js\OpeningMasterDummy.js
 wwwroot\dist\vendors.min.css
 wwwroot\dist\vendors.min.js
