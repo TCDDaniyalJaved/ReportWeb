@@ -84,16 +84,71 @@ public class DashboardsController : Controller
     {
         var data = new
         {
-            categories = new List<string> { "M", "T", "W", "T", "F", "S", "S" },
-            series = new List<int> { 40, 95, 60, 45, 90, 50, 75 },
-            colors = new List<string>
+            categories = new List<string>
         {
-            "#7367f0", "#7367f0", "#7367f0", "#7367f0",
-            "#28c76f", "#7367f0", "#7367f0"
+            "M", "T", "W", "T", "F", "S", "S"
+        },
+            series = new List<int>
+        {
+            1200, 1800, 1500, 1300, 3200, 1700, 2000
         }
         };
 
-        return Json(data);
+        return Ok(data);
+    }
+    public IActionResult GetIncomeData()
+    {
+        var data = new
+        {
+            series = new List<int> { 2100, 3000, 2200, 4200, 2600, 3500, 2900 }
+        };
+
+        return Ok(data);
+    }
+    [HttpGet]
+    public IActionResult GetMonthlyRevenue()
+    {
+        var data = new
+        {
+            categories = new List<string>
+        {
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        },
+            series = new List<int>
+        {
+            5200, 6800, 6100, 7400, 8900, 6200,
+            8100, 7700, 9300, 8800, 9600, 11200
+        }
+        };
+
+        return Ok(data);
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetMonthlyRevenue2()
+    {
+        var data = await _context.ViewMonthlyRevenues
+            .ToListAsync();
+
+        return Ok(data);
+    }
+
+
+    public async Task<IActionResult> GetExpanseRevenue2()
+    {
+        var data = await _context.ViewMonthlyExpenses
+            .ToListAsync();
+
+        return Ok(data);
+    }
+
+
+    public async Task<IActionResult> GetProfitRevenue2()
+    {
+        var data = await _context.ViewMonthlyProfits
+            .ToListAsync();
+
+        return Ok(data);
     }
 
     [HttpGet]
@@ -173,6 +228,115 @@ public class DashboardsController : Controller
 
         return Json(result);
     }
+    public IActionResult GetTotalRevenue5()
+    {
+        var result = new
+        {
+            categories1 = new List<string>
+        {
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug"
+        },
+            series1 = new List<object>
+        {
+            new
+            {
+                name = DateTime.Now.Year,   // Current Year
+                data = new List<int> { 18, 7, 15, 29, 18, 12, 9 ,7}
+            },
+            new
+            {
+                name = DateTime.Now.Year - 1, // Previous Year
+                data = new List<int> { -13, -18, -9, -14, -5, -17, -15,-8 }
+            },
+
+            new
+            {
+                name = DateTime.Now.Year - 2, // Previous Year
+                data = new List<int> { -13, -18, -9, -14, -5, -17, -15,-8 }
+            },
+
+             new
+            {
+                name = DateTime.Now.Year - 3, // Previous Year
+                data = new List<int> { -13, -18, -9, -14, -5, -17, -15,-8 }
+            },
+              new
+            {
+                name = DateTime.Now.Year - 4, // Previous Year
+                data = new List<int> { -13, -18, -9, -14, -5, -17, -15,-8 }
+            },
+                  new
+            {
+                name = DateTime.Now.Year - 5, // Previous Year
+                data = new List<int> { -13, -18, -9, -14, -5, -17, -15,-8 }
+            },
+
+                      new
+            {
+                name = DateTime.Now.Year - 6, // Previous Year
+                data = new List<int> { -13, -18, -9, -14, -5, -17, -15,-8 }
+            },
+
+                          new
+            {
+                name = DateTime.Now.Year - 7, // Previous Year
+                data = new List<int> { -13, -18, -9, -14, -5, -17, -15,-8 }
+            },
+
+                              new
+            {
+                name = DateTime.Now.Year - 8, // Previous Year
+                data = new List<int> { -13, -18, -9, -14, -5, -17, -15,-8 }
+            },
+
+                                  new
+            {
+                name = DateTime.Now.Year - 9, // Previous Year
+                data = new List<int> { -13, -18, -9, -14, -5, -17, -15,-8 }
+            }
+
+
+        }
+        };
+
+        return Json(result);
+    }
+
+
+
+    public async Task<IActionResult> GetTotalRevenue6()
+    {
+        var data = _context.VwTotalRevenues
+         .OrderBy(x => x.MonthOrder)
+         .ToList();
+
+        // Categories (Months)
+        var categories = data
+            .Select(x => x.MonthName)
+            .Distinct()
+            .ToList();
+
+        // Series (Year wise)
+        var series = data
+            .GroupBy(x => x.Year)
+            .OrderByDescending(g => g.Key)
+            .Select(g => new
+            {
+                name = g.Key,   // Year
+                data = g
+                    .OrderBy(x => x.MonthOrder)
+                    .Select(x => x.Amount)
+                    .ToList()
+            })
+            .ToList();
+
+        return Json(new
+        {
+            categories = categories,
+            series = series
+        });
+
+    }
 
     public IActionResult GetBrowserStats()
     {
@@ -193,12 +357,12 @@ public class DashboardsController : Controller
     {
         var data = new List<dynamic>
     {
-        new { No = 1, Name = "USA", Icon = "usa.png", Visits = 87240, Percentage = 38.12 },
-        new { No = 2, Name = "Brazil", Icon = "brazil.png", Visits = 42680, Percentage = 28.23 },
-        new { No = 3, Name = "India", Icon = "india.png", Visits = 12580, Percentage = 14.82 },
-        new { No = 4, Name = "Australia", Icon = "australia.png", Visits = 4130, Percentage = 12.72 },
-        new { No = 5, Name = "France", Icon = "france.png", Visits = 2210, Percentage = 7.11 },
-        new { No = 6, Name = "Canada", Icon = "canada.png", Visits = 22350, Percentage = 15.13 }
+        new { No = 1, Name = "Fire Fox", Icon = "firefox.png", Visits = 87240, Percentage = 38.12 },
+        new { No = 2, Name = "Apple", Icon = "mac.png", Visits = 42680, Percentage = 28.23 },
+        new { No = 3, Name = "Linux", Icon = "linux.png", Visits = 12580, Percentage = 14.82 },
+        new { No = 4, Name = "Linkedin", Icon = "linkedin.png", Visits = 4130, Percentage = 12.72 },
+        new { No = 5, Name = "Instagram", Icon = "instagram.png", Visits = 2210, Percentage = 7.11 },
+        new { No = 6, Name = "Vue", Icon = "vue-label.png", Visits = 22350, Percentage = 15.13 }
     };
 
         return Json(data);

@@ -372,65 +372,6 @@ namespace Accounting.Models
             return _;
         }
 
-        public virtual async Task<List<PurchaseReportResult>> PurchaseReportAsync(DateOnly? dateFrom, DateOnly? dateTo, string divisionName, string accountName, string itemName, byte? groupMode, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "DateFrom",
-                    Value = dateFrom ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Date,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "DateTo",
-                    Value = dateTo ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Date,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "DivisionName",
-                    Size = 100,
-                    Value = divisionName ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "AccountName",
-                    Size = 100,
-                    Value = accountName ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "ItemName",
-                    Size = 100,
-                    Value = itemName ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "GroupMode",
-                    Value = groupMode ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.TinyInt,
-                },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<PurchaseReportResult>("EXEC @returnValue = [dbo].[PurchaseReport] @DateFrom = @DateFrom, @DateTo = @DateTo, @DivisionName = @DivisionName, @AccountName = @AccountName, @ItemName = @ItemName, @GroupMode = @GroupMode", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
         public virtual async Task<List<sp_LedgerReportResult>> sp_LedgerReportAsync(int? companyId, int? accountId, string status, DateOnly? fromDate, DateOnly? toDate, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter

@@ -161,6 +161,14 @@ public partial class webappContext : DbContext
 
     public virtual DbSet<UsersDetail> UsersDetails { get; set; }
 
+    public virtual DbSet<ViewMonthlyExpense> ViewMonthlyExpenses { get; set; }
+
+    public virtual DbSet<ViewMonthlyProfit> ViewMonthlyProfits { get; set; }
+
+    public virtual DbSet<ViewMonthlyRevenue> ViewMonthlyRevenues { get; set; }
+
+    public virtual DbSet<VwTotalRevenue> VwTotalRevenues { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Abc>(entity =>
@@ -2270,6 +2278,53 @@ public partial class webappContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
+        });
+
+        modelBuilder.Entity<ViewMonthlyExpense>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_MonthlyExpense");
+
+            entity.Property(e => e.MonthName)
+                .IsRequired()
+                .HasMaxLength(3)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<ViewMonthlyProfit>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_MonthlyProfit");
+
+            entity.Property(e => e.MonthName)
+                .IsRequired()
+                .HasMaxLength(3)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<ViewMonthlyRevenue>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_MonthlyRevenue");
+
+            entity.Property(e => e.MonthName)
+                .IsRequired()
+                .HasMaxLength(3)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VwTotalRevenue>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_TotalRevenue");
+
+            entity.Property(e => e.MonthName)
+                .HasMaxLength(3)
+                .IsUnicode(false);
         });
 
         OnModelCreatingGeneratedFunctions(modelBuilder);
