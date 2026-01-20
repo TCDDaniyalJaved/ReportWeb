@@ -1,0 +1,80 @@
+// ------------------ EbitForm ------------------
+class EbitForm extends HTMLElement {
+    static get observedAttributes() {
+        return ["novalidate", "autocomplete"];
+    }
+
+    constructor() {
+        super();
+        this._submitHandlers = [];
+    }
+
+    connectedCallback() {
+        if (this._initialized) return;
+        this._initialized = true;
+
+        // Create real <form> element
+        const form = document.createElement("form");
+
+        // Transfer all attributes (class, id, action, method, enctype, etc.)
+        Array.from(this.attributes).forEach(attr => {
+            form.setAttribute(attr.name, attr.value);
+        });
+
+        // Special handling for common attributes
+        if (this.hasAttribute("novalidate")) {
+            form.noValidate = true;
+        }
+        if (this.hasAttribute("autocomplete")) {
+            form.autocomplete = this.getAttribute("autocomplete");
+        }
+
+        // Move all children into the real form
+        while (this.firstChild) {
+            form.appendChild(this.firstChild);
+        }
+
+        // Optional: Add default Bootstrap classes if none provided
+        if (!form.className.includes("needs-validation") &&
+            !form.className.includes("was-validated")) {
+            form.classList.add("needs-validation");
+        }
+
+        // Proxy submit events (so you can still do addEventListener on <ebit-form>)
+        form.addEventListener("submit", (e) => {
+            this.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+            this._submitHandlers.forEach(handler => handler(e));
+        });
+
+        // Replace <ebit-form> with real <form>
+        this.parentNode.replaceChild(form, this);
+
+        // Keep a reference if needed later
+        this._form = form;
+    }
+
+    // Custom method: addSubmitHandler (useful in other components)
+    addSubmitHandler(callback) {
+        this._submitHandlers.push(callback);
+    }
+
+    // Allow calling .submit() on <ebit-form>
+    submit() {
+        this._form?.submit();
+    }
+
+    // Allow calling .reset() on <ebit-form>
+    reset() {
+        this._form?.reset();
+        this._form?.classList.remove("was-validated");
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this._form) return;
+        if (name === "novalidate") {
+            this._form.noValidate = this.hasAttribute("novalidate");
+        }
+    }
+}
+
+customElements.define("ebit-form", EbitForm);

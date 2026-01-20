@@ -42,7 +42,6 @@ builder.Services.AddScoped<IMenuService, MenuService>();
 //context.LoadUnmanagedLibrary(dllPath);
 var context = new CustomAssemblyLoadContext();
 context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "DinkToPdf", "libwkhtmltox.dll"));
-
 // Register DinkToPdf converter
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 builder.Services.AddScoped<IReportService, ReportService>();

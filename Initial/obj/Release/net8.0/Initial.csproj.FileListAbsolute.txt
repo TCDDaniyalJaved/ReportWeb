@@ -1155,3 +1155,4 @@ D:\ASPNetCoreMVC_LayersWebApp\Initial\obj\Release\net8.0\refint\Initial.dll
 D:\ASPNetCoreMVC_LayersWebApp\Initial\obj\Release\net8.0\Initial.pdb
 D:\ASPNetCoreMVC_LayersWebApp\Initial\obj\Release\net8.0\Initial.genruntimeconfig.cache
 D:\ASPNetCoreMVC_LayersWebApp\Initial\obj\Release\net8.0\ref\Initial.dll
+D:\ASPNetCoreMVC_LayersWebApp\Initial\obj\Release\net8.0\staticwebassets.upToDateCheck.txt

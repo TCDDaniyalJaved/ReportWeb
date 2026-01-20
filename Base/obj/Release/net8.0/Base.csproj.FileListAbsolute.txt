@@ -414,3 +414,4 @@ D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\refint\Base.dll
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\Base.pdb
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\Base.genruntimeconfig.cache
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\ref\Base.dll
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.upToDateCheck.txt

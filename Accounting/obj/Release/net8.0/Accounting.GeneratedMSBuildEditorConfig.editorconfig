@@ -32,8 +32,20 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEFjY291bnRPcGVuaW5nXERhdGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/AccountOpening/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEFjY291bnRPcGVuaW5nXERlbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/AccountOpening/Dummy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEFjY291bnRPcGVuaW5nXER1bW15LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/AccountOpening/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEFjY291bnRPcGVuaW5nXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/AccountOpening/Index2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEFjY291bnRPcGVuaW5nXEluZGV4Mi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/AccountOpening/Print.cshtml]
@@ -48,12 +60,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEFjY291bnRPcGVuaW5nXF9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/BankPayment/Description.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtQYXltZW50XERlc2NyaXB0aW9uLmNzaHRtbA==
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/BankPayment/Data.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtQYXltZW50XERhdGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/BankPayment/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtQYXltZW50XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/BankPayment/Print.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtQYXltZW50XFByaW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/BankPayment/_Create.cshtml]
@@ -64,12 +80,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtQYXltZW50XF9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/BankReceipt/Description.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtSZWNlaXB0XERlc2NyaXB0aW9uLmNzaHRtbA==
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/BankReceipt/Data.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtSZWNlaXB0XERhdGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/BankReceipt/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtSZWNlaXB0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/BankReceipt/Print.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtSZWNlaXB0XFByaW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/BankReceipt/_Create.cshtml]
@@ -80,12 +100,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtSZWNlaXB0XF9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/Description.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XERlc2NyaXB0aW9uLmNzaHRtbA==
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/Data.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XERhdGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XERlbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/Dummy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XER1bW15LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/Print.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XFByaW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashPayment/_Create.cshtml]
@@ -96,36 +128,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XF9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashReceipt/Description.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XERlc2NyaXB0aW9uLmNzaHRtbA==
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/Chart/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENoYXJ0XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashReceipt/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XEluZGV4LmNzaHRtbA==
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/Chart/_Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENoYXJ0XF9DcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashReceipt/_Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XF9DcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/CashReceipt/_Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XF9FZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/GeneralJournal/Description.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXERlc2NyaXB0aW9uLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/GeneralJournal/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/GeneralJournal/_Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXF9DcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/GeneralJournal/_Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXF9FZGl0LmNzaHRtbA==
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/Chart/_Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENoYXJ0XF9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/Home/Index.cshtml]
@@ -136,8 +148,40 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEhvbWVcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/PurchaseReport/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXFB1cmNoYXNlUmVwb3J0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/Report/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXFJlcG9ydFxEZW1vLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/Report/Dummy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXFJlcG9ydFxEdW1teS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/Report/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXFJlcG9ydFxpbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/Report/ItemData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXFJlcG9ydFxJdGVtRGF0YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/TrialBalance/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXFRyaWFsQmFsYW5jZVxEZW1vLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Accounting/TrialBalance/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXFRyaWFsQmFsYW5jZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Dashboards/CRM.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xEYXNoYm9hcmRzXENSTS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Dashboards/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xEYXNoYm9hcmRzXERlbW8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/Dashboards/Index.cshtml]
@@ -146,6 +190,26 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Apps/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xfVmlld1N0YXJ0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Report/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XERlbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Report/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XGluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Report/ItemData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XEl0ZW1EYXRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Shared/_AdvancedReportHeader.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZHZhbmNlZFJlcG9ydEhlYWRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Shared/_PageHeader.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9QYWdlSGVhZGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASPNetCoreMVC_LayersWebApp/Accounting/Views/Shared/_VendorScripts.cshtml]
