@@ -256,6 +256,10 @@
          "ObjectType": 3
       },
       {
+         "Name": "[dbo].[AccountOpeningGraphView]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[AccountOpeningMView]",
          "ObjectType": 3
       },

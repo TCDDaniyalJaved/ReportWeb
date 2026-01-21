@@ -21,6 +21,8 @@ public partial class webappContext : DbContext
 
     public virtual DbSet<AccountOpeningDview> AccountOpeningDviews { get; set; }
 
+    public virtual DbSet<AccountOpeningGraphView> AccountOpeningGraphViews { get; set; }
+
     public virtual DbSet<AccountOpeningM> AccountOpeningMs { get; set; }
 
     public virtual DbSet<AccountOpeningMview> AccountOpeningMviews { get; set; }
@@ -248,9 +250,35 @@ public partial class webappContext : DbContext
             entity.Property(e => e.Remarks).IsUnicode(false);
             entity.Property(e => e.TotalDebit).HasColumnType("money");
             entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.Vdate)
+                .HasColumnType("datetime")
+                .HasColumnName("VDate");
+            entity.Property(e => e.Vmonth).HasColumnName("VMonth");
+            entity.Property(e => e.VmonthName)
+                .HasMaxLength(30)
+                .HasColumnName("VMonthName");
             entity.Property(e => e.Voucher)
-                .HasMaxLength(45)
+                .HasMaxLength(12)
                 .IsUnicode(false);
+            entity.Property(e => e.Vyear).HasColumnName("VYear");
+        });
+
+        modelBuilder.Entity<AccountOpeningGraphView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("AccountOpeningGraphView");
+
+            entity.Property(e => e.Accounts)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.TotalCredit).HasColumnType("money");
+            entity.Property(e => e.TotalDebit).HasColumnType("money");
+            entity.Property(e => e.Vmonth).HasColumnName("VMonth");
+            entity.Property(e => e.VmonthName)
+                .HasMaxLength(30)
+                .HasColumnName("VMonthName");
+            entity.Property(e => e.Vyear).HasColumnName("VYear");
         });
 
         modelBuilder.Entity<AccountOpeningM>(entity =>

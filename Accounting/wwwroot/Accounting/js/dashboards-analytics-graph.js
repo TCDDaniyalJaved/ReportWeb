@@ -4,12 +4,22 @@
 renderPieChart({
     containerId: "monthpiechart",
     chartTitle: "Month Wise Debit",
-    endpoint: "/Dashboards/getalldatamonth",
+    endpoint: "/Dashboards/GetAllDataMonth2",
     labelField: "month",
     valueField: "totalDebit",
     valuePrefix: "Rs. ",
     colors: ["#FF9800", "#F44336", "#9C27B0", "#2196F3", "#4CAF50"]
 });
+
+//renderPieChart({
+//    containerId: "monthpiechart",
+//    chartTitle: "Month Wise Debit",
+//    endpoint: "/Dashboards/getalldatamonth",
+//    labelField: "month",
+//    valueField: "totalDebit",
+//    valuePrefix: "Rs. ",
+//    colors: ["#FF9800", "#F44336", "#9C27B0", "#2196F3", "#4CAF50"]
+//});
 
 // Ledger-wise debit & credit bar chart
 renderGroupedBarChart({
@@ -80,6 +90,15 @@ renderGroupedBarChart({
 // Weekly revenue sparkline bar chart (using real API data)
 renderRevenueBarChart({
     containerId: 'weekrevenueChart',
+    endpoint: '/Dashboards/GetWeeklyRevenue3',
+    xField: 'categories',          //  X-axis 
+    yField: 'series',      //  Y-axis 
+    title: '', // optional
+    height: 250
+});
+
+renderRevenueBarChart({
+    containerId: 'weeklyrevenueChart',
     endpoint: '/Dashboards/GetWeeklyRevenue',
     xField: 'categories',          //  X-axis 
     yField: 'series',      //  Y-axis 
@@ -93,14 +112,60 @@ renderRevenueBarChart({
 //});
 renderIncomeChart({
     chartSelector: '#incomeChart1',
-    endpoint: '/Dashboards/GetMonthlyRevenue2',
-    xField: 'monthName',           //  X-axis 
-    yField: 'totalRevenue',         //  Y-axis 
+    endpoint: '/Dashboards/GetAllDataMonth2',
+    xField: 'month',           //  X-axis 
+    yField: 'totalDebit',         //  Y-axis 
     title: '',
     valuePrefix:'',
     xAxisTitle: '',
     yAxisTitle: ''
 });
+
+
+renderIncomeChart({
+    chartSelector: '#incomeChart2',
+    endpoint: '/Dashboards/getalldata2',
+    yField: 'totalDebit',         //  Y-axis 
+    xField: 'vmonthName',           //  X-axis 
+    title: '',
+    valuePrefix: '',
+    xAxisTitle: '',
+    yAxisTitle: ''
+});
+
+
+renderIncomeChart({
+    chartSelector: '#incomeChart3',
+    endpoint: '/Dashboards/GetAllDataMonth2',
+    yField: 'totalDebit',         //  Y-axis 
+    xField: 'month',           //  X-axis 
+    title: '',
+    valuePrefix: '',
+    xAxisTitle: '',
+    yAxisTitle: ''
+});
+renderIncomeChart({
+    chartSelector: '#incomeChart4',
+    endpoint: '/Dashboards/getall',
+    yField: 'companyname',         //  Y-axis 
+    xField: 'debit',           //  X-axis 
+    title: '',
+    valuePrefix: '',
+    xAxisTitle: '',
+    yAxisTitle: ''
+});
+
+//renderIncomeChart({
+//    chartSelector: '#incomeChart4',
+//    endpoint: '/Dashboards/GetAllDataMonth',
+//    yField: 'totalDebit',         //  Y-axis 
+//    xField: 'month',           //  X-axis 
+//    title: '',
+//    valuePrefix: '',
+//    xAxisTitle: '',
+//    yAxisTitle: ''
+//});
+
 
 renderIncomeChart({
     chartSelector: '#expenseChart1',

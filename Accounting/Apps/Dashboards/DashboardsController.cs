@@ -96,6 +96,67 @@ public class DashboardsController : Controller
 
         return Ok(data);
     }
+
+
+    [HttpGet]
+    public async Task<IActionResult> GetWeeklyRevenue2()
+    {
+        var data = await _context.AccountOpeningDviews
+           .Select(x => new
+           {
+               x.VmonthName,
+               x.TotalDebit,
+           })
+           .ToListAsync();
+
+        // Group by Month
+        var groupedData = data
+       .GroupBy(x => x.VmonthName)
+       .Select(g => new
+       {
+           Month = g.Key,
+           TotalDebit = g.Sum(x => x.TotalDebit),
+           Records = g.ToList()
+       })
+       .OrderBy(x => x.Month)
+       .ToList();
+
+
+        return Ok(groupedData);
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetWeeklyRevenue3()
+    {
+        var data = await _context.AccountOpeningDviews
+            .Select(x => new
+            {
+                x.VmonthName, // full month name
+                x.TotalDebit
+            })
+            .ToListAsync();
+
+        // Group by Month
+        var groupedData = data
+            .GroupBy(x => x.VmonthName)
+            .Select(g => new
+            {
+                Month = g.Key,
+                TotalDebit = g.Sum(x => x.TotalDebit)
+            })
+            .OrderBy(x => x.Month) // optional: order alphabetically or by month number
+            .ToList();
+
+        // Prepare response with full month names
+        var response = new
+        {
+            categories = groupedData.Select(x => x.Month).ToArray(), // full month names
+            series = groupedData.Select(x => x.TotalDebit).ToArray()
+        };
+
+        return Ok(response);
+    }
+
+
     public IActionResult GetIncomeData()
     {
         var data = new
@@ -128,6 +189,40 @@ public class DashboardsController : Controller
     public async Task<IActionResult> GetMonthlyRevenue2()
     {
         var data = await _context.ViewMonthlyRevenues
+            .ToListAsync();
+
+        return Ok(data);
+    }
+
+    public async Task<IActionResult> GetMonthlyRevenue3(string range = "1Y")
+    {
+        int currentYear = DateTime.Now.Year;
+        int months = range switch
+        {
+            "1M" => 1,
+            "6M" => 6,
+            "1Y" => 12,
+            "5Y" => 60,
+            _ => int.MaxValue // MAX
+        };
+
+        var query = _context.ViewMonthlyRevenues
+            .OrderByDescending(x => x.SalesYear)
+            .ThenByDescending(x => x.MonthNumber);
+
+        if (months != int.MaxValue)
+        {
+            query = (IOrderedQueryable<ViewMonthlyRevenue>)query.Take(months);
+        }
+
+        var data = await query
+            .OrderBy(x => x.SalesYear)
+            .ThenBy(x => x.MonthNumber)
+            .Select(x => new
+            {
+                monthName = $"{x.MonthName} {x.SalesYear}",
+                totalRevenue = x.TotalRevenue
+            })
             .ToListAsync();
 
         return Ok(data);
@@ -176,7 +271,30 @@ public class DashboardsController : Controller
     }
 
     [HttpGet]
-  
+    public async Task<IActionResult> GetAllData2(string from = null, string to = null)
+    {
+        var query = _context.AccountOpeningDviews.AsQueryable();
+
+      
+        if (!string.IsNullOrEmpty(from) && DateTime.TryParse(from, out DateTime fromDate))
+        {
+            query = query.Where(x => x.Vdate >= fromDate);
+        }
+
+        if (!string.IsNullOrEmpty(to) && DateTime.TryParse(to, out DateTime toDate))
+        {
+            
+            toDate = toDate.Date.AddDays(1).AddTicks(-1);
+            query = query.Where(x => x.Vdate <= toDate);
+        }
+
+       
+        var data = await query
+            .OrderBy(x => x.Vdate) 
+            .ToListAsync();
+
+        return Ok(data);
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetAllData()
@@ -186,6 +304,30 @@ public class DashboardsController : Controller
 
         return Ok(data);
     }
+    public async Task<IActionResult> GetAllData4()
+    {
+        var data = await _context.AccountOpeningDviews
+     .GroupBy(x => new { x.Vyear, x.Vmonth, x.VmonthName })
+     .Select(g => new
+     {
+         Year = g.Key.Vyear,
+         Month = g.Key.Vmonth,
+         MonthName = g.Key.VmonthName,
+         TotalDebit = g.Sum(x => x.Debit ?? 0),
+         TotalCredit = g.Sum(x => x.Credit ?? 0),
+         TotalRecords = g.Count()
+     })
+     .ToListAsync();
+
+        return Ok(data);
+    }
+    public async Task<IActionResult> GetAllDataGraph()
+    {
+        var data = await _context.AccountOpeningGraphViews.ToListAsync();
+        return Ok(data);
+    }
+
+
     [HttpGet]
     public async Task<IActionResult> GetWeeklyExpenseSummary()
     {
@@ -425,6 +567,40 @@ public class DashboardsController : Controller
         return Ok(groupedData);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAllDataMonth2()
+    {
+        var data = await _context.AccountOpeningDviews
+            .Select(x => new
+            {
+                x.Accounts,
+                x.Vdate,
+                x.Remarks,
+                x.Voucher,
+                x.VmonthName,
+                x.Vyear,
+                x.TotalDebit,
+                x.Credit,
+                x.Debit,
+                x.PersonId,
+            })
+            .ToListAsync();
+
+        // Group by Year and Month
+        var groupedData = data
+       .GroupBy(x => x.VmonthName)
+       .Select(g => new
+       {
+           Month = g.Key,
+           TotalDebit = g.Sum(x => x.TotalDebit),
+           TotalCredit = g.Sum(x => x.Credit),
+           Records = g.ToList()
+       })
+       .OrderBy(x => x.Month)
+       .ToList();
+
+        return Ok(groupedData);
+    }
 
 
 

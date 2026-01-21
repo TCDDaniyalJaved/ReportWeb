@@ -11,6 +11,14 @@ public partial class AccountOpeningDview
 
     public string Voucher { get; set; }
 
+    public DateTime? Vdate { get; set; }
+
+    public int? Vmonth { get; set; }
+
+    public int? Vyear { get; set; }
+
+    public string VmonthName { get; set; }
+
     public decimal? TotalDebit { get; set; }
 
     public decimal? Credit { get; set; }

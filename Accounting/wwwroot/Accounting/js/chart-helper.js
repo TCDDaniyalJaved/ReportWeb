@@ -876,24 +876,36 @@ async function renderIncomeChart(config) {
         let categories = [];
         let values = [];
 
-        // Flexible parsing for different data structures
         if (Array.isArray(rawData) && rawData.length > 0 && typeof rawData[0] === 'object') {
-            categories = rawData.map(item => String(item[xField] ?? 'Unknown'));
-            values = rawData.map(item => Number(item[yField]) || 0);
-        }
-        else if (rawData && (rawData.categories || rawData[xField])) {
+            // Flexible parsing: xField can be string or number, yField should ideally be number
+            categories = rawData.map(item => {
+                const val = item[xField];
+                return val !== undefined && val !== null ? String(val) : 'Unknown';
+            });
+
+            values = rawData.map(item => {
+                const val = item[yField];
+                // Only accept numeric values; fallback to NaN for invalid
+                const num = Number(val);
+                return !isNaN(num) ? num : NaN;
+            }).filter(v => !isNaN(v)); // remove non-numeric values
+
+            // Filter categories accordingly if some values were removed
+            if (values.length !== categories.length) {
+                categories = categories.slice(0, values.length);
+            }
+        } else if (rawData && (rawData.categories || rawData[xField])) {
             categories = rawData.categories || rawData[xField] || [];
             values = rawData.series || rawData[yField] || [];
-        }
-        else if (Array.isArray(rawData)) {
+        } else if (Array.isArray(rawData)) {
             values = rawData;
             categories = Array.from({ length: values.length }, (_, i) => `Item ${i + 1}`);
-        }
-        else if (typeof rawData === 'object' && rawData !== null) {
+        } else if (typeof rawData === 'object' && rawData !== null) {
             categories = Object.keys(rawData);
-            values = Object.values(rawData).map(Number);
+            values = Object.values(rawData).map(Number).filter(v => !isNaN(v));
         }
 
+        // Check if we have valid data
         if (categories.length === 0 || values.length === 0 || values.every(v => v === 0)) {
             chartEl.innerHTML = `<div class="text-center text-muted">${emptyMessage}</div>`;
             return;
