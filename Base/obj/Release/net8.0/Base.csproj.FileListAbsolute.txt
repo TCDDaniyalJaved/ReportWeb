@@ -409,9 +409,9 @@ D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets\msbuild.bu
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets\msbuild.buildMultiTargeting.Base.props
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets\msbuild.buildTransitive.Base.props
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.pack.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.upToDateCheck.txt
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\Base.dll
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\refint\Base.dll
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\Base.pdb
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\Base.genruntimeconfig.cache
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\ref\Base.dll
-D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.upToDateCheck.txt

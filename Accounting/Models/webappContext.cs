@@ -352,13 +352,18 @@ public partial class webappContext : DbContext
             entity.Property(e => e.Remarks)
                 .IsRequired()
                 .IsUnicode(false);
+            entity.Property(e => e.Vmonth).HasColumnName("VMonth");
+            entity.Property(e => e.VmonthName)
+                .HasMaxLength(30)
+                .HasColumnName("VMonthName");
             entity.Property(e => e.Voucher)
-                .HasMaxLength(45)
+                .HasMaxLength(12)
                 .IsUnicode(false);
             entity.Property(e => e.VoucherNo)
                 .IsRequired()
                 .HasMaxLength(20)
                 .IsUnicode(false);
+            entity.Property(e => e.Vyear).HasColumnName("VYear");
         });
 
         modelBuilder.Entity<App>(entity =>

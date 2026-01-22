@@ -39,10 +39,14 @@ class EbitHead extends HTMLElement {
             while (this.firstChild) {
                 thead.appendChild(this.firstChild);
             }
+
+            // Add text-align right style to the <thead>
+            thead.style.textAlign = "right"; // This will apply the text alignment to the whole <thead>
         }
     }
 }
 customElements.define("ebit-head", EbitHead);
+
 
 // ------------------ EbitBody ------------------
 class EbitBody extends HTMLElement {
@@ -126,7 +130,7 @@ customElements.define("ebit-row", EbitRow);
 // ------------------ EbitColumn ------------------
 class EbitHeadcolumn extends HTMLElement {
     static get observedAttributes() {
-        return ["align", "width", "sortable", "datafield", "header", "render", "active"];
+        return ["align", "width", "sortable", "datafield", "header", "render", "active", "isamount", "currency", "group-total"];
     }
 
     connectedCallback() {
@@ -164,6 +168,13 @@ class EbitHeadcolumn extends HTMLElement {
         if (active === "false") {
             th.setAttribute("data-active", "false"); // DataTables will check it
         }
+
+
+        ["datafield", "render", "isamount", "currency", "group-total"].forEach(attr => {
+            if (this.hasAttribute(attr)) {
+                th.setAttribute(attr, this.getAttribute(attr));
+            }
+        });
 
         // ---- DataTables helper attributes to pass along ----
         ["datafield", "render"].forEach(attr => {

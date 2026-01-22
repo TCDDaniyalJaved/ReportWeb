@@ -18,6 +18,7 @@ class EbitText extends HTMLElement {
                 type="text" 
                 name="${dataPath}"
                 class="${classes}"
+                autocomplete="off"
                 placeholder="${placeholder}"
                 value="${value}"
                 style="text-align: left;" 

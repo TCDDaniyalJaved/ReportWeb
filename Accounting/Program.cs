@@ -40,8 +40,34 @@ builder.Services.AddScoped<IMenuService, MenuService>();
 //string dllPath = Path.Combine(rootPath, "DinkToPdf", "libwkhtmltox.dll");
 //var context = new CustomAssemblyLoadContext();
 //context.LoadUnmanagedLibrary(dllPath);
-var context = new CustomAssemblyLoadContext();
-context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "DinkToPdf", "libwkhtmltox.dll"));
+//var context = new CustomAssemblyLoadContext();
+//context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "DinkToPdf", "libwkhtmltox.dll"));
+
+IConverter? pdfConverter = null;
+
+try
+{
+    var dllPath = Path.Combine(AppContext.BaseDirectory, "libwkhtmltox.dll");
+
+    if (File.Exists(dllPath))
+    {
+        var context = new CustomAssemblyLoadContext();
+        context.LoadUnmanagedLibrary(dllPath);
+
+        pdfConverter = new SynchronizedConverter(new PdfTools());
+        Console.WriteLine("PDF DLL loaded successfully");
+    }
+    else
+    {
+        Console.WriteLine("libwkhtmltox.dll not found. PDF feature disabled.");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine("PDF DLL load failed: " + ex.Message);
+}
+
+
 // Register DinkToPdf converter
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 builder.Services.AddScoped<IReportService, ReportService>();

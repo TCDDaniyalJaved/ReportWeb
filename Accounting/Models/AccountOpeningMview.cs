@@ -11,6 +11,12 @@ public partial class AccountOpeningMview
 
     public DateOnly? Date { get; set; }
 
+    public int? Vmonth { get; set; }
+
+    public string VmonthName { get; set; }
+
+    public int? Vyear { get; set; }
+
     public string Remarks { get; set; }
 
     public int? BookCode { get; set; }

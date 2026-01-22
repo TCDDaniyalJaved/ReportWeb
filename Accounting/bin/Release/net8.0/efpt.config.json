@@ -256,6 +256,10 @@
          "ObjectType": 3
       },
       {
+         "Name": "[dbo].[AccountOpeningGraphView]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[AccountOpeningMView]",
          "ObjectType": 3
       },
@@ -312,6 +316,22 @@
          "ObjectType": 3
       },
       {
+         "Name": "[dbo].[View_MonthlyExpense]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[View_MonthlyProfit]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[View_MonthlyRevenue]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_TotalRevenue]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[AccountOpeningVoucher]",
          "ObjectType": 1
       },
@@ -353,10 +373,6 @@
       },
       {
          "Name": "[dbo].[GetUserWiseCompany]",
-         "ObjectType": 1
-      },
-      {
-         "Name": "[dbo].[PurchaseReport]",
          "ObjectType": 1
       },
       {

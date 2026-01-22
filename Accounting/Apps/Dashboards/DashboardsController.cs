@@ -39,7 +39,7 @@ public class DashboardsController : Controller
         public List<AccountChartViewModel> AccountWise { get; set; } = new();
         public List<AccountChartViewModel> VoucherWise { get; set; } = new();
     }
-    [Authorize]
+    //[Authorize]
 
     public IActionResult Index()
     {
@@ -304,6 +304,17 @@ public class DashboardsController : Controller
 
         return Ok(data);
     }
+
+
+    [HttpGet]
+    public IActionResult GetData()
+    {
+        var data = _context.AccountOpeningDviews
+            .ToListAsync();
+
+        return Ok(data);
+    }
+
 
 
     [HttpGet]
@@ -639,6 +650,7 @@ public class DashboardsController : Controller
     {
         return View(ViewPath("Dummy"));
     }
+  
     [HttpGet]
     public async Task<IActionResult> GetAllDataMonth()
     {
@@ -677,7 +689,6 @@ public class DashboardsController : Controller
 
         return Ok(groupedData);
     }
-
     [HttpGet]
     public async Task<IActionResult> GetAllDataMonth2()
     {

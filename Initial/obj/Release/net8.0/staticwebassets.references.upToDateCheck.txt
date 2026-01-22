@@ -125,3 +125,11 @@ D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
