@@ -304,6 +304,117 @@ public class DashboardsController : Controller
 
         return Ok(data);
     }
+
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllDataVoucher2(string period = "Max")
+    {
+
+        // Get current date
+        var today = DateTime.Today;
+        DateTime? startDate = null;
+
+        // Calculate start date based on period
+        switch (period)
+        {
+            case "1D":
+                startDate = today.AddDays(-1);
+                break;
+            case "5D":
+                startDate = today.AddDays(-5);
+                break;
+            case "1M":
+                startDate = today.AddMonths(-1);
+                break;
+            case "1Y":
+                startDate = today.AddYears(-1);
+                break;
+            case "5Y":
+                startDate = today.AddYears(-5);
+                break;
+            case "Max":
+            default:
+                startDate = null; // All data
+                break;
+        }
+
+        // Base query
+        var query = _context.AccountOpeningDviews.AsQueryable();
+
+        // Apply date filter if startDate exists
+        if (startDate.HasValue)
+        {
+            query = query.Where(x => x.Vdate >= startDate.Value);
+        }
+
+        // Fetch and process data
+        var data = await query
+            .Select(x => new
+            {
+                x.Accounts,
+                x.Vdate,
+                x.Remarks,
+                x.Voucher,
+                x.VmonthName,
+                x.Vyear,
+                x.TotalDebit,
+                x.Credit,
+                x.Debit,
+                x.PersonId
+            })
+            .ToListAsync();
+
+        // Group by Voucher
+        var groupedData = data
+            .GroupBy(x => x.Voucher)
+            .Select(g => new
+            {
+                Voucher = g.Key,
+                TotalDebit = g.Sum(x => x.TotalDebit ?? 0),
+                TotalCredit = g.Sum(x => x.Credit ?? 0),
+                Records = g.ToList()
+            })
+            .OrderBy(x => x.Voucher)
+            .ToList();
+
+        return Ok(groupedData);
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetAllDataVoucher()
+    {
+        // Fetch all data
+        var data = await _context.AccountOpeningDviews
+            .Select(x => new
+            {
+                x.Accounts,
+                x.Vdate,
+                x.Remarks,
+                x.Voucher,
+                x.VmonthName,
+                x.Vyear,
+                x.TotalDebit,
+                x.Credit,
+                x.Debit,
+                x.PersonId
+            })
+            .ToListAsync();
+
+        // Group by Voucher
+        var groupedData = data
+            .GroupBy(x => x.Voucher)
+            .Select(g => new
+            {
+                Voucher = g.Key,
+                TotalDebit = g.Sum(x => x.TotalDebit ?? 0),   // handle nulls
+                TotalCredit = g.Sum(x => x.Credit ?? 0),     // handle nulls
+                Records = g.ToList()
+            })
+            .OrderBy(x => x.Voucher) // optional: can order by date if needed
+            .ToList();
+
+        return Ok(groupedData);
+    }
+
     public async Task<IActionResult> GetAllData4()
     {
         var data = await _context.AccountOpeningDviews

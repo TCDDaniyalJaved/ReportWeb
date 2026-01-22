@@ -1,5 +1,4 @@
-﻿// chart-helper.js
-// Utility functions for rendering various ApexCharts in the dashboard
+﻿// chart-helper.js - Universal ApexCharts rendering utilities for dashboards
 
 /**
  * Renders a grouped or stacked bar chart with multiple series
@@ -20,19 +19,16 @@ async function renderGroupedBarChart(config) {
         horizontal = false
     } = config;
 
-    // Validate required parameters
     if (!containerId || !chartTitle || !endpoint || !xField || seriesConfig.length === 0) {
         console.error("Required parameters for chart rendering are missing.");
         return;
     }
 
     try {
-        // Fetch data from the provided API endpoint
         const response = await fetch(endpoint);
         if (!response.ok) throw new Error('Failed to retrieve chart data from API.');
         const data = await response.json();
 
-        // Group data by xField and aggregate values for each series
         const groupedData = {};
         data.forEach(item => {
             const key = String(item[xField] ?? 'Unknown');
@@ -43,93 +39,47 @@ async function renderGroupedBarChart(config) {
             });
         });
 
-        // Prepare sorted categories and series data
         const categories = Object.keys(groupedData).sort();
         const series = seriesConfig.map(series => ({
             name: series.name,
             data: categories.map(key => groupedData[key][series.field] || 0)
         }));
 
-        // Extract colors from seriesConfig if provided
-        const colors = seriesConfig.map(series => series.color).filter(Boolean);
+        const colors = seriesConfig.map(s => s.color).filter(Boolean);
 
-        // ApexCharts configuration
         const options = {
-            chart: {
-                type: chartType,
-                height,
-                stacked,
-                toolbar: {
-                    show: true
-                }
-            },
+            chart: { type: chartType, height, stacked, toolbar: { show: true } },
             series,
-            xaxis: {
-                categories,
-                title: {
-                    text: ''
-                }
-            },
-            yaxis: {
-                title: {
-                    text: yAxisTitle
-                }
-            },
-            colors: colors.length > 0 ? colors : undefined,
-            plotOptions: {
-                bar: {
-                    horizontal,
-                    columnWidth: '60%',
-                    endingShape: 'rounded'
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            tooltip: {
-                y: {
-                    formatter: val => valuePrefix + val.toLocaleString() + valueSuffix
-                }
-            },
-            legend: {
-                position: 'top'
-            },
-            title: {
-                text: chartTitle,
-                align: 'center',
-                style: {
-                    fontSize: '16px'
-                }
-            }
+            xaxis: { categories, title: { text: '' } },
+            yaxis: { title: { text: yAxisTitle } },
+            colors: colors.length ? colors : undefined,
+            plotOptions: { bar: { horizontal, columnWidth: '60%', endingShape: 'rounded' } },
+            dataLabels: { enabled: false },
+            stroke: { show: true, width: 2, colors: ['transparent'] },
+            tooltip: { y: { formatter: val => valuePrefix + val.toLocaleString() + valueSuffix } },
+            legend: { position: 'top' },
+            title: { text: chartTitle, align: 'center', style: { fontSize: '16px' } }
         };
 
-        // Render the chart
         const chart = new ApexCharts(document.querySelector("#" + containerId), options);
         await chart.render();
     } catch (error) {
         console.error('Chart rendering error:', error);
-        document.querySelector("#" + containerId).innerHTML =
-            `<div class="alert alert-danger m-3">Unable to load chart.</div>`;
+        document.querySelector("#" + containerId).innerHTML = `<div class="alert alert-danger m-3">Unable to load chart.</div>`;
     }
 }
 
 /**
- * Renders a compact distributed bar chart (usually for weekly data)
- * Supports flexible data formats using xField and yField
+ * Renders a compact distributed bar chart (e.g. weekly revenue)
  */
 async function renderRevenueBarChart(config) {
     const {
-        containerId,                // required
-        endpoint,                   // required for API
-        xField = null,              // X-axis field (e.g. "day", "weekday")
-        yField = null,              // Y-axis field (e.g. "revenue", "amount")
-        title = 'Weekly Revenue',   // optional title
-        colors = [],                // optional custom colors array
+        containerId,
+        endpoint,
+        xField = null,
+        yField = null,
+        title = 'Weekly Revenue',
+        colors = [],
         height = 95,
         labelColor = '#6e6b7b',
         emptyMessage = 'No data available'
@@ -138,136 +88,68 @@ async function renderRevenueBarChart(config) {
     const el = document.querySelector('#' + containerId);
     if (!el) return;
 
-    // Validate required fields
     if (!endpoint || !xField || !yField) {
         console.error("renderRevenueBarChart: containerId, endpoint, xField and yField are required");
         el.innerHTML = '<div class="text-danger small">Configuration missing</div>';
         return;
     }
 
-    // Default fallback values
     let seriesData = [0, 0, 0, 0, 0, 0, 0];
     let categories = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
     let barColors = colors.length ? colors : ['#7367f0', '#7367f0', '#7367f0', '#7367f0', '#28c76f', '#7367f0', '#7367f0'];
 
     try {
-        // Fetch data from API
         const response = await fetch(endpoint);
-        if (!response.ok) {
-            throw new Error(`API error: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`API error: ${response.status}`);
         const rawData = await response.json();
 
-        // Flexible data parsing – supports multiple formats
         if (Array.isArray(rawData) && rawData.length > 0) {
-            // Case 1: Array of objects
             if (typeof rawData[0] === 'object') {
                 categories = rawData.map(item => String(item[xField] ?? 'Unknown'));
                 seriesData = rawData.map(item => Number(item[yField]) || 0);
-            }
-            // Case 2: Simple array of numbers
-            else {
+            } else {
                 seriesData = rawData.map(Number);
             }
-        }
-        // Case 3: Object with field arrays
-        else if (rawData && (rawData[xField] || rawData.categories || rawData.series)) {
+        } else if (rawData && (rawData[xField] || rawData.categories || rawData.series)) {
             categories = rawData[xField] || rawData.categories || categories;
             seriesData = rawData[yField] || rawData.series || seriesData;
-        }
-        // Case 4: Standard { categories, series } format
-        else if (rawData && rawData.categories && rawData.series) {
+        } else if (rawData && rawData.categories && rawData.series) {
             categories = Array.isArray(rawData.categories) ? rawData.categories : categories;
             seriesData = Array.isArray(rawData.series) ? rawData.series : seriesData;
         }
 
-        // Override colors if provided in response
-        if (Array.isArray(rawData.colors)) {
-            barColors = rawData.colors;
-        }
+        if (Array.isArray(rawData.colors)) barColors = rawData.colors;
 
-        // Handle empty or zero data
         if (seriesData.length === 0 || seriesData.every(v => v === 0)) {
             el.innerHTML = `<div class="text-center text-muted">${emptyMessage}</div>`;
             return;
         }
 
-        // Clear container before rendering
         el.innerHTML = '';
 
-        // ApexCharts configuration
         const revenueBarChartConfig = {
-            chart: {
-                type: 'bar',
-                height,
-                toolbar: { show: false }
-            },
-            plotOptions: {
-                bar: {
-                    barHeight: '80%',
-                    columnWidth: '75%',
-                    startingShape: 'rounded',
-                    endingShape: 'rounded',
-                    borderRadius: 4,
-                    distributed: true
-                }
-            },
-            grid: {
-                show: false,
-                padding: { top: -20, bottom: -12, left: -10, right: 0 }
-            },
+            chart: { type: 'bar', height, toolbar: { show: false } },
+            plotOptions: { bar: { barHeight: '80%', columnWidth: '75%', startingShape: 'rounded', endingShape: 'rounded', borderRadius: 4, distributed: true } },
+            grid: { show: false, padding: { top: -20, bottom: -12, left: -10, right: 0 } },
             colors: barColors,
             dataLabels: { enabled: false },
             series: [{ data: seriesData }],
             legend: { show: false },
-            xaxis: {
-                categories,
-                axisBorder: { show: false },
-                axisTicks: { show: false },
-                labels: {
-                    style: {
-                        colors: labelColor,
-                        fontSize: '13px'
-                    }
-                }
-            },
-            yaxis: {
-                labels: { show: false }
-            },
-            tooltip: {
-                y: {
-                    formatter: val => `Rs. ${val.toLocaleString()}`
-                }
-            },
+            xaxis: { categories, axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { colors: labelColor, fontSize: '13px' } } },
+            yaxis: { labels: { show: false } },
+            tooltip: { y: { formatter: val => `Rs. ${val.toLocaleString()}` } },
             responsive: [
-                {
-                    breakpoint: 768,
-                    options: {
-                        plotOptions: { bar: { columnWidth: '60%' } }
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    options: {
-                        plotOptions: { bar: { columnWidth: '70%' } }
-                    }
-                }
+                { breakpoint: 768, options: { plotOptions: { bar: { columnWidth: '60%' } } } },
+                { breakpoint: 480, options: { plotOptions: { bar: { columnWidth: '70%' } } } }
             ]
         };
 
-        // Add optional title if provided
         if (title) {
-            revenueBarChartConfig.title = {
-                text: title,
-                align: 'center',
-                style: { fontSize: '14px' }
-            };
+            revenueBarChartConfig.title = { text: title, align: 'center', style: { fontSize: '14px' } };
         }
 
-        // Render chart
         const chart = new ApexCharts(el, revenueBarChartConfig);
         await chart.render();
-
     } catch (err) {
         console.error('Revenue Bar Chart Error:', err);
         el.innerHTML = '<div class="text-danger small">Data load failed</div>';
@@ -275,7 +157,7 @@ async function renderRevenueBarChart(config) {
 }
 
 /**
- * Renders a pie or donut chart with dynamic grouping
+ * Renders a pie or donut chart with automatic value aggregation
  */
 async function renderPieChart(config) {
     const {
@@ -292,19 +174,16 @@ async function renderPieChart(config) {
         donut = false
     } = config;
 
-    // Validate required parameters
     if (!containerId || !chartTitle || !endpoint || !labelField || !valueField) {
         console.error("Pie chart required parameters are missing.");
         return;
     }
 
     try {
-        // Fetch data from API
         const response = await fetch(endpoint);
         if (!response.ok) throw new Error('Failed to retrieve pie chart data.');
         const data = await response.json();
 
-        // Aggregate values by labelField
         const grouped = {};
         data.forEach(item => {
             const key = item[labelField];
@@ -315,59 +194,33 @@ async function renderPieChart(config) {
         const labels = Object.keys(grouped);
         const values = Object.values(grouped);
 
-        // ApexCharts configuration
         const options = {
-            chart: {
-                type: donut ? 'donut' : 'pie',
-                height
-            },
+            chart: { type: donut ? 'donut' : 'pie', height },
             series: values,
             labels,
-            colors: colors.length > 0 ? colors : undefined,
+            colors: colors.length ? colors : undefined,
             dataLabels: {
                 enabled: showLabels,
                 formatter: val => valuePrefix + val.toLocaleString() + valueSuffix,
-                style: {
-                    fontSize: '14px'
-                },
-                dropShadow: {
-                    enabled: false
-                }
+                style: { fontSize: '14px' },
+                dropShadow: { enabled: false }
             },
-            legend: {
-                position: 'bottom',
-                horizontalAlign: 'center'
-            },
-            tooltip: {
-                y: {
-                    formatter: val => valuePrefix + val.toLocaleString() + valueSuffix
-                }
-            },
-            title: {
-                text: chartTitle,
-                align: 'center'
-            },
-            plotOptions: {
-                pie: {
-                    expandOnClick: true,
-                    startAngle: -90,
-                    customScale: 0.95
-                }
-            }
+            legend: { position: 'bottom', horizontalAlign: 'center' },
+            tooltip: { y: { formatter: val => valuePrefix + val.toLocaleString() + valueSuffix } },
+            title: { text: chartTitle, align: 'center' },
+            plotOptions: { pie: { expandOnClick: true, startAngle: -90, customScale: 0.95 } }
         };
 
-        // Render chart
         const chart = new ApexCharts(document.querySelector("#" + containerId), options);
         await chart.render();
     } catch (error) {
         console.error('Pie chart rendering error:', error);
-        document.querySelector("#" + containerId).innerHTML =
-            `<div class="alert alert-danger m-3">Unable to load pie chart.</div>`;
+        document.querySelector("#" + containerId).innerHTML = `<div class="alert alert-danger m-3">Unable to load pie chart.</div>`;
     }
 }
 
 /**
- * Renders a donut chart with center label/value (used for statistics)
+ * Renders a donut chart with center label (used for order statistics)
  */
 async function renderOrderStatisticsChart(config) {
     const {
@@ -401,7 +254,6 @@ async function renderOrderStatisticsChart(config) {
         let finalLabels = [];
         let finalSeries = [];
 
-        // Fetch or use provided data
         if (endpoint) {
             const response = await fetch(endpoint);
             if (!response.ok) throw new Error('Failed to fetch order statistics data');
@@ -410,13 +262,11 @@ async function renderOrderStatisticsChart(config) {
             if (Array.isArray(apiData)) {
                 finalLabels = apiData.map(item => item.category || item.label || 'Unknown');
                 finalSeries = apiData.map(item => Number(item.value || item.amount || 0));
-            }
-            else if (apiData.labels && apiData.series) {
+            } else if (apiData.labels && apiData.series) {
                 finalLabels = apiData.labels;
                 finalSeries = apiData.series;
             }
-        }
-        else if (data) {
+        } else if (data) {
             if (Array.isArray(data)) {
                 finalLabels = data.map(item => item.category || item.label || 'Unknown');
                 finalSeries = data.map(item => Number(item.value || item.amount || 0));
@@ -426,64 +276,29 @@ async function renderOrderStatisticsChart(config) {
             }
         }
 
-        // Calculate center value if not provided
         const total = finalSeries.reduce((a, b) => a + b, 0);
         const centerVal = centerValue || (total ? Math.round(total / 100) + '%' : '0%');
 
         chartContainer.innerHTML = '';
 
-        // ApexCharts configuration
         const orderChartConfig = {
-            chart: {
-                height,
-                width,
-                type: 'donut'
-            },
+            chart: { height, width, type: 'donut' },
             labels: finalLabels,
             series: finalSeries,
             colors,
-            stroke: {
-                width: 5,
-                colors: [cardColor]
-            },
-            dataLabels: {
-                enabled: false
-            },
-            legend: {
-                show: false
-            },
-            grid: {
-                padding: {
-                    top: 0,
-                    bottom: 0,
-                    right: 15
-                }
-            },
+            stroke: { width: 5, colors: [cardColor] },
+            dataLabels: { enabled: false },
+            legend: { show: false },
+            grid: { padding: { top: 0, bottom: 0, right: 15 } },
             plotOptions: {
                 pie: {
                     donut: {
                         size: donutSize,
                         labels: {
                             show: true,
-                            value: {
-                                fontSize: '18px',
-                                fontFamily: 'Public Sans',
-                                fontWeight: 500,
-                                color: headingColor,
-                                offsetY: -17,
-                                formatter: val => parseInt(val) + '%'
-                            },
-                            name: {
-                                offsetY: 17,
-                                fontFamily: 'Public Sans'
-                            },
-                            total: {
-                                show: true,
-                                fontSize: '13px',
-                                color: legendColor,
-                                label: centerLabel,
-                                formatter: () => centerVal
-                            }
+                            value: { fontSize: '18px', fontFamily: 'Public Sans', fontWeight: 500, color: headingColor, offsetY: -17, formatter: val => parseInt(val) + '%' },
+                            name: { offsetY: 17, fontFamily: 'Public Sans' },
+                            total: { show: true, fontSize: '13px', color: legendColor, label: centerLabel, formatter: () => centerVal }
                         }
                     }
                 }
@@ -499,7 +314,7 @@ async function renderOrderStatisticsChart(config) {
 }
 
 /**
- * Renders a radial progress/mini gauge chart
+ * Renders a radial progress / mini gauge chart
  */
 async function renderRadialMiniChart(config) {
     const {
@@ -528,14 +343,11 @@ async function renderRadialMiniChart(config) {
     let currentValue = value;
     let currentMax = maxValue;
 
-    // Fetch data if endpoint is provided
     if (endpoint) {
         try {
             const response = await fetch(endpoint);
             if (!response.ok) throw new Error('API error');
             const data = await response.json();
-
-            // Flexible value extraction
             currentValue = Number(data[valueField] || data.current || data.value || data.amount || 0);
             currentMax = Number(data[maxValueField] || data.target || data.max || 100);
         } catch (err) {
@@ -547,67 +359,26 @@ async function renderRadialMiniChart(config) {
 
     const percentage = Math.min(100, Math.max(0, (currentValue / currentMax) * 100));
 
-    // ApexCharts configuration
     const options = {
         series: [percentage],
-        chart: {
-            width: size,
-            height: size,
-            type: 'radialBar',
-            sparkline: {
-                enabled: true
-            }
-        },
+        chart: { width: size, height: size, type: 'radialBar', sparkline: { enabled: true } },
         plotOptions: {
             radialBar: {
                 startAngle: 0,
                 endAngle: 360,
-                hollow: {
-                    margin: 2,
-                    size: hollowSize
-                },
-                track: {
-                    background: trackColor,
-                    strokeWidth: '100%'
-                },
+                hollow: { margin: 2, size: hollowSize },
+                track: { background: trackColor, strokeWidth: '100%' },
                 dataLabels: {
                     show: true,
-                    name: {
-                        show: showName,
-                        offsetY: -10,
-                        color: '#999',
-                        fontSize: '11px'
-                    },
-                    value: {
-                        formatter: () => prefix + Math.round(currentValue).toLocaleString() + suffix,
-                        offsetY: centerOffsetY,
-                        color: '#333',
-                        fontSize: valueFontSize,
-                        fontWeight: 600,
-                        show: true
-                    }
+                    name: { show: showName, offsetY: -10, color: '#999', fontSize: '11px' },
+                    value: { formatter: () => prefix + Math.round(currentValue).toLocaleString() + suffix, offsetY: centerOffsetY, color: '#333', fontSize: valueFontSize, fontWeight: 600, show: true }
                 }
             }
         },
-        fill: {
-            type: 'solid',
-            colors: [currentValue > currentMax ? '#ea5455' : color]
-        },
-        stroke: {
-            lineCap: 'round'
-        },
-        grid: {
-            padding: {
-                top: -10,
-                bottom: -15,
-                left: -10,
-                right: -10
-            }
-        },
-        states: {
-            hover: { filter: { type: 'none' } },
-            active: { filter: { type: 'none' } }
-        }
+        fill: { type: 'solid', colors: [currentValue > currentMax ? '#ea5455' : color] },
+        stroke: { lineCap: 'round' },
+        grid: { padding: { top: -10, bottom: -15, left: -10, right: -10 } },
+        states: { hover: { filter: { type: 'none' } }, active: { filter: { type: 'none' } } }
     };
 
     if (showName && nameText) {
@@ -623,7 +394,7 @@ async function renderRadialMiniChart(config) {
 }
 
 /**
- * Renders a stacked bar chart for total revenue trend
+ * Renders stacked bar chart for total revenue trend with smart formatting
  */
 async function renderTotalRevenueChart(config) {
     const {
@@ -660,41 +431,26 @@ async function renderTotalRevenueChart(config) {
         try {
             const res = await fetch(endpoint);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
             const data = await res.json();
 
-            // 1. Sabse common ApexCharts format
             if (data[categoriesField] && data[seriesField]) {
                 categories = Array.isArray(data[categoriesField]) ? data[categoriesField].map(String) : categories;
                 seriesData = Array.isArray(data[seriesField]) ? data[seriesField] : seriesData;
-            }
-            // 2. Classic fallback names
-            else if (data.categories && data.series) {
+            } else if (data.categories && data.series) {
                 categories = Array.isArray(data.categories) ? data.categories.map(String) : categories;
                 seriesData = Array.isArray(data.series) ? data.series : seriesData;
-            }
-            // 3. Custom field names via xField / yField (array of objects)
-            else if (Array.isArray(data) && data.length > 0 && typeof data[0] === 'object') {
+            } else if (Array.isArray(data) && data.length > 0 && typeof data[0] === 'object') {
                 if (xField && yField) {
                     categories = data.map(item => String(item[xField] ?? '–'));
-                    seriesData = [{
-                        name: 'Revenue',
-                        data: data.map(item => Number(item[yField]) || 0)
-                    }];
-                }
-                // Agar sirf ek field diya → guess karne ki koshish
-                else if (xField) {
+                    seriesData = [{ name: 'Revenue', data: data.map(item => Number(item[yField]) || 0) }];
+                } else if (xField) {
                     categories = data.map(item => String(item[xField] ?? '–'));
                 }
-            }
-            // 4. Agar sirf ek array mila (series ya values)
-            else if (Array.isArray(data)) {
+            } else if (Array.isArray(data)) {
                 if (data.every(item => typeof item === 'number')) {
                     seriesData = [{ name: 'Revenue', data: data.map(Number) }];
                     categories = categories.length ? categories : data.map((_, i) => `Item ${i + 1}`);
-                }
-                else if (data.every(item => typeof item === 'object' && item !== null)) {
-                    // Pehla key categories, baqi series maan lete hain
+                } else if (data.every(item => typeof item === 'object' && item !== null)) {
                     const keys = Object.keys(data[0]);
                     categories = data.map(item => String(item[keys[0]] ?? '–'));
                     seriesData = keys.slice(1).map(key => ({
@@ -702,31 +458,22 @@ async function renderTotalRevenueChart(config) {
                         data: data.map(item => Number(item[key]) || 0)
                     }));
                 }
-            }
-            // 5. Object jisme categories aur series ke naam kuch bhi ho sakte hain
-            else if (typeof data === 'object' && data !== null) {
-                // Pehla array wala key categories maan lete hain
+            } else if (typeof data === 'object' && data !== null) {
                 const catKey = Object.keys(data).find(k => Array.isArray(data[k]) && data[k].every(v => typeof v === 'string' || typeof v === 'number'));
                 if (catKey) categories = data[catKey].map(String);
 
-                // Doosra array wala key series maan lete hain
                 const serKey = Object.keys(data).find(k => k !== catKey && Array.isArray(data[k]));
                 if (serKey) {
                     if (Array.isArray(data[serKey][0])) {
-                        seriesData = data[serKey].map((arr, i) => ({
-                            name: `Series ${i + 1}`,
-                            data: arr.map(Number)
-                        }));
+                        seriesData = data[serKey].map((arr, i) => ({ name: `Series ${i + 1}`, data: arr.map(Number) }));
                     } else if (typeof data[serKey][0] === 'object') {
                         seriesData = data[serKey];
                     }
                 }
             }
 
-            // Final fallback
             categories = categories.length ? categories : fallbackCategories;
             seriesData = seriesData.length ? seriesData : fallbackSeries;
-
         } catch (err) {
             console.error('Total Revenue Fetch Error:', err);
             element.innerHTML = '<div class="text-danger small">Data load failed</div>';
@@ -734,52 +481,33 @@ async function renderTotalRevenueChart(config) {
         }
     }
 
-    // Zero / empty data check
-    const isEmpty = !seriesData.length ||
-        seriesData.every(s => !s.data || s.data.every(v => v === 0 || isNaN(v)));
-
+    const isEmpty = !seriesData.length || seriesData.every(s => !s.data || s.data.every(v => v === 0 || isNaN(v)));
     if (isEmpty) {
         element.innerHTML = `<div class="text-center text-muted">${emptyMessage}</div>`;
         return;
     }
 
-    // Formatter with prefix/suffix + K/M/B
     const formatValue = (val) => {
         if (typeof val !== 'number' || isNaN(val)) return valuePrefix + '0' + valueSuffix;
-
         const abs = Math.abs(val);
         const sign = val < 0 ? '-' : '';
         let num = abs;
-
         if (abs >= 1e9) num = (abs / 1e9).toFixed(1) + 'B';
         else if (abs >= 1e6) num = (abs / 1e6).toFixed(1) + 'M';
         else if (abs >= 1e3) num = (abs / 1e3).toFixed(1) + 'K';
         else num = abs.toFixed(0);
-
         return sign + valuePrefix + num + valueSuffix;
     };
 
     const options = {
         series: seriesData,
         chart: { height, type: 'bar', stacked: true, toolbar: { show: false } },
-        plotOptions: {
-            bar: { horizontal: false, columnWidth: '30%', borderRadius: 8 }
-        },
+        plotOptions: { bar: { horizontal: false, columnWidth: '30%', borderRadius: 8 } },
         colors,
         dataLabels: { enabled: false },
         stroke: { width: 4, colors: ['#fff'], lineCap: 'round' },
-        xaxis: {
-            categories,
-            labels: { style: { fontSize: '13px', fontFamily: 'Public Sans' } },
-            axisBorder: { show: false },
-            axisTicks: { show: false }
-        },
-        yaxis: {
-            labels: {
-                formatter: formatValue,
-                style: { fontSize: '13px', fontFamily: 'Public Sans' }
-            }
-        },
+        xaxis: { categories, labels: { style: { fontSize: '13px', fontFamily: 'Public Sans' } }, axisBorder: { show: false }, axisTicks: { show: false } },
+        yaxis: { labels: { formatter: formatValue, style: { fontSize: '13px', fontFamily: 'Public Sans' } } },
         grid: { strokeDashArray: 7, padding: { top: 0, bottom: -8, left: 20, right: 20 } },
         legend: { show: true, position: 'top', horizontalAlign: 'left', fontSize: '13px' },
         fill: { opacity: 1 },
@@ -798,49 +526,7 @@ async function renderTotalRevenueChart(config) {
 }
 
 /**
- * Renders browser statistics table (non-ApexCharts)
- */
-function renderBrowserStatsTable(options) {
-    fetch(options.endpoint)
-        .then(res => res.json())
-        .then(data => {
-            const tbody = document.getElementById(options.tbodyId);
-            tbody.innerHTML = "";
-            data.forEach(item => {
-                const visitsText = item.visits >= 1000 ?
-                    (item.visits / 1000).toFixed(2) + "k" :
-                    item.visits;
-
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${item.no}</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img src="/img/icons/brands/${item.icon}" height="24" class="me-3">
-                                <span class="text-heading">${item.name}</span>
-                            </div>
-                        </td>
-                        <td class="text-heading">${visitsText}</td>
-                        <td>
-                            <div class="d-flex justify-content-between align-items-center gap-4">
-                                <div class="progress w-100" style="height:10px;">
-                                    <div class="progress-bar ${item.color}"
-                                         style="width:${item.percentage}%">
-                                    </div>
-                                </div>
-                                <small class="fw-medium">${item.percentage}%</small>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
-        })
-        .catch(err => console.error("Browser stats error:", err));
-}
-
-/**
- * Renders area chart for income/revenue trend
- * Supports flexible data formats using xField and yField
+ * Renders area chart for income/revenue trends
  */
 async function renderIncomeChart(config) {
     const {
@@ -868,32 +554,16 @@ async function renderIncomeChart(config) {
 
     try {
         const response = await fetch(endpoint);
-        if (!response.ok) {
-            throw new Error(`API error: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`API error: ${response.status}`);
         const rawData = await response.json();
 
         let categories = [];
         let values = [];
 
         if (Array.isArray(rawData) && rawData.length > 0 && typeof rawData[0] === 'object') {
-            // Flexible parsing: xField can be string or number, yField should ideally be number
-            categories = rawData.map(item => {
-                const val = item[xField];
-                return val !== undefined && val !== null ? String(val) : 'Unknown';
-            });
-
-            values = rawData.map(item => {
-                const val = item[yField];
-                // Only accept numeric values; fallback to NaN for invalid
-                const num = Number(val);
-                return !isNaN(num) ? num : NaN;
-            }).filter(v => !isNaN(v)); // remove non-numeric values
-
-            // Filter categories accordingly if some values were removed
-            if (values.length !== categories.length) {
-                categories = categories.slice(0, values.length);
-            }
+            categories = rawData.map(item => String(item[xField] ?? 'Unknown'));
+            values = rawData.map(item => Number(item[yField])).filter(v => !isNaN(v));
+            if (values.length !== categories.length) categories = categories.slice(0, values.length);
         } else if (rawData && (rawData.categories || rawData[xField])) {
             categories = rawData.categories || rawData[xField] || [];
             values = rawData.series || rawData[yField] || [];
@@ -905,26 +575,15 @@ async function renderIncomeChart(config) {
             values = Object.values(rawData).map(Number).filter(v => !isNaN(v));
         }
 
-        // Check if we have valid data
         if (categories.length === 0 || values.length === 0 || values.every(v => v === 0)) {
             chartEl.innerHTML = `<div class="text-center text-muted">${emptyMessage}</div>`;
             return;
         }
 
-        // ApexCharts configuration
         const chartConfig = {
             series: [{ name: yAxisTitle, data: values }],
-            chart: {
-                height,
-                type: 'area',
-                toolbar: { show: false },
-                parentHeightOffset: 0
-            },
-            title: {
-                text: title,
-                align: 'center',
-                style: { fontSize: '16px' }
-            },
+            chart: { height, type: 'area', toolbar: { show: false }, parentHeightOffset: 0 },
+            title: { text: title, align: 'center', style: { fontSize: '16px' } },
             dataLabels: { enabled: false },
             stroke: { curve: 'smooth', width: 3 },
             markers: {
@@ -932,54 +591,21 @@ async function renderIncomeChart(config) {
                 colors: 'transparent',
                 strokeColors: 'transparent',
                 strokeWidth: 4,
-                discrete: values.length > 0 ? [{
-                    seriesIndex: 0,
-                    dataPointIndex: values.length - 1,
-                    fillColor: colors.white,
-                    strokeColor: colors.primary,
-                    size: 6,
-                    radius: 8
-                }] : [],
+                discrete: values.length > 0 ? [{ seriesIndex: 0, dataPointIndex: values.length - 1, fillColor: colors.white, strokeColor: colors.primary, size: 6, radius: 8 }] : [],
                 hover: { size: 7 }
             },
             colors: [colors.primary],
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'light',
-                    shadeIntensity: 0.6,
-                    opacityFrom: 0.5,
-                    opacityTo: 0.25,
-                    stops: [0, 95, 100]
-                }
-            },
-            grid: {
-                borderColor: '#e7eef7',
-                strokeDashArray: 8,
-                padding: { top: -20, bottom: -8, left: 0, right: 8 }
-            },
-            xaxis: {
-                categories,
-                title: { text: xAxisTitle, style: { fontSize: '14px' } },
-                axisBorder: { show: false },
-                axisTicks: { show: false },
-                labels: { style: { fontSize: '13px', colors: '#6e6b7b' } }
-            },
+            fill: { type: 'gradient', gradient: { shade: 'light', shadeIntensity: 0.6, opacityFrom: 0.5, opacityTo: 0.25, stops: [0, 95, 100] } },
+            grid: { borderColor: '#e7eef7', strokeDashArray: 8, padding: { top: -20, bottom: -8, left: 0, right: 8 } },
+            xaxis: { categories, title: { text: xAxisTitle, style: { fontSize: '14px' } }, axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { fontSize: '13px', colors: '#6e6b7b' } } },
             yaxis: {
                 title: { text: yAxisTitle, style: { fontSize: '14px' } },
-                labels: {
-                    formatter: val => valuePrefix + val.toLocaleString() + valueSuffix,
-                    style: { fontSize: '13px' }
-                },
+                labels: { formatter: val => valuePrefix + val.toLocaleString() + valueSuffix, style: { fontSize: '13px' } },
                 min: Math.min(...values) - 5,
                 max: Math.max(...values) + 5,
                 tickAmount: 5
             },
-            tooltip: {
-                y: {
-                    formatter: val => valuePrefix + val.toLocaleString() + valueSuffix
-                }
-            }
+            tooltip: { y: { formatter: val => valuePrefix + val.toLocaleString() + valueSuffix } }
         };
 
         const chart = new ApexCharts(chartEl, chartConfig);
@@ -991,7 +617,157 @@ async function renderIncomeChart(config) {
 }
 
 /**
- * Renders a dynamic HTML table with data from API
+ * Enhanced grouped bar chart with optional time period filters
+ */
+async function renderGroupedBarChart2(config) {
+    const {
+        containerId,
+        chartTitle,
+        endpoint,
+        xField,
+        seriesConfig = [],
+        height = 380,
+        valuePrefix = 'Rs. ',
+        valueSuffix = '',
+        yAxisTitle = 'Amount',
+        chartType = 'bar',
+        stacked = false,
+        horizontal = false,
+
+        // 🔹 Time filter config
+        timeFilter = {
+            enabled: false,
+            periods: [],
+            defaultPeriod: "Max"
+        },
+
+        onPeriodChange = null
+    } = config;
+
+    if (!containerId || !chartTitle || !endpoint || !xField || seriesConfig.length === 0) {
+        console.error("Required parameters for chart rendering are missing.");
+        return;
+    }
+
+    const defaultPeriod = timeFilter.defaultPeriod || "Max";
+
+    async function loadChartData(period = defaultPeriod) {
+        try {
+            let url = endpoint.includes('?') ? `${endpoint}&period=${period}` : `${endpoint}?period=${period}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('API error');
+            const data = await response.json();
+
+            // 🔹 Grouping data
+            const groupedData = {};
+            data.forEach(item => {
+                const key = String(item[xField] ?? 'Unknown');
+                if (!groupedData[key]) groupedData[key] = {};
+                seriesConfig.forEach(series => {
+                    const field = series.field;
+                    groupedData[key][field] = (groupedData[key][field] || 0) + (Number(item[field]) || 0);
+                });
+            });
+
+            const categories = Object.keys(groupedData).sort();
+            const series = seriesConfig.map(s => ({
+                name: s.name,
+                data: categories.map(cat => groupedData[cat][s.field] || 0)
+            }));
+
+            const colors = seriesConfig.map(s => s.color).filter(Boolean);
+
+            const options = {
+                chart: {
+                    type: chartType,
+                    height,
+                    stacked,
+                    toolbar: { show: true }
+                },
+                series,
+                xaxis: { categories },
+                yaxis: { title: { text: yAxisTitle } },
+                colors: colors.length ? colors : undefined,
+                plotOptions: {
+                    bar: {
+                        horizontal,
+                        columnWidth: '60%',
+                        endingShape: 'rounded'
+                    }
+                },
+                dataLabels: { enabled: false },
+                stroke: { show: true, width: 2, colors: ['transparent'] },
+                tooltip: { y: { formatter: val => valuePrefix + val.toLocaleString() + valueSuffix } },
+                legend: { position: 'top' },
+                title: { text: chartTitle + (period !== "Max" ? ` (${period})` : ''), align: 'center' }
+            };
+
+            // 🔥 FIX: Destroy old chart before rendering new
+            if (window.chartInstances && window.chartInstances[containerId]) {
+                window.chartInstances[containerId].destroy();
+                delete window.chartInstances[containerId];
+            }
+            const chartEl = document.querySelector("#" + containerId);
+            if (chartEl) chartEl.innerHTML = "";
+
+            // 🔹 Render chart
+            const chart = new ApexCharts(chartEl, options);
+            await chart.render();
+            window.chartInstances = window.chartInstances || {};
+            window.chartInstances[containerId] = chart;
+
+            if (typeof onPeriodChange === 'function') {
+                onPeriodChange(period);
+            }
+
+        } catch (err) {
+            console.error('Chart rendering error:', err);
+            document.querySelector("#" + containerId).innerHTML = `<div class="alert alert-danger m-3">Unable to load chart</div>`;
+        }
+    }
+
+    // 🔹 Dynamic Time Filter Buttons
+    if (timeFilter.enabled && Array.isArray(timeFilter.periods) && timeFilter.periods.length > 0) {
+        const container = document.querySelector("#" + containerId);
+        const parentCard = container?.closest('.card');
+
+        if (parentCard) {
+            const cardHeader = parentCard.querySelector('.card-header');
+            if (cardHeader && !cardHeader.querySelector('.time-filter-buttons')) {
+                const btnGroup = document.createElement('div');
+                btnGroup.className = 'btn-group time-filter-buttons';
+                btnGroup.innerHTML = timeFilter.periods.map(p => `
+                    <button class="btn btn-sm btn-outline-dark ${p === defaultPeriod ? 'active' : ''}"
+                            data-period="${p}">
+                        ${p}
+                    </button>
+                `).join('');
+                cardHeader.appendChild(btnGroup);
+
+                btnGroup.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        btnGroup.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        loadChartData(this.dataset.period);
+                    });
+                });
+            }
+        }
+    }
+
+    await loadChartData(defaultPeriod);
+}
+
+// 🔹 Cleanup charts on page unload
+window.addEventListener('beforeunload', () => {
+    if (window.chartInstances) {
+        Object.values(window.chartInstances).forEach(c => c.destroy());
+        window.chartInstances = {};
+    }
+});
+
+/**
+ * Renders a dynamic HTML table from API data
  */
 async function renderDataTable(config) {
     const {
@@ -1029,9 +805,7 @@ async function renderDataTable(config) {
             html += '<tr>';
             columns.forEach(col => {
                 let value = row[col.field];
-                if (col.formatter) {
-                    value = col.formatter(value, row, index);
-                }
+                if (col.formatter) value = col.formatter(value, row, index);
                 html += `<td>${value ?? '-'}</td>`;
             });
             html += '</tr>';
