@@ -1,8 +1,8 @@
 @echo off
-SET db_name=WebApp              
+SET db_name=DWebApp              
 SET db_user=sa                
 SET db_password=princes      
-SET backup_path=D:\ASPNetCoreMVC_LayersWebApp\Accounting\Data\Webapp.bak  
+SET backup_path=D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\Data\DWebapp.bak  
 SET server_name=.\Sql2022
 
 REM -- Backup ka SQL command
