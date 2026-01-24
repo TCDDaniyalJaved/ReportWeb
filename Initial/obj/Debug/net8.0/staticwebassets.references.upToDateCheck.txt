@@ -20,3 +20,6 @@ D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
+D:\New folder\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
+D:\New folder\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json
+D:\New folder\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\staticwebassets.build.json

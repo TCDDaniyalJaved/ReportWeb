@@ -45,8 +45,6 @@ wwwroot\css\invoice-detail.css
 wwwroot\css\site.dist.css
 wwwroot\css\site.scss
 wwwroot\css\style.css
-wwwroot\dist\vendors.min.css
-wwwroot\dist\vendors.min.js
 wwwroot\img\avatars\1.png
 wwwroot\img\avatars\10.png
 wwwroot\img\avatars\11.png
@@ -2126,3 +2124,5 @@ wwwroot\vendor\scss\_theme\_common.scss
 wwwroot\vendor\scss\_theme\_libs.scss
 wwwroot\vendor\scss\_theme\_pages.scss
 wwwroot\vendor\scss\_theme\_theme.scss
+wwwroot\dist\vendors.min.css
+wwwroot\dist\vendors.min.js

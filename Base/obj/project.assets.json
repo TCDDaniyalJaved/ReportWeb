@@ -13006,11 +13006,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ASPNetCoreMVC_LayersWebApp\\Base\\Base.csproj",
+      "projectUniqueName": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj",
       "projectName": "Base",
-      "projectPath": "D:\\ASPNetCoreMVC_LayersWebApp\\Base\\Base.csproj",
+      "projectPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "D:\\ASPNetCoreMVC_LayersWebApp\\Base\\obj\\",
+      "outputPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

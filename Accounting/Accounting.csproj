@@ -17,7 +17,11 @@
     <None Remove="Apps\Accounting\TrialBalance - Copy\**" />
   </ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Base\Base.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
     <Compile Remove="Controller\ReportController - Copy.cs" />
   </ItemGroup>
 
@@ -58,9 +62,7 @@
 
 
 	<ItemGroup>
-	  <Reference Include="Base">
-	    <HintPath>bin\Release\net8.0\Apps\v1\Base.dll</HintPath>
-	  </Reference>
+
 	  <Reference Include="Initial">
 	    <HintPath>bin\Release\net8.0\Apps\v1\Initial.dll</HintPath>
 	  </Reference>
