@@ -1799,7 +1799,6 @@ D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Base.props
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Base.props
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.pack.json
-D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\Base.dll
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\refint\Base.dll
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\Base.pdb

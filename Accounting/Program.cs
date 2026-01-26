@@ -112,7 +112,6 @@ app.UseSession();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "modules",
     pattern: $"{activeVersion}/{{module}}/{{controller=Home}}/{{action=Index}}/{{id?}}");
@@ -120,6 +119,24 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");
+
+if (!app.Environment.IsDevelopment())
+{
+    // Production: show custom error page
+    app.UseExceptionHandler("/Dashboards/UnderConstruction");
+
+    // Optional: HTTP Strict Transport Security
+    app.UseHsts();
+}
+else
+{
+    // Development: show detailed error
+    app.UseDeveloperExceptionPage();
+}
+
+// Custom 404 handling (fallback)
+app.UseStatusCodePagesWithReExecute("/Dashboards/NotFound");
+//Console.WriteLine("Current Environment: " + builder.Environment.EnvironmentName);
 
 app.Run();
 

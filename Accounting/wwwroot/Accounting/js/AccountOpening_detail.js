@@ -5,14 +5,35 @@ function initializeAccountOpeningDetail() {
     const $form = $('#invoiceForm');
 
     setTimeout(() => {
-        // Ensure at least one non-removable row
-        if ($tbody.find('tr').length === 0) {
-            addNewRow(true);
-        }
+        // Initialize rowIndex based on existing rows
         rowIndex = $tbody.find('tr').length;
+
+        // If no rows exist, add one non-removable row
+        if (rowIndex === 0) {
+            addNewRow(true);
+        } else {
+            // Mark the first existing row as non-removable
+            const $firstRow = $tbody.find('tr:first');
+            if (!$firstRow.hasClass('nonRemovable')) {
+                makeRowNonRemovable($firstRow);
+            }
+
+            // Mark other rows as removable
+            $tbody.find('tr:not(:first)').each(function () {
+                $(this).removeClass('nonRemovable')
+                    .find('.btn-icon')
+                    .prop('disabled', false)
+                    .css({
+                        opacity: 1,
+                        cursor: 'pointer',
+                        'pointer-events': 'auto'
+                    });
+            });
+        }
+
         attachAllEvents();
 
-        // Alt + N shortcut & buttons
+        // Alt + N shortcut
         $(document).off('keydown.addrow').on('keydown.addrow', e => {
             if (e.altKey && e.key === 'n') {
                 e.preventDefault();
@@ -20,8 +41,9 @@ function initializeAccountOpeningDetail() {
             }
         });
 
-        $('#addNewRowBtn, #confirmBtn').off('click').on('click', function () {
-            this.id === 'confirmBtn' ? $form.submit() : addNewRow();
+        // Confirm button
+        $('#confirmBtn').off('click').on('click', function () {
+            $form.submit();
         });
 
         // Form submit with validation
@@ -43,7 +65,7 @@ function initializeAccountOpeningDetail() {
                         showToast('warning', 'Please fix all validation errors.');
                         return;
                     }
-                    showToast('success', 'Account Opening Created Successfully!');
+                    showToast('success', response.message);
                     $form[0].reset();
                     $tbody.empty();
                     rowIndex = 0;
@@ -98,36 +120,117 @@ function attachRowEvents($row) {
 }
 
 function addNewRow(makeNonRemovable = false) {
+    const $tbody = $('#ItemsTable tbody');
+    const currentRowCount = $tbody.find('tr').length;
+
+    // IMPORTANT: Only make it non-removable if:
+    // 1. makeNonRemovable is true (explicitly called that way)
+    // 2. AND it's the first row (rowCount === 0)
+    const shouldBeNonRemovable = makeNonRemovable && currentRowCount === 0;
+
     const template = $('#itemRowTemplate').html().replace(/INDEX/g, rowIndex++);
     const $newRow = $(template);
-    $('#ItemsTable tbody').append($newRow);
 
-    setTimeout(() => {
-        $newRow.find('ebit-number').each(function () {
-            if (!this.querySelector('input')) this.connectedCallback();
-        });
-        attachRowEvents($newRow);
-        if (makeNonRemovable) {
-            $newRow.addClass('nonRemovable')
-                .find('.btn-icon').prop('disabled', true)
-                .removeAttr('onclick') 
-                .css({ opacity: 0.5, cursor: 'not-allowed' });
+    // Append the row
+    $tbody.append($newRow);
+
+    // Use MutationObserver to detect when the row is converted
+    const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+            if (mutation.type === 'childList') {
+                const $tr = $tbody.find('tr:last');
+                if ($tr.length && !$tr.data('processed')) {
+                    observer.disconnect();
+                    $tr.data('processed', true);
+
+                    attachRowEvents($tr);
+
+                    if (shouldBeNonRemovable) {
+                        // Only make it non-removable if it should be
+                        makeRowNonRemovable($tr);
+                        console.log('Made first row non-removable');
+                    } else {
+                        // Ensure ALL other rows are removable
+                        $tr.removeClass('nonRemovable')
+                            .find('.btn-icon')
+                            .prop('disabled', false)
+                            .css({
+                                opacity: 1,
+                                cursor: 'pointer',
+                                'pointer-events': 'auto'
+                            });
+                        console.log('Added removable row');
+                    }
+                    break;
+                }
+            }
         }
-    }, 50);
+    });
 
-    $(document).trigger('row-added');
+    observer.observe($tbody[0], { childList: true, subtree: true });
+
+    // Fallback timeout
+    setTimeout(() => {
+        observer.disconnect();
+        const $tr = $tbody.find('tr:last');
+        if ($tr.length) {
+            attachRowEvents($tr);
+
+            if (shouldBeNonRemovable) {
+                makeRowNonRemovable($tr);
+            }
+        }
+    }, 500);
 }
 
+// Helper function to make a row non-removable
+function makeRowNonRemovable($tr) {
+    $tr.addClass('nonRemovable')
+        .attr('data-non-removable', 'true')
+        .find('.btn-icon')
+        .prop('disabled', true)
+        .css({
+            opacity: 0.5,
+            cursor: 'not-allowed',
+            'pointer-events': 'none'
+        });
+}
+
+// Fixed removeRow function
 window.removeRow = function (btn) {
     const $row = $(btn).closest('tr');
+    const $tbody = $('#ItemsTable tbody');
+    const totalRows = $tbody.find('tr').length;
+
+    // Check if row is non-removable
     if ($row.hasClass('nonRemovable')) {
-        showToast('warning', 'The first row cannot be deleted.');
+        showToast('warning', 'This row cannot be deleted.');
         return false;
     }
+
+    // Clear validation
+    $row.find('.text-danger').remove();
+    $row.find('.input-validation-error').removeClass('input-validation-error');
+
+    // Remove the row
     $row.remove();
+
+    // Update rowIndex
+    rowIndex = $tbody.find('tr').length;
+
+    // If we removed a row and now have only one row, make it non-removable
+    if (totalRows === 2 && $tbody.find('tr').length === 1) {
+        const $remainingRow = $tbody.find('tr:first');
+        if (!$remainingRow.hasClass('nonRemovable')) {
+            makeRowNonRemovable($remainingRow);
+        }
+    }
+
+    $(document).trigger('row-removed');
+    updateTotals(); // If you have this function
 };
 
-// Reusable Toast Function (No buttons at all!)
+// Reusable Toast Function
 function showToast(icon, text, timer = 3000) {
     Swal.fire({
         toast: true,
@@ -170,6 +273,26 @@ function showValidationErrors(errors) {
     $(document).trigger('validation-errors-updated');
 }
 
+// Update totals function (add if not exists)
+function updateTotals() {
+    let totalDebit = 0;
+    let totalCredit = 0;
+
+    $('#ItemsTable tbody tr').each(function () {
+        const debit = parseFloat($(this).find('[data-debit] input').val()) || 0;
+        const credit = parseFloat($(this).find('[data-credit] input').val()) || 0;
+        totalDebit += debit;
+        totalCredit += credit;
+    });
+
+    // Update your total display elements here
+    console.log('Total Debit:', totalDebit, 'Total Credit:', totalCredit);
+}
+
 // Initialize
 window.initializeAccountOpeningDetail = initializeAccountOpeningDetail;
-$(document).ready(() => $('#invoiceForm').length && initializeAccountOpeningDetail());
+$(document).ready(() => {
+    if ($('#invoiceForm').length) {
+        initializeAccountOpeningDetail();
+    }
+});

@@ -79,6 +79,25 @@ public class DashboardsController : Controller
 
     //    return Ok(result);
     //}
+
+    public IActionResult ThrowTest()
+    {
+        throw new Exception("Test exception!");
+    }
+    public IActionResult UnderConstruction()
+    {
+        // Optional: set 500 status code
+        Response.StatusCode = 500;
+        return View(ViewPath("UnderConstruction"));
+    }
+    public IActionResult NotFound()
+    {
+        Response.StatusCode = 404; // Browser  404 
+        //return View(); // Returns Views/Dashboard/NotFound.cshtml
+        return View(ViewPath("NotFound"));
+
+    }
+
     [HttpGet]
     public IActionResult GetWeeklyRevenue()
     {

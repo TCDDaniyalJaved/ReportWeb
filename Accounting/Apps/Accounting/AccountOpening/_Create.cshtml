@@ -26,7 +26,7 @@
 </script>
 
 <!-- Page-specific Scripts -->
-<script src="~/accounting/js/accountopening_detail.js"></script>
+<script src="~/accounting/js/AccountOpening_detail.js"></script>
 <script src="~/js/forms-editors.dist.js"></script>
 
 @section PageScripts {
@@ -71,14 +71,14 @@
                     <ebit-section class="col-sm-10">
                         @if (ViewBag.CompanyCount == 1)
                         {
-                            <!-- Hidden field for form -->
+                            <!-- Hidden field ensures form submission -->
                             <input type="hidden" asp-for="Master.CompanyId" value="@ViewBag.PrimaryCompanyId" />
 
-                            <!-- ebit-select locked mode -->
+                            <!-- Locked ebit-select just for display -->
                             <ebit-select data="Master.CompanyId"
                                          selected="@ViewBag.PrimaryCompanyId"
                                          placeholder="@ViewBag.PrimaryCompanyName"
-                                         style="pointer-events: none; ">
+                                         style="pointer-events: none; cursor: not-allowed;">
                             </ebit-select>
                         }
                         else

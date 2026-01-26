@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
+using System.Security.Claims;
 
 namespace Accounting.Controllers;
 
@@ -145,6 +146,12 @@ public class AccountOpeningController : Controller
 
         try
         {
+            int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            model.Master.UserId = userId;
+
+            model.Master.CurrentDate = DateTime.Now;  // insert time
+            model.Master.UpdatedTime = null;  // insert ke time null
+
             model.Master.Mcode = GetMCode(model.Master.CompanyId);
             _context.AccountOpeningMs.Add(model.Master);
             await _context.SaveChangesAsync();
@@ -157,7 +164,7 @@ public class AccountOpeningController : Controller
 
             await _context.SaveChangesAsync();
 
-            return Json(new { success = true, message = "Account opening created successfully!" });
+            return Json(new { success = true, action = "create", message = "Account opening created successfully!" });
         }
         catch (Exception ex)
         {
@@ -500,6 +507,8 @@ public class AccountOpeningController : Controller
             master.CompanyId = model.Master.CompanyId;
             master.Remarks = model.Master.Remarks;
 
+            master.UpdatedTime = DateTime.Now;
+
             var incomingIds = model.Details.Where(d => d.Id > 0).Select(d => d.Id).ToHashSet();
             var deletedDetails = await _context.AccountOpeningDs
                 .Where(d => d.PersonId == master.Id && !incomingIds.Contains(d.Id))
@@ -534,6 +543,7 @@ public class AccountOpeningController : Controller
             return Json(new
             {
                 success = true,
+                action = "edit",
                 message = "Account Opening updated successfully!",
                 redirectUrl = Url.Action("List", "AccountOpening")
             });

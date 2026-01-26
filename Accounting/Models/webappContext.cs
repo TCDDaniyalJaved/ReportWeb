@@ -300,6 +300,7 @@ public partial class webappContext : DbContext
                 .HasAnnotation("Relational:DefaultConstraintName", "DF_AccountOpeningM_MCode")
                 .HasColumnName("MCode");
             entity.Property(e => e.Remarks).IsUnicode(false);
+            entity.Property(e => e.UpdatedTime).HasColumnType("datetime");
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Vdate)
                 .HasColumnType("datetime")

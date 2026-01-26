@@ -29,6 +29,8 @@ public partial class AccountOpeningM
 
     public string Voucher { get; set; }
 
+    public DateTime? UpdatedTime { get; set; }
+
     public virtual ICollection<AccountOpeningD> AccountOpeningDs { get; set; } = new List<AccountOpeningD>();
 
     public virtual Company Company { get; set; }

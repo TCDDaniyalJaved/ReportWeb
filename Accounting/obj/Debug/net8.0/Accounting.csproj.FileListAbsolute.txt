@@ -3796,10 +3796,12 @@ D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\n
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\staticwebassets.build.json.cache
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\staticwebassets.development.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.csproj.Up2Date
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.dll
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\refint\Accounting.dll
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.pdb
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.genruntimeconfig.cache
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\ref\Accounting.dll
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.Properties.Resources.resources
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.csproj.GenerateResource.cache
