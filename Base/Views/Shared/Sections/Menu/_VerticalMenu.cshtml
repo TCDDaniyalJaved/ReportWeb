@@ -1,4 +1,4 @@
-﻿@* update 3:41PM 1/24/2026
+﻿@* update 5:31PM 1/26/2026
 _VerticalMenu.cshtml *@
 @using Newtonsoft.Json
 @using Microsoft.AspNetCore.Http
@@ -68,7 +68,11 @@ body.custom-menu-open .custom-menu-overlay {
     pointer-events: auto !important;
     left: 0 !important;
 }
-
+.circle-icon { width: 32px; height: 32px; border-radius: 50%; background-color: #696cff; display: flex; align-items: center; justify-content: center; }
+.circle-icon i {
+    color: #fff;
+    font-size: 1.1rem;
+}
 #layout-menu.menu-vertical .menu-item.menu-toggle:hover > .menu-sub {
     display: none !important;
 }
@@ -98,7 +102,7 @@ body.custom-menu-open .custom-menu-overlay {
 }
 
 <!-- ================= Fixed Brand ================= -->
-<div class="app-brand-fixed">
+<div class="app-brand-fixed bg-menu-theme">
     <a asp-page="/Index" class="app-brand-link">
         <span class="app-brand-logo demo">
             @await Html.PartialAsync("../_Partials/_Macros")
@@ -106,9 +110,13 @@ body.custom-menu-open .custom-menu-overlay {
         <span class="app-brand-text demo menu-text fw-bold ms-2">@TempData.Peek("appName")</span>
     </a>
     <!-- Toggle Button -->
-    <a href="javascript:void(0);" id="customMenuToggle" class="menu-link text-large ms-auto">
+    @* <a href="javascript:void(0);" id="customMenuToggle" class="menu-link text-large ms-auto">
         <i class="bx bx-menu bx-sm"></i>
-    </a>
+    </a> *@
+   <a href="javascript:void(0);" id="customMenuToggle" class="menu-link text-large ms-auto">
+   <span class="circle-icon"> <i class="bx bx-chevron-right bx-sm"></i> </span>
+</a>
+
 </div>
 
 <!-- ================= Sidebar ================= -->
@@ -159,12 +167,22 @@ body.custom-menu-open .custom-menu-overlay {
 document.addEventListener("DOMContentLoaded", function () {
     const toggleBtn = document.getElementById("customMenuToggle");
     const overlay   = document.querySelector(".custom-menu-overlay");
+    const icon      = toggleBtn.querySelector("i");
 
     // Toggle sidebar on button click
     if (toggleBtn) {
         toggleBtn.addEventListener("click", function(e){
             e.preventDefault();
             document.body.classList.toggle("custom-menu-open");
+
+            // Change icon depending on state
+            if (document.body.classList.contains("custom-menu-open")) {
+                icon.classList.remove("bx-chevron-right");
+                icon.classList.add("bx-chevron-left");
+            } else {
+                icon.classList.remove("bx-chevron-left");
+                icon.classList.add("bx-chevron-right");
+            }
         });
     }
 
@@ -172,6 +190,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (overlay) {
         overlay.addEventListener("click", function(){
             document.body.classList.remove("custom-menu-open");
+            icon.classList.remove("bx-chevron-left");
+            icon.classList.add("bx-chevron-right");
         });
     }
 
@@ -179,6 +199,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("keydown", function(e){
         if(e.key === "Escape"){
             document.body.classList.remove("custom-menu-open");
+            icon.classList.remove("bx-chevron-left");
+            icon.classList.add("bx-chevron-right");
         }
     });
 });

@@ -19,6 +19,21 @@
         .tab-pane.show {
             opacity: 1 !important;
         }
+
+   /*  .sticky-header-buttons {
+        position: sticky;
+        top: 105px;
+        z-index: 1050;
+        background-color: #F5F5F9;
+    } */
+    .sticky-header-buttons {
+        position: sticky;
+        top: 105px; 
+        z-index: 1100;
+        background: #F5F5F9;
+        padding: 10px 0px;
+        border-bottom: 1px solid #e5e7eb;
+    }
 </style>
 
 <script>
@@ -36,7 +51,7 @@
 }
 
 <!-- Page Header Buttons -->
-<ebit-section flex justify="between" align="center" mb="3" pt="3">
+<ebit-section flex justify="between" align="center"  class="sticky-header-buttons">
     <ebit-section>
         <ebit-button id="confirmBtn" radius="sm" type="primary" size="sm">Confirm</ebit-button>
         <ebit-button id="gobacktolistbtn" type="secondary" radius="sm" size="sm">Cancel</ebit-button>
