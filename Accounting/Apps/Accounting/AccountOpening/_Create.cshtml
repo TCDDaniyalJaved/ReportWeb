@@ -29,7 +29,7 @@
     .sticky-header-buttons {
         position: sticky;
         top: 105px; 
-        z-index: 1100;
+        z-index: 1000;
         background: #F5F5F9;
         padding: 10px 0px;
         border-bottom: 1px solid #e5e7eb;
@@ -81,7 +81,7 @@
                     </ebit-section>
                 </ebit-section>
                 <!-- Company Dropdown -->
-                <ebit-section class="row mb-3 align-items-center col-md-8">
+                <ebit-section class="row mb-3 align-items-center col-md-8 d-none">
                     <ebit-label data="Master.CompanyId" class="col-sm-2 form-label" text="Company"></ebit-label>
                     <ebit-section class="col-sm-10">
                         @if (ViewBag.CompanyCount == 1)

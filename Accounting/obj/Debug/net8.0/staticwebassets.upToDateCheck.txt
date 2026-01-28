@@ -4,10 +4,13 @@ wwwroot\Accounting\js\AccountOpening2.js
 wwwroot\Accounting\js\AccountOpening_detail.js
 wwwroot\Accounting\js\BankPayment.js
 wwwroot\Accounting\js\BankPayment_detail.js
+wwwroot\Accounting\js\bankreceipt.js
+wwwroot\Accounting\js\BankReceipt_detail.js
 wwwroot\Accounting\js\calc.js
 wwwroot\Accounting\js\CashPayment.js
 wwwroot\Accounting\js\CashPayment_detail.js
 wwwroot\Accounting\js\cashreceipt.js
+wwwroot\Accounting\js\CashReceipt_detail.js
 wwwroot\Accounting\js\chart-helper.js
 wwwroot\Accounting\js\ChartOfAcount.js
 wwwroot\Accounting\js\components\ebit-button.js
@@ -28,6 +31,8 @@ wwwroot\Accounting\js\dummy.js
 wwwroot\Accounting\js\DummyAccountOpening.js
 wwwroot\Accounting\js\DummyTrialBalance.js
 wwwroot\Accounting\js\ebit-components.js
+wwwroot\Accounting\js\GeneralJournal.js
+wwwroot\Accounting\js\GernalJournal_detail.js
 wwwroot\Accounting\js\ItemReport.js
 wwwroot\Accounting\js\OpeningMaster.js
 wwwroot\Accounting\js\OpeningMasterDemo.js

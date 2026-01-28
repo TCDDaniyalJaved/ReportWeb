@@ -64,8 +64,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtQYXltZW50XERhdGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/BankPayment/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtQYXltZW50XERlbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/BankPayment/Dummy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtQYXltZW50XER1bW15LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/BankPayment/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtQYXltZW50XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/BankPayment/Index2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtQYXltZW50XEluZGV4Mi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/BankPayment/Print.cshtml]
@@ -84,8 +96,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtSZWNlaXB0XERhdGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/BankReceipt/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtSZWNlaXB0XERlbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/BankReceipt/Dummy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtSZWNlaXB0XER1bW15LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/BankReceipt/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtSZWNlaXB0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/BankReceipt/Index2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEJhbmtSZWNlaXB0XEluZGV4Mi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/BankReceipt/Print.cshtml]
@@ -116,6 +140,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/CashPayment/Index2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XEluZGV4Mi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/CashPayment/Print.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XFByaW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -126,6 +154,38 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/CashPayment/_Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hQYXltZW50XF9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/CashReceipt/Data.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XERhdGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/CashReceipt/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XERlbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/CashReceipt/Dummy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XER1bW15LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/CashReceipt/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/CashReceipt/Index2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XEluZGV4Mi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/CashReceipt/Print.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XFByaW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/CashReceipt/_Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XF9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/CashReceipt/_Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENhc2hSZWNlaXB0XF9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/Chart/Index.cshtml]
@@ -140,12 +200,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXENoYXJ0XF9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEhvbWVcSW5kZXguY3NodG1s
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/GeneralJournal/Data.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXERhdGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEhvbWVcUHJpdmFjeS5jc2h0bWw=
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/GeneralJournal/Demo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXERlbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/GeneralJournal/Dummy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXER1bW15LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/GeneralJournal/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/GeneralJournal/Index2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXEluZGV4Mi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/GeneralJournal/Print.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXFByaW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/GeneralJournal/_Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXF9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/GeneralJournal/_Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXBwc1xBY2NvdW50aW5nXEdlbmVyYWxKb3VybmFsXF9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Daniyal Javadia Working/ASPNetCoreMVC_LayersWebApp 2.O/Accounting/Apps/Accounting/PurchaseReport/Index.cshtml]

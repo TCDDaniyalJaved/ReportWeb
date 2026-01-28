@@ -1,4 +1,4 @@
-@* View: AccountOpening/Index.cshtml *@
+﻿@* View: AccountOpening/Index.cshtml *@
 @model Accounting.Models.AccountOpeningM
 @{
     /* Page Layout */
@@ -12,9 +12,17 @@
 @section VendorScripts {
     @await Html.PartialAsync("_VendorScripts")
 }
+<script>
+
+window.addEventListener('resize', function() {
+    if ($.fn.DataTable.isDataTable('#masterTable')) {
+        $('#masterTable').DataTable().columns.adjust().draw(false);
+    }
+});
+</script>
 
 @section PageScripts {
-    <script type="module" src="/Accounting/js/AccountOpening.js"></script>
+    <script type="module" src="/Accounting/js/AccountOpening2.js"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
 <ebit-section p="0" m="0">
@@ -52,13 +60,14 @@
                                 <!-- Table Header -->
                                 <ebit-head class="border-top">
                                     <ebit-row>
-                                        <ebit-headcolumn datafield="" render="edit" width="50px"></ebit-headcolumn>
+                                        <ebit-headcolumn render="checkbox" width="1%"></ebit-headcolumn>
+                                        @* <ebit-headcolumn render="edit" width="8%"></ebit-headcolumn> *@
                                         <ebit-headcolumn datafield="date" header="Date" width="15%">Date</ebit-headcolumn>
                                         <ebit-headcolumn datafield="voucher" header="Voucher" width="25%">Voucher</ebit-headcolumn>
                                         <ebit-headcolumn datafield="totalSeqNo" header="#" width="10%">#</ebit-headcolumn>
                                         <ebit-headcolumn datafield="debit" isamount="true" header="Total Debit" width="15%">Total Debit</ebit-headcolumn>
-                                        <ebit-headcolumn datafield="credit" isamount="true"  header="Total Credit" width="15%">Total Credit</ebit-headcolumn>
-                                        <ebit-headcolumn datafield="" render="deleteprint" width="100px"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="credit" isamount="true" header="Total Credit" width="15%">Total Credit</ebit-headcolumn>
+                                        <ebit-headcolumn  render="deleteprint" width="8%"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>
 

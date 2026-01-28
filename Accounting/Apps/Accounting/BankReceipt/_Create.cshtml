@@ -122,6 +122,7 @@
                                     <ebit-headcolumn width="35%">Account</ebit-headcolumn>
                                     <ebit-headcolumn width="30%">Description</ebit-headcolumn>
                                     <ebit-headcolumn width="15%">Cheque</ebit-headcolumn>
+                                    <ebit-headcolumn width="15%">Cheque Date</ebit-headcolumn>
                                     <ebit-headcolumn width="15%" text-align:right;">Amount</ebit-headcolumn>
                                     <ebit-headcolumn width="5%"></ebit-headcolumn>
                                 </ebit-row>
@@ -138,6 +139,9 @@
                                         </ebit-bodycolumn>
                                         <ebit-bodycolumn>
                                             <ebit-text data="Details[@i].Cheque"></ebit-text>
+                                        </ebit-bodycolumn>
+                                        <ebit-bodycolumn>
+                                            <ebit-datetime data="Details[@i].ChkDate" datatype="Date" placeholder="MM-DD-YYYY"></ebit-datetime>
                                         </ebit-bodycolumn>
                                         <ebit-bodycolumn>
                                             <ebit-number class="amount-field" data-amount data="Details[@i].Amount"></ebit-number>
@@ -165,7 +169,9 @@
                                 <ebit-bodycolumn>
                                     <ebit-text data="Details[INDEX].Cheque"></ebit-text>
                                 </ebit-bodycolumn>
-
+                                <ebit-bodycolumn>
+                                    <ebit-datetime data="Details[INDEX].ChkDate" datatype="Date" placeholder="MM-DD-YYYY"></ebit-datetime>
+                                </ebit-bodycolumn>
                                 <ebit-bodycolumn>
                                     <ebit-number class="amount-field" data-amount data="Details[INDEX].Amount"></ebit-number>
                                 </ebit-bodycolumn>

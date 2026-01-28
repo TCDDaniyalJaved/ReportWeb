@@ -1,4 +1,4 @@
-USE [WebApp]
+USE [DWebApp]
 GO
 
 /****** Object:  View [dbo].[CashPaymentMView]    Script Date: 12-19-2025 3:35:49 PM ******/
@@ -29,13 +29,14 @@ Left Outer Join CashPaymentD B on A.Id = B.PersonID
 Left Outer Join Chart C on A.BookCode = C.Id
 Group By A.CompanyID,A.Id, A.Voucher
 */
-Select A.Id,  Convert(date,A.VDate) Date, IsNull(A.Remarks,'') Remarks, A.BookCode BookCode, 
+Select A.Id,  Convert(date,A.VDate) Date, IsNull(A.Remarks,'') Remarks, A.BookCode BookCode,  IsNull(CCC.Name,'') Account,
 		Format(A.VDate,'yyyy-MM-dd') VoucherNo, A.MCode MCode, A.Voucher, IsNull(A.CompanyID,0) CompanyID, C.Name Book, IsNull(B.Amount,0) Amount,
 		1 TotalSeqNo, A.InputType InputType, Case When IsNull(A.Posted,0) = 1 then 'Posted' else 'Un-Posted' End PO, B.Cheque, A.Posted, CC.Prefix
 From CashPaymentM A 
 Left Outer Join CashPaymentD B on A.Id = B.PersonID
 		--And A.UserID = B.UserID
 Left Outer Join Chart C on B.ActCode = C.Id
+Left Outer Join Chart CCC on A.BookCode = CCC.Id
 left Outer Join Company CC on A.CompanyID = CC.Code
 
 --Union All

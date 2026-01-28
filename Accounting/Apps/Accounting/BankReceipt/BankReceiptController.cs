@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
+using System.Security.Claims;
 
 namespace Accounting.Controllers;
 
@@ -47,15 +48,26 @@ public class BankReceiptController : Controller
 
     #region Views
 
-    public IActionResult Data(int id)
+    public IActionResult Dummy(int id)
     {
-        return View(ViewPath("Data"));
+        return View(ViewPath("Dummy"));
+    }
+
+
+    public IActionResult Demo(int id)
+    {
+        return View(ViewPath("Demo"));
     }
 
     [Authorize]
     public IActionResult List()
     {
         return View(ViewPath("Index"));
+    }
+
+    public IActionResult List2()
+    {
+        return View(ViewPath("Index2"));
     }
 
     //[HttpGet("{id}")]
@@ -83,19 +95,22 @@ public class BankReceiptController : Controller
     {
         var companies = _context.Companies.ToList();
         var companyCount = companies.Count;
+
         var model = new BankReceiptViewModel
         {
             Master = new BankReceiptM
             {
                 Vdate = DateTime.Today,
                 // Auto-select if single company
-                CompanyId = companyCount == 1 ? companies.First().Code : 0,
+                CompanyId = companyCount == 1 ? companies.First().Code : 0
             },
             Details = new List<BankReceiptD>()
         };
 
-        ViewBag.CompanyCount = companies.Count;
+        // Pass in the  ViewBag
+        ViewBag.CompanyCount = companyCount;
 
+        //Pass the name of the single company.
         if (companyCount == 1)
         {
             ViewBag.PrimaryCompanyName = companies.First().Name;
@@ -123,49 +138,51 @@ public class BankReceiptController : Controller
                     e => e.Key,
                     e => e.Value.Errors.Select(err => err.ErrorMessage).ToArray());
 
+            Console.WriteLine("Validation Errors: " + System.Text.Json.JsonSerializer.Serialize(errors));
+
+
             return Json(new { success = false, errors });
         }
 
         try
         {
-            Console.WriteLine(model.Master.Id);
-            Console.WriteLine(model.Master.Vdate);
-            Console.WriteLine(model.Master.BookCode);
-            Console.WriteLine(model.Master.Mcode);
-            model.Master.CompanyId = 1;
+            int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            model.Master.UserId = userId;
+
+            model.Master.CurrentDate = DateTime.Now;  // insert time
+            //model.Master.UpdatedTime = null;  // insert ke time null
+
             model.Master.Mcode = GetMCode(model.Master.CompanyId);
             _context.BankReceiptMs.Add(model.Master);
             await _context.SaveChangesAsync();
+
             foreach (var d in model.Details)
             {
-                Console.WriteLine(d.Cheque);
                 d.PersonId = model.Master.Id;
                 _context.BankReceiptDs.Add(d);
             }
 
             await _context.SaveChangesAsync();
 
-            return Json(new { success = true, message = "Cash Receipt created successfully!" });
+            return Json(new { success = true, action = "create", message = "Bank Receipt created successfully!" });
         }
-        catch (DbUpdateException ex)
+        catch (Exception ex)
         {
-            var inner = ex.InnerException?.Message;
-            Console.WriteLine(inner);
-            return Json(new { success = false, error = inner });
+            return Json(new { success = false, message = ex.Message });
         }
     }
-
 
     private int GetMCode(int companyId)
     {
         var codes = _context.BankReceiptMs
             .AsNoTracking()
-            .Where(x => x.CompanyId== companyId)
-            .Select(x => x.Id)
+            .Where(x => x.CompanyId == companyId)
+            .Select(x => x.Mcode)
             .ToList();
 
         return codes.Count == 0 ? 1 : codes.Max() + 1;
     }
+
     #endregion
 
     #region Delete
@@ -197,6 +214,56 @@ public class BankReceiptController : Controller
 
     #endregion
 
+    #region BulkDelete
+
+    [HttpPost]
+    public async Task<JsonResult> BulkDelete(List<int> ids)
+    {
+
+        try
+        {
+            if (ids == null || ids.Count == 0)
+            {
+                return Json(new { success = false, message = "No accounts selected" });
+            }
+            var details = await _context.BankReceiptDs
+           .Where(d => ids.Contains(d.PersonId))
+           .ToListAsync();
+
+            _context.BankReceiptDs.RemoveRange(details);
+
+            // Get all master records
+            var masters = await _context.BankReceiptMs
+                .Where(m => ids.Contains(m.Id))
+                .ToListAsync();
+
+            if (!masters.Any())
+            {
+                return Json(new { success = false, message = "No records found" });
+            }
+
+            _context.BankReceiptMs.RemoveRange(masters);
+
+            await _context.SaveChangesAsync();
+
+
+            return Json(new
+            {
+                success = true,
+                message = $"{ids.Count} account(s) deleted successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return Json(new
+            {
+                success = false,
+                message = "Error deleting accounts: " + ex.Message
+            });
+        }
+    }
+
+    #endregion
     #region Print PDF
 
     //[HttpGet("{id}")]
@@ -206,7 +273,7 @@ public class BankReceiptController : Controller
     //    if (master == null)
     //        return NotFound();
 
-    //    var details = _context.BankReceiptDviews.Where(x => x.Refid == id).ToList();
+    //    var details = _context.BankReceiptDviews.Where(x => x.PersonId == id).ToList();
 
     //    var model = new BankReceiptSPResult
     //    {
@@ -224,8 +291,8 @@ public class BankReceiptController : Controller
     //[HttpGet("{id}")]
     //public IActionResult PrintPdf(int id)
     //{
-    //    var master = _context.BankReceiptMviews.FirstOrDefault(x => x.InvoiceId == id);
-    //    var details = _context.BankReceiptDviews.Where(x => x.Refid == id).ToList();
+    //    var master = _context.BankReceiptMviews.FirstOrDefault(x => x.Id == id);
+    //    var details = _context.BankReceiptDviews.Where(x => x.PersonId == id).ToList();
 
     //    var model = new BankReceiptSPResult { Master = master, Details = details };
 
@@ -239,72 +306,135 @@ public class BankReceiptController : Controller
 
     #region Get List
 
-    //[HttpGet]
-    //public IActionResult getList()
-    //{
-    //    var Accounting = _context.BankReceiptMviews.ToList();
-    //    return Json(Accounting);
-    //}
-
+    [HttpGet]
+    public IActionResult getList()
+    {
+        var Accounting = _context.BankReceiptMviews.ToList();
+        return Json(Accounting);
+    }
     #endregion
 
     #region DataTables Main List
 
-
     [HttpPost]
-    public async Task<IActionResult> GetData()
+    public async Task<IActionResult> getdata()
     {
         try
         {
             var draw = Request.Form["draw"].FirstOrDefault();
-            var start = Request.Form["start"].FirstOrDefault();
-            var length = Request.Form["length"].FirstOrDefault();
+            var start = Convert.ToInt32(Request.Form["start"].FirstOrDefault());
+            var length = Convert.ToInt32(Request.Form["length"].FirstOrDefault());
             var sortColumnIndex = Request.Form["order[0][column]"].FirstOrDefault();
             var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-            var searchValue = Request.Form["customSearch"].FirstOrDefault(); // Sirf customSearch
-            var status = Request.Form["status"].FirstOrDefault();
-            int pageSize = length != null ? Convert.ToInt32(length) : 10;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
+            var searchValue = Request.Form["customSearch"].FirstOrDefault();
+
+            int pageSize = length == -1 ? -1 : length;
+            int skip = start;
 
             var columnName = Request.Form[$"columns[{sortColumnIndex}][name]"].FirstOrDefault();
-
-            var query = _context.BankReceiptMs.AsQueryable();
-
-            //if (!string.IsNullOrEmpty(searchValue))
-            //{
-            //    query = query.Where(m =>
-            //        m.Date.ToString().Contains(searchValue) ||
-            //        m.Voucher.Contains(searchValue) ||
-            //        m.Book.ToString().Contains(searchValue) ||
-            //        m.Cheque.ToString().Contains(searchValue)||
-            //        m.Id.ToString().Contains(searchValue)||
-            //         m.Amount.ToString().Contains(searchValue) 
-
-
-
-            //    );
-            //}
-
             if (string.IsNullOrEmpty(columnName))
-            {
                 columnName = "Id";
+
+            var query = _context.BankReceiptMviews.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                query = query.Where(m =>
+                    m.Voucher.Contains(searchValue) ||
+                    m.TotalSeqNo.ToString().Contains(searchValue) ||
+                    m.Voucher.ToString().Contains(searchValue) ||
+                    m.Book.ToString().Contains(searchValue) ||
+                    m.Book.ToString().Contains(searchValue));
             }
 
-            if (!string.IsNullOrEmpty(columnName))
-            {
-                query = sortColumnDirection == "asc"
-                    ? query.OrderBy(e => EF.Property<object>(e, columnName))
-                    : query.OrderByDescending(e => EF.Property<object>(e, columnName));
-            }
+            //var totalDebit = await query.SumAsync(x => (decimal?)x.Debit) ?? 0;
+            //var totalCredit = await query.SumAsync(x => (decimal?)x.Credit) ?? 0;
+
+            query = sortColumnDirection == "asc"
+                ? query.OrderBy(e => EF.Property<object>(e, columnName))
+                : query.OrderByDescending(e => EF.Property<object>(e, columnName));
 
             int recordsTotal = await query.CountAsync();
-
             var data = pageSize == -1
                 ? await query.ToListAsync()
                 : await query.Skip(skip).Take(pageSize).ToListAsync();
 
-            var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
-            return Ok(jsonData);
+            return Ok(new
+            {
+                draw,
+                recordsTotal,
+                recordsFiltered = recordsTotal,
+                data,
+                //totals = new
+                //{
+                //    totalDebit,
+                //    totalCredit
+                //}
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
+
+
+
+
+    [HttpPost]
+    public async Task<IActionResult> getdata2()
+    {
+        try
+        {
+            var draw = Request.Form["draw"].FirstOrDefault();
+            var start = Convert.ToInt32(Request.Form["start"].FirstOrDefault());
+            var length = Convert.ToInt32(Request.Form["length"].FirstOrDefault());
+            var sortColumnIndex = Request.Form["order[0][column]"].FirstOrDefault();
+            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+            var searchValue = Request.Form["customSearch"].FirstOrDefault();
+
+            int pageSize = length == -1 ? -1 : length;
+            int skip = start;
+
+            var columnName = Request.Form[$"columns[{sortColumnIndex}][name]"].FirstOrDefault();
+            if (string.IsNullOrEmpty(columnName))
+                columnName = "Id";
+
+            var query = _context.BankReceiptMviews.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                query = query.Where(m =>
+                    m.Voucher.Contains(searchValue) ||
+                    m.TotalSeqNo.ToString().Contains(searchValue) ||
+                    m.Book.ToString().Contains(searchValue) ||
+                    m.Date.ToString().Contains(searchValue));
+            }
+
+            //var totalDebit = await query.SumAsync(x => (decimal?)x.Debit) ?? 0;
+            //var totalCredit = await query.SumAsync(x => (decimal?)x.Credit) ?? 0;
+
+            query = sortColumnDirection == "dsc"
+                ? query.OrderBy(e => EF.Property<object>(e, columnName))
+                : query.OrderByDescending(e => EF.Property<object>(e, columnName));
+
+            int recordsTotal = await query.CountAsync();
+            var data = pageSize == -1
+                ? await query.ToListAsync()
+                : await query.Skip(skip).Take(pageSize).ToListAsync();
+
+            return Ok(new
+            {
+                draw,
+                recordsTotal,
+                recordsFiltered = recordsTotal,
+                data,
+                //totals = new
+                //{
+                //    totalDebit,
+                //    totalCredit
+                //}
+            });
         }
         catch (Exception ex)
         {
@@ -334,6 +464,17 @@ public class BankReceiptController : Controller
         // Retrieve companies (same as in the Create action)
         var companies = _context.Companies.ToList();
         var companyCount = companies.Count;
+
+        // Pass the company count to the ViewBag (same as in the Create action)
+        ViewBag.CompanyCount = companyCount;
+
+        // If there's only one company, pass its name and ID
+        if (companyCount == 1)
+        {
+            ViewBag.PrimaryCompanyName = companies.First().Name;
+            ViewBag.PrimaryCompanyId = companies.First().Code;
+        }
+
         bool isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
         return isAjax
@@ -341,23 +482,13 @@ public class BankReceiptController : Controller
             : View(ViewPath("Index"));
     }
 
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(BankReceiptViewModel model)
     {
         if (!ModelState.IsValid)
         {
-            foreach (var entry in ModelState)
-            {
-                var key = entry.Key;
-                var errors = entry.Value.Errors;
-
-                foreach (var error in errors)
-                {
-                    Console.WriteLine($"Field: {key}, Error: {error.ErrorMessage}");
-                }
-            }
-
             var errorsDict = ModelState
                 .Where(x => x.Value.Errors.Any())
                 .ToDictionary(
@@ -372,19 +503,20 @@ public class BankReceiptController : Controller
             var master = await _context.BankReceiptMs.FindAsync(model.Master.Id);
             if (master == null)
                 return Json(new { success = false, message = "Record not found!" });
-            master.CompanyId = 1;
+
             master.Vdate = model.Master.Vdate;
             master.CompanyId = model.Master.CompanyId;
             master.Remarks = model.Master.Remarks;
 
+            //master.UpdatedTime = DateTime.Now;
+
             var incomingIds = model.Details.Where(d => d.Id > 0).Select(d => d.Id).ToHashSet();
-            var deletedDetails = await _context.CashReceiptDs
-                .Where(d => d.RefId == master.Id && !incomingIds.Contains(d.Id))
+            var deletedDetails = await _context.BankReceiptDs
+                .Where(d => d.PersonId == master.Id && !incomingIds.Contains(d.Id))
                 .ToListAsync();
-            Console.WriteLine(master.CompanyId);
 
             if (deletedDetails.Any())
-                _context.CashReceiptDs.RemoveRange(deletedDetails);
+                _context.BankReceiptDs.RemoveRange(deletedDetails);
 
             foreach (var detail in model.Details)
             {
@@ -401,7 +533,8 @@ public class BankReceiptController : Controller
                     {
                         existing.ActCode = detail.ActCode;
                         existing.Remarks = detail.Remarks;
-                        existing.Amount = detail.Amount;
+                        //existing.Debit = detail.Debit;
+                        //existing.Credit = detail.Credit;
                     }
                 }
             }
@@ -411,8 +544,9 @@ public class BankReceiptController : Controller
             return Json(new
             {
                 success = true,
-                message = "Cash Receipt updated successfully!",
-                redirectUrl = Url.Action("List", "CashReceipt")
+                action = "edit",
+                message = "Bank Receipt updated successfully!",
+                redirectUrl = Url.Action("List", "BankReceipt")
             });
         }
         catch (Exception ex)

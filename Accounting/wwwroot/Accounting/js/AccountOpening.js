@@ -16,7 +16,7 @@ $(document).ready(() => {
     handleDirectUrl(BASE_PATH);
     handleCreateButton(BASE_PATH);
 
-    table = initializeDataTable(`${BASE_PATH}/GetData`, '#masterTable', {
+    table = initializeDataTable(`${BASE_PATH}/GetData2`, '#masterTable', {
         callbacks: {
             onDraw: () => {
                 handleRowActions(BASE_PATH, {

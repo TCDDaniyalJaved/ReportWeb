@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
+using System.Security.Claims;
 
 namespace Accounting.Controllers;
 
 [Authorize]
 [Route("Accounting/[controller]/[action]")]
-public class AccountOpeningController : Controller
+public class GeneralJournalController : Controller
 {
     #region Dependencies
 
@@ -22,7 +23,7 @@ public class AccountOpeningController : Controller
 
     #endregion
 
-    private static readonly string BasePath = "Apps/Accounting/AccountOpening";
+    private static readonly string BasePath = "Apps/Accounting/GeneralJournal";
 
     #region Helpers
 
@@ -33,7 +34,7 @@ public class AccountOpeningController : Controller
 
     #region Constructor
 
-    public AccountOpeningController(
+    public GeneralJournalController(
         webappContext context,
         webappContextProcedures contextprocedure,
         Base.Services.HtmlToPdfGenerator pdfGenerator)
@@ -64,21 +65,12 @@ public class AccountOpeningController : Controller
         return View(ViewPath("Index"));
     }
 
-    [HttpGet("{id}")]
-    public IActionResult Print(int id)
+    public IActionResult List2()
     {
-        var master = _context.AccountOpeningMviews.FirstOrDefault(x => x.Id == id);
-        var details = _context.AccountOpeningDviews.Where(x => x.PersonId == id).ToList();
-
-        var model = new AccountOpeningSPResult
-        {
-            Master = master,
-            Details = details
-        };
-
-        return View(ViewPath("Print"), model);
+        return View(ViewPath("Index2"));
     }
 
+   
     #endregion
 
     #region Create (GET/POST)
@@ -90,15 +82,15 @@ public class AccountOpeningController : Controller
         var companies = _context.Companies.ToList();
         var companyCount = companies.Count;
 
-        var model = new AccountOpeningViewModel
+        var model = new GeneralJournalViewModel
         {
-            Master = new AccountOpeningM
+            Master = new GjournalM
             {
                 Vdate = DateTime.Today,
                 // Auto-select if single company
                 CompanyId = companyCount == 1 ? companies.First().Code : 0
             },
-            Details = new List<AccountOpeningD>()
+            Details = new List<GjournalD>()
         };
 
         // Pass in the  ViewBag
@@ -120,7 +112,7 @@ public class AccountOpeningController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(AccountOpeningViewModel model)
+    public async Task<IActionResult> Create(GeneralJournalViewModel model)
     {
         bool isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
@@ -132,27 +124,52 @@ public class AccountOpeningController : Controller
                     e => e.Key,
                     e => e.Value.Errors.Select(err => err.ErrorMessage).ToArray());
 
-            Console.WriteLine("Validation Errors: " + System.Text.Json.JsonSerializer.Serialize(errors));
-
-
             return Json(new { success = false, errors });
         }
 
+        //  BUSINESS VALIDATION
+        if (model.Details == null || !model.Details.Any())
+        {
+            return Json(new { success = false, message = "At least one detail row is required." });
+        }
+
+        decimal totalDebit = model.Details.Sum(x => x.Debit)??0;
+        decimal totalCredit = model.Details.Sum(x => x.Credit)??0;
+
+        if (totalDebit != totalCredit)
+        {
+            //return Json(new
+            //{
+            //    success = false,
+            //    message = $"Debit ({totalDebit}) and Credit ({totalCredit}) must be equal."
+            //});
+            return Json(new
+            {
+                success = false,
+                message = $"Debit ({totalDebit}) and Credit ({totalCredit}) must be equal."
+            });
+        }
         try
         {
+            int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            model.Master.UserId = userId;
+
+            model.Master.CurrentDate = DateTime.Now;  // insert time
+            //model.Master.UpdatedTime = null;  // insert ke time null
+
             model.Master.Mcode = GetMCode(model.Master.CompanyId);
-            _context.AccountOpeningMs.Add(model.Master);
+            _context.GjournalMs.Add(model.Master);
             await _context.SaveChangesAsync();
 
             foreach (var d in model.Details)
             {
                 d.PersonId = model.Master.Id;
-                _context.AccountOpeningDs.Add(d);
+                _context.GjournalDs.Add(d);
             }
 
             await _context.SaveChangesAsync();
 
-            return Json(new { success = true, message = "Account opening created successfully!" });
+            return Json(new { success = true, action = "create", message = "Gernal Journal created successfully!" });
         }
         catch (Exception ex)
         {
@@ -162,7 +179,7 @@ public class AccountOpeningController : Controller
 
     private int GetMCode(int companyId)
     {
-        var codes = _context.AccountOpeningMs
+        var codes = _context.GjournalMs
             .AsNoTracking()
             .Where(x => x.CompanyId == companyId)
             .Select(x => x.Mcode)
@@ -180,14 +197,14 @@ public class AccountOpeningController : Controller
     {
         try
         {
-            var details = await _context.AccountOpeningDs.Where(d => d.PersonId == id).ToListAsync();
-            _context.AccountOpeningDs.RemoveRange(details);
+            var details = await _context.GjournalDs.Where(d => d.PersonId == id).ToListAsync();
+            _context.GjournalDs.RemoveRange(details);
 
-            var masterData = await _context.AccountOpeningMs.FindAsync(id);
+            var masterData = await _context.GjournalMs.FindAsync(id);
 
             if (masterData != null)
             {
-                _context.AccountOpeningMs.Remove(masterData);
+                _context.GjournalMs.Remove(masterData);
                 await _context.SaveChangesAsync();
                 return Json(new { success = true });
             }
@@ -202,43 +219,93 @@ public class AccountOpeningController : Controller
 
     #endregion
 
+    #region BulkDelete
+
+    [HttpPost]
+    public async Task<JsonResult> BulkDelete(List<int> ids)
+    {
+
+        try
+        {
+            if (ids == null || ids.Count == 0)
+            {
+                return Json(new { success = false, message = "No accounts selected" });
+            }
+            var details = await _context.GjournalDs
+           .Where(d => ids.Contains(d.PersonId))
+           .ToListAsync();
+
+            _context.GjournalDs.RemoveRange(details);
+
+            // Get all master records
+            var masters = await _context.GjournalMs
+                .Where(m => ids.Contains(m.Id))
+                .ToListAsync();
+
+            if (!masters.Any())
+            {
+                return Json(new { success = false, message = "No records found" });
+            }
+
+            _context.GjournalMs.RemoveRange(masters);
+
+            await _context.SaveChangesAsync();
+
+
+            return Json(new
+            {
+                success = true,
+                message = $"{ids.Count} account(s) deleted successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return Json(new
+            {
+                success = false,
+                message = "Error deleting accounts: " + ex.Message
+            });
+        }
+    }
+
+    #endregion
     #region Print PDF
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Pdf(int id)
-    {
-        var master = _context.AccountOpeningMviews.FirstOrDefault(x => x.Id == id);
-        if (master == null)
-            return NotFound();
+    //[HttpGet("{id}")]
+    //public async Task<IActionResult> Pdf(int id)
+    //{
+    //    var master = _context.GjournalMviews.FirstOrDefault(x => x.Id == id);
+    //    if (master == null)
+    //        return NotFound();
 
-        var details = _context.AccountOpeningDviews.Where(x => x.PersonId == id).ToList();
+    //    var details = _context.GjournalDviews.Where(x => x.PersonId == id).ToList();
 
-        var model = new AccountOpeningSPResult
-        {
-            Master = master,
-            Details = details
-        };
+    //    var model = new GeneralJournalSPResult
+    //    {
+    //        Master = master,
+    //        Details = details
+    //    };
 
-        string html = await this.RenderViewAsync("~/Apps/Accounting/AccountOpening/Print.cshtml", model, true);
-        byte[] pdfBytes = _pdfGenerator.GeneratePdf(html);
+    //    string html = await this.RenderViewAsync("~/Apps/Accounting/GeneralJournal/Print.cshtml", model, true);
+    //    byte[] pdfBytes = _pdfGenerator.GeneratePdf(html);
 
-        Response.Headers.Add("Content-Disposition", $"inline; filename=AccountOpening_{id}.pdf");
-        return File(pdfBytes, "application/pdf");
-    }
+    //    Response.Headers.Add("Content-Disposition", $"inline; filename=GeneralJournal_{id}.pdf");
+    //    return File(pdfBytes, "application/pdf");
+    //}
 
-    [HttpGet("{id}")]
-    public IActionResult PrintPdf(int id)
-    {
-        var master = _context.AccountOpeningMviews.FirstOrDefault(x => x.Id == id);
-        var details = _context.AccountOpeningDviews.Where(x => x.PersonId == id).ToList();
+    //[HttpGet("{id}")]
+    //public IActionResult PrintPdf(int id)
+    //{
+    //    var master = _context.GjournalMviews.FirstOrDefault(x => x.Id == id);
+    //    var details = _context.GjournalDviews.Where(x => x.PersonId == id).ToList();
 
-        var model = new AccountOpeningSPResult { Master = master, Details = details };
+    //    var model = new GeneralJournalSPResult { Master = master, Details = details };
 
-        var pdfBytes = new AccountOpeningPdf(model).GeneratePdf();
+    //    var pdfBytes = new GeneralJournalPdf(model).GeneratePdf();
 
-        Response.Headers.Add("Content-Disposition", "inline; filename=AccountOpening.pdf");
-        return File(pdfBytes, "application/pdf");
-    }
+    //    Response.Headers.Add("Content-Disposition", "inline; filename=GeneralJournal.pdf");
+    //    return File(pdfBytes, "application/pdf");
+    //}
 
     #endregion
 
@@ -247,7 +314,7 @@ public class AccountOpeningController : Controller
     [HttpGet]
     public IActionResult getList()
     {
-        var Accounting = _context.AccountOpeningMviews.ToList();
+        var Accounting = _context.Gjouranlviews.ToList();
         return Json(Accounting);
     }
     #endregion
@@ -273,7 +340,7 @@ public class AccountOpeningController : Controller
             if (string.IsNullOrEmpty(columnName))
                 columnName = "Id";
 
-            var query = _context.AccountOpeningMviews.AsQueryable();
+            var query = _context.Gjouranlviews.AsQueryable();
 
             if (!string.IsNullOrEmpty(searchValue))
             {
@@ -337,7 +404,7 @@ public class AccountOpeningController : Controller
             if (string.IsNullOrEmpty(columnName))
                 columnName = "Id";
 
-            var query = _context.AccountOpeningMviews.AsQueryable();
+            var query = _context.Gjouranlviews.AsQueryable();
 
             if (!string.IsNullOrEmpty(searchValue))
             {
@@ -386,13 +453,13 @@ public class AccountOpeningController : Controller
     [HttpGet("{id}")]
     public IActionResult Edit(int id)
     {
-        var master = _context.AccountOpeningMs.FirstOrDefault(m => m.Id == id);
+        var master = _context.GjournalMs.FirstOrDefault(m => m.Id == id);
         if (master == null)
             return NotFound();
 
-        var details = _context.AccountOpeningDs.Where(d => d.PersonId == id).ToList();
+        var details = _context.GjournalDs.Where(d => d.PersonId == id).ToList();
 
-        var model = new AccountOpeningViewModel
+        var model = new GeneralJournalViewModel
         {
             Master = master,
             Details = details
@@ -422,7 +489,7 @@ public class AccountOpeningController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(AccountOpeningViewModel model)
+    public async Task<IActionResult> Edit(GeneralJournalViewModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -437,7 +504,7 @@ public class AccountOpeningController : Controller
 
         try
         {
-            var master = await _context.AccountOpeningMs.FindAsync(model.Master.Id);
+            var master = await _context.GjournalMs.FindAsync(model.Master.Id);
             if (master == null)
                 return Json(new { success = false, message = "Record not found!" });
 
@@ -445,23 +512,25 @@ public class AccountOpeningController : Controller
             master.CompanyId = model.Master.CompanyId;
             master.Remarks = model.Master.Remarks;
 
+            //master.UpdatedTime = DateTime.Now;
+
             var incomingIds = model.Details.Where(d => d.Id > 0).Select(d => d.Id).ToHashSet();
-            var deletedDetails = await _context.AccountOpeningDs
+            var deletedDetails = await _context.GjournalDs
                 .Where(d => d.PersonId == master.Id && !incomingIds.Contains(d.Id))
                 .ToListAsync();
 
             if (deletedDetails.Any())
-                _context.AccountOpeningDs.RemoveRange(deletedDetails);
+                _context.GjournalDs.RemoveRange(deletedDetails);
 
             foreach (var detail in model.Details)
             {
                 detail.PersonId = master.Id;
 
                 if (detail.Id == 0)
-                    _context.AccountOpeningDs.Add(detail);
+                    _context.GjournalDs.Add(detail);
                 else
                 {
-                    var existing = await _context.AccountOpeningDs
+                    var existing = await _context.GjournalDs
                         .FirstOrDefaultAsync(d => d.Id == detail.Id && d.PersonId == master.Id);
 
                     if (existing != null)
@@ -479,8 +548,9 @@ public class AccountOpeningController : Controller
             return Json(new
             {
                 success = true,
-                message = "Account Opening updated successfully!",
-                redirectUrl = Url.Action("List", "AccountOpening")
+                action = "edit",
+                message = "Gernal Journal updated successfully!",
+                redirectUrl = Url.Action("List", "GeneralJournal")
             });
         }
         catch (Exception ex)
@@ -508,9 +578,9 @@ public class AccountOpeningController : Controller
             int pageSize = length;
             int skip = start;
 
-            var columnName = Request.Form[$"columns[{sortColumnIndex}][name]"].FirstOrDefault() ?? "AccountOpeningId";
+            var columnName = Request.Form[$"columns[{sortColumnIndex}][name]"].FirstOrDefault() ?? "GeneralJournalId";
 
-            var query = _context.AccountOpeningDviews.AsQueryable();
+            var query = _context.Gjouranlviews.AsQueryable();
 
             query = sortColumnDirection == "asc"
                 ? query.OrderBy(e => EF.Property<object>(e, columnName))

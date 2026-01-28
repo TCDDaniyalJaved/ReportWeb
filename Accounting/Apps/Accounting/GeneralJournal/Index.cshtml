@@ -1,0 +1,82 @@
+@* View: AccountOpening/Index.cshtml *@
+@model Accounting.Models.AccountOpeningM
+
+@section VendorStyles {
+    @await Html.PartialAsync("_VendorStyles")
+}
+
+@section VendorScripts {
+    @await Html.PartialAsync("_VendorScripts")
+}
+
+@section PageScripts {
+    <script type="module" src="/Accounting/js/GeneralJournal.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+<ebit-section p="0" m="0">
+    <div id="wizardStepper" class="bs-stepper wizard-numbered" style="box-shadow:none;">
+
+        <!-- Wizard Header (Hidden) -->
+        <ebit-section class="bs-stepper-header d-none">
+            <ebit-section class="step" data-target="#account-details">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+            <ebit-section class="line"><i class="bx bx-chevron-right"></i></ebit-section>
+            <ebit-section class="step" data-target="#personal-info">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+        </ebit-section>
+
+        <!-- Wizard Content -->
+        <ebit-section class="bs-stepper-content p-0 m-0">
+
+            @await Html.PartialAsync("_PageHeader", new Accounting.Models.PageHeaderVM
+            {
+                Title = "Gernal Journal",
+                        NewButtonText = "New",
+                        SearchPlaceholder = "Search by voucher, date, amount..."
+                        })
+
+            <!-- Table Section -->
+            <ebit-section id="account-details" class="content">
+                <ebit-section id="innerWizard" class="wizard">
+                    <ebit-section class="wizard-content p-0 m-0">
+
+                        <ebit-section id="inner-step1" class="wizard-step p-0 m-0">
+                            <ebit-table id="masterTable" class="table  mt-0 pt-0">
+
+                                <!-- Table Header -->
+                                <ebit-head class="border-top">
+                                    <ebit-row>
+                                        <ebit-headcolumn datafield="" render="edit" width="50px"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="date" header="Date" width="15%">Date</ebit-headcolumn>
+                                        <ebit-headcolumn datafield="voucher" header="Voucher" width="25%">Voucher</ebit-headcolumn>
+                                        <ebit-headcolumn datafield="totalSeqNo" header="#" width="10%">#</ebit-headcolumn>
+                                        <ebit-headcolumn datafield="debit" isamount="true" header="Total Debit" width="15%">Total Debit</ebit-headcolumn>
+                                        <ebit-headcolumn datafield="credit" isamount="true" header="Total Credit" width="15%">Total Credit</ebit-headcolumn>
+
+                                        <ebit-headcolumn datafield="" render="deleteprint" width="100px"></ebit-headcolumn>
+                                    </ebit-row>
+                                </ebit-head>
+
+                                <!-- Table Footer -->
+                                <ebit-footer>
+                                    <ebit-row class="">
+                                        <ebit-bodycolumn colspan="2">
+                                            Total Records : <span id="totalRecords">0</span>
+                                        </ebit-bodycolumn>
+                                    </ebit-row>
+                                </ebit-footer>
+
+                            </ebit-table>
+                        </ebit-section>
+
+                    </ebit-section>
+                </ebit-section>
+            </ebit-section>
+
+            <!-- Secondary Wizard Section -->
+            <ebit-section id="personal-info" class="content p-0 px-2"></ebit-section>
+        </ebit-section>
+    </div>
+</ebit-section>

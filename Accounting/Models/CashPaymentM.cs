@@ -29,8 +29,6 @@ public partial class CashPaymentM
 
     public int? UserId { get; set; }
 
-    public int? BrecNo1 { get; set; }
-
     public bool Posted { get; set; }
 
     public virtual Chart BookCodeNavigation { get; set; }

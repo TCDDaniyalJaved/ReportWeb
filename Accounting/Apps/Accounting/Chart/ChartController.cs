@@ -43,34 +43,44 @@ public class ChartController : Controller
             var draw = Request.Form["draw"].FirstOrDefault();
             var start = Request.Form["start"].FirstOrDefault();
             var length = Request.Form["length"].FirstOrDefault();
-            var sortColumnIndex = Request.Form["order[0][column]"].FirstOrDefault();
-            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-            var searchValue = Request.Form["search[value]"].FirstOrDefault();
+            var searchValue = Request.Form["customSearch"].FirstOrDefault();
 
             int pageSize = length != null ? Convert.ToInt32(length) : 10;
             int skip = start != null ? Convert.ToInt32(start) : 0;
 
-            var columnName = Request.Form[$"columns[{sortColumnIndex}][name]"].FirstOrDefault();
-
-            var query = await _contextproc.GetAllAccountsAllSubGroupAsync(0);
-
-            if (!string.IsNullOrEmpty(searchValue))
-            {
-                query = query.Where(m => m.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase)).ToList();
-            }
-
-            if (string.IsNullOrEmpty(columnName))
-            {
-                columnName = "Id"; 
-            }
-
+            // Data fetch
+            var query = (await _contextproc.GetAllAccountsAllSubGroupAsync(0)).AsQueryable();
 
             int recordsTotal = query.Count();
 
+
+            //  SEARCH (always apply)
+            if (!string.IsNullOrWhiteSpace(searchValue))
+            {
+                searchValue = searchValue.ToLower();
+
+                query = query.Where(m =>
+                    m.Name.ToLower().Contains(searchValue) ||
+                    m.NatureName.ToLower().Contains(searchValue) ||
+                    m.TypeName.ToLower().Contains(searchValue)
+                );
+            }
+
+            int recordsFiltered = query.Count();
+
+            // Pagination
             var data = pageSize == -1
-              ? query.ToList() 
-              : query.Skip(skip).Take(pageSize).ToList();
-            var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+                ? query.ToList()
+                : query.Skip(skip).Take(pageSize).ToList();
+
+            var jsonData = new
+            {
+                draw = draw,
+                recordsTotal = recordsTotal,
+                recordsFiltered = recordsFiltered,
+                data = data
+            };
+
             return Ok(jsonData);
         }
         catch (Exception ex)
@@ -78,6 +88,7 @@ public class ChartController : Controller
             return StatusCode(500, "Internal server error: " + ex.Message);
         }
     }
+
 
     [HttpGet]
     public async Task<IActionResult> GetData(

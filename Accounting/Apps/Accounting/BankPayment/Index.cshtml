@@ -1,9 +1,5 @@
-@* View: CashReceipt/Index.cshtml *@
-@model Accounting.Models.BankPaymentM
-@{
-    /* Page Layout */
-    Layout = "_HorizontalLayout";
-}
+@* View: CashPayment/Index.cshtml *@
+@model Accounting.Models.CashPaymentM
 
 @section VendorStyles {
     @await Html.PartialAsync("_VendorStyles")
@@ -14,18 +10,9 @@
 }
 
 @section PageScripts {
-    <script src="~/js/tooltip.js"></script>
+    <script type="module" src="/Accounting/js/BankPayment.js"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
-
-<script>
-    // Initialize first wizard step on page load
-    $(document).ready(function () {
-        $("#inner-step1").removeClass("d-none");
-        $("#inner-step1-tab").addClass("active");
-    });
-</script>
-
 <ebit-section p="0" m="0">
     <div id="wizardStepper" class="bs-stepper wizard-numbered" style="box-shadow:none;">
 
@@ -47,9 +34,8 @@
             {
                 Title = "Bank Payment",
                         NewButtonText = "New",
-                        SearchPlaceholder = "Search by voucher, Account,cheque, amount..."
+                        SearchPlaceholder = "Search by voucher, date, amount..."
                         })
-
 
             <!-- Table Section -->
             <ebit-section id="account-details" class="content">
@@ -57,36 +43,30 @@
                     <ebit-section class="wizard-content p-0 m-0">
 
                         <ebit-section id="inner-step1" class="wizard-step p-0 m-0">
-                            <ebit-table id="masterTable" class="table bg-white mt-0 pt-0">
-                                <ebit-head class="border-top" style="background-color:#F9FAFB;">
+                            <ebit-table id="masterTable" class="table  mt-0 pt-0">
+
+                                <!-- Table Header -->
+                                <ebit-head class="border-top">
                                     <ebit-row>
                                         <ebit-headcolumn datafield="" render="edit" width="50px"></ebit-headcolumn>
-                                        <ebit-headcolumn datafield="date" header="date"
-                                                         width="15%">Date</ebit-headcolumn>
-                                        <ebit-headcolumn datafield="voucher" header="voucher"
-                                                         width="25%">Voucher</ebit-headcolumn>
-                                      
-                                        <ebit-headcolumn datafield="book" header="Account" width="15%">
-                                            Account
-                                        </ebit-headcolumn>
-
-                                        <ebit-headcolumn datafield="cheque" header="cheque" width="15%">
-                                            cheque
-                                        </ebit-headcolumn>
-                                        <ebit-headcolumn datafield="amount" header="amount" width="15%">
-                                           Amount
-                                        </ebit-headcolumn>
-                                      
+                                        <ebit-headcolumn datafield="date" header="Date" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="voucher" header="Voucher" width="25%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="book" header="Account" width="10%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="cheque" header="Cheque #" width="10%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="amount" isamount="true" header="Amount" width="15%">Total Credit</ebit-headcolumn>
                                         <ebit-headcolumn datafield="" render="deleteprint" width="100px"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>
+
+                                <!-- Table Footer -->
                                 <ebit-footer>
-                                    <ebit-row class="bg-white">
+                                    <ebit-row class="">
                                         <ebit-bodycolumn colspan="2">
                                             Total Records : <span id="totalRecords">0</span>
                                         </ebit-bodycolumn>
                                     </ebit-row>
                                 </ebit-footer>
+
                             </ebit-table>
                         </ebit-section>
 
@@ -95,47 +75,7 @@
             </ebit-section>
 
             <!-- Secondary Wizard Section -->
-            <ebit-section id="personal-info" class="content p-0 px-5"></ebit-section>
+            <ebit-section id="personal-info" class="content p-0 px-2"></ebit-section>
         </ebit-section>
     </div>
 </ebit-section>
-<script type="module">
-         // BankPayment.js
-    import {
-        initializeDataTable,
-        goBackToList,
-        handleCreateButton,
-        handleDirectUrl,
-        handleRowActions,
-        initStepper
-    } from '/Accounting/js/dataTableUtils.js';
-
-    const BASE_PATH = '/Accounting/BankPayment';
-    let table;
-
-    $(document).ready(() => {
-        initStepper();
-        handleDirectUrl(BASE_PATH);
-        handleCreateButton(BASE_PATH);
-
-        table = initializeDataTable(`${BASE_PATH}/GetData`, '#masterTable', {
-            callbacks: {
-                onDraw: () => {
-                    handleRowActions(BASE_PATH, {
-                        onDelete: () => {
-                            table.ajax.reload(null, false); //  refresh data without page reload
-                        }
-                    });
-
-                    $('#totalRecords').text(table?.page.info().recordsDisplay || 0);
-                }
-            }
-        });
-
-        $(document).on('click', '#gobacktolistbtn', () =>
-            goBackToList(table, BASE_PATH)
-        );
-    });
-
-
-</script>

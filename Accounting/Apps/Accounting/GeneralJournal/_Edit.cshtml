@@ -56,24 +56,26 @@
                 </ebit-section>
 
                 <!-- Company Dropdown -->
-                <ebit-section class="row mb-3 align-items-center col-md-8">
+                <ebit-section class="row mb-3 align-items-center col-md-8 d-none">
                     <ebit-label data="Master.CompanyId" class="col-sm-2 form-label" text="Company"></ebit-label>
                     <ebit-section class="col-sm-10">
                         @if (ViewBag.CompanyCount == 1)
                         {
-                            <!-- Hidden field for form -->
+                            <!-- Hidden field ensures form submission -->
                             <input type="hidden" asp-for="Master.CompanyId" value="@ViewBag.PrimaryCompanyId" />
 
-                            <!-- ebit-select locked mode -->
+                            <!-- Locked ebit-select just for display -->
                             <ebit-select data="Master.CompanyId"
                                          selected="@ViewBag.PrimaryCompanyId"
                                          placeholder="@ViewBag.PrimaryCompanyName"
-                                         style="pointer-events: none; ">
+                                         style="pointer-events: none; cursor: not-allowed;">
                             </ebit-select>
                         }
                         else
                         {
-                            <ebit-select selected="@Model.Master.CompanyId" data="Master.CompanyId"></ebit-select>
+                            <ebit-select data="Master.CompanyId">
+                                <option value="0">Choose One</option>
+                            </ebit-select>
                         }
                     </ebit-section>
                 </ebit-section>

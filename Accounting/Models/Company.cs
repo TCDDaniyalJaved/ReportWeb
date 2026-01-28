@@ -91,6 +91,8 @@ public partial class Company
 
     public virtual ICollection<CashPaymentM> CashPaymentMs { get; set; } = new List<CashPaymentM>();
 
+    public virtual ICollection<CashReceiptM> CashReceiptMs { get; set; } = new List<CashReceiptM>();
+
     public virtual ICollection<GjournalM> GjournalMs { get; set; } = new List<GjournalM>();
 
     public virtual ICollection<PinvoiceM> PinvoiceMs { get; set; } = new List<PinvoiceM>();

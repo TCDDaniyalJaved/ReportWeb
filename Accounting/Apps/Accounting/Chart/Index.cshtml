@@ -1,115 +1,84 @@
-@model Accounting.Models.Chart;
-
-@{
-	Layout = "_HorizontalLayout";
-}
+@* View: AccountOpening/Index.cshtml *@
+@model Accounting.Models.AccountOpeningM
 @section VendorStyles {
-	<link rel="stylesheet" href="~/vendor/libs/dropzone/dropzone.dist.css" />
-	<link rel="stylesheet" href="~/vendor/libs/quill/typography.dist.css" />
-	<link rel="stylesheet" href="~/vendor/libs/quill/katex.dist.css" />
-	<link rel="stylesheet" href="~/vendor/libs/quill/editor.dist.css" />
-	<link rel="stylesheet" href="~/vendor/libs/quill/typography.dist.css" />
-	<link rel="stylesheet" href="~/vendor/libs/quill/katex.dist.css" />
-	<link rel="stylesheet" href="~/vendor/libs/quill/editor.dist.css" />
-	<link rel="stylesheet" href="~/vendor/libs/datatables-bs5/datatables.bootstrap5.dist.css">
-	<link rel="stylesheet" href="~/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.dist.css">
-	<link rel="stylesheet" href="~/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.dist.css">
-	<link rel="stylesheet" href="~/vendor/libs/sweetalert2/sweetalert2.dist.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-	<link rel="stylesheet" href="~/vendor/libs/&#64;form-validation/form-validation.dist.css" />
-	<link rel="stylesheet" href="~/vendor/libs/bs-stepper/bs-stepper.dist.css" />
-	<link rel="stylesheet" href="~/vendor/libs/select2/select2.dist.css" />
-	<link href="/Accounting/css/style.css" rel="stylesheet" />
-	<link href="~/vendor/libs/packages/SearchBuilder-1.4.0/css/searchBuilder.dataTables.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="~/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.dist.css">
+    @await Html.PartialAsync("_VendorStyles")
 }
-
 
 @section VendorScripts {
-	<script src="~/vendor/libs/dropzone/dropzone.dist.js"></script>
-	<script src="~/js/forms-file-upload.dist.js"></script>
-	<script src="~/js/site.js"></script>
-	<script src="~/vendor/libs/moment/moment.dist.js"></script>
-	<script src="~/vendor/libs/datatables-bs5/datatables-bootstrap5.dist.js"></script>
-	<script src="~/vendor/libs/sweetalert2/sweetalert2.dist.js"></script>
-	<script src="~/vendor/libs/&#64;form-validation/popular.dist.js"></script>
-	<script src="~/vendor/libs/&#64;form-validation/bootstrap5.dist.js"></script>
-	<script src="~/vendor/libs/&#64;form-validation/auto-focus.dist.js"></script>
-	<script src="~/vendor/libs/cleavejs/cleave.dist.js"></script>
-	<script src="~/vendor/libs/cleavejs/cleave-phone.dist.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/vendor/libs/bs-stepper/bs-stepper.dist.js"></script>
-	<script src="~/vendor/libs/select2/select2.dist.js"></script>
-	<script src="~/vendor/libs/packages/full-screen.js"></script>
-	<script src="~/vendor/libs/packages/SearchBuilder-1.4.0/js/dataTables.searchBuilder.min.js"></script>
+    @await Html.PartialAsync("_VendorScripts")
 }
+
 @section PageScripts {
-	<script src="~/js/tooltip.js"></script>
-	<script src="/Accounting/js/ChartOfAcount.js"</script>
+    <script type="module" src="/Accounting/js/ChartOfAcount.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }
+<ebit-section p="0" m="0">
+    <div id="wizardStepper" class="bs-stepper wizard-numbered" style="box-shadow:none;">
 
+        <!-- Wizard Header (Hidden) -->
+        <ebit-section class="bs-stepper-header d-none">
+            <ebit-section class="step" data-target="#account-details">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+            <ebit-section class="line"><i class="bx bx-chevron-right"></i></ebit-section>
+            <ebit-section class="step" data-target="#personal-info">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+        </ebit-section>
 
-<div id="fullscreenModalContainer"></div>
-<div class="col-12 mb-6">
-	<div id="wizardStepper" class="bs-stepper wizard-numbered mt-2">
-		<div class="bs-stepper-header d-none">
-			<div class="step" data-target="#account-details">
-				<button type="button" class="step-trigger">
-					<span class="bs-stepper-circle">1</span>
-					<span class="bs-stepper-label">
-						<span class="bs-stepper-title">Account Details</span>
-						<span class="bs-stepper-subtitle">Setup Account Details</span>
-					</span>
-				</button>
-			</div>
-			<div class="line">
-				<i class="bx bx-chevron-right"></i>
-			</div>
-			<div class="step" data-target="#personal-info">
-				<button type="button" class="step-trigger">
-					<span class="bs-stepper-circle">2</span>
-					<span class="bs-stepper-label">
-						<span class="bs-stepper-title">Personal Info</span>
-						<span class="bs-stepper-subtitle">Add personal info</span>
-					</span>
+        <!-- Wizard Content -->
+        <ebit-section class="bs-stepper-content p-0 m-0">
 
-				</button>
-			</div>
-			<div class="line">
-				<i class="bx bx-chevron-right"></i>
-			</div>
+            @await Html.PartialAsync("_PageHeader", new Accounting.Models.PageHeaderVM
+            {
+                Title = "Chart Of Account",
+                        NewButtonText = "New",
+                        SearchPlaceholder = "Search by voucher, date, amount..."
+                        })
 
-		</div>
-		<div class="bs-stepper-content">
+            <!-- Table Section -->
+            <ebit-section id="account-details" class="content">
+                <ebit-section id="innerWizard" class="wizard">
+                    <ebit-section class="wizard-content p-0 m-0">
 
-			<div class="d-flex justify-content-end mb-2">
-				<button id="fullscreen-btn" class="btn btn-sm" title="Full Screen">
-					<i class="bx bx-fullscreen"></i>
-				</button>
-			</div>
-			<div id="account-details" class="content">
-				<div class="text-nowrap pb-0">
+                        <ebit-section id="inner-step1" class="wizard-step p-0 m-0">
+                            <ebit-table id="masterTable" class="table mt-0 pt-0">
 
+                                <!-- Table Header -->
+                                <ebit-head class="border-top">
+                                    <ebit-row>
+                                        <ebit-headcolumn datafield="" render="edit" width="50px"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="name" header="Account Description" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="natureName" header="Nature" width="25%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="typeName" header="Type" width="10%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="" render="deleteprint" width="100px"></ebit-headcolumn>
+                                    </ebit-row>
+                                </ebit-head>
 
-					<table id="userTable" class="table table-hover nowrap w-100">
-						<thead class="border-top">
-							<tr>
-								<th></th>
-								<th>Account Description</th>
-								<th>Nature</th>
-								<th></th>
-							</tr>
-						</thead>
-					</table>
+                                <!-- Table Footer -->
+                                <ebit-footer>
+                                    <ebit-row class="">
+                                        <ebit-bodycolumn colspan="2">
+                                            Total Records : <span id="totalRecords">0</span>
+                                        </ebit-bodycolumn>
+                                    </ebit-row>
+                                </ebit-footer>
 
-				</div>
+                            </ebit-table>
+                        </ebit-section>
 
+                    </ebit-section>
+                </ebit-section>
+            </ebit-section>
 
-			</div>
-
-			<div id="personal-info" class="content">
-			</div>
-		</div>
-
-	</div>
-
+            <!-- Secondary Wizard Section -->
+            <ebit-section id="personal-info" class="content py-5 px-2"></ebit-section>
+        </ebit-section>
+    </div>
+</ebit-section>
+<script>
+    $('#pageHeader').addClass('d-none');
+     $('#personal-info').css('background-color', '#FFFFFF');
+     $('#customPagination')[0].style.setProperty('display', 'none', 'important');
+</script>
+               

@@ -1,4 +1,4 @@
-﻿@model Accounting.ViewModel.AccountOpeningViewModel
+﻿@model Accounting.ViewModel.GeneralJournalViewModel
 @{
     ViewData["Title"] = "Account Opening";
 }
@@ -19,6 +19,21 @@
         .tab-pane.show {
             opacity: 1 !important;
         }
+
+   /*  .sticky-header-buttons {
+        position: sticky;
+        top: 105px;
+        z-index: 1050;
+        background-color: #F5F5F9;
+    } */
+    .sticky-header-buttons {
+        position: sticky;
+        top: 105px; 
+        z-index: 1000;
+        background: #F5F5F9;
+        padding: 10px 0px;
+        border-bottom: 1px solid #e5e7eb;
+    }
 </style>
 
 <script>
@@ -26,7 +41,7 @@
 </script>
 
 <!-- Page-specific Scripts -->
-<script src="~/accounting/js/accountopening_detail.js"></script>
+<script src="~/accounting/js/GernalJournal_detail.js"></script>
 <script src="~/js/forms-editors.dist.js"></script>
 
 @section PageScripts {
@@ -36,7 +51,7 @@
 }
 
 <!-- Page Header Buttons -->
-<ebit-section flex justify="between" align="center" mb="3" pt="3">
+<ebit-section flex justify="between" align="center"  class="sticky-header-buttons">
     <ebit-section>
         <ebit-button id="confirmBtn" radius="sm" type="primary" size="sm">Confirm</ebit-button>
         <ebit-button id="gobacktolistbtn" type="secondary" radius="sm" size="sm">Cancel</ebit-button>
@@ -53,7 +68,7 @@
         </ebit-section>
 
         <!-- Main Form -->
-        <ebit-form action="/Accounting/AccountOpening/Create" method="post" id="invoiceForm">
+        <ebit-form action="/Accounting/GeneralJournal/Create" method="post" id="invoiceForm">
             @Html.AntiForgeryToken()
 
             <ebit-section class="row">
@@ -66,19 +81,19 @@
                     </ebit-section>
                 </ebit-section>
                 <!-- Company Dropdown -->
-                <ebit-section class="row mb-3 align-items-center col-md-8">
+                <ebit-section class="row mb-3 align-items-center col-md-8 d-none">
                     <ebit-label data="Master.CompanyId" class="col-sm-2 form-label" text="Company"></ebit-label>
                     <ebit-section class="col-sm-10">
                         @if (ViewBag.CompanyCount == 1)
                         {
-                            <!-- Hidden field for form -->
+                            <!-- Hidden field ensures form submission -->
                             <input type="hidden" asp-for="Master.CompanyId" value="@ViewBag.PrimaryCompanyId" />
 
-                            <!-- ebit-select locked mode -->
+                            <!-- Locked ebit-select just for display -->
                             <ebit-select data="Master.CompanyId"
                                          selected="@ViewBag.PrimaryCompanyId"
                                          placeholder="@ViewBag.PrimaryCompanyName"
-                                         style="pointer-events: none; ">
+                                         style="pointer-events: none; cursor: not-allowed;">
                             </ebit-select>
                         }
                         else
@@ -168,13 +183,13 @@
                     </ebit-propertypage>
 
                     <!-- Description Tab -->
-                    <ebit-propertypage target="otherinfo" text="Description">
+@*                     <ebit-propertypage target="otherinfo" text="Description">
                         <ebit-section class="tab-pane-body p-3 mb-3">
                             <textarea type="textarea" asp-for="Master.Remarks" name="Master.Remarks" class="form-control"
                                       rows="3" placeholder="Remarks"></textarea>
                         </ebit-section>
                     </ebit-propertypage>
-                </ebit-propertytab>
+ *@                </ebit-propertytab>
 
                 <!-- Totals Section -->
                 <ebit-section class="mt-4 totals">

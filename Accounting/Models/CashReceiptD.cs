@@ -9,17 +9,25 @@ public partial class CashReceiptD
 {
     public int Id { get; set; }
 
-    public int RefId { get; set; }
+    public int PersonId { get; set; }
 
-    public int? AccountId { get; set; }
+    public decimal Amount { get; set; }
 
-    public string Description { get; set; }
+    public DateTime? ChkDate { get; set; }
 
-    public decimal? Amount { get; set; }
+    public int? ActCode { get; set; }
+
+    public string Remarks { get; set; }
+
+    public string Cheque { get; set; }
+
+    public DateTime? CreateDate { get; set; }
 
     public int? UserId { get; set; }
 
-    public DateTime? CurrentDate { get; set; }
+    public int? CostId { get; set; }
 
-    public virtual CashReceiptM Ref { get; set; }
+    public virtual Chart ActCodeNavigation { get; set; }
+
+    public virtual CashReceiptM Person { get; set; }
 }

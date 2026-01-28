@@ -1,4 +1,4 @@
-﻿// Accountopening.js
+﻿// CashPayment.js
 import {
     initializeDataTable,
     goBackToList,

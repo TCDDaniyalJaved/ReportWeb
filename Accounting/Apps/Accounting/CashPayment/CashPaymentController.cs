@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
+using System.Security.Claims;
 
 namespace Accounting.Controllers;
 
@@ -63,6 +64,26 @@ public class CashPaymentController : Controller
     {
         return View(ViewPath("Index"));
     }
+
+    public IActionResult List2()
+    {
+        return View(ViewPath("Index2"));
+    }
+
+    //[HttpGet("{id}")]
+    //public IActionResult Print(int id)
+    //{
+    //    var master = _context.CashPaymentMviews.FirstOrDefault(x => x.Id == id);
+    //    var details = _context.CashPaymentDviews.Where(x => x.PersonId == id).ToList();
+
+    //    var model = new CashPaymentSPResult
+    //    {
+    //        Master = master,
+    //        Details = details
+    //    };
+
+    //    return View(ViewPath("Print"), model);
+    //}
 
     #endregion
 
@@ -125,6 +146,12 @@ public class CashPaymentController : Controller
 
         try
         {
+            int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            model.Master.UserId = userId;
+
+            model.Master.CurrentDate = DateTime.Now;  // insert time
+            //model.Master.UpdatedTime = null;  // insert ke time null
+
             model.Master.Mcode = GetMCode(model.Master.CompanyId);
             _context.CashPaymentMs.Add(model.Master);
             await _context.SaveChangesAsync();
@@ -137,7 +164,7 @@ public class CashPaymentController : Controller
 
             await _context.SaveChangesAsync();
 
-            return Json(new { success = true, message = "Account opening created successfully!" });
+            return Json(new { success = true, action = "create", message = "Cash Paymnet created successfully!" });
         }
         catch (Exception ex)
         {
@@ -187,6 +214,96 @@ public class CashPaymentController : Controller
 
     #endregion
 
+    #region BulkDelete
+
+    [HttpPost]
+    public async Task<JsonResult> BulkDelete(List<int> ids)
+    {
+
+        try
+        {
+            if (ids == null || ids.Count == 0)
+            {
+                return Json(new { success = false, message = "No accounts selected" });
+            }
+            var details = await _context.CashPaymentDs
+           .Where(d => ids.Contains(d.PersonId))
+           .ToListAsync();
+
+            _context.CashPaymentDs.RemoveRange(details);
+
+            // Get all master records
+            var masters = await _context.CashPaymentMs
+                .Where(m => ids.Contains(m.Id))
+                .ToListAsync();
+
+            if (!masters.Any())
+            {
+                return Json(new { success = false, message = "No records found" });
+            }
+
+            _context.CashPaymentMs.RemoveRange(masters);
+
+            await _context.SaveChangesAsync();
+
+
+            return Json(new
+            {
+                success = true,
+                message = $"{ids.Count} account(s) deleted successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return Json(new
+            {
+                success = false,
+                message = "Error deleting accounts: " + ex.Message
+            });
+        }
+    }
+
+    #endregion
+    #region Print PDF
+
+    //[HttpGet("{id}")]
+    //public async Task<IActionResult> Pdf(int id)
+    //{
+    //    var master = _context.CashPaymentMviews.FirstOrDefault(x => x.Id == id);
+    //    if (master == null)
+    //        return NotFound();
+
+    //    var details = _context.CashPaymentDviews.Where(x => x.PersonId == id).ToList();
+
+    //    var model = new CashPaymentSPResult
+    //    {
+    //        Master = master,
+    //        Details = details
+    //    };
+
+    //    string html = await this.RenderViewAsync("~/Apps/Accounting/CashPayment/Print.cshtml", model, true);
+    //    byte[] pdfBytes = _pdfGenerator.GeneratePdf(html);
+
+    //    Response.Headers.Add("Content-Disposition", $"inline; filename=CashPayment_{id}.pdf");
+    //    return File(pdfBytes, "application/pdf");
+    //}
+
+    //[HttpGet("{id}")]
+    //public IActionResult PrintPdf(int id)
+    //{
+    //    var master = _context.CashPaymentMviews.FirstOrDefault(x => x.Id == id);
+    //    var details = _context.CashPaymentDviews.Where(x => x.PersonId == id).ToList();
+
+    //    var model = new CashPaymentSPResult { Master = master, Details = details };
+
+    //    var pdfBytes = new CashPaymentPdf(model).GeneratePdf();
+
+    //    Response.Headers.Add("Content-Disposition", "inline; filename=CashPayment.pdf");
+    //    return File(pdfBytes, "application/pdf");
+    //}
+
+    #endregion
+
     #region Get List
 
     [HttpGet]
@@ -225,12 +342,12 @@ public class CashPaymentController : Controller
                 query = query.Where(m =>
                     m.Voucher.Contains(searchValue) ||
                     m.TotalSeqNo.ToString().Contains(searchValue) ||
-                    m.Amount.ToString().Contains(searchValue) ||
-                    m.BookCode.ToString().Contains(searchValue) ||
-                    m.Date.ToString().Contains(searchValue));
+                    m.Voucher.ToString().Contains(searchValue) ||
+                    m.Book.ToString().Contains(searchValue) ||
+                    m.Book.ToString().Contains(searchValue));
             }
 
-         
+            //var totalDebit = await query.SumAsync(x => (decimal?)x.Debit) ?? 0;
             //var totalCredit = await query.SumAsync(x => (decimal?)x.Credit) ?? 0;
 
             query = sortColumnDirection == "asc"
@@ -248,10 +365,11 @@ public class CashPaymentController : Controller
                 recordsTotal,
                 recordsFiltered = recordsTotal,
                 data,
-                totals = new
-                {
-                    //totalCredit
-                }
+                //totals = new
+                //{
+                //    totalDebit,
+                //    totalCredit
+                //}
             });
         }
         catch (Exception ex)
@@ -259,6 +377,71 @@ public class CashPaymentController : Controller
             return StatusCode(500, new { error = ex.Message });
         }
     }
+
+
+
+
+    [HttpPost]
+    public async Task<IActionResult> getdata2()
+    {
+        try
+        {
+            var draw = Request.Form["draw"].FirstOrDefault();
+            var start = Convert.ToInt32(Request.Form["start"].FirstOrDefault());
+            var length = Convert.ToInt32(Request.Form["length"].FirstOrDefault());
+            var sortColumnIndex = Request.Form["order[0][column]"].FirstOrDefault();
+            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+            var searchValue = Request.Form["customSearch"].FirstOrDefault();
+
+            int pageSize = length == -1 ? -1 : length;
+            int skip = start;
+
+            var columnName = Request.Form[$"columns[{sortColumnIndex}][name]"].FirstOrDefault();
+            if (string.IsNullOrEmpty(columnName))
+                columnName = "Id";
+
+            var query = _context.CashPaymentMviews.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                query = query.Where(m =>
+                    m.Voucher.Contains(searchValue) ||
+                    m.TotalSeqNo.ToString().Contains(searchValue) ||
+                    m.Book.ToString().Contains(searchValue) ||
+                    m.Date.ToString().Contains(searchValue));
+            }
+
+            //var totalDebit = await query.SumAsync(x => (decimal?)x.Debit) ?? 0;
+            //var totalCredit = await query.SumAsync(x => (decimal?)x.Credit) ?? 0;
+
+            query = sortColumnDirection == "dsc"
+                ? query.OrderBy(e => EF.Property<object>(e, columnName))
+                : query.OrderByDescending(e => EF.Property<object>(e, columnName));
+
+            int recordsTotal = await query.CountAsync();
+            var data = pageSize == -1
+                ? await query.ToListAsync()
+                : await query.Skip(skip).Take(pageSize).ToListAsync();
+
+            return Ok(new
+            {
+                draw,
+                recordsTotal,
+                recordsFiltered = recordsTotal,
+                data,
+                //totals = new
+                //{
+                //    totalDebit,
+                //    totalCredit
+                //}
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
+
     #endregion
 
     #region Edit (GET/POST)
@@ -312,19 +495,9 @@ public class CashPaymentController : Controller
                     kvp => kvp.Key,
                     kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray());
 
-            // Write validation errors to console
-            Console.WriteLine("ModelState validation failed:");
-            foreach (var error in errorsDict)
-            {
-                Console.WriteLine($"Field: {error.Key}");
-                foreach (var message in error.Value)
-                {
-                    Console.WriteLine($"  Error: {message}");
-                }
-            }
-
             return Json(new { success = false, errors = errorsDict });
         }
+
         try
         {
             var master = await _context.CashPaymentMs.FindAsync(model.Master.Id);
@@ -334,6 +507,8 @@ public class CashPaymentController : Controller
             master.Vdate = model.Master.Vdate;
             master.CompanyId = model.Master.CompanyId;
             master.Remarks = model.Master.Remarks;
+
+            //master.UpdatedTime = DateTime.Now;
 
             var incomingIds = model.Details.Where(d => d.Id > 0).Select(d => d.Id).ToHashSet();
             var deletedDetails = await _context.CashPaymentDs
@@ -358,7 +533,8 @@ public class CashPaymentController : Controller
                     {
                         existing.ActCode = detail.ActCode;
                         existing.Remarks = detail.Remarks;
-                        existing.Amount = detail.Amount;
+                        //existing.Debit = detail.Debit;
+                        //existing.Credit = detail.Credit;
                     }
                 }
             }
@@ -368,7 +544,8 @@ public class CashPaymentController : Controller
             return Json(new
             {
                 success = true,
-                message = "Account Opening updated successfully!",
+                action = "edit",
+                message = "Cash Paymnet updated successfully!",
                 redirectUrl = Url.Action("List", "CashPayment")
             });
         }

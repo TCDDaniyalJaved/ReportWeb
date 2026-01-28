@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Accounting.Models;
 
-public partial class BankReceiptView
+public partial class BankReceiptMview
 {
     public int Id { get; set; }
 

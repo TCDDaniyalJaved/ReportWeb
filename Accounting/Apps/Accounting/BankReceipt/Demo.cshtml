@@ -1,0 +1,142 @@
+@* View: AccountOpening/Index.cshtml *@
+@model Accounting.Models.AccountOpeningM
+@{
+    Layout = "_HorizontalLayout";
+}
+
+@section VendorStyles {
+    @await Html.PartialAsync("_VendorStyles")
+}
+@section VendorScripts {
+    @await Html.PartialAsync("_VendorScripts")
+}
+@section PageScripts {
+    <script type="module" src="/Accounting/js/DummyAccountOpening.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+<style>
+    .tab-content:not(.doc-example-content) {
+        padding: 0 !important;
+    }
+</style>
+
+<div class="container">
+
+    <h1 class="text-center mb-5">Ebit PropertyTab - All Positions Test Page</h1>
+
+    <!-- 1. Top-Left (Default) -->
+    <div class="demo-box">
+        <h4>1. position="top-left" (Default)</h4>
+        <ebit-propertytab position="top-left">
+            <ebit-propertypage target="tab1-home" text="Home" active>
+                <h5>Home Tab Content</h5>
+                <p>Yeh home tab hai jo by default active hai.</p>
+            </ebit-propertypage>
+            <ebit-propertypage target="tab1-profile" text="Profile">
+                <h5>Profile Tab</h5>
+                <p>Profile ki details yahan hongi.</p>
+            </ebit-propertypage>
+            <ebit-propertypage target="tab1-contact" text="Contact">
+                <h5>Contact Tab</h5>
+                <p>Contact information yahan hai.</p>
+            </ebit-propertypage>
+        </ebit-propertytab>
+        <div class="note">Tabs top par left-aligned.</div>
+    </div>
+
+    <!-- 2. Top-Right -->
+    <div class="demo-box">
+        <h4>2. position="top-right"</h4>
+        <ebit-propertytab position="top-right">
+            <ebit-propertypage target="tab2-draft" text="Draft">
+                <h5>Draft Entries</h5>
+                <p>Draft vouchers ki list.</p>
+            </ebit-propertypage>
+            <ebit-propertypage target="tab2-posted" text="Posted" active>
+                <h5>Posted Entries</h5>
+                <p>Posted vouchers yahan dikhte hain.</p>
+            </ebit-propertypage>
+        </ebit-propertytab>
+        <div class="note">Tabs top par right-aligned.</div>
+    </div>
+
+    <!-- 3. Bottom-Left -->
+    <div class="demo-box">
+        <h4>3. position="bottom-left"</h4>
+        <ebit-propertytab position="bottom-left">
+            <ebit-propertypage target="tab3-a" text="Tab A" active>
+                <h5>Tab A Content</h5>
+                <p>Content for Tab A.</p>
+            </ebit-propertypage>
+            <ebit-propertypage target="tab3-b" text="Tab B">
+                <h5>Tab B Content</h5>
+                <p>Content for Tab B.</p>
+            </ebit-propertypage>
+        </ebit-propertytab>
+        <div class="note">Tabs neeche (bottom) left-aligned.</div>
+    </div>
+
+    <!-- 4. Bottom-Right -->
+    <div class="demo-box">
+        <h4>4. position="bottom-right"</h4>
+        <ebit-propertytab position="bottom-right">
+            <ebit-propertypage target="tab4-x" text="Settings">
+                <h5>Settings</h5>
+                <p>App settings yahan manage karo.</p>
+            </ebit-propertypage>
+            <ebit-propertypage target="tab4-y" text="Logs" active>
+                <h5>Logs</h5>
+                <p>System logs dekh sakte ho.</p>
+            </ebit-propertypage>
+        </ebit-propertytab>
+        <div class="note">Tabs neeche right-aligned.</div>
+    </div>
+
+    <!-- 5. Vertical Top-Left -->
+    <div class="demo-box">
+        <h4>5. position="vertical-top-left"</h4>
+        <ebit-propertytab position="vertical-top-left">
+            <ebit-propertypage target="tab5-dashboard" text="Dashboard" active>
+                <h5>Dashboard</h5>
+                <p>Main dashboard overview.</p>
+            </ebit-propertypage>
+            <ebit-propertypage target="tab5-reports" text="Reports">
+                <h5>Reports</h5>
+                <p>Various reports available.</p>
+            </ebit-propertypage>
+            <ebit-propertypage target="tab5-users" text="Users">
+                <h5>Users</h5>
+                <p>User management section.</p>
+            </ebit-propertypage>
+        </ebit-propertytab>
+        <div class="note">Vertical tabs left side mein, content right mein.</div>
+    </div>
+
+    <!-- 6. Vertical Top-Right -->
+    <div class="demo-box">
+        <h4>6. position="vertical-top-right"</h4>
+        <ebit-propertytab position="vertical-top-right">
+            <ebit-propertypage target="tab6-inbox" text="Inbox" active>
+                <h5>Inbox</h5>
+                <p>Messages aur notifications.</p>
+            </ebit-propertypage>
+            <ebit-propertypage target="tab6-sent" text="Sent">
+                <h5>Sent Items</h5>
+                <p>Bheje gaye messages.</p>
+            </ebit-propertypage>
+        </ebit-propertytab>
+        <div class="note">Vertical tabs right side mein, content left mein.</div>
+    </div>
+
+    <!-- Bonus: no-tab attribute test -->
+    <div class="demo-box">
+        <h4>Bonus: no-tab (Tabs hidden, only one page visible)</h4>
+        <ebit-propertytab no-tab>
+            <ebit-propertypage target="tab7-single" text="Hidden Tab">
+                <h5>Single View (no tabs visible)</h5>
+                <p>Jab sirf ek hi content dikhana ho bina tab navigation ke.</p>
+            </ebit-propertypage>
+        </ebit-propertytab>
+    </div>
+
+</div>

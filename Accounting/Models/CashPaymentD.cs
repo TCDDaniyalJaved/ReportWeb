@@ -25,14 +25,6 @@ public partial class CashPaymentD
 
     public int? UserId { get; set; }
 
-    public string Po { get; set; }
-
-    public int? BrecNo2 { get; set; }
-
-    public int? BrecNo1 { get; set; }
-
-    public string ManualNo { get; set; }
-
     public int? CostId { get; set; }
 
     public virtual Chart ActCodeNavigation { get; set; }

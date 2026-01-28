@@ -9,7 +9,7 @@ public partial class Gjouranlview
 {
     public int Id { get; set; }
 
-    public DateOnly? Mdate { get; set; }
+    public DateOnly? Date { get; set; }
 
     public string Remarks { get; set; }
 
@@ -32,8 +32,4 @@ public partial class Gjouranlview
     public int? TotalSeqNo { get; set; }
 
     public string InputType { get; set; }
-
-    public string Accounts { get; set; }
-
-    public DateOnly? Ddate { get; set; }
 }

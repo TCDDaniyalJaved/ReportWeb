@@ -280,7 +280,7 @@
          "ObjectType": 3
       },
       {
-         "Name": "[dbo].[BankReceiptView]",
+         "Name": "[dbo].[BankReceiptMView]",
          "ObjectType": 3
       },
       {

@@ -9,25 +9,31 @@ public partial class CashReceiptM
 {
     public int Id { get; set; }
 
-    public int? PartyId { get; set; }
+    public DateTime? Vdate { get; set; }
 
-    public DateTime Date { get; set; }
+    public string Remarks { get; set; }
 
-    public string Note { get; set; }
+    public int? BookCode { get; set; }
 
-    public decimal Subtotal { get; set; }
+    public string VoucherNo { get; set; }
 
-    public int RefNo { get; set; }
+    public int Mcode { get; set; }
 
-    public string InputType { get; set; }
+    public string Voucher { get; set; }
 
-    public int DivisionId { get; set; }
-
-    public string InvoiceNumber { get; set; }
-
-    public int? UserId { get; set; }
+    public int CompanyId { get; set; }
 
     public DateTime? CurrentDate { get; set; }
 
+    public string InputType { get; set; }
+
+    public int? UserId { get; set; }
+
+    public bool Posted { get; set; }
+
+    public virtual Chart BookCodeNavigation { get; set; }
+
     public virtual ICollection<CashReceiptD> CashReceiptDs { get; set; } = new List<CashReceiptD>();
+
+    public virtual Company Company { get; set; }
 }

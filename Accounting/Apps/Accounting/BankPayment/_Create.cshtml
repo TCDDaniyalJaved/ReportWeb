@@ -47,9 +47,7 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-<script>
-    $('#customPagination')[0].style.setProperty('display', 'none', 'important');
-</script>
+
 <!-- Page Header Buttons -->
 <ebit-section flex justify="between" align="center" mb="3" pt="3">
     <ebit-section>
@@ -105,9 +103,10 @@
                 </ebit-section>
                 <!-- Book Dropdown -->
                 <ebit-section class="row mb-3 align-items-center col-md-8">
-                    <ebit-label data="Master.book" class="col-sm-2 form-label" text="Book"></ebit-label>
+                    <ebit-label data="Master.BookCode" class="col-sm-2 form-label" text="Book"></ebit-label>
                     <ebit-section class="col-sm-10">
-                        <ebit-select data="Master.BookCode" data-url="UserWiseAccount"></ebit-select>
+                        <ebit-select data="Master.BookCode" data-url="UserWiseAccount">
+                        </ebit-select>
                     </ebit-section>
                 </ebit-section>
                 <!-- Navigation Tabs -->
@@ -123,6 +122,7 @@
                                     <ebit-headcolumn width="35%">Account</ebit-headcolumn>
                                     <ebit-headcolumn width="30%">Description</ebit-headcolumn>
                                     <ebit-headcolumn width="15%">Cheque</ebit-headcolumn>
+                                    <ebit-headcolumn width="15%">Cheque Date</ebit-headcolumn>
                                     <ebit-headcolumn width="15%" text-align:right;">Amount</ebit-headcolumn>
                                     <ebit-headcolumn width="5%"></ebit-headcolumn>
                                 </ebit-row>
@@ -139,6 +139,9 @@
                                         </ebit-bodycolumn>
                                         <ebit-bodycolumn>
                                             <ebit-text data="Details[@i].Cheque"></ebit-text>
+                                        </ebit-bodycolumn>
+                                        <ebit-bodycolumn>
+                                            <ebit-datetime data="Details[@i].ChkDate" datatype="Date" placeholder="MM-DD-YYYY"></ebit-datetime>
                                         </ebit-bodycolumn>
                                         <ebit-bodycolumn>
                                             <ebit-number class="amount-field" data-amount data="Details[@i].Amount"></ebit-number>
@@ -166,7 +169,9 @@
                                 <ebit-bodycolumn>
                                     <ebit-text data="Details[INDEX].Cheque"></ebit-text>
                                 </ebit-bodycolumn>
-
+                                <ebit-bodycolumn>
+                                    <ebit-datetime data="Details[INDEX].ChkDate" datatype="Date" placeholder="MM-DD-YYYY"></ebit-datetime>
+                                </ebit-bodycolumn>
                                 <ebit-bodycolumn>
                                     <ebit-number class="amount-field" data-amount data="Details[INDEX].Amount"></ebit-number>
                                 </ebit-bodycolumn>

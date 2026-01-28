@@ -1,6 +1,6 @@
 ﻿@model Accounting.ViewModel.CashPaymentViewModel
 @{
-    ViewData["Title"] = "Cash Payment";
+    ViewData["Title"] = "Cash Paymnet";
 }
 
 <style>
@@ -19,7 +19,27 @@
         .tab-pane.show {
             opacity: 1 !important;
         }
+
+   /*  .sticky-header-buttons {
+        position: sticky;
+        top: 105px;
+        z-index: 1050;
+        background-color: #F5F5F9;
+    } */
+    .sticky-header-buttons {
+        position: sticky;
+        top: 105px; 
+        z-index: 1000;
+        background: #F5F5F9;
+        padding: 10px 0px;
+        border-bottom: 1px solid #e5e7eb;
+    }
 </style>
+
+<script>
+    $('#customPagination')[0].style.setProperty('display', 'none', 'important');
+</script>
+
 <!-- Page-specific Scripts -->
 <script src="~/accounting/js/CashPayment_detail.js"></script>
 <script src="~/js/forms-editors.dist.js"></script>
@@ -31,7 +51,7 @@
 }
 
 <!-- Page Header Buttons -->
-<ebit-section flex justify="between" align="center" mb="3" pt="3">
+<ebit-section flex justify="between" align="center"  class="sticky-header-buttons">
     <ebit-section>
         <ebit-button id="confirmBtn" radius="sm" type="primary" size="sm">Confirm</ebit-button>
         <ebit-button id="gobacktolistbtn" type="secondary" radius="sm" size="sm">Cancel</ebit-button>
@@ -83,15 +103,15 @@
                         }
                     </ebit-section>
                 </ebit-section>
-                <ebit-section  class="row mb-3 align-items-center col-md-8">
+                <ebit-section class="row mb-3 align-items-center col-md-8">
                     <ebit-label data="Master.BookCode" class="col-sm-2 form-label" text="Book"></ebit-label>
                     <ebit-section class="col-sm-10">
                         <ebit-select data="Master.BookCode" data-url="UserWiseAccount">
-                            </ebit-select>
+                        </ebit-select>
                     </ebit-section>
                 </ebit-section>
                 <!-- Navigation Tabs -->
-                <ebit-propertytab >
+                <ebit-propertytab>
 
                     <!-- Details Tab -->
                     <ebit-propertypage target="lineitems" text="Details" active>

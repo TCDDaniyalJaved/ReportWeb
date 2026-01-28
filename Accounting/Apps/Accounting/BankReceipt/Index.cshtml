@@ -1,9 +1,5 @@
-@* View: CashReceipt/Index.cshtml *@
-@model Accounting.Models.BankReceiptM
-@{
-    /* Page Layout */
-    Layout = "_HorizontalLayout";
-}
+@* View: CashPayment/Index.cshtml *@
+@model Accounting.Models.CashPaymentM
 
 @section VendorStyles {
     @await Html.PartialAsync("_VendorStyles")
@@ -14,18 +10,9 @@
 }
 
 @section PageScripts {
-    <script src="~/js/tooltip.js"></script>
+    <script type="module" src="/Accounting/js/bankreceipt.js"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
-
-<script>
-    // Initialize first wizard step on page load
-    $(document).ready(function () {
-        $("#inner-step1").removeClass("d-none");
-        $("#inner-step1-tab").addClass("active");
-    });
-</script>
-
 <ebit-section p="0" m="0">
     <div id="wizardStepper" class="bs-stepper wizard-numbered" style="box-shadow:none;">
 
@@ -43,57 +30,12 @@
         <!-- Wizard Content -->
         <ebit-section class="bs-stepper-content p-0 m-0">
 
-            <!-- Page Header Section -->
-            <ebit-section class="d-flex justify-content-between align-items-center pb-3 flex-wrap create-header w-100 px-5 pt-3">
-                <ebit-section class="d-flex align-items-center justify-content-between flex-wrap w-100" id="pageHeader">
-
-                    <!-- Left Section: Create Button + Title -->
-                    <ebit-section class="d-flex align-items-center gap-3">
-                        <button type="button" class="btn btn-primary" id="btnCreate">New</button>
-                        <h5 class="mb-0 fw-semibold d-flex align-items-center gap-2">
-                      Bank Receipt
-                            <i class="bx bx-cog ms-1 text-muted" style="cursor:pointer; font-size:1.1rem;"></i>
-                        </h5>
-                    </ebit-section>
-
-                    <!-- Center Section: Universal Search Bar -->
-                    <ebit-section class="flex-grow-1 d-flex justify-content-center px-4">
-                        <ebit-section class="input-group" style="width: 100%; max-width: 560px;">
-                            <span class="input-group-text bg-white border-end-0">
-                                <i class="bx bx-search text-muted"></i>
-                            </span>
-                            <input type="search" id="universalSearch" class="form-control border-start-0"
-                                   placeholder="Search by voucher, date, amount..."
-                                   style="height: 44px; font-size: 0.95rem;">
-                        </ebit-section>
-                    </ebit-section>
-
-                    <!-- Right Section: Pagination & Length Menu -->
-                    <ebit-section class="d-flex align-items-center gap-3">
-
-                        <!-- Pagination Controls -->
-                        <ebit-section id="customPagination" class="d-none d-flex align-items-center gap-2">
-                            <ebit-button variant="ghost" class="btn btn-sm btn-outline-primary rounded" id="prevPage">
-                                <i class="bx bx-chevron-left"></i>
-                            </ebit-button>
-                            <span id="pageInfo" class="fw-medium text-primary px-2">1 / 2</span>
-                            <ebit-button variant="ghost" class="btn btn-sm btn-outline-primary rounded" id="nextPage">
-                                <i class="bx bx-chevron-right"></i>
-                            </ebit-button>
-                        </ebit-section>
-
-                        <!-- Records Per Page Selector -->
-                        <select id="sharedLength" class="form-select form-select-sm" style="width: auto;">
-                            <option value="7" selected>7 Records Per Page</option>
-                            <option value="10">10 Records Per Page</option>
-                            <option value="25">25 Records Per Page</option>
-                            <option value="50">50 Records Per Page</option>
-                            <option value="100">100 Records Per Page</option>
-                            <option value="-1">All Records</option>
-                        </select>
-                    </ebit-section>
-                </ebit-section>
-            </ebit-section>
+            @await Html.PartialAsync("_PageHeader", new Accounting.Models.PageHeaderVM
+            {
+                Title = "Bank Receipt",
+                        NewButtonText = "New",
+                        SearchPlaceholder = "Search by voucher, date, amount..."
+                        })
 
             <!-- Table Section -->
             <ebit-section id="account-details" class="content">
@@ -101,36 +43,30 @@
                     <ebit-section class="wizard-content p-0 m-0">
 
                         <ebit-section id="inner-step1" class="wizard-step p-0 m-0">
-                            <ebit-table id="masterTable" class="table bg-white mt-0 pt-0">
-                                <ebit-head class="border-top" style="background-color:#F9FAFB;">
+                            <ebit-table id="masterTable" class="table  mt-0 pt-0">
+
+                                <!-- Table Header -->
+                                <ebit-head class="border-top">
                                     <ebit-row>
                                         <ebit-headcolumn datafield="" render="edit" width="50px"></ebit-headcolumn>
-                                        <ebit-headcolumn datafield="date" header="date"
-                                                         width="15%">Date</ebit-headcolumn>
-                                        <ebit-headcolumn datafield="voucher" header="voucher"
-                                                         width="25%">Voucher</ebit-headcolumn>
-                                      
-                                        <ebit-headcolumn datafield="book" header="Account" width="15%">
-                                            Account
-                                        </ebit-headcolumn>
-
-                                        <ebit-headcolumn datafield="cheque" header="cheque" width="15%">
-                                            cheque
-                                        </ebit-headcolumn>
-                                        <ebit-headcolumn datafield="amount" header="amount" width="15%">
-                                           Amount
-                                        </ebit-headcolumn>
-                                      
+                                        <ebit-headcolumn datafield="date" header="Date" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="voucher" header="Voucher #" width="25%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="book" header="Book" width="10%"></ebit-headcolumn>
+                                        <ebit-headcolumn header="Cheque #" datafield="cheque" width="10%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="amount" isamount="true" header="Amount" width="15%">Total Credit</ebit-headcolumn>
                                         <ebit-headcolumn datafield="" render="deleteprint" width="100px"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>
+
+                                <!-- Table Footer -->
                                 <ebit-footer>
-                                    <ebit-row class="bg-white">
+                                    <ebit-row class="">
                                         <ebit-bodycolumn colspan="2">
                                             Total Records : <span id="totalRecords">0</span>
                                         </ebit-bodycolumn>
                                     </ebit-row>
                                 </ebit-footer>
+
                             </ebit-table>
                         </ebit-section>
 
@@ -139,47 +75,7 @@
             </ebit-section>
 
             <!-- Secondary Wizard Section -->
-            <ebit-section id="personal-info" class="content p-0 px-5"></ebit-section>
+            <ebit-section id="personal-info" class="content p-0 px-2"></ebit-section>
         </ebit-section>
     </div>
 </ebit-section>
-<script type="module">
-         // BankReceipt.js
-    import {
-        initializeDataTable,
-        goBackToList,
-        handleCreateButton,
-        handleDirectUrl,
-        handleRowActions,
-        initStepper
-    } from '/Accounting/js/dataTableUtils.js';
-
-    const BASE_PATH = '/Accounting/BankReceipt';
-    let table;
-
-    $(document).ready(() => {
-        initStepper();
-        handleDirectUrl(BASE_PATH);
-        handleCreateButton(BASE_PATH);
-
-        table = initializeDataTable(`${BASE_PATH}/GetData`, '#masterTable', {
-            callbacks: {
-                onDraw: () => {
-                    handleRowActions(BASE_PATH, {
-                        onDelete: () => {
-                            table.ajax.reload(null, false); //  refresh data without page reload
-                        }
-                    });
-
-                    $('#totalRecords').text(table?.page.info().recordsDisplay || 0);
-                }
-            }
-        });
-
-        $(document).on('click', '#gobacktolistbtn', () =>
-            goBackToList(table, BASE_PATH)
-        );
-    });
-
-
-</script>

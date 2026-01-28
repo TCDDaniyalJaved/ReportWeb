@@ -15,6 +15,8 @@ public partial class CashPaymentMview
 
     public int? BookCode { get; set; }
 
+    public string Account { get; set; }
+
     public string VoucherNo { get; set; }
 
     public int Mcode { get; set; }

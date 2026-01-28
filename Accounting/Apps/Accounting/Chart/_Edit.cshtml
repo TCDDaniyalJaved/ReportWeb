@@ -1,98 +1,170 @@
-@model Accounting.Models.Chart
+@model Accounting.Models.Chart;
+@section VendorStyles {
+    @await Html.PartialAsync("_VendorStyles")
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+@section VendorScripts {
+    @await Html.PartialAsync("_VendorScripts")
+}
+@section PageScripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
 
-<form method="post" action="/Accounting/Chart/Edit" id="EditChartForm">
-    @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="Id" /> 
-    <!-- HEADER BAR -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-            <button type="button" class="btn btn-primary" id="btnCreate">New</button>
-            <h5 class="mb-0 fw-700" style="font-size:20px; color:#646E78">Chart of Account</h5>
-            <button type="submit" class="btn btn-outline-primary btn-icon btn-sm icon-button-sm" title="Update">
-                <i class="bx bx-save"></i>
-            </button>
+<script>
+    $('#pageHeader').addClass('d-none');
+    $('#createtransation').css('background-color', '#FFFFFF');
+    $('#customPagination')[0]?.style.setProperty('display', 'none', 'important');
+    document.body.style.backgroundColor = '#f1f3f7';
+</script>
 
-            <button type="reset" class="btn btn-label-danger btn-icon btn-sm icon-button-sm" title="Cancel">
-                <i class="bx bx-x"></i>
-            </button>
+<!-- FULL WIDTH WRAPPER -->
+<ebit-section style=" width:100%;min-height:100vh;display:flex; justify-content:center; padding:2rem 1.5rem;">
 
-        </div>
+    <!-- CARD -->
+    <ebit-section style=" width:100%; background:#f9fafb;border-radius:16px;padding:2.5rem 3rem 3.5rem;box-shadow:0 16px 40px rgba(0,0,0,.08);   border:1px solid #e6eaf0;">
+        <ebit-form method="post" action="/Accounting/Chart/Create" id="invoiceForm">
+            @Html.AntiForgeryToken()
 
+            <!-- HEADER BAR -->
+            <ebit-section class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                <ebit-section class="d-flex align-items-center gap-2 flex-wrap">
+                    <button type="button" class="btn btn-primary" id="btnCreate">New</button>
+                    <h5 class="mb-0 fw-700" style="font-size:20px; color:#646E78">Chart of Account</h5>
+                    <button type="submit" class="btn btn-outline-primary btn-icon btn-sm icon-button-sm" title="Save">
+                        <i class="bx bx-save"></i>
+                    </button>
 
-    </div>
-    <hr />
+                    <button type="reset" id="gobacktolistbtn" class="btn btn-label-danger btn-icon btn-sm icon-button-sm" title="Cancel">
+                        <i class="bx bx-x"></i>
+                    </button>
 
-    <!-- Name  -->
-    <div class="row">
-        <div class="col-md-8 mb-3">
-            <label asp-for="Name" class="form-label">Name</label>
-            <input asp-for="Name" name="Name" class="form-control no-border-input" value="@Model.Name" placeholder="e.g. Current Assets" />
-
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-    </div>
-
-    <!-- Nature -->
-    <div class="mb-3">
-        <label asp-for="NatureId" class="form-label">Nature</label>
-        <select name="NatureId" name="NatureId" asp-for="NatureId" class="form-select select2" id="NatureId"
-                data-url="/Dropdawn/GetNature"
-                data-placeholder="Select Nature..."
-                data-selected-id="@Model.NatureId">
-        </select>
-        <span asp-validation-for="NatureId" class="text-danger"></span>
-    </div>
-
+                </ebit-section>
 
 
-    <!-- Description -->
-    @* <div class="mb-3">
-		<label asp-for="Descript" class="form-label"></label>
-		<input placeholder="e.g. Brief description of this account" asp-for="Descript" autocomplete="off" class="form-control no-border-input" />
-		<span asp-validation-for="Descript" class="text-danger"></span>
-	</div> *@
+            </ebit-section>
 
-    <div class="mb-3">
-        <label asp-for="Descript" class="form-label">Description</label>
-        <input name="Descript" name="Descript" asp-for="Descript" placeholder="e.g. Brief description of this account" value="@Model.Descript" autocomplete="off" class="form-control no-border-input" />
-        <span asp-validation-for="Descript" class="text-danger"></span>
-    </div>
+            <hr class="my-4" />
 
-    <!-- Group and Type -->
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label asp-for="GroupId" class="form-label">Sub Of </label>
-            <select name="GroupId" name="GroupId" asp-for="GroupId" class="form-select select2" id="GroupId"
-                    data-url="/Dropdawn/GetGroups"
-                    data-placeholder="Select Group..."
-                    data-selected-id="@Model.GroupId">
-                <option value=""></option>
-            </select>
-            <span asp-validation-for="GroupId" class="text-danger"></span>
-        </div>
-        <div class="col-md-6 mb-4">
-            <label asp-for="TypeId" class="form-label">Type</label>
-            <select name="TypeId" asp-for="TypeId" class="form-select select2" id="TypeId"
-                    data-url="/Dropdawn/GetTypes"
-                    data-placeholder="Select Type..."
-                    data-selected-id="@Model.TypeId">
-            </select>
-            <span asp-validation-for="TypeId" class="text-danger"></span>
-        </div>
-    </div>
+            <!-- NAME -->
+            <ebit-section class="row">
+                <ebit-section class="col-md-8 mb-3">
+                    <ebit-label data="Name" text="Name">Name</ebit-label>
+                    <ebit-text data="Name" style="font-size:2rem;" placeholder="e.g. Current Assets" autocomplete="off" value="@Model.Name"></ebit-text>
+                </ebit-section>
+            </ebit-section>
 
-    <!-- IsActive -->
-    <div class="mb-3">
-        <label class="switch switch-square">
-            <input name="IsActive" type="checkbox" class="switch-input" id="IsActive" />
-            <span class="switch-toggle-slider"><span class="switch-on"></span><span class="switch-off"></span></span>
-            <span class="switch-label">
-                Mark a saving without any activity.
-            </span>
-        </label>
-    </div>
-</form>
+            @* Account Nature Section - MUST BE SELECTED *@
+            <ebit-section class="row mb-3">
+                <ebit-section class="col-md-12">
+                    <ebit-label data="NatureId" text="Nature"></ebit-label>
+                    <ebit-select data="NatureId" data-url="GetNature" selected="@Model.NatureId">
 
-<script src="~/js/dropdawn.js"></script>
-<script src="~/js/error-message.js"></script>
-<script src="~/js/forms-editors.dist.js"></script>
+                    </ebit-select>
+                </ebit-section>
+            </ebit-section>
+
+            @* Remaining Fields *@
+            <ebit-section class="row mb-3">
+                <ebit-section class="col-md-12">
+                    <ebit-label data="Descript" text="Description" class="fw-bold mb-1"></ebit-label>
+                    <ebit-text data="Descript" placeholder="Enter description here" value="@Model.Descript"></ebit-text>
+                </ebit-section>
+            </ebit-section>
+
+            <ebit-section class="row mb-4">
+                <ebit-section class="col-md-6">
+                    <ebit-label data="GroupId" text="Sub Of"></ebit-label>
+                    <ebit-select data="GroupId" data-url="GetGroups" selected="@Model.GroupId">
+                    </ebit-select>
+                </ebit-section>
+
+                <ebit-section class="col-md-6">
+                    <ebit-label data="TypeId" text="Type"></ebit-label>
+                    <ebit-select data="TypeId" data-url="GetTypes" selected="@Model.TypeId">
+                    </ebit-select>
+                </ebit-section>
+            </ebit-section>
+
+            <ebit-section class="mt-4">
+                <label class="switch switch-square">
+                    <input name="IsActive" type="checkbox" class="switch-input" id="IsActive" />
+                    <span class="switch-toggle-slider">
+                        <span class="switch-on"></span>
+                        <span class="switch-off"></span>
+                    </span>
+                    <span class="switch-label">
+                        Mark a saving without any activity.
+                    </span>
+                </label>
+            </ebit-section>
+
+        </ebit-form>
+
+    </ebit-section>
+</ebit-section>
+
+<!-- EXISTING JS UNTOUCHED -->
+<script>
+    function initializeChartDetail() {
+        const $form = $('#invoiceForm');
+
+        setTimeout(() => {
+            $('#confirmBtn').off('click').on('click', () => $form.submit());
+
+            $form.off('submit').on('submit', function (e) {
+                e.preventDefault();
+                clearFieldErrors();
+
+                $.ajax({
+                    url: this.action,
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: response => {
+                        if (!response.success) {
+                            showValidationErrors(response.errors || {});
+                            showToast('warning', 'Please fix all validation errors.');
+                            return;
+                        }
+                        showToast('success', 'Chart Update Successfully!');
+                    },
+                    error: () => showToast('error', 'Something went wrong.')
+                });
+            });
+        }, 100);
+    }
+
+    function showToast(icon, text, timer = 3000) {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon,
+            text,
+            showConfirmButton: false,
+            timer,
+            timerProgressBar: true
+        });
+    }
+
+    function clearFieldErrors() {
+        $('.text-danger').empty();
+        $('.input-validation-error').removeClass('input-validation-error');
+    }
+
+    function showFieldError($input, msg) {
+        if (!$input.length) return;
+        $input.addClass('input-validation-error');
+        let $error = $('<span class="text-danger"></span>');
+        $input.after($error.text(msg));
+    }
+
+    function showValidationErrors(errors) {
+        $.each(errors, (field, msgs) => {
+            const $field = $(`[name="${field}"]`);
+            if ($field.length) showFieldError($field, msgs[0]);
+        });
+    }
+
+    $(document).ready(() => $('#invoiceForm').length && initializeChartDetail());
+</script>
