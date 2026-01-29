@@ -87,9 +87,17 @@ public class DashboardsController : Controller
     public IActionResult UnderConstruction()
     {
         // Optional: set 500 status code
-        Response.StatusCode = 500;
+        Response.StatusCode = 503;
         return View(ViewPath("UnderConstruction"));
     }
+
+    public IActionResult CommingSoon()
+    {
+        // Optional: set 500 status code
+        //Response.StatusCode = 500;
+        return View(ViewPath("CommingSoon"));
+    }
+
     public IActionResult NotFound()
     {
         Response.StatusCode = 404; // Browser  404 

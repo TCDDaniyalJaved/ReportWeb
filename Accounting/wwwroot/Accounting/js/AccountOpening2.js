@@ -5,8 +5,9 @@
     handleDirectUrl,
     handleRowActions,
     initStepper,
-    initCheckboxSelection
-} from './dataTableUtils.js';
+    initCheckboxSelection,
+    groupBySelectionOrder
+} from './dataTableUtils2.js';
 
 const BASE_PATH = '/Accounting/Accountopening';
 let table;
@@ -16,7 +17,7 @@ $(document).ready(() => {
     handleDirectUrl(BASE_PATH);
     handleCreateButton(BASE_PATH);
 
-    table = initializeDataTable(`${BASE_PATH}/GetData`, '#masterTable', {
+    table = initializeDataTable(`${BASE_PATH}/GetData3`, '#masterTable', {
         callbacks: {
             onDraw: () => {
                 handleRowActions(BASE_PATH, {

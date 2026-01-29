@@ -164,7 +164,8 @@ public class ReportController : Controller
                 : request.CustomSearch);
 
             string orderBy = request.GroupByFields.Any() ? string.Join(",", request.GroupByFields) : null;
-
+            //var order = "";
+            //cmd.Parameters.AddWithValue("@OrderBy", order);
             cmd.Parameters.AddWithValue("@OrderBy", orderBy == null ? (object)DBNull.Value : orderBy);
             //var comapnyname = "best mobile";
             //cmd.Parameters.AddWithValue("@Companyname", comapnyname);

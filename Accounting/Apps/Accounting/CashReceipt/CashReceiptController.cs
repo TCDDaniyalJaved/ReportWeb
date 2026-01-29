@@ -86,7 +86,30 @@ public class CashReceiptController : Controller
     //}
 
     #endregion
+    #region Print PDF
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Pdf(int id)
+    {
+        Response.StatusCode = 503;
+        return View("UnderConstruction");
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult PrintPdf(int id)
+    {
+        var master = _context.AccountOpeningMviews.FirstOrDefault(x => x.Id == id);
+        var details = _context.AccountOpeningDviews.Where(x => x.PersonId == id).ToList();
+
+        var model = new AccountOpeningSPResult { Master = master, Details = details };
+
+        var pdfBytes = new AccountOpeningPdf(model).GeneratePdf();
+
+        Response.Headers.Add("Content-Disposition", "inline; filename=AccountOpening.pdf");
+        return File(pdfBytes, "application/pdf");
+    }
+
+    #endregion
     #region Create (GET/POST)
 
     [Authorize]

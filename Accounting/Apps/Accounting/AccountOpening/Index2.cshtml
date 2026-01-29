@@ -1,9 +1,5 @@
 ﻿@* View: AccountOpening/Index.cshtml *@
 @model Accounting.Models.AccountOpeningM
-@{
-    /* Page Layout */
-    Layout = "_HorizontalLayout";
-}
 
 @section VendorStyles {
     @await Html.PartialAsync("_VendorStyles")
@@ -12,13 +8,49 @@
 @section VendorScripts {
     @await Html.PartialAsync("_VendorScripts")
 }
-<script>
+<link href="~/accounting/css/advancedropdown.css" rel="stylesheet" />
 
+<script>
 window.addEventListener('resize', function() {
     if ($.fn.DataTable.isDataTable('#masterTable')) {
         $('#masterTable').DataTable().columns.adjust().draw(false);
     }
 });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleIcon = document.getElementById("searchFilterToggle");
+            const dropdown = document.getElementById("advancedDropdown");
+            if (!toggleIcon || !dropdown) return;
+
+            toggleIcon.addEventListener("click", function (e) {
+                e.stopPropagation();
+                dropdown.classList.toggle("d-none");
+            });
+
+            document.addEventListener("click", function (e) {
+                if (!e.target.closest(".input-group")) {
+                    dropdown.classList.add("d-none");
+                }
+            });
+
+            // Handle Group By clicks (placeholder - implement in OpeningMasterDummy.js)
+            document.querySelectorAll("[data-group]").forEach(item => {
+                item.addEventListener("click", function () {
+                    const groupBy = this.dataset.group;
+                    console.log("Group selected:", groupBy);
+                    // → call function to apply grouping / reload table
+                });
+            });
+
+            // Handle Filter clicks (placeholder)
+            document.querySelectorAll("[data-filter]").forEach(item => {
+                item.addEventListener("click", function () {
+                    const filter = this.dataset.filter;
+                    console.log("Filter selected:", filter);
+                    // → show filter modal / apply filter badge
+                });
+            });
+        });
 </script>
 
 @section PageScripts {
@@ -42,12 +74,102 @@ window.addEventListener('resize', function() {
         <!-- Wizard Content -->
         <ebit-section class="bs-stepper-content p-0 m-0">
 
-            @await Html.PartialAsync("_PageHeader", new Accounting.Models.PageHeaderVM
+          @*   @await Html.PartialAsync("_PageHeader", new Accounting.Models.PageHeaderVM
             {
                 Title = "Account Opening Balance",
                         NewButtonText = "New",
                         SearchPlaceholder = "Search by voucher, date, amount..."
-                        })
+                        }) *@
+            <ebit-section class="d-flex justify-content-between align-items-center pb-3 flex-wrap create-header w-100 px-0 ps-2 pt-3  sticky-left-header">
+                <ebit-section class="d-flex align-items-center justify-content-between flex-wrap w-100">
+
+                    <!-- Left -->
+                    <ebit-section class="d-flex align-items-center gap-3">
+                        <button type="button" class="btn btn-primary" id="btnCreate">
+                            New
+                        </button>
+
+                        <h5 class="mb-0 fw-semibold d-flex align-items-center gap-2">
+                            Account Opening Balance
+                            @* <i class="bx bx-cog ms-1 text-muted" style="cursor:pointer;"></i> *@
+                        </h5>
+                    </ebit-section>
+
+                    <!-- Search -->
+                    <ebit-section class="d-flex justify-content-center flex-grow-1">
+                        <div class="input-group" style="width: 100%; max-width: 560px; position: relative;">
+                            <span class="input-group-text border-end-0">
+                                <i class="bx bx-search text-muted"></i>
+                            </span>
+                            <div class="d-flex flex-wrap align-items-center form-control border-start-0 border-end-0 p-0"
+                                 id="searchContainer"
+                                 style="min-height: 44px; padding: 6px 8px; gap: 6px; overflow: visible;">
+                                <!-- Dynamic filter/voucher badges go here -->
+                                <input type="search" id="universalSearch" class="border-0 flex-grow-1"
+                                       placeholder="Search by voucher, date, amount..."
+                                       style="height: 32px; min-width: 120px; outline: none; background: transparent;">
+                            </div>
+                            <span class="input-group-text border-start-0" id="searchFilterToggle" style="cursor:pointer;">
+                                <i class="bx bx-filter-alt text-muted"></i>
+                            </span>
+
+                            <div id="advancedDropdown" class="advanced-dropdown d-none" style="right:0; background-color:var(--bs-body-bg)">
+                                <div class="col">
+                                    <h6><i class="bx bx-filter"></i> Filters</h6>
+                                    <ul>
+                                        <li data-filter="Companies" class="filter-item">Companies</li>
+                                        <li data-filter="LedgerName" class="filter-item">LedgerName</li>
+                                        <li data-filter="CustomerInvoice" class="filter-item">Customer Invoices</li>
+                                        <li data-filter="VendorBill" class="filter-item">Vendor Bills</li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <h6><i class="bx bx-grid-alt"></i> Group By</h6>
+                                    <ul id="groupByList">
+                                        <li data-group="voucher" class="group-item">Voucher</li>
+                                        <li data-group="companyname" class="group-item">Company</li>
+                                        <li data-group="vmonthName" class="group-item">Month Name</li>
+                                        <li data-group="LedgerName" class="group-item">Ledger</li>
+                                        <li data-group="Date" class="group-item">Date</li>
+                                    </ul>
+                                </div>
+                                <div class="col" id="favorites">
+                                    <h6><i class="bx bx-star"></i> Favorites</h6>
+                                    <ul>
+                                        <li id="saveFavorite">Save current search</li>
+                                    </ul>
+                                    <ul id="favoritesList"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </ebit-section>
+
+                    <!-- Pagination -->
+                    <ebit-section class="d-flex align-items-center gap-3 ">
+
+                        <ebit-section id="customPagination" class="d-none d-flex align-items-center gap-2">
+                            <button variant="ghost" class="btn btn-sm btn-outline-primary rounded" id="prevPage">
+                                <i class="bx bx-chevron-left"></i>
+                            </button>
+                            <span id="pageInfo" class="fw-medium text-primary px-2">1 / 2</span>
+                            <button variant="ghost" class="btn btn-sm btn-outline-primary rounded" id="nextPage">
+                                <i class="bx bx-chevron-right"></i>
+                            </button>
+                        </ebit-section>
+
+                        <select id="sharedLength" class="form-select form-select-sm" style="width: auto;">
+                            <option value="7" selected>7 Records Per Page</option>
+                            <option value="10">10 Records Per Page</option>
+                            <option value="25">25 Records Per Page</option>
+                            <option value="50">50 Records Per Page</option>
+                            <option value="100">100 Records Per Page</option>
+                            <option value="-1">All Records</option>
+                        </select>
+
+                    </ebit-section>
+                </ebit-section>
+            </ebit-section>
+
 
             <!-- Table Section -->
             <ebit-section id="account-details" class="content">
@@ -65,8 +187,8 @@ window.addEventListener('resize', function() {
                                         <ebit-headcolumn datafield="date" header="Date" width="15%">Date</ebit-headcolumn>
                                         <ebit-headcolumn datafield="voucher" header="Voucher" width="25%">Voucher</ebit-headcolumn>
                                         <ebit-headcolumn datafield="totalSeqNo" header="#" width="10%">#</ebit-headcolumn>
-                                        <ebit-headcolumn datafield="debit" isamount="true" header="Total Debit" width="15%">Total Debit</ebit-headcolumn>
-                                        <ebit-headcolumn datafield="credit" isamount="true" header="Total Credit" width="15%">Total Credit</ebit-headcolumn>
+                                        <ebit-headcolumn datafield="debit" isamount="true" group-total="true" header="Total Debit" width="15%">Total Debit</ebit-headcolumn>
+                                        <ebit-headcolumn datafield="credit" isamount="true" group-total="true" header="Total Credit" width="15%">Total Credit</ebit-headcolumn>
                                         <ebit-headcolumn  render="deleteprint" width="8%"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>

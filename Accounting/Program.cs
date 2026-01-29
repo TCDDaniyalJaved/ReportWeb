@@ -128,6 +128,7 @@ if (!app.Environment.IsDevelopment())
     // Optional: HTTP Strict Transport Security
     app.UseHsts();
 }
+
 else
 {
     // Development: show detailed error
@@ -136,7 +137,7 @@ else
 
 // Custom 404 handling (fallback)
 app.UseStatusCodePagesWithReExecute("/Dashboards/NotFound");
-//Console.WriteLine("Current Environment: " + builder.Environment.EnvironmentName);
+Console.WriteLine("Current Environment: " + builder.Environment.EnvironmentName);
 
 app.Run();
 

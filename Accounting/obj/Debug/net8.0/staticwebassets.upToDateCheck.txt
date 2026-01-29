@@ -1,6 +1,6 @@
+wwwroot\Accounting\css\advancedropdown.css
 wwwroot\Accounting\css\style.css
 wwwroot\Accounting\js\AccountOpening.js
-wwwroot\Accounting\js\AccountOpening2.js
 wwwroot\Accounting\js\AccountOpening_detail.js
 wwwroot\Accounting\js\BankPayment.js
 wwwroot\Accounting\js\BankPayment_detail.js
@@ -26,6 +26,7 @@ wwwroot\Accounting\js\components\ebit-table-component.js
 wwwroot\Accounting\js\components\ebit-text.js
 wwwroot\Accounting\js\dashboards-analytics-graph.js
 wwwroot\Accounting\js\dataTableUtils.js
+wwwroot\Accounting\js\dataTableUtils2.js
 wwwroot\Accounting\js\dropdawn.js
 wwwroot\Accounting\js\dummy.js
 wwwroot\Accounting\js\DummyAccountOpening.js
@@ -2129,5 +2130,6 @@ wwwroot\vendor\scss\_theme\_common.scss
 wwwroot\vendor\scss\_theme\_libs.scss
 wwwroot\vendor\scss\_theme\_pages.scss
 wwwroot\vendor\scss\_theme\_theme.scss
+wwwroot\Accounting\js\AccountOpening2.js
 wwwroot\dist\vendors.min.css
 wwwroot\dist\vendors.min.js
