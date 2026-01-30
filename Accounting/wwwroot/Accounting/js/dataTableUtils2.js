@@ -1,17 +1,19 @@
-﻿//29 / 1 / 2026 12: 30PM dataTableUtils2.js
-// dataTableUtils2.js
-let activeTables = new Map();
-let currentOffset = 0;                      // manual offset for "Load More" style pagination
-const PAGE_SIZE = 10;                       // records per "page" / load batch
-let allLoadedData = [];                     // accumulates all loaded rows for client-side grouping
-let isAppendMode = false;                   // flag to know if we're appending vs replacing data
-export let groupBySelectionOrder = [];      // maintains order of selected group-by fields
+﻿// DataTable Utilities 4:43PM 1-30-2026
+
+// Global State Management
+
+let activeTables = new Map();               // Stores active DataTable instances
+export let groupBySelectionOrder = [];      // Maintains ordered list of group-by fields
+let allLoadedData = [];                     // Stores current page data for client-side operations
+
+// Constants and SVG Icons
 
 const FILTER_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"><path d="M3,4H21V6H3V4M6,10H18V12H6V10M10,16H14V18H10V16Z"></path></svg>`;
 const GROUP_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"><path d="M3,13H9V19H3V13M3,5H9V11H3V5M11,5H21V11H11V5M11,13H21V19H11V13Z"></path></svg>`;
 
+// Column Configuration Generator
 
-// Generate columns from table headers - REUSABLE FUNCTION
+
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     const columns = [];
 
@@ -24,33 +26,35 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
         const active = th.attr('active') !== 'false';
         const isGroupTotal = th.attr('group-total') === 'true';
         const renderType = th.attr('render');
+        const isAmount = th.attr('isamount') === 'true';
+        const currency = th.attr('currency') || '';
 
-        //const colDef = {
-        //    title: header
-        //    //, groupTotal: isGroupTotal
-        //};
+        // Initialize column definition with base properties
         const colDef = {
             title: header,
             width: width || undefined,
             groupTotal: isGroupTotal,
         };
 
+        // Set column visibility
         if (!active) colDef.visible = false;
-        if (width) colDef.width = width;
 
-        // Alignment classes
+        // Configure text alignment
         if (align) {
             const alignment = align === 'right' ? 'end' :
                 align === 'center' ? 'center' : 'start';
             colDef.className = `text-${alignment}`;
         }
 
+        // Configure data binding
         if (datafield) {
             colDef.data = datafield;
         } else {
             colDef.data = null;
             colDef.orderable = false;
         }
+
+        // Custom Renderers - Action Buttons
 
         if (renderType === 'edit') {
             colDef.render = (data, type, row) =>
@@ -61,8 +65,6 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
                     <i class="bx bx-edit"></i>
                 </button>`;
         }
-
-        // Action buttons column
         else if (renderType === 'deleteprint') {
             colDef.render = (data, type, row) => `
                 <button class="btn btn-icon btn-sm delete-btn me-1" title="Delete" 
@@ -92,14 +94,13 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
                     <i class="bx bx-trash"></i>
                 </button>`;
         }
-
         else if (renderType === 'empty') {
-            colDef.render = (data, type, row) => ``;
+            colDef.render = () => ``;
         }
-        // Checkbox column
+        // Checkbox selection column
         else if (renderType === 'checkbox') {
             colDef.title = '<div class="text-center"><input type="checkbox" id="select-all" class="form-check-input"></div>';
-            colDef.render = function (data, type, row, meta) {
+            colDef.render = function (data, type, row) {
                 if (type === 'display') {
                     return '<div class="text-center"><input type="checkbox" class="row-selector form-check-input" data-id="' + (row.id || '') + '"></div>';
                 }
@@ -108,8 +109,7 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
             colDef.orderable = false;
             colDef.searchable = false;
         }
-
-        // Status column with badges
+        // Status badge renderer
         else if (renderType === 'status') {
             colDef.render = (data, type, row) => {
                 const status = row.status || data;
@@ -120,9 +120,9 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
             };
         }
 
-        const isAmount = th.attr('isamount') === 'true';
+        // Numeric Amount Formatting
+
         if (isAmount) {
-            const currency = th.attr('currency') || '';
             colDef.render = (data) =>
                 data != null
                     ? `${currency}${Number(data).toLocaleString('en-IN', {
@@ -133,7 +133,8 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
             colDef.className = (colDef.className || '') + ' text-end';
         }
 
-        // Date formatting
+        // Date Formatting
+
         if (datafield && (datafield.includes('date') || datafield.includes('Date'))) {
             colDef.render = (data) => {
                 if (!data) return '';
@@ -148,262 +149,142 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     return columns;
 }
 
+// Helper Functions
 
-// Grouping Helpers
 function getGroupByFieldsInOrder() {
     return groupBySelectionOrder;
 }
 
+async function fetchDefaultPageLength(endpoint) {
+    try {
+        const response = await $.ajax({
+            url: endpoint,
+            type: 'GET',
+            dataType: 'json',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
 
-// Main DataTable initialization function
-////export function initializeDataTable(
-////    endpoint,
-////    tableSelector = '#masterTable',
-////    options = {}
-////) {
-////    const {
-////        columns = generateColumnsFromHeaders(tableSelector),
-////        pageLength = 7,
-////        callbacks = {}
-////    } = options;
+        if (response && response.value) {
+            return response.value;
+        }
 
-////    const $table = $(tableSelector);
-////    if (!$table.length) return null;
+        console.warn('No value in response, using default: 20');
+        return 20;
 
-////    // Reinitialize if exists
-////    if ($.fn.DataTable.isDataTable(tableSelector)) {
-////        $table.DataTable().destroy();
-////        $table.empty();
-////    }
-////    const table = $table.DataTable({
-////        autoWidth: false,
-////        scrollX: true,
-////        serverSide: true,
-////        paging: false,
-////        dom: 't',
-////        pageLength,
-////        searching: false,
-////        ordering: true,
-////        info: false,
-////        ajax: {
-////            url: endpoint,
-////            type: 'POST',
-////            data: d => {
-////                d.customSearch = $('#universalSearch').val() || '';
-////                d.groupByFields = groupBySelectionOrder;
-////                d.start = currentOffset;
-////                d.length = PAGE_SIZE;
+    } catch (error) {
+        console.error('Error fetching default page length from:', endpoint);
+        console.error('Error details:', {
+            status: error.status,
+            statusText: error.statusText,
+            responseText: error.responseText,
+            error: error
+        });
 
-////                $('.badge-tag[data-type="Filter"]').each(function () {
-////                    const key = $(this).data('key');//||'companyid';
-////                    const val = $(this).data('value');
+        console.warn('Falling back to default page length: 20');
+        return 20; // Fallback default
+    }
+}
 
 
-////                    console.log('backend key: ' + key);
-////                    if (key && val) {
-////                        d[key] = d[key] ? [].concat(d[key], val) : [val];
-////                    }
-////                });
+// Main DataTable Initialization
 
-////                console.log('ajax request payload:', d);
-////                return d;
-////            },
-////            dataSrc: json => {
-////                if (isAppendMode) {
-////                    allLoadedData = [...allLoadedData, ...json.data];
-////                    updateLoadMoreButton(json.data.length);
-////                    return allLoadedData;
-////                } else {
-////                    allLoadedData = json.data;
-////                    updateLoadMoreButton(json.data.length);
-////                    return allLoadedData;
-////                }
-////            }
-////        },
-////        columns,
-////        drawCallback: function () {
-////            $('#masterTable tbody tr.group-row').remove();
-////            $('#masterTable tbody tr').show();
 
-////            const groupFields = getGroupByFieldsInOrder();
-////            if (!groupFields.length) {
-////                updateCustomPagination(table);
-////                callbacks.onDraw?.();
-////                isAppendMode = false;
-////                return;
-////            }
-
-////            const rowData = allLoadedData;
-////            const lastValues = [];
-////            const bodyRows = $('#masterTable tbody tr:not(.group-row)').toArray();
-
-////            bodyRows.forEach((node, idx) => {
-////                const data = rowData[idx];
-////                if (!data) return;
-
-////                groupFields.forEach((field, lvl) => {
-////                    const val = data[field] ?? '(Blank)';
-////                    if (lastValues[lvl] !== val) {
-////                        const groupVals = [...lastValues.slice(0, lvl), val];
-////                        const cnt = countRecordsInGroup(rowData, idx, groupFields, lvl, groupVals);
-////                        const totals = calculateGroupTotals(rowData, idx, groupFields, lvl, groupVals, columns);
-////                        $(node).before(createGroupHeaderRow(field, val, cnt, lvl, columns, totals));
-////                        lastValues[lvl] = val;
-////                        for (let j = lvl + 1; j < groupFields.length; j++) lastValues[j] = undefined;
-////                    }
-////                });
-////            });
-
-////            updateCustomPagination(table);
-////            callbacks.onDraw?.();
-////            isAppendMode = false;
-////        }
-////    });
-////    //const table = $table.DataTable({
-////    //    autoWidth: false,
-////    //    scrollX: true,
-////    //    autoWidth: false,
-////    //    serverSide: true,
-////    //    paging: true,
-////    //    dom: 't',
-////    //    pageLength,
-////    //    searching: false,
-////    //    ordering: true,
-////    //    info: false,
-
-////    //    ajax: {
-////    //        url: endpoint,
-////    //        type: 'POST',
-////    //        data: function (d) {
-////    //            const len = parseInt($('#sharedLength').val()) || pageLength;
-////    //            const currentPage = parseInt($('#pageInfo').data('page')) || 1;
-
-////    //            d.start = (currentPage - 1) * len;
-////    //            d.length = len;
-////    //            d.customSearch = $('#universalSearch').val() || '';
-
-////    //            const token = $('input[name="__RequestVerificationToken"]').val();
-////    //            if (token) d.__RequestVerificationToken = token;
-////    //        }
-////    //    },
-
-////    //    columns,
-
-////    //    drawCallback: function () {
-////    //        updateCustomPagination(table);
-////    //        callbacks.onDraw?.();
-////    //    }
-////    //});
-
-////    // Search
-////    $('#universalSearch').off('keyup').on('keyup', function () {
-////        $('#pageInfo').data('page', 1);
-////        table.ajax.reload();
-////    });
-
-////    // Page length
-////    $('#sharedLength').off('change').on('change', function () {
-////        $('#pageInfo').data('page', 1);
-////        table.ajax.reload();
-////    });
-
-////    // Pagination buttons
-////    $('#prevPage').off('click').on('click', function () {
-////        let page = $('#pageInfo').data('page') || 1;
-////        if (page > 1) {
-////            $('#pageInfo').data('page', page - 1);
-////            table.ajax.reload();
-////        }
-////    });
-
-////    $('#nextPage').off('click').on('click', function () {
-////        let page = $('#pageInfo').data('page') || 1;
-////        let total = $('#pageInfo').data('total') || 1;
-////        if (page < total) {
-////            $('#pageInfo').data('page', page + 1);
-////            table.ajax.reload();
-////        }
-////    });
-
-////    $('#pageInfo').data('page', 1);
-////    return table;
-////}
-
-export function initializeDataTable(endpoint, tableSelector = '#masterTable', options = {}) {
+export async function initializeDataTable(endpoint, tableSelector = '#masterTable', options = {}) {
     const {
         columns = generateColumnsFromHeaders(tableSelector),
         pageLength = 7,
+        pageLengthEndpoint = null,
         callbacks = {}
     } = options;
+
     const $table = $(tableSelector);
     if (!$table.length) return null;
 
-    // Clean up previous instance
+    // Destroy existing DataTable instance if present
     if ($.fn.DataTable.isDataTable(tableSelector)) {
         $table.DataTable().destroy();
         $table.empty();
     }
 
-    // Reset state
-    currentOffset = 0;
+    // Reset state variables
     allLoadedData = [];
-    isAppendMode = false;
 
+    // Fetch database-configured page length if endpoint provided
+    let defaultPageLength = pageLength;
+    if (pageLengthEndpoint) {
+        defaultPageLength = await fetchDefaultPageLength(pageLengthEndpoint);
+    }
+
+    // Set the page length in the UI dropdown
+    $('#sharedLength').val(defaultPageLength);
+
+    // Initialize DataTable with server-side processing
     const table = $table.DataTable({
         autoWidth: false,
         scrollX: true,
         serverSide: true,
-        paging: false,
-        dom: 't',
-        pageLength,
-        searching: false,
+        paging: false,              // Custom pagination handled manually
+        dom: 't',                   // Only table element (no built-in controls)
+        pageLength: defaultPageLength,
+        searching: false,           // Custom search implementation
         ordering: true,
-        info: false,
+        info: false,                // Custom info display
         ajax: {
             url: endpoint,
             type: 'POST',
             data: d => {
-                const len = parseInt($('#sharedLength').val()) || pageLength;
+                // Retrieve page configuration from UI
+                const len = parseInt($('#sharedLength').val()) || defaultPageLength;
                 const currentPage = parseInt($('#pageInfo').data('page')) || 1;
 
+                // Build request payload
                 d.customSearch = $('#universalSearch').val() || '';
                 d.groupByFields = groupBySelectionOrder;
-
                 d.start = (currentPage - 1) * len;
                 d.length = len;
+
+                // Append active filter badges to request
                 $('.badge-tag[data-type="Filter"]').each(function () {
-                    const key = $(this).data('key');//||'companyid';
+                    const key = $(this).data('key');
                     const val = $(this).data('value');
 
-
-                    console.log('backend key: ' + key);
+                    console.log('Filter applied - Key:', key, 'Value:', val);
                     if (key && val) {
                         d[key] = d[key] ? [].concat(d[key], val) : [val];
                     }
                 });
 
-                console.log('ajax request payload:', d);
+                //console.log('AJAX Request Payload:', d);
                 return d;
             },
             dataSrc: json => {
+                // Store loaded data for client-side operations
                 allLoadedData = json.data;
-                updateCustomPagination(table); // important: update page info
+                updateCustomPagination(table);
                 return allLoadedData;
             }
         },
         columns,
+
+        // Draw Callback - Handles Grouping Logic
+
         drawCallback: function () {
+            // Remove existing group rows and show all data rows
             $('#masterTable tbody tr.group-row').remove();
             $('#masterTable tbody tr').show();
 
             const groupFields = getGroupByFieldsInOrder();
+
+            // If no grouping is active, skip group row insertion
             if (!groupFields.length) {
                 updateCustomPagination(table);
                 callbacks.onDraw?.();
-                isAppendMode = false;
                 return;
             }
 
+            // Process and insert group header rows
             const rowData = allLoadedData;
             const lastValues = [];
             const bodyRows = $('#masterTable tbody tr:not(.group-row)').toArray();
@@ -412,15 +293,24 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
                 const data = rowData[idx];
                 if (!data) return;
 
+                // Check each grouping level for value changes
                 groupFields.forEach((field, lvl) => {
                     const val = data[field] ?? '(Blank)';
+
+                    // Insert group header when value changes
                     if (lastValues[lvl] !== val) {
                         const groupVals = [...lastValues.slice(0, lvl), val];
                         const cnt = countRecordsInGroup(rowData, idx, groupFields, lvl, groupVals);
                         const totals = calculateGroupTotals(rowData, idx, groupFields, lvl, groupVals, columns);
+
                         $(node).before(createGroupHeaderRow(field, val, cnt, lvl, columns, totals));
+
                         lastValues[lvl] = val;
-                        for (let j = lvl + 1; j < groupFields.length; j++) lastValues[j] = undefined;
+
+                        // Reset nested group tracking
+                        for (let j = lvl + 1; j < groupFields.length; j++) {
+                            lastValues[j] = undefined;
+                        }
                     }
                 });
             });
@@ -428,37 +318,18 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
             setupGroupRowToggle();
             updateCustomPagination(table);
             callbacks.onDraw?.();
-            isAppendMode = false;
         }
-
-
     });
 
-    //// ── Load More ──
-    //$('#loadMoreBtn').off('click').on('click', function () {
-    //    const $btn = $(this), $spin = $('#loadMoreSpinner');
-    //    $spin.removeClass('d-none');
-    //    $btn.prop('disabled', true);
+    // Event Handlers - Pagination and Search Controls
 
-    //    currentOffset += PAGE_SIZE;
-    //    isAppendMode = true;
-
-    //    table.ajax.reload(() => {
-    //        $spin.addClass('d-none');
-    //        $btn.prop('disabled', false);
-    //    }, false);
-    //});
-
-    // ── Event handlers ──
-    // ── Shared length / page controls ───────────────────────────────
-
-    // Page length change
+    // Page length change handler
     $('#sharedLength').off('change').on('change', function () {
-        $('#pageInfo').data('page', 1); // reset to first page
+        $('#pageInfo').data('page', 1); // Reset to first page
         table.ajax.reload();
     });
 
-    // Previous page
+    // Previous page button
     $('#prevPage').off('click').on('click', function () {
         let page = $('#pageInfo').data('page') || 1;
         if (page > 1) {
@@ -467,7 +338,7 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
         }
     });
 
-    // Next page
+    // Next page button
     $('#nextPage').off('click').on('click', function () {
         let page = $('#pageInfo').data('page') || 1;
         let total = $('#pageInfo').data('total') || 1;
@@ -477,54 +348,74 @@ export function initializeDataTable(endpoint, tableSelector = '#masterTable', op
         }
     });
 
-    // ── Universal search ───────────────────────────────
+    // Universal search handler
     $('#universalSearch').off('keyup').on('keyup', () => {
-        $('#pageInfo').data('page', 1); // reset page
+        $('#pageInfo').data('page', 1); // Reset to first page on search
         table.ajax.reload();
     });
 
-    activeTables.set(tableSelector, table);
+    // Group-By Selection Handler
 
     $(document).off('click', '#groupByList li[data-group]').on('click', '#groupByList li[data-group]', function () {
-        const $li = $(this), field = $li.data('group'), txt = $li.text().trim();
+        const $li = $(this);
+        const field = $li.data('group');
+        const txt = $li.text().trim();
+
         $li.toggleClass('active');
 
         if ($li.hasClass('active')) {
-            if (!groupBySelectionOrder.includes(field)) groupBySelectionOrder.push(field);
+            if (!groupBySelectionOrder.includes(field)) {
+                groupBySelectionOrder.push(field);
+            }
             addSearchBadge('Group', field, txt);
         } else {
             groupBySelectionOrder = groupBySelectionOrder.filter(f => f !== field);
             $(`.badge-tag[data-type="Group"][data-value="${field}"]`).remove();
         }
-        currentOffset = 0;
-        isAppendMode = false;
+
         table.ajax.reload();
     });
+
+    // Filter Selection Handler
 
     $(document).off('click', '[data-filter]').on('click', '[data-filter]', function () {
-        const val = this.dataset.filter, txt = this.textContent.trim();
+        const val = this.dataset.filter;
+        const txt = this.textContent.trim();
+
         $(this).toggleClass('active');
 
-        if ($(this).hasClass('active')) addSearchBadge('Filter', val, txt);
-        else $(`.badge-tag[data-type="Filter"][data-value="${val}"]`).remove();
+        if ($(this).hasClass('active')) {
+            addSearchBadge('Filter', val, txt);
+        } else {
+            $(`.badge-tag[data-type="Filter"][data-value="${val}"]`).remove();
+        }
 
-        currentOffset = 0;
-        isAppendMode = false;
         table.ajax.reload();
     });
 
+    // Store table instance in active tables registry
     activeTables.set(tableSelector, table);
-    $('#loadMoreBtn').show();
 
     return table;
 }
+
+// Grouping Calculation Functions
+
+
 function calculateGroupTotals(rowDataArray, startIndex, groupByFields, level, currentGroupValues, columns) {
     const totals = {};
-    columns.forEach(col => { if (col.groupTotal) totals[col.data] = 0; });
 
+    // Initialize totals for columns marked as group-total
+    columns.forEach(col => {
+        if (col.groupTotal) totals[col.data] = 0;
+    });
+
+    // Iterate through records in the current group
     for (let i = startIndex; i < rowDataArray.length; i++) {
         const row = rowDataArray[i];
         let stillInGroup = true;
+
+        // Check if row belongs to current group
         for (let l = 0; l <= level; l++) {
             const field = groupByFields[l];
             if (currentGroupValues[l] !== (row[field] ?? '(Blank)')) {
@@ -532,44 +423,65 @@ function calculateGroupTotals(rowDataArray, startIndex, groupByFields, level, cu
                 break;
             }
         }
+
         if (!stillInGroup) break;
 
+        // Accumulate totals
         columns.forEach(col => {
-            if (col.groupTotal) totals[col.data] += Number(row[col.data] || 0);
+            if (col.groupTotal) {
+                totals[col.data] += Number(row[col.data] || 0);
+            }
         });
     }
+
     return totals;
 }
+
+
 function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, currentGroupValues) {
     let count = 0;
+
     for (let i = startIndex; i < rowDataArray.length; i++) {
         const row = rowDataArray[i];
         let stillInGroup = true;
+
+        // Verify row membership in current group
         for (let l = 0; l <= level; l++) {
             if (currentGroupValues[l] !== (row[groupByFields[l]] ?? '(Blank)')) {
                 stillInGroup = false;
                 break;
             }
         }
+
         if (!stillInGroup) break;
         count++;
     }
+
     return count;
 }
-// Create DOM row for group header (with toggle + totals)
+
 function createGroupHeaderRow(field, value, count, level, columns, totals) {
     const displayValue = value || '(Blank)';
+
+    // First column with toggle icon and group label
     let tds = `<td colspan="1" style="padding-left:${level * 20}px;" class="text-nowrap">
-        <span class="toggle-icon d-inline-block" style="width:20px;"><i class="bx bx-chevron-down"></i></span>
+        <span class="toggle-icon d-inline-block" style="width:20px;">
+            <i class="bx bx-chevron-down"></i>
+        </span>
         ${displayValue} <small class="text-muted">(${count})</small>
     </td>`;
 
+    // Subsequent columns with totals where applicable
     columns.forEach((col, i) => {
-        if (i === 0) return;
+        if (i === 0) return; // Skip first column (already rendered)
+
         if (col.groupTotal) {
-            tds += `<td class="text-end fw-semibold">
-                ${totals[col.data]?.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || ''}
-            </td>`;
+            const formattedTotal = totals[col.data]?.toLocaleString('en-IN', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }) || '';
+
+            tds += `<td class="text-end fw-semibold">${formattedTotal}</td>`;
         } else {
             tds += '<td></td>';
         }
@@ -578,7 +490,9 @@ function createGroupHeaderRow(field, value, count, level, columns, totals) {
     return $(`<tr class="group-row level-${level}">${tds}</tr>`);
 }
 
-// Toggle expand/collapse for group rows and nested content
+// Group Row Toggle Functionality
+
+
 function setupGroupRowToggle() {
     $('#masterTable tbody')
         .off('click', 'tr.group-row')
@@ -587,36 +501,50 @@ function setupGroupRowToggle() {
             const level = parseInt($row[0].className.match(/level-(\d+)/)?.[1] || 0);
             const willCollapse = !$row.hasClass('collapsed');
 
+            // Toggle collapsed state and icon
             $row.toggleClass('collapsed', willCollapse);
             $row.find('.toggle-icon i')
                 .toggleClass('bx-chevron-down', !willCollapse)
                 .toggleClass('bx-chevron-right', willCollapse);
 
+            // Process all following rows until a same/higher level group is found
             let $next = $row.next();
             while ($next.length) {
                 const nextLevel = parseInt($next[0].className.match(/level-(\d+)/)?.[1] || 999);
+
+                // Stop at same or higher level group
                 if (nextLevel <= level) break;
 
                 if ($next.hasClass('group-row')) {
+                    // Handle nested group rows
                     if (willCollapse) {
                         $next.hide().addClass('collapsed');
-                        $next.find('.toggle-icon i').removeClass('bx-chevron-down').addClass('bx-chevron-right');
+                        $next.find('.toggle-icon i')
+                            .removeClass('bx-chevron-down')
+                            .addClass('bx-chevron-right');
                     } else {
                         $next.show().removeClass('collapsed');
-                        $next.find('.toggle-icon i').removeClass('bx-chevron-right').addClass('bx-chevron-down');
+                        $next.find('.toggle-icon i')
+                            .removeClass('bx-chevron-right')
+                            .addClass('bx-chevron-down');
                     }
                 } else {
+                    // Handle data rows
                     $next.toggle(!willCollapse);
                 }
+
                 $next = $next.next();
             }
         });
 }
 
+
 export function addSearchBadge(type, value, displayText, isLocked = false) {
+    // Prevent duplicate badges
     if ($(`.badge-tag[data-type="${type}"][data-value="${value}"]`).length) return;
 
-    const icon = type === 'Group' ? GROUP_ICON : `<span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>`;
+    const icon = type === 'Group' ? GROUP_ICON :
+        `<span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>`;
     const removeBtn = isLocked ? '' : '<span class="remove-btn ms-1" style="cursor:pointer;">×</span>';
     const lockedClass = isLocked ? 'opacity-75 cursor-not-allowed' : '';
 
@@ -629,22 +557,24 @@ export function addSearchBadge(type, value, displayText, isLocked = false) {
         </span>
     `);
 
+    // Remove button click handler
     if (!isLocked) {
         $badge.find('.remove-btn').on('click', function (e) {
             e.stopPropagation();
             const $b = $(this).closest('.badge-tag');
-            const t = $b.data('type'), v = $b.data('value');
+            const t = $b.data('type');
+            const v = $b.data('value');
 
             if (t === 'Group') {
                 groupBySelectionOrder = groupBySelectionOrder.filter(f => f !== v);
                 $(`#groupByList li[data-group="${v}"]`).removeClass('active');
             }
+
             $b.remove();
-            currentOffset = 0;
-            isAppendMode = false;
             activeTables.get('#masterTable')?.ajax.reload();
         });
 
+        // Filter icon click handler (if applicable)
         if (type === 'Filter') {
             $badge.find('.filter-icon').on('click', function (e) {
                 e.stopPropagation();
@@ -655,32 +585,25 @@ export function addSearchBadge(type, value, displayText, isLocked = false) {
 
     $('#universalSearch').before($badge);
 }
-// Initialize stepper
+
+// Stepper Initialization
+
 export function initStepper() {
     const el = document.querySelector('#wizardStepper');
     if (el) window.stepper = new Stepper(el, { linear: false });
     return window.stepper;
 }
-function updateLoadMoreButton(returnedCount) {
-    if (returnedCount < PAGE_SIZE) {
-        $('#loadMoreBtn').hide();
-        // $('#noMoreRecords').show(); // uncomment if you add this element
-    } else {
-        $('#loadMoreBtn').show();
-        // $('#noMoreRecords').hide();
-    }
-}
-// Generic Checkbox Selection Function with Bulk Actions
+
+// Checkbox Selection with Bulk Operations
+
+
 export function initCheckboxSelection(table, tableSelector = '#masterTable', dropdownConfig = [], bulkDeleteEndpoint = null) {
-    // Persistent storage of selected IDs
-    const selectedRowIds = new Set();
-
+    const selectedRowIds = new Set(); // Persistent storage of selected IDs
     const $table = $(tableSelector);
-
-    // ── Create selection controls: Cog + Dropdown + Badge ───────────────────────
     const $searchContainer = $('#universalSearch').closest('.input-group');
 
-    // Default actions
+    // Build Selection Control UI
+
     const defaultDropdownConfig = [
         {
             id: 'action-select-all',
@@ -697,7 +620,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         }
     ];
 
-    // Add bulk delete if endpoint provided
+    // Add bulk delete option if endpoint provided
     if (bulkDeleteEndpoint) {
         defaultDropdownConfig.push({
             id: 'action-bulk-delete',
@@ -708,12 +631,12 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         });
     }
 
-    // Use custom config if provided, otherwise use default
     const finalDropdownConfig = dropdownConfig.length > 0 ? dropdownConfig : defaultDropdownConfig;
 
+    // Create control elements
     const $selectionControls = $(`
         <div class="d-flex align-items-center gap-2 ms-2">
-            <!-- Cog Icon (dropdown trigger) -->
+            <!-- Settings Icon (dropdown trigger) -->
             <div class="position-relative">
                 <i class="bx bx-cog text-muted" 
                    style="cursor:pointer; font-size:1.2rem;" 
@@ -746,7 +669,9 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
 
     $searchContainer.after($selectionControls);
 
-    // ── Bulk Delete Function ──────────────────────────────────────────────────
+    // Bulk Delete Function
+
+  
     function performBulkDelete() {
         if (selectedRowIds.size === 0) {
             Swal.fire({
@@ -770,7 +695,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                // Show loading
+                // Show loading indicator
                 const loadingToast = Swal.fire({
                     title: 'Deleting...',
                     text: 'Please wait while we delete the selected items',
@@ -780,13 +705,13 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
                     }
                 });
 
-                // Prepare data for API
+                // Prepare request payload
                 const data = {
                     ids: Array.from(selectedRowIds),
                     _token: $('meta[name="csrf-token"]').attr('content')
                 };
 
-                // AJAX call for bulk delete
+                // Execute AJAX delete request
                 $.ajax({
                     url: bulkDeleteEndpoint,
                     method: 'POST',
@@ -795,10 +720,8 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
                         loadingToast.close();
 
                         if (response.success) {
-                            // Clear selection
                             selectedRowIds.clear();
 
-                            // Show success message
                             Swal.fire({
                                 title: 'Deleted!',
                                 text: response.message || `${selectedRowIds.size} item(s) deleted successfully.`,
@@ -807,7 +730,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
                                 showConfirmButton: false
                             });
 
-                            // Refresh the table
+                            // Refresh table data
                             table.ajax.reload(null, false);
                             updateSelectionUI();
                         } else {
@@ -824,7 +747,8 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         });
     }
 
-    // ── Select All Function (Current Page Only) ──────────────────────────────
+    // Selection Management Functions
+
     function selectAllCurrentPage() {
         $table.find('tbody .row-selector').each(function () {
             const $cb = $(this);
@@ -839,7 +763,9 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         updateSelectionUI();
     }
 
-    // ── Select None Function ────────────────────────────────────────────────
+    /**
+     * Clears all selections
+     */
     function selectNone() {
         $table.find('tbody .row-selector').each(function () {
             const $cb = $(this);
@@ -854,7 +780,6 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         updateSelectionUI();
     }
 
-    // ── UI Update Function ──────────────────────────────────────────────────
     function updateSelectionUI() {
         const count = selectedRowIds.size;
 
@@ -863,17 +788,17 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
             $('#selected-badge').removeClass('d-none');
             $searchContainer.addClass('d-none');
 
-            // Enable buttons that require selection
+            // Enable selection-dependent actions
             $('#action-bulk-delete').prop('disabled', false);
         } else {
             $('#selected-badge').addClass('d-none');
             $searchContainer.removeClass('d-none');
 
-            // Disable buttons that require selection
+            // Disable selection-dependent actions
             $('#action-bulk-delete').prop('disabled', true);
         }
 
-        // Header checkbox (select-all) state
+        // Update header checkbox state
         const $visible = $table.find('tbody .row-selector');
         const checkedCount = $visible.filter(':checked').length;
         const totalVisible = $visible.length;
@@ -883,7 +808,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
             .prop('indeterminate', checkedCount > 0 && checkedCount < totalVisible);
     }
 
-    // ── Restore selections after redraw ────────────────────────────────────────
+  
     function restoreSelections() {
         $table.find('tbody .row-selector').each(function () {
             const $cb = $(this);
@@ -899,7 +824,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         });
     }
 
-    // ── Event Handlers ──────────────────────────────────────────────────────
+    // Event Handlers
 
     // Header "Select All" checkbox (current page only)
     $(document).on('change', '#select-all', function () {
@@ -938,27 +863,27 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         updateSelectionUI();
     });
 
-    // Cog → Toggle dropdown
+    // Settings icon - toggle dropdown
     $(document).on('click', '#selection-actions-toggle', function (e) {
         e.stopPropagation();
         $('#selection-actions-menu').toggleClass('show');
     });
 
-    // Click outside → close dropdown
+    // Close dropdown when clicking outside
     $(document).on('click', function (e) {
         if (!$(e.target).closest('#selection-actions-toggle, #selection-actions-menu').length) {
             $('#selection-actions-menu').removeClass('show');
         }
     });
 
-    // Select All button in dropdown
+    // Select All button
     $(document).on('click', '#action-select-all', function (e) {
         e.preventDefault();
         selectAllCurrentPage();
         $('#selection-actions-menu').removeClass('show');
     });
 
-    // Clear Selection button in dropdown
+    // Clear Selection button
     $(document).on('click', '#action-select-none', function (e) {
         e.preventDefault();
         selectNone();
@@ -1006,7 +931,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         }
     });
 
-    // After draw & init
+    // Restore selections after table redraw
     table.on('draw', () => {
         restoreSelections();
         updateSelectionUI();
@@ -1014,7 +939,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
 
     table.on('init', updateSelectionUI);
 
-    // Public API
+    // Expose public API
     table.getSelectedIds = () => [...selectedRowIds];
     table.clearSelection = () => {
         selectedRowIds.clear();
@@ -1036,7 +961,9 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
     };
 }
 
-// Utility functions
+// Utility Functions
+
+
 export function getSelectedIds(tableSelector = '#masterTable') {
     return $(`${tableSelector} .row-selector:checked`)
         .map((i, el) => $(el).data('id'))
@@ -1049,7 +976,9 @@ export function clearAllSelections(tableSelector = '#masterTable') {
     $(`${tableSelector} tr.table-active`).removeClass('table-active');
 }
 
-//Load form for create/edit
+// Form Management Functions
+
+
 export function loadForm(basePath, mode, id = null, voucherNo = null, compprefix = null) {
     const url = mode === 'create'
         ? `${basePath}/Create`
@@ -1059,29 +988,34 @@ export function loadForm(basePath, mode, id = null, voucherNo = null, compprefix
         ? `${basePath}/Create`
         : `${basePath}/${voucherNo}-${compprefix}`;
 
+    // Update browser URL without page reload
     window.history.pushState({ mode, id }, '', newPath);
 
+    // Adjust UI for form view
     $('#personal-info').css('background-color', 'var(--bs-body-bg)');
     $('#btnCreate').removeClass('btn-primary').addClass('btn-outline-primary btn-sm shadow-none');
     $('#universalSearch, #sharedLength, #customPagination, .input-group-text').hide();
 
+    // Load form via AJAX
     $.get(url).done(html => {
         $('#personal-info').html(html);
         if (window.stepper) window.stepper.to(2);
     });
 }
 
-// Handle direct URL navigation
+
 export function handleDirectUrl(basePath) {
     const parts = location.pathname.split('/').filter(p => p);
     const action = parts.pop();
     const maybeId = parts.pop();
 
-    if (action === 'Create') loadForm(basePath, 'create');
-    else if (action === 'Edit' && maybeId) loadForm(basePath, 'edit', maybeId);
+    if (action === 'Create') {
+        loadForm(basePath, 'create');
+    } else if (action === 'Edit' && maybeId) {
+        loadForm(basePath, 'edit', maybeId);
+    }
 }
 
-// Return to list view
 export function goBackToList(table, basePath) {
     $('#personal-info').empty();
     $('#btnCreate').removeClass('btn-outline-primary btn-sm shadow-none').addClass('btn-primary');
@@ -1099,27 +1033,29 @@ export function goBackToList(table, basePath) {
     location.reload();
 }
 
-// Handle create button click
 export function handleCreateButton(basePath) {
     $('#btnCreate').off('click').on('click', () => loadForm(basePath, 'create'));
 }
 
-// Handle row actions (edit, delete, print)
+// Row Action Handlers
+
 export function handleRowActions(basePath, callbacks = {}) {
     $(document).off('click', '#masterTable .edit-btn, #masterTable .delete-btn, #masterTable .print-btn');
 
-    // Edit button
+    // Edit button handler
     $(document).on('click', '#masterTable .edit-btn', function (e) {
         e.stopPropagation();
         const id = $(this).data('id');
         const voucher = $(this).data('voucher');
         const compprefix = $(this).data('compprefix');
+
         if (id) loadForm(basePath, 'edit', id, voucher, compprefix);
     });
 
-    // Delete button
+    // Delete button handler
     $(document).on('click', '#masterTable .delete-btn', function () {
         const id = $(this).data('id');
+
         if (id) {
             Swal.fire({
                 title: 'Delete Record?',
@@ -1130,6 +1066,7 @@ export function handleRowActions(basePath, callbacks = {}) {
             }).then(result => {
                 if (result.isConfirmed) {
                     const $row = $(this).closest('tr');
+
                     $.post(`${basePath}/Delete`, { id })
                         .done(res => {
                             if (res.success) {
@@ -1145,9 +1082,10 @@ export function handleRowActions(basePath, callbacks = {}) {
         }
     });
 
-    // Print button
+    // Print button handler
     $(document).on('click', '#masterTable .print-btn', function () {
         const id = $(this).data('id');
+
         if (id) {
             if (callbacks.onPrint) {
                 callbacks.onPrint(id);
@@ -1158,15 +1096,18 @@ export function handleRowActions(basePath, callbacks = {}) {
     });
 }
 
+// Responsive Handling
+
 window.addEventListener('resize', function () {
     if ($.fn.DataTable.isDataTable('#masterTable')) {
         $('#masterTable').DataTable().columns.adjust().draw(false);
     }
 });
 
-// Update custom pagination UI
+// Pagination UI Update
+
+
 function updateCustomPagination(table) {
-    //alert("abc");
     if (!table) return;
 
     const info = table.page.info ? table.page.info() : { recordsDisplay: 0, pages: 1, page: 0 };
@@ -1175,19 +1116,21 @@ function updateCustomPagination(table) {
     const totalPages = Math.ceil(totalRecords / len) || 1;
     const currentPage = $('#pageInfo').data('page') || 1;
 
-    // Update page display
+    // Update page number display
     $('#pageInfo').text(`${currentPage} / ${totalPages}`);
     $('#pageInfo').data('total', totalPages);
 
-    // Enable/disable buttons
+    // Enable/disable navigation buttons
     $('#prevPage').prop('disabled', currentPage <= 1);
     $('#nextPage').prop('disabled', currentPage >= totalPages);
 
-    // Toggle pagination visibility
+    // Show/hide pagination controls
     $('#customPagination').toggleClass('d-none', totalRecords === 0);
 }
 
-// Show toast notification
+// Toast Notifications
+
+
 export function showToast(title = '', text = 'Saved!', icon = 'success') {
     Swal.fire({
         toast: true,
@@ -1204,7 +1147,8 @@ export function showToast(title = '', text = 'Saved!', icon = 'success') {
     });
 }
 
-// Destroy all active tables
+// Cleanup Functions
+
 export function destroyAllTables() {
     activeTables.forEach((table, selector) => {
         if ($.fn.DataTable.isDataTable(selector)) {

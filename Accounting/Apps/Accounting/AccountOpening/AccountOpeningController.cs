@@ -304,20 +304,6 @@ public class AccountOpeningController : Controller
 
     #endregion
 
-
-
-    public class ReportRequest
-    {
-        public string CustomSearch { get; set; }
-        public List<string> GroupByFields { get; set; } = new();
-
-        public List<string> CompanyId { get; set; } = new();
-        public int Start { get; set; } // offset
-        public int Length { get; set; } // page size
-
-
-    }
-
     #region Get List
 
     [HttpGet]
@@ -462,83 +448,64 @@ public class AccountOpeningController : Controller
     {
         try
         {
-            // DataTables parameters
             var draw = Request.Form["draw"].FirstOrDefault();
             var start = Convert.ToInt32(Request.Form["start"].FirstOrDefault());
             var length = Convert.ToInt32(Request.Form["length"].FirstOrDefault());
-            var sortColumnIndex = Request.Form["order[0][column]"].FirstOrDefault();
-            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
             var searchValue = Request.Form["customSearch"].FirstOrDefault();
+            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
 
-            // Dynamic group by fields from client
-            var groupByFields = Request.Form["groupByFields"].ToList();
+            var groupByFields = Request.Form["groupByFields[]"].ToList();
+            string orderByColumn = "Id"; // default fallback
+            //if (groupByFields.Count > 0)
+                //var firstField = groupByFields[0];
+            //orderByColumn = char.ToUpper(firstField[0]) + firstField.Substring(1);
+            //orderByColumn = groupByFields[0];
+            if (groupByFields.Count > 0)
+            {
+                // Capitalize first letter to match C# property naming
+                var firstField = groupByFields[0];
+                orderByColumn = char.ToUpper(firstField[0]) + firstField.Substring(1);
+            }
 
-            // Use first column if sorting column name is empty
-            var columnName = Request.Form[$"columns[{sortColumnIndex}][data]"].FirstOrDefault();
-            if (string.IsNullOrEmpty(columnName))
-                columnName = null; // No default hardcoded column
 
-            // Base query
             var query = _context.AccountOpeningMviews.AsQueryable();
 
-            // Apply search filter
             if (!string.IsNullOrEmpty(searchValue))
             {
                 query = query.Where(m =>
                     m.Voucher.Contains(searchValue) ||
                     m.TotalSeqNo.ToString().Contains(searchValue) ||
                     m.Debit.ToString().Contains(searchValue) ||
+                    m.VmonthName.ToString().Contains(searchValue) ||
+                    m.Vyear.ToString().Contains(searchValue) ||
                     m.Date.ToString().Contains(searchValue));
             }
 
-            // Total rows before filtering
-            var recordsTotal = await _context.AccountOpeningMviews.CountAsync();
-
-            // Total rows after filtering
-            var recordsFiltered = await query.CountAsync();
-
-            // Apply grouping/order
-            IOrderedQueryable<AccountOpeningMview> orderedQuery = null;
-
-            // Order by groupByFields first
-            foreach (var groupField in groupByFields)
-            {
-                if (orderedQuery == null)
-                    orderedQuery = query.OrderBy(e => EF.Property<object>(e, groupField));
-                else
-                    orderedQuery = orderedQuery.ThenBy(e => EF.Property<object>(e, groupField));
-            }
-
-            // Then order by requested column if provided
-            if (!string.IsNullOrEmpty(columnName))
-            {
-                orderedQuery = sortColumnDirection == "asc"
-                    ? (orderedQuery == null ? query.OrderBy(e => EF.Property<object>(e, columnName))
-                                            : orderedQuery.ThenBy(e => EF.Property<object>(e, columnName)))
-                    : (orderedQuery == null ? query.OrderByDescending(e => EF.Property<object>(e, columnName))
-                                            : orderedQuery.ThenByDescending(e => EF.Property<object>(e, columnName)));
-            }
+            // Remove ordering based on groupByFields
+            // If you want, you can still apply a default order:
+            //query = query.OrderBy(e => e.Id);
+            if (sortColumnDirection == "asc")
+                query = query.OrderBy(e => EF.Property<object>(e, orderByColumn));
+            else
+                query = query.OrderByDescending(e => EF.Property<object>(e, orderByColumn));
 
 
-            query = orderedQuery ?? query;
+            int pageSize = length == -1 ? int.MaxValue : length;
+            int skip = start;
 
-            // Totals after filtering
-            var totalDebit = await query.SumAsync(x => (decimal?)x.Debit) ?? 0;
-            var totalCredit = await query.SumAsync(x => (decimal?)x.Credit) ?? 0;
-
-            // Paging
-            var pageSize = length == -1 ? -1 : length;
-            var skip = start;
-
-            var data = pageSize == -1
+            var recordsTotal = await query.CountAsync();
+            var data = pageSize == int.MaxValue
                 ? await query.ToListAsync()
                 : await query.Skip(skip).Take(pageSize).ToListAsync();
+
+            var totalDebit = data.Sum(x => x.Debit);
+            var totalCredit = data.Sum(x => x.Credit);
 
             return Ok(new
             {
                 draw,
                 recordsTotal,
-                recordsFiltered,
+                recordsFiltered = recordsTotal,
                 data,
                 totals = new
                 {
@@ -552,6 +519,9 @@ public class AccountOpeningController : Controller
             return StatusCode(500, new { error = ex.Message });
         }
     }
+
+
+
 
     #endregion
 
@@ -685,7 +655,7 @@ public class AccountOpeningController : Controller
             int pageSize = length;
             int skip = start;
 
-            var columnName = Request.Form[$"columns[{sortColumnIndex}][name]"].FirstOrDefault() ?? "AccountOpeningId";
+            var columnName = Request.Form[$"columns[{sortColumnIndex}][name]"].FirstOrDefault() ?? "Id";
 
             var query = _context.AccountOpeningDviews.AsQueryable();
 
@@ -705,6 +675,33 @@ public class AccountOpeningController : Controller
         {
             throw;
         }
+    }
+
+    #endregion
+
+
+    #region GetDefaultLoad
+    public IActionResult GetDefaultLoad2()
+    {
+        // Get the page URL from the referrer header
+        string referrerUrl = HttpContext.Request.Headers["Referer"].ToString().ToLower();
+
+        if (string.IsNullOrEmpty(referrerUrl))
+            return Json(new { value = 20 }); // fallback if no referrer
+
+        var uri = new Uri(referrerUrl);
+        string path = uri.AbsolutePath; 
+
+        // Query the menu
+        var load = _context.MainMenus
+            .Where(x => x.Url.ToLower() == path)
+            .Select(x => (int?)x.PageLength)
+            .FirstOrDefault();
+
+        if (load == null)
+            load = 20; // default fallback
+
+        return Json(new { value = load });
     }
 
     #endregion

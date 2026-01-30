@@ -1450,6 +1450,7 @@ D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\Base
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\Base.genruntimeconfig.cache
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp\Base\obj\Debug\net8.0\ref\Base.dll
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\efpt.config.json
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\Base.staticwebassets.runtime.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\Base.staticwebassets.endpoints.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\LatoFont\Lato-Black.ttf
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\LatoFont\Lato-BlackItalic.ttf
@@ -1470,7 +1471,6 @@ D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\LatoFont\Lato-Thin.ttf
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\LatoFont\Lato-ThinItalic.ttf
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\LatoFont\OFL.txt
-D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\Base.staticwebassets.runtime.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\Base.deps.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\Base.runtimeconfig.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\bin\Debug\net8.0\Base.dll
@@ -1799,9 +1799,9 @@ D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Base.props
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Base.props
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.pack.json
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\Base.dll
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\refint\Base.dll
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\Base.pdb
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\Base.genruntimeconfig.cache
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\ref\Base.dll
-D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

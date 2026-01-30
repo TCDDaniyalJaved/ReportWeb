@@ -129,8 +129,7 @@ window.addEventListener('resize', function() {
                                         <li data-group="voucher" class="group-item">Voucher</li>
                                         <li data-group="companyname" class="group-item">Company</li>
                                         <li data-group="vmonthName" class="group-item">Month Name</li>
-                                        <li data-group="LedgerName" class="group-item">Ledger</li>
-                                        <li data-group="Date" class="group-item">Date</li>
+                                        <li data-group="vyear" class="group-item">Year</li>
                                     </ul>
                                 </div>
                                 <div class="col" id="favorites">
@@ -139,6 +138,12 @@ window.addEventListener('resize', function() {
                                         <li id="saveFavorite">Save current search</li>
                                     </ul>
                                     <ul id="favoritesList"></ul>
+                                    <div class="default-load-info">
+                                        Default load:
+                                        <span class="default-load-text" id="defaultLoadText">200 records</span>
+                                        <input type="number" class="default-load-input" id="defaultLoadInput" style="display:none;" min="10" max="10000" step="10">
+                                        <span class="change-default" id="changeDefaultBtn">Change</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -157,14 +162,14 @@ window.addEventListener('resize', function() {
                             </button>
                         </ebit-section>
 
-                        <select id="sharedLength" class="form-select form-select-sm" style="width: auto;">
+                     @*    <select id="sharedLength" class="form-select form-select-sm" style="width: auto;">
                             <option value="7" selected>7 Records Per Page</option>
                             <option value="10">10 Records Per Page</option>
                             <option value="25">25 Records Per Page</option>
                             <option value="50">50 Records Per Page</option>
                             <option value="100">100 Records Per Page</option>
                             <option value="-1">All Records</option>
-                        </select>
+                        </select> *@
 
                     </ebit-section>
                 </ebit-section>

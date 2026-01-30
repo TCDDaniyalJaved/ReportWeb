@@ -3162,12 +3162,15 @@ D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Debug\net8.
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Debug\net8.0\Accounting.pdb
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Debug\net8.0\Accounting.genruntimeconfig.cache
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp\Accounting\obj\Debug\net8.0\ref\Accounting.dll
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\Base.staticwebassets.runtime.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\Base.staticwebassets.endpoints.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\appsettings.Development.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\appsettings.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\efpt.config.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\package-lock.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\package.json
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\Accounting.staticwebassets.runtime.json
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\Accounting.staticwebassets.endpoints.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\LatoFont\Lato-Black.ttf
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\LatoFont\Lato-BlackItalic.ttf
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\LatoFont\Lato-Bold.ttf
@@ -3187,9 +3190,6 @@ D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\n
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\LatoFont\Lato-Thin.ttf
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\LatoFont\Lato-ThinItalic.ttf
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\LatoFont\OFL.txt
-D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\Base.staticwebassets.runtime.json
-D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\Accounting.staticwebassets.runtime.json
-D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\Accounting.staticwebassets.endpoints.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\Accounting.exe
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\Accounting.deps.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\Accounting.runtimeconfig.json
@@ -3779,6 +3779,8 @@ D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\n
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\bin\Debug\net8.0\Base.pdb
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.csproj.AssemblyReference.cache
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.Properties.Resources.resources
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.csproj.GenerateResource.cache
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.GeneratedMSBuildEditorConfig.editorconfig
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.AssemblyInfoInputs.cache
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.AssemblyInfo.cs
@@ -3796,12 +3798,10 @@ D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\n
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\staticwebassets.build.json.cache
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\staticwebassets.development.json
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.csproj.Up2Date
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.dll
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\refint\Accounting.dll
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.pdb
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.genruntimeconfig.cache
 D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\ref\Accounting.dll
-D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
-D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.Properties.Resources.resources
-D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Accounting\obj\Debug\net8.0\Accounting.csproj.GenerateResource.cache

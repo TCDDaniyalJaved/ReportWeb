@@ -12,12 +12,14 @@
 const BASE_PATH = '/Accounting/Accountopening';
 let table;
 
-$(document).ready(() => {
+$(document).ready(async () => {
     initStepper();
     handleDirectUrl(BASE_PATH);
     handleCreateButton(BASE_PATH);
 
-    table = initializeDataTable(`${BASE_PATH}/GetData3`, '#masterTable', {
+    // Initialize DataTable with pageLengthEndpoint
+    table = await initializeDataTable(`${BASE_PATH}/GetData3`, '#masterTable', {
+        pageLengthEndpoint: `${BASE_PATH}/GetDefaultLoad2`, // Database-driven page length
         callbacks: {
             onDraw: () => {
                 handleRowActions(BASE_PATH, {
@@ -26,7 +28,6 @@ $(document).ready(() => {
                     }
                 });
                 $('#totalRecords').text(table?.page.info().recordsDisplay || 0);
-
                 // Optional: reset select-all on every draw (safety)
                 $('#select-all').prop('checked', false);
             }

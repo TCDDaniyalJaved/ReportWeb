@@ -2297,12 +2297,19 @@ public partial class webappContext : DbContext
 
             entity.HasIndex(e => new { e.UserId, e.ReportKey, e.ViewName }, "UK_UserReportView").IsUnique();
 
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.IsFavorite).HasDefaultValue(true);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasAnnotation("Relational:DefaultConstraintName", "DF__UserRepor__Creat__7EB7AD3A");
+            entity.Property(e => e.IsDefault).HasAnnotation("Relational:DefaultConstraintName", "DF__UserRepor__IsDef__0D05CC91");
+            entity.Property(e => e.IsFavorite)
+                .HasDefaultValue(true)
+                .HasAnnotation("Relational:DefaultConstraintName", "DF__UserRepor__IsFav__7DC38901");
+            entity.Property(e => e.IsLocked).HasAnnotation("Relational:DefaultConstraintName", "DF__UserRepor__IsLoc__0DF9F0CA");
             entity.Property(e => e.ReportKey)
                 .IsRequired()
                 .HasMaxLength(100)
-                .HasDefaultValue("OpeningMaster");
+                .HasDefaultValue("OpeningMaster")
+                .HasAnnotation("Relational:DefaultConstraintName", "DF__UserRepor__Repor__7CCF64C8");
             entity.Property(e => e.ViewName)
                 .IsRequired()
                 .HasMaxLength(200);

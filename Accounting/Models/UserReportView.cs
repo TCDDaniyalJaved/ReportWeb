@@ -19,6 +19,8 @@ public partial class UserReportView
 
     public string GroupBy { get; set; }
 
+    public short? PageLenght { get; set; }
+
     public bool IsFavorite { get; set; }
 
     public DateTime CreatedAt { get; set; }

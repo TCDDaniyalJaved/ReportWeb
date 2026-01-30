@@ -1,3 +1,14 @@
+.default-load-info {
+	margin-top: 16px;
+	padding-top: 12px;
+	border-top: 1px solid #eee;
+	font-size: 13px;
+	color: #555;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
 #masterTable,
 .dataTables_scrollBody table,
 .dataTables_scrollHeadInner table {
