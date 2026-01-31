@@ -263,25 +263,36 @@ public class ReportController : Controller
     [HttpPost]
     public IActionResult SaveReportView([FromBody] UserReportView view)
     {
-        if (view == null) return BadRequest();
 
-        view.CreatedAt = DateTime.Now;
-        view.UpdatedAt = DateTime.Now;
 
-        int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        view.UserId = userId;
+        try
+        {
 
-      
-        if (view.Filters != null && !(view.Filters is string))
-            view.Filters = JsonConvert.SerializeObject(view.Filters);
+            if (view == null) 
+             return BadRequest();
 
-        if (view.GroupBy != null && !(view.GroupBy is string))
-            view.GroupBy = JsonConvert.SerializeObject(view.GroupBy);
+            view.CreatedAt = DateTime.Now;
+            view.UpdatedAt = DateTime.Now;
 
-        _context.UserReportViews.Add(view);
-        _context.SaveChanges();
+            int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            view.UserId = userId;
 
-        return Ok(new { success = true, id = view.Id });
+
+            if (view.Filters != null && !(view.Filters is string))
+                view.Filters = JsonConvert.SerializeObject(view.Filters);
+
+            if (view.GroupBy != null && !(view.GroupBy is string))
+                view.GroupBy = JsonConvert.SerializeObject(view.GroupBy);
+
+            _context.UserReportViews.Add(view);
+            _context.SaveChanges();
+
+            return Ok(new { success = true, id = view.Id });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = ex.Message });
+        }
     }
     [HttpGet]
     public IActionResult GetUserReportViews(string reportKey)

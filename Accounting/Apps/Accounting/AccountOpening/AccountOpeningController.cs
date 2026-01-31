@@ -689,8 +689,8 @@ public class AccountOpeningController : Controller
         if (string.IsNullOrEmpty(referrerUrl))
             return Json(new { value = 20 }); // fallback if no referrer
 
-        var uri = new Uri(referrerUrl);
-        string path = uri.AbsolutePath; 
+        var url = new Uri(referrerUrl);
+        string path = url.AbsolutePath; 
 
         // Query the menu
         var load = _context.MainMenus
@@ -702,6 +702,48 @@ public class AccountOpeningController : Controller
             load = 20; // default fallback
 
         return Json(new { value = load });
+    }
+    public IActionResult GetDefaultLoad23()
+    {
+        //  Referrer URL
+        string referrerUrl = HttpContext.Request.Headers["Referer"].ToString();
+
+        if (string.IsNullOrEmpty(referrerUrl))
+            return Json(new { value = 20 });
+
+        var url = new Uri(referrerUrl);
+        string path = url.AbsolutePath.ToLower();
+
+        //  Current User Id
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+        if (!int.TryParse(userIdClaim, out int userId))
+        {
+            return Json(new { value = 20 }); // fallback
+        }
+
+        //  USER SPECIFIC VALUE (ReportView table)
+        var userPageLength = _context.UserReportViews
+            .Where(x =>
+               x.UserId == userId &&
+                x.ReportKey == "OpeningMaster" &&   // IMPORTANT
+                x.IsDefault == true
+            )
+            .Select(x => (int?)x.PageLenght)
+            .FirstOrDefault();
+
+        if (userPageLength.HasValue)
+        {
+            return Json(new { value = userPageLength.Value });
+        }
+
+        //  GLOBAL DEFAULT (MainMenus)
+        var globalPageLength = _context.MainMenus
+            .Where(x => x.Url.ToLower() == path)
+            .Select(x => (int?)x.PageLength)
+            .FirstOrDefault();
+
+        return Json(new { value = globalPageLength ?? 20 });
     }
 
     #endregion

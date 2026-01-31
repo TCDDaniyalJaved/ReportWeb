@@ -1,13 +1,15 @@
 .default-load-info {
-	margin-top: 16px;
-	padding-top: 12px;
-	border-top: 1px solid #eee;
-	font-size: 13px;
-	color: #555;
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	flex-wrap: wrap;
+	margin-top: 12px;
+	font-size: 0.95rem;
+}
+
+.edit-mode input {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.view-mode, .edit-mode {
+	transition: all 0.2s;
 }
 #masterTable,
 .dataTables_scrollBody table,
@@ -15,7 +17,25 @@
 	table-layout: fixed !important;
 	width: 100% !important;
 }
+.change-default {
+	color: #4a3fc8;
+	cursor: pointer;
+	text-decoration: underline;
+}
+	.change-default:hover {
+		color: #362b9c;
+	}
 
+
+.change-default {
+	color: #4a3fc8;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+	.change-default:hover {
+		color: #362b9c;
+	}
 table.dataTable {
 	width: 100% !important;
 	background-color: var(--bs-table-bg) !important;

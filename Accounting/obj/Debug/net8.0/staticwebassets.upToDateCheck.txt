@@ -1,7 +1,9 @@
 wwwroot\Accounting\css\advancedropdown.css
 wwwroot\Accounting\css\style.css
 wwwroot\Accounting\js\AccountOpening.js
+wwwroot\Accounting\js\AccountOpening2.js
 wwwroot\Accounting\js\AccountOpening_detail.js
+wwwroot\Accounting\js\advancedropdown.js
 wwwroot\Accounting\js\BankPayment.js
 wwwroot\Accounting\js\BankPayment_detail.js
 wwwroot\Accounting\js\bankreceipt.js
@@ -2129,7 +2131,6 @@ wwwroot\vendor\scss\_theme\_common.scss
 wwwroot\vendor\scss\_theme\_libs.scss
 wwwroot\vendor\scss\_theme\_pages.scss
 wwwroot\vendor\scss\_theme\_theme.scss
-wwwroot\Accounting\js\AccountOpening2.js
 wwwroot\Accounting\js\dataTableUtils2.js
 wwwroot\dist\vendors.min.css
 wwwroot\dist\vendors.min.js

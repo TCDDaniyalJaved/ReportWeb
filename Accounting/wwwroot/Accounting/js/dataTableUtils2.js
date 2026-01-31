@@ -1,4 +1,4 @@
-﻿// DataTable Utilities 4:43PM 1-30-2026
+﻿// DataTable Utilities 11:31AM 1-31-2026
 
 // Global State Management
 
@@ -155,35 +155,21 @@ function getGroupByFieldsInOrder() {
     return groupBySelectionOrder;
 }
 
-async function fetchDefaultPageLength(endpoint) {
+export async function fetchDefaultPageLength(endpoint, fallback = 25) {
     try {
-        const response = await $.ajax({
-            url: endpoint,
-            type: 'GET',
-            dataType: 'json',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
+        const res = await fetch(endpoint, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
         });
 
-        if (response && response.value) {
-            return response.value;
-        }
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-        console.warn('No value in response, using default: 20');
-        return 20;
+        const data = await res.json();
+        const value = Number(data?.value);
 
-    } catch (error) {
-        console.error('Error fetching default page length from:', endpoint);
-        console.error('Error details:', {
-            status: error.status,
-            statusText: error.statusText,
-            responseText: error.responseText,
-            error: error
-        });
-
-        console.warn('Falling back to default page length: 20');
-        return 20; // Fallback default
+        return Number.isInteger(value) && value >= 5 ? value : fallback;
+    } catch (err) {
+        console.warn(`Failed to fetch page length from ${endpoint}:`, err);
+        return fallback;
     }
 }
 
@@ -671,7 +657,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
 
     // Bulk Delete Function
 
-  
+
     function performBulkDelete() {
         if (selectedRowIds.size === 0) {
             Swal.fire({
@@ -808,7 +794,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
             .prop('indeterminate', checkedCount > 0 && checkedCount < totalVisible);
     }
 
-  
+
     function restoreSelections() {
         $table.find('tbody .row-selector').each(function () {
             const $cb = $(this);
@@ -1105,8 +1091,6 @@ window.addEventListener('resize', function () {
 });
 
 // Pagination UI Update
-
-
 function updateCustomPagination(table) {
     if (!table) return;
 
@@ -1127,10 +1111,77 @@ function updateCustomPagination(table) {
     // Show/hide pagination controls
     $('#customPagination').toggleClass('d-none', totalRecords === 0);
 }
+//apply fav
+export function applyFavorite(view) {
 
+    let filters = {};
+    let groups = [];
+    try {
+        filters = JSON.parse(view.filters || '{}');
+        //console.log("Parsed filters from saved favorite:", filters);
+    } catch (e) {
+        //console.error("Error parsing filters JSON:", e);
+    }
+
+    try {
+        groups = JSON.parse(view.groupBy || '[]');
+        //console.log("Parsed groupBy from saved favorite:", groups);
+    } catch (e) {
+        //console.error("Error parsing groupBy JSON:", e);
+    }
+
+    // Reset UI state
+    $('.badge-tag').remove();
+    groupBySelectionOrder.length = 0;
+    $('#groupByList li').removeClass('active');
+    const isLocked = !!view.IsLocked;
+    //console.log("UI reset done. isLocked:", isLocked);
+
+    // Restore filter badges
+    //console.log("Restoring filters...");
+    Object.keys(filters).forEach(key => {
+        //console.log(`  → Key: ${key} | Values:`, filters[key]);
+
+        (filters[key] || []).forEach(savedValue => {
+            //console.log(`    Creating badge for: ${key} = ${savedValue}`);
+
+            const displayText = savedValue;  // backend name hi display name hai
+
+            const $badge = $(`
+                <span class="badge-tag d-inline-flex align-items-center ${isLocked ? 'opacity-75 cursor-not-allowed' : ''}"
+                      data-type="Filter"
+                      data-value="${savedValue}"
+                      data-key="${key}">
+                    <span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>
+                    <span class="badge-text ms-1">${savedValue}</span>
+                    ${isLocked ? '' : '<span class="remove-btn ms-1" style="cursor:pointer;">×</span>'}
+                </span>
+            `);
+
+            $('#universalSearch').before($badge);
+            //console.log(`    Badge created and added for ${key} = ${savedValue}`);
+        });
+    });
+
+    //console.log("All filter badges created. Total filter badges now:", $('.badge-tag[data-type="Filter"]').length);
+
+    // Restore groups
+    // console.log("Restoring groups...");
+    groups.forEach(g => {
+        // console.log(`  → Restoring group: ${g}`);
+        if (!groupBySelectionOrder.includes(g)) {
+            groupBySelectionOrder.push(g);
+            $('#groupByList li[data-group="' + g + '"]').addClass('active');
+            addSearchBadge('Group', g, g.charAt(0).toUpperCase() + g.slice(1), isLocked);
+            //   console.log(`    Group badge added: ${g}`);
+        }
+    });
+
+    // console.log("Calling resetToFirstPage()...");
+    resetToFirstPage();
+
+}
 // Toast Notifications
-
-
 export function showToast(title = '', text = 'Saved!', icon = 'success') {
     Swal.fire({
         toast: true,
@@ -1146,7 +1197,116 @@ export function showToast(title = '', text = 'Saved!', icon = 'success') {
         }
     });
 }
+export async function loadAndDisplayDefaultPageLength(endpoint) {
+    try {
+        const response = await fetch(endpoint);
+        if (!response.ok) throw new Error('Network response was not ok');
 
+        const data = await response.json();
+        const defaultLoad = data.value || 20;
+
+        const textEl = document.getElementById('defaultLoadText');
+        const inputEl = document.getElementById('defaultLoadInput');
+
+        if (textEl) textEl.textContent = `${defaultLoad} records`;
+        if (inputEl) inputEl.value = defaultLoad;
+
+        return defaultLoad;
+    } catch (err) {
+        console.error('Failed to load default page length:', err);
+        const textEl = document.getElementById('defaultLoadText');
+        if (textEl) textEl.textContent = '200 records'; // fallback
+        return 20;
+    }
+}
+
+// Default load editor (pura initDefaultLoadEditor move kar rahe hain)
+export function initDefaultPageLengthEditor(groupBySelectionOrder) {
+    const textEl = document.getElementById('defaultLoadText');
+    const inputEl = document.getElementById('defaultLoadInput');
+    const editBlock = document.getElementById('editDefaultLoad');
+    const viewElements = document.querySelectorAll('.default-load-info .view-mode');
+    const changeBtn = document.getElementById('changeDefaultBtn');
+    const hintEl = document.getElementById('defaultLoadHint');
+
+    if (!textEl || !inputEl || !editBlock) return;
+
+    let originalValue = null;
+
+    function enterEditMode() {
+        originalValue = inputEl.value;
+        viewElements.forEach(el => el.classList.add('d-none'));
+        editBlock.classList.remove('d-none');
+        hintEl.classList.remove('text-danger');
+        hintEl.textContent = 'Please enter a number between 10 and 2500';
+        inputEl.focus();
+        inputEl.select();
+    }
+
+    function exitEditMode(restore = false) {
+        if (restore) inputEl.value = originalValue;
+        editBlock.classList.add('d-none');
+        viewElements.forEach(el => el.classList.remove('d-none'));
+    }
+
+    changeBtn.addEventListener('click', enterEditMode);
+    textEl.addEventListener('click', enterEditMode);
+
+    inputEl.addEventListener('keydown', async (e) => {
+        if (e.key === 'Escape') {
+            exitEditMode(true);
+            return;
+        }
+        if (e.key !== 'Enter') return;
+
+        const newValue = parseInt(inputEl.value, 10);
+        if (isNaN(newValue) || newValue < 10 || newValue > 2500) {
+            hintEl.textContent = 'Value must be between 10 and 2500';
+            hintEl.classList.add('text-danger');
+            return;
+        }
+
+        try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+
+            await fetch('/accounting/Report/SaveReportView', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify({
+                    ViewName: 'OpeningView',
+                    ReportKey: 'OpeningMaster',
+                    PageLenght: newValue,           // note spelling in backend
+                    Filters: '{}',
+                    GroupBy: JSON.stringify(groupBySelectionOrder),
+                    IsDefault: true
+                })
+            });
+
+            textEl.textContent = `${newValue} records`;
+            exitEditMode();
+            //  SweetAlert reload popup
+            Swal.fire({
+                title: 'Reload Required',
+                text: 'Page length has been changed. Reload the page to apply changes.',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Reload',
+                cancelButtonText: 'Cancel'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    location.reload();
+                }
+            });
+        } catch (err) {
+            console.error(err);
+            hintEl.textContent = 'Error saving value';
+            hintEl.classList.add('text-danger');
+        }
+    });
+}
 // Cleanup Functions
 
 export function destroyAllTables() {

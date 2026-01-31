@@ -9,54 +9,16 @@
     @await Html.PartialAsync("_VendorScripts")
 }
 <link href="~/accounting/css/advancedropdown.css" rel="stylesheet" />
-
+<script src="~/Accounting/js/advancedropdown.js"></script>
 <script>
 window.addEventListener('resize', function() {
     if ($.fn.DataTable.isDataTable('#masterTable')) {
         $('#masterTable').DataTable().columns.adjust().draw(false);
     }
 });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const toggleIcon = document.getElementById("searchFilterToggle");
-            const dropdown = document.getElementById("advancedDropdown");
-            if (!toggleIcon || !dropdown) return;
-
-            toggleIcon.addEventListener("click", function (e) {
-                e.stopPropagation();
-                dropdown.classList.toggle("d-none");
-            });
-
-            document.addEventListener("click", function (e) {
-                if (!e.target.closest(".input-group")) {
-                    dropdown.classList.add("d-none");
-                }
-            });
-
-            // Handle Group By clicks (placeholder - implement in OpeningMasterDummy.js)
-            document.querySelectorAll("[data-group]").forEach(item => {
-                item.addEventListener("click", function () {
-                    const groupBy = this.dataset.group;
-                    console.log("Group selected:", groupBy);
-                    // → call function to apply grouping / reload table
-                });
-            });
-
-            // Handle Filter clicks (placeholder)
-            document.querySelectorAll("[data-filter]").forEach(item => {
-                item.addEventListener("click", function () {
-                    const filter = this.dataset.filter;
-                    console.log("Filter selected:", filter);
-                    // → show filter modal / apply filter badge
-                });
-            });
-        });
 </script>
 
-@section PageScripts {
-    <script type="module" src="/Accounting/js/AccountOpening2.js"></script>
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}
+
 <ebit-section p="0" m="0">
     <div id="wizardStepper" class="bs-stepper wizard-numbered" style="box-shadow:none;">
 
@@ -140,9 +102,20 @@ window.addEventListener('resize', function() {
                                     <ul id="favoritesList"></ul>
                                     <div class="default-load-info">
                                         Default load:
-                                        <span class="default-load-text" id="defaultLoadText">200 records</span>
-                                        <input type="number" class="default-load-input" id="defaultLoadInput" style="display:none;" min="10" max="10000" step="10">
-                                        <span class="change-default" id="changeDefaultBtn">Change</span>
+
+                                        <!-- View mode -->
+                                        <span class="default-load-text view-mode" id="defaultLoadText">20 records</span>
+
+                                        <!-- Edit mode (hidden by default) -->
+                                        <span class="edit-mode d-none" id="editDefaultLoad">
+                                            <input type="number" id="defaultLoadInput" class="form-control form-control-sm d-inline-block no-spinner"
+                                                   style="width: 90px;" min="10" max="2500" step="10" value="2500">
+                                            <small id="defaultLoadHint" class="text-muted">
+                                                Please enter a number between 10 and 2500
+                                            </small>
+                                        </span>
+
+                                        <span class="change-default view-mode" id="changeDefaultBtn">Change</span>
                                     </div>
                                 </div>
                             </div>
@@ -162,14 +135,14 @@ window.addEventListener('resize', function() {
                             </button>
                         </ebit-section>
 
-                     @*    <select id="sharedLength" class="form-select form-select-sm" style="width: auto;">
+                        <select id="sharedLength" class="form-select form-select-sm "hidden style="width: auto;">
                             <option value="7" selected>7 Records Per Page</option>
                             <option value="10">10 Records Per Page</option>
                             <option value="25">25 Records Per Page</option>
                             <option value="50">50 Records Per Page</option>
                             <option value="100">100 Records Per Page</option>
                             <option value="-1">All Records</option>
-                        </select> *@
+                        </select>
 
                     </ebit-section>
                 </ebit-section>
@@ -218,4 +191,80 @@ window.addEventListener('resize', function() {
             <ebit-section id="personal-info" class="content p-0 px-5"></ebit-section>
         </ebit-section>
     </div>
+    <!-- ── Modals ── -->
+    <!-- Save Favorite Modal -->
+    <div class="modal fade" id="saveFavoriteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Save Current View as Favorite</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="favoriteName" class="form-label">Favorite Name</label>
+                    <input type="text" id="favoriteName" class="form-control" placeholder="Enter favorite name">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="saveFavoriteConfirm" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="modal fade" id="filterModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalTitle">Select Filter</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="filter-company" class="filter-option mb-3">
+                        <select class="form-select select2"
+                                data-url="/Dropdawn/Companyid"
+                                data-placeholder="Select Company..."
+                                name="CompanyId"></select>
+                    </div>
+
+                    <div id="filter-LedgerName" class="filter-option mb-3">
+                        <select class="form-select select2"
+                                data-url="/Dropdawn/UserWiseAccount"
+                                data-placeholder="Select Ledger..."
+                                name="LedgerId"></select>
+                    </div>
+
+                    <div class="filter-option mb-3" id="filter-customerinvoice" style="display:none;">
+                        <label class="form-label">Customer Invoice</label>
+                        <ebit-select data-url="UserWiseAccount">
+                            <option value="0">Choose One</option>
+                        </ebit-select>
+                    </div>
+
+                    <div class="filter-option mb-3" id="filter-vendorbill" style="display:none;">
+                        <label class="form-label">Vendor Bill</label>
+                        <ebit-select data-url="UserWiseAccount">
+                            <option value="0">Choose One</option>
+                        </ebit-select>
+                    </div>
+
+                    <div class="filter-option" id="filter-userwiseAccount">
+                        <label class="form-label">User Wise Account</label>
+                        <ebit-select data-params='{"natureId": 3}' data-url="userwiseAccount">
+                            <option value="0">Choose One</option>
+                        </ebit-select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="applyFilterBtn">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </ebit-section>
+@section PageScripts {
+    <script type="module" src="/Accounting/js/AccountOpening2.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
