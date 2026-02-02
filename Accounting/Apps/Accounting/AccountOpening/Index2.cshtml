@@ -11,11 +11,11 @@
 <link href="~/accounting/css/advancedropdown.css" rel="stylesheet" />
 <script src="~/Accounting/js/advancedropdown.js"></script>
 <script>
-window.addEventListener('resize', function() {
-    if ($.fn.DataTable.isDataTable('#masterTable')) {
-        $('#masterTable').DataTable().columns.adjust().draw(false);
-    }
-});
+    window.addEventListener('resize', function() {
+        if ($.fn.DataTable.isDataTable('#masterTable')) {
+            $('#masterTable').DataTable().columns.adjust().draw(false);
+        }
+    });
 </script>
 
 
@@ -36,7 +36,7 @@ window.addEventListener('resize', function() {
         <!-- Wizard Content -->
         <ebit-section class="bs-stepper-content p-0 m-0">
 
-          @*   @await Html.PartialAsync("_PageHeader", new Accounting.Models.PageHeaderVM
+            @*   @await Html.PartialAsync("_PageHeader", new Accounting.Models.PageHeaderVM
             {
                 Title = "Account Opening Balance",
                         NewButtonText = "New",
@@ -75,7 +75,7 @@ window.addEventListener('resize', function() {
                                 <i class="bx bx-filter-alt text-muted"></i>
                             </span>
 
-                            <div id="advancedDropdown" class="advanced-dropdown d-none" style="right:0; background-color:var(--bs-body-bg)">
+                            <div id="advancedDropdown" class="advanced-dropdown d-none" style="background-color:var(--bs-body-bg)">
                                 <div class="col">
                                     <h6><i class="bx bx-filter"></i> Filters</h6>
                                     <ul>
@@ -135,7 +135,7 @@ window.addEventListener('resize', function() {
                             </button>
                         </ebit-section>
 
-                        <select id="sharedLength" class="form-select form-select-sm "hidden style="width: auto;">
+                        <select id="sharedLength" class="form-select form-select-sm " hidden style="width: auto;">
                             <option value="7" selected>7 Records Per Page</option>
                             <option value="10">10 Records Per Page</option>
                             <option value="25">25 Records Per Page</option>
@@ -167,7 +167,7 @@ window.addEventListener('resize', function() {
                                         <ebit-headcolumn datafield="totalSeqNo" header="#" width="10%">#</ebit-headcolumn>
                                         <ebit-headcolumn datafield="debit" isamount="true" group-total="true" header="Total Debit" width="15%">Total Debit</ebit-headcolumn>
                                         <ebit-headcolumn datafield="credit" isamount="true" group-total="true" header="Total Credit" width="15%">Total Credit</ebit-headcolumn>
-                                        <ebit-headcolumn  render="deleteprint" width="8%"></ebit-headcolumn>
+                                        <ebit-headcolumn render="deleteprint" width="8%"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>
 

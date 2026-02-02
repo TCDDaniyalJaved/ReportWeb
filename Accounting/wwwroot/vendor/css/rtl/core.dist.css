@@ -3096,7 +3096,7 @@ textarea.form-control-lg {
   white-space: nowrap;
   background-color: transparent;
   border: var(--bs-border-width) solid #ced1d5;
-  border-radius: var(--bs-border-radius);
+  /*border-radius: var(--bs-border-radius);*/
 }
 
 .input-group-lg > .form-control,
