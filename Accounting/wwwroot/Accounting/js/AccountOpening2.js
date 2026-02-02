@@ -17,13 +17,22 @@ let table;
 
 $(document).ready(async () => {
     initStepper();
-    loadFavorites();
-
     //  Default page length load + display
     await loadAndDisplayDefaultPageLength(`${BASE_PATH}/GetDefaultLoad23`);
 
     //  Editor setup (jo value change hone par save karta hai)
-    initDefaultPageLengthEditor(groupBySelectionOrder);
+    initDefaultPageLengthEditor({
+        reportKey: 'OpeningMaster',
+        viewName: 'OpeningView',           // or whatever name you want to save as
+        isDefault: true,
+        groupBySelectionOrder,             // pass the reference so current groups are saved
+
+        // You can override these if needed on some pages
+        saveEndpoint: '/Accounting/Report/SaveReportView',
+           minValue: 5,
+           maxValue: 500,
+         //textSelector: '#myDefaultLoadText',
+    });
 
     //  URL handling + create button
     handleDirectUrl(BASE_PATH);
@@ -149,6 +158,8 @@ $(document).ready(async () => {
             IsLocked: $item.attr('data-islocked') === '1'
         });
     });
+    loadFavorites();
+
 
 });
 

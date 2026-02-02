@@ -260,40 +260,131 @@ public class ReportController : Controller
         }
     }
 
+    //[HttpPost]
+    //public IActionResult SaveReportView([FromBody] UserReportView view)
+    //{
+
+
+    //    try
+    //    {
+
+    //        if (view == null) 
+    //         return BadRequest();
+
+    //        view.CreatedAt = DateTime.Now;
+    //        view.UpdatedAt = DateTime.Now;
+
+    //        int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    //        view.UserId = userId;
+
+
+    //        if (view.Filters != null && !(view.Filters is string))
+    //            view.Filters = JsonConvert.SerializeObject(view.Filters);
+
+    //        if (view.GroupBy != null && !(view.GroupBy is string))
+    //            view.GroupBy = JsonConvert.SerializeObject(view.GroupBy);
+
+    //        _context.UserReportViews.Add(view);
+    //        _context.SaveChanges();
+
+    //        return Ok(new { success = true, id = view.Id });
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return Json(new { success = false, message = ex.Message });
+    //    }
+    //}
+
+
+
+
     [HttpPost]
     public IActionResult SaveReportView([FromBody] UserReportView view)
     {
-
-
         try
         {
-
-            if (view == null) 
-             return BadRequest();
-
-            view.CreatedAt = DateTime.Now;
-            view.UpdatedAt = DateTime.Now;
+            if (view == null)
+                return BadRequest("Invalid payload");
 
             int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            view.UserId = userId;
 
-
-            if (view.Filters != null && !(view.Filters is string))
+            // Normalize JSON fields (agar object aa raha ho to string bana do)
+            if (view.Filters != null && view.Filters.GetType() != typeof(string))
                 view.Filters = JsonConvert.SerializeObject(view.Filters);
 
-            if (view.GroupBy != null && !(view.GroupBy is string))
+            if (view.GroupBy != null && view.GroupBy.GetType() != typeof(string))
                 view.GroupBy = JsonConvert.SerializeObject(view.GroupBy);
 
-            _context.UserReportViews.Add(view);
+            // Unique key ke basis par dhundo (Id ki zarurat nahi)
+            var existing = _context.UserReportViews
+                .FirstOrDefault(x =>
+                    x.UserId == userId &&
+                    x.ReportKey == view.ReportKey &&
+                    x.ViewName == view.ViewName &&
+                    x.IsDefault == view.IsDefault);
+
+            UserReportView entity;
+
+            if (existing != null)
+            {
+                // ── UPDATE ──
+                entity = existing;
+                entity.PageLenght = view.PageLenght;
+                entity.Filters = view.Filters;
+                entity.GroupBy = view.GroupBy;
+                entity.IsDefault = view.IsDefault;   // usually same rahega
+                entity.UpdatedAt = DateTime.Now;
+            }
+            else
+            {
+                // ── INSERT NEW ──
+                // Pehle default reset karo agar yeh default hai
+                if (view.IsDefault)
+                {
+                    var defaultsToReset = _context.UserReportViews
+                        .Where(x => x.UserId == userId &&
+                                    x.ReportKey == view.ReportKey &&
+                                    x.IsDefault &&
+                                    x.ViewName != view.ViewName)
+                        .ToList();
+
+                    foreach (var d in defaultsToReset)
+                    {
+                        d.IsDefault = false;
+                    }
+                }
+
+                entity = new UserReportView
+                {
+                    ViewName = view.ViewName,
+                    ReportKey = view.ReportKey,
+                    PageLenght = view.PageLenght,
+                    Filters = view.Filters,
+                    GroupBy = view.GroupBy,
+                    IsDefault = view.IsDefault,
+                    UserId = userId,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                };
+
+                _context.UserReportViews.Add(entity);
+            }
+
             _context.SaveChanges();
 
-            return Ok(new { success = true, id = view.Id });
+            return Ok(new
+            {
+                success = true,
+                id = entity.Id,           // ab bhi return kar rahe ho to future mein kaam aa sakta hai
+                message = "Saved successfully"
+            });
         }
         catch (Exception ex)
         {
             return Json(new { success = false, message = ex.Message });
         }
     }
+
     [HttpGet]
     public IActionResult GetUserReportViews(string reportKey)
     {

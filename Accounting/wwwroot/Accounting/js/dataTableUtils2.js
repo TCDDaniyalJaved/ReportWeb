@@ -1113,7 +1113,7 @@ function updateCustomPagination(table) {
 }
 //apply fav
 export function applyFavorite(view) {
-
+    console.log("abc");
     let filters = {};
     let groups = [];
     try {
@@ -1219,36 +1219,67 @@ export async function loadAndDisplayDefaultPageLength(endpoint) {
         return 20;
     }
 }
+// Default load editor (FIXED – update instead of create)
 
 // Default load editor (pura initDefaultLoadEditor move kar rahe hain)
-export function initDefaultPageLengthEditor(groupBySelectionOrder) {
-    const textEl = document.getElementById('defaultLoadText');
-    const inputEl = document.getElementById('defaultLoadInput');
-    const editBlock = document.getElementById('editDefaultLoad');
-    const viewElements = document.querySelectorAll('.default-load-info .view-mode');
-    const changeBtn = document.getElementById('changeDefaultBtn');
-    const hintEl = document.getElementById('defaultLoadHint');
+export function initDefaultPageLengthEditor({
+    reportKey,
+    viewName = 'DefaultView',
+    isDefault = true,
+    groupBySelectionOrder = [],
+    saveEndpoint = '/Accounting/Report/SaveReportView',
+    minValue = 10,
+    maxValue = 2500,
+    textSelector = '#defaultLoadText',
+    inputSelector = '#defaultLoadInput',
+    editBlockSelector = '#editDefaultLoad',
+    changeBtnSelector = '#changeDefaultBtn',
+    hintSelector = '#defaultLoadHint',
+} = {}) {
+    // ── Validate required parameters ──
+    if (!reportKey) {
+        console.error('initDefaultPageLengthEditor: reportKey is required');
+        return;
+    }
 
-    if (!textEl || !inputEl || !editBlock) return;
+    // ── Cache DOM elements ──
+    const textEl = document.querySelector(textSelector);
+    const inputEl = document.querySelector(inputSelector);
+    const editBlock = document.querySelector(editBlockSelector);
+    const changeBtn = document.querySelector(changeBtnSelector);
+    const hintEl = document.querySelector(hintSelector);
+
+    const viewModeElements = document.querySelectorAll(
+        `${textSelector}, ${changeBtnSelector}`
+    );
+
+    if (!textEl || !inputEl || !editBlock || !changeBtn || !hintEl) {
+        console.warn('Default page length editor: some DOM elements not found');
+        return;
+    }
 
     let originalValue = null;
 
     function enterEditMode() {
         originalValue = inputEl.value;
-        viewElements.forEach(el => el.classList.add('d-none'));
+        viewModeElements.forEach(el => el.classList.add('d-none'));
         editBlock.classList.remove('d-none');
         hintEl.classList.remove('text-danger');
-        hintEl.textContent = 'Please enter a number between 10 and 2500';
+        hintEl.textContent = `Enter a number between ${minValue} and ${maxValue}`;
         inputEl.focus();
         inputEl.select();
     }
 
     function exitEditMode(restore = false) {
-        if (restore) inputEl.value = originalValue;
+        if (restore && originalValue !== null) {
+            inputEl.value = originalValue;
+        }
         editBlock.classList.add('d-none');
-        viewElements.forEach(el => el.classList.remove('d-none'));
+        viewModeElements.forEach(el => el.classList.remove('d-none'));
+        hintEl.classList.remove('text-danger');
     }
 
+    // ── Event listeners ──
     changeBtn.addEventListener('click', enterEditMode);
     textEl.addEventListener('click', enterEditMode);
 
@@ -1257,11 +1288,13 @@ export function initDefaultPageLengthEditor(groupBySelectionOrder) {
             exitEditMode(true);
             return;
         }
+
         if (e.key !== 'Enter') return;
 
-        const newValue = parseInt(inputEl.value, 10);
-        if (isNaN(newValue) || newValue < 10 || newValue > 2500) {
-            hintEl.textContent = 'Value must be between 10 and 2500';
+        const newValue = parseInt(inputEl.value.trim(), 10);
+
+        if (isNaN(newValue) || newValue < minValue || newValue > maxValue) {
+            hintEl.textContent = `Please enter a number between ${minValue} and ${maxValue}`;
             hintEl.classList.add('text-danger');
             return;
         }
@@ -1269,44 +1302,68 @@ export function initDefaultPageLengthEditor(groupBySelectionOrder) {
         try {
             const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
 
-            await fetch('/accounting/Report/SaveReportView', {
+            const payload = {
+                ViewName: viewName,
+                ReportKey: reportKey,
+                PageLenght: newValue,           // ← note spelling matches your backend
+                Filters: '{}',
+                GroupBy: JSON.stringify(groupBySelectionOrder),
+                IsDefault: isDefault
+            };
+
+            const response = await fetch(saveEndpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'RequestVerificationToken': token
                 },
-                body: JSON.stringify({
-                    ViewName: 'OpeningView',
-                    ReportKey: 'OpeningMaster',
-                    PageLenght: newValue,           // note spelling in backend
-                    Filters: '{}',
-                    GroupBy: JSON.stringify(groupBySelectionOrder),
-                    IsDefault: true
-                })
+                body: JSON.stringify(payload)
             });
 
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            // Update displayed value
             textEl.textContent = `${newValue} records`;
+
+            // Exit edit mode
             exitEditMode();
-            //  SweetAlert reload popup
+
+            // Ask user to reload (because page length affects DataTable)
             Swal.fire({
                 title: 'Reload Required',
-                text: 'Page length has been changed. Reload the page to apply changes.',
+                text: 'Page length has been updated. Reload the page to apply the change?',
                 icon: 'info',
                 showCancelButton: true,
-                confirmButtonText: 'Reload',
-                cancelButtonText: 'Cancel'
+                confirmButtonText: 'Reload Now',
+                cancelButtonText: 'Later'
             }).then(result => {
                 if (result.isConfirmed) {
-                    location.reload();
+                    window.location.reload();
                 }
             });
+
         } catch (err) {
-            console.error(err);
-            hintEl.textContent = 'Error saving value';
+            console.error('Failed to save default page length:', err);
+            hintEl.textContent = 'Failed to save. Please try again.';
             hintEl.classList.add('text-danger');
         }
     });
+
+    // Optional: allow clicking outside edit block to cancel
+    document.addEventListener('click', function cancelOnOutsideClick(e) {
+        if (!editBlock.contains(e.target) && !changeBtn.contains(e.target) && !textEl.contains(e.target)) {
+            if (!editBlock.classList.contains('d-none')) {
+                exitEditMode(true);
+            }
+        }
+    });
 }
+
+
+
+
 // Cleanup Functions
 
 export function destroyAllTables() {
@@ -1316,4 +1373,10 @@ export function destroyAllTables() {
         }
     });
     activeTables.clear();
+}
+
+
+
+export function resetToFirstPage() {
+    activeTables.get('#masterTable')?.ajax.reload();
 }

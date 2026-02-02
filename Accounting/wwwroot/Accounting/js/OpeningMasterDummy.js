@@ -66,7 +66,7 @@ $(document).ready(() => {
 
         const payload = {
             ViewName: viewName,
-            ReportKey: 'OpeningMaster',
+            ReportKey: 'OpeningMasterReport',
             Filters: JSON.stringify(filters),
             GroupBy: JSON.stringify(groupBy)
         };
@@ -87,7 +87,7 @@ $(document).ready(() => {
 
     // Favorites Management
     function loadFavorites() {
-        $.get('/Accounting/Report/GetUserReportViews', { reportKey: 'OpeningMaster' }, function (data) {
+        $.get('/Accounting/Report/GetUserReportViews', { reportKey: 'OpeningMasterReport' }, function (data) {
             const $list = $('#favoritesList');
             $list.empty();
 
