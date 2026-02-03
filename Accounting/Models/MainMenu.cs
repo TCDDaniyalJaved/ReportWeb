@@ -33,7 +33,7 @@ public partial class MainMenu
 
     public int? UserId { get; set; }
 
-    public short? PageLength { get; set; }
+    public int? PageLength { get; set; }
 
     public virtual App App { get; set; }
 }

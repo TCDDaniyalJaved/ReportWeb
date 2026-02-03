@@ -705,46 +705,59 @@ public class AccountOpeningController : Controller
     }
     public IActionResult GetDefaultLoad23()
     {
-        //  Referrer URL
-        string referrerUrl = HttpContext.Request.Headers["Referer"].ToString();
+        string referrerUrl = "https://localhost:7228/accounting/accountopening/list2";
+        //string referrerUrl = HttpContext.Request.Headers["Referer"].ToString();
 
         if (string.IsNullOrEmpty(referrerUrl))
-            return Json(new { value = 20 });
+            return Json(new { id = (int?)null, value = 20 });
 
         var url = new Uri(referrerUrl);
         string path = url.AbsolutePath.ToLower();
 
-        //  Current User Id
+        // Current User Id
         var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
         if (!int.TryParse(userIdClaim, out int userId))
-        {
-            return Json(new { value = 20 }); // fallback
-        }
+            return Json(new { id = (int?)null, value = 20 });
 
-        //  USER SPECIFIC VALUE (ReportView table)
+        //  USER SPECIFIC DEFAULT
         var userPageLength = _context.UserReportViews
             .Where(x =>
-               x.UserId == userId &&
-                x.ReportKey == "OpeningMaster" &&   // IMPORTANT
-                x.IsDefault == true
+                x.UserId == userId &&
+                x.ReportKey == "OpeningMaster" &&
+                x.IsDefault
             )
-            .Select(x => (int?)x.PageLenght)
+            .Select(x => new
+            {
+                x.Id,
+                x.PageLenght
+            })
             .FirstOrDefault();
 
-        if (userPageLength.HasValue)
+        if (userPageLength != null && userPageLength.PageLenght.HasValue)
         {
-            return Json(new { value = userPageLength.Value });
+            //  User setting → ID + value
+            return Json(new
+            {
+                id = userPageLength.Id,
+                value = userPageLength.PageLenght.Value
+            });
         }
 
-        //  GLOBAL DEFAULT (MainMenus)
+        //  GLOBAL DEFAULT  ID NAHI AANI CHAHIYE)
         var globalPageLength = _context.MainMenus
             .Where(x => x.Url.ToLower() == path)
             .Select(x => (int?)x.PageLength)
             .FirstOrDefault();
 
-        return Json(new { value = globalPageLength ?? 20 });
+        return Json(new
+        {
+            id = (int?)null,              //  hamesha null
+            value = globalPageLength ?? 20
+        });
     }
+
+
 
     #endregion
 }

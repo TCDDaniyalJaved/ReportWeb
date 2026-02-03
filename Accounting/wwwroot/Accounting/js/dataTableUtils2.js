@@ -1199,62 +1199,69 @@ export function showToast(title = '', text = 'Saved!', icon = 'success') {
 }
 export async function loadAndDisplayDefaultPageLength(endpoint) {
     try {
+        console.log(`[loadDefaultLength] Fetching from: ${endpoint}`);
         const response = await fetch(endpoint);
-        if (!response.ok) throw new Error('Network response was not ok');
-
+        if (!response.ok) {
+            console.warn(`[loadDefaultLength] HTTP ${response.status} - using fallback`);
+            throw new Error('Network response was not ok');
+        }
         const data = await response.json();
-        const defaultLoad = data.value || 20;
+
+        console.log('[loadDefaultLength] Raw response:', data);
+        console.log(`[loadDefaultLength] value: ${data.value ?? 'missing'}, id: ${data.id ?? 'missing'}`);
+
+        const defaultLoad = Number(data.value) || 20;
+        const viewId = Number(data.id) || 0;
 
         const textEl = document.getElementById('defaultLoadText');
         const inputEl = document.getElementById('defaultLoadInput');
 
-        if (textEl) textEl.textContent = `${defaultLoad} records`;
+        if (textEl) {
+            textEl.textContent = `${defaultLoad} records`;
+            textEl.dataset.viewId = viewId;
+            console.log(`[loadDefaultLength] UI set: ${defaultLoad} records, viewId=${viewId}`);
+        }
         if (inputEl) inputEl.value = defaultLoad;
 
-        return defaultLoad;
+        return { defaultLoad, viewId };
     } catch (err) {
-        console.error('Failed to load default page length:', err);
+        console.error('[loadDefaultLength] Error:', err);
+        const fallback = 20;
         const textEl = document.getElementById('defaultLoadText');
-        if (textEl) textEl.textContent = '200 records'; // fallback
-        return 20;
+        if (textEl) {
+            textEl.textContent = `${fallback} records (fallback)`;
+            textEl.dataset.viewId = '0';
+        }
+        return { defaultLoad: fallback, viewId: 0 };
     }
 }
-// Default load editor (FIXED – update instead of create)
-
-// Default load editor (pura initDefaultLoadEditor move kar rahe hain)
 export function initDefaultPageLengthEditor({
     reportKey,
     viewName = 'DefaultView',
     isDefault = true,
     groupBySelectionOrder = [],
     saveEndpoint = '/Accounting/Report/SaveReportView',
-    minValue = 10,
-    maxValue = 2500,
+    minValue = 5,
+    maxValue = 500,
     textSelector = '#defaultLoadText',
     inputSelector = '#defaultLoadInput',
     editBlockSelector = '#editDefaultLoad',
     changeBtnSelector = '#changeDefaultBtn',
     hintSelector = '#defaultLoadHint',
 } = {}) {
-    // ── Validate required parameters ──
     if (!reportKey) {
-        console.error('initDefaultPageLengthEditor: reportKey is required');
+        console.error('initDefaultPageLengthEditor: reportKey required');
         return;
     }
 
-    // ── Cache DOM elements ──
     const textEl = document.querySelector(textSelector);
     const inputEl = document.querySelector(inputSelector);
     const editBlock = document.querySelector(editBlockSelector);
     const changeBtn = document.querySelector(changeBtnSelector);
     const hintEl = document.querySelector(hintSelector);
 
-    const viewModeElements = document.querySelectorAll(
-        `${textSelector}, ${changeBtnSelector}`
-    );
-
     if (!textEl || !inputEl || !editBlock || !changeBtn || !hintEl) {
-        console.warn('Default page length editor: some DOM elements not found');
+        console.warn('Page length editor DOM elements missing');
         return;
     }
 
@@ -1262,24 +1269,21 @@ export function initDefaultPageLengthEditor({
 
     function enterEditMode() {
         originalValue = inputEl.value;
-        viewModeElements.forEach(el => el.classList.add('d-none'));
+        document.querySelectorAll(`${textSelector}, ${changeBtnSelector}`).forEach(el => el.classList.add('d-none'));
         editBlock.classList.remove('d-none');
         hintEl.classList.remove('text-danger');
-        hintEl.textContent = `Enter a number between ${minValue} and ${maxValue}`;
+        hintEl.textContent = `Enter number between ${minValue} and ${maxValue}`;
         inputEl.focus();
         inputEl.select();
     }
 
     function exitEditMode(restore = false) {
-        if (restore && originalValue !== null) {
-            inputEl.value = originalValue;
-        }
+        if (restore && originalValue !== null) inputEl.value = originalValue;
         editBlock.classList.add('d-none');
-        viewModeElements.forEach(el => el.classList.remove('d-none'));
+        document.querySelectorAll(`${textSelector}, ${changeBtnSelector}`).forEach(el => el.classList.remove('d-none'));
         hintEl.classList.remove('text-danger');
     }
 
-    // ── Event listeners ──
     changeBtn.addEventListener('click', enterEditMode);
     textEl.addEventListener('click', enterEditMode);
 
@@ -1288,28 +1292,34 @@ export function initDefaultPageLengthEditor({
             exitEditMode(true);
             return;
         }
-
         if (e.key !== 'Enter') return;
 
-        const newValue = parseInt(inputEl.value.trim(), 10);
+        const raw = inputEl.value.trim();
+        const newValue = Number(raw);
 
-        if (isNaN(newValue) || newValue < minValue || newValue > maxValue) {
-            hintEl.textContent = `Please enter a number between ${minValue} and ${maxValue}`;
+        if (!raw || Number.isNaN(newValue) || !Number.isInteger(newValue) ||
+            newValue < minValue || newValue > maxValue) {
+            hintEl.textContent = `Please enter integer ${minValue}–${maxValue}`;
             hintEl.classList.add('text-danger');
             return;
         }
 
         try {
             const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+            const currentViewId = Number(textEl.dataset.viewId) || 0;
 
             const payload = {
+                Id: currentViewId > 0 ? currentViewId : undefined,
                 ViewName: viewName,
                 ReportKey: reportKey,
-                PageLenght: newValue,           // ← note spelling matches your backend
+                PageLenght: newValue,                  // ← consistent spelling (as per your backend)
                 Filters: '{}',
                 GroupBy: JSON.stringify(groupBySelectionOrder),
                 IsDefault: isDefault
             };
+
+            console.log('[PageLengthEditor] Saving with viewId:', currentViewId);
+            console.log('[PageLengthEditor] Payload:', payload);
 
             const response = await fetch(saveEndpoint, {
                 method: 'POST',
@@ -1321,45 +1331,185 @@ export function initDefaultPageLengthEditor({
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
+                const errText = await response.text().catch(() => '');
+                throw new Error(`Save failed: ${response.status} - ${errText}`);
             }
 
-            // Update displayed value
+            const result = await response.json();
+            console.log('[PageLengthEditor] Save response:', result);
+
             textEl.textContent = `${newValue} records`;
 
-            // Exit edit mode
+            if (result?.success && result?.id > 0) {
+                textEl.dataset.viewId = result.id;
+                console.log('[PageLengthEditor] Stored new viewId:', result.id);
+            }
+
             exitEditMode();
 
-            // Ask user to reload (because page length affects DataTable)
             Swal.fire({
                 title: 'Reload Required',
-                text: 'Page length has been updated. Reload the page to apply the change?',
+                text: 'Page length updated. Reload page to apply?',
                 icon: 'info',
                 showCancelButton: true,
                 confirmButtonText: 'Reload Now',
                 cancelButtonText: 'Later'
-            }).then(result => {
-                if (result.isConfirmed) {
-                    window.location.reload();
-                }
+            }).then(r => {
+                if (r.isConfirmed) window.location.reload();
             });
-
         } catch (err) {
-            console.error('Failed to save default page length:', err);
-            hintEl.textContent = 'Failed to save. Please try again.';
+            console.error('[PageLengthEditor] Save error:', err);
+            hintEl.textContent = 'Failed to save. Try again.';
             hintEl.classList.add('text-danger');
         }
     });
 
-    // Optional: allow clicking outside edit block to cancel
-    document.addEventListener('click', function cancelOnOutsideClick(e) {
+    // Outside click cancel
+    document.addEventListener('click', e => {
         if (!editBlock.contains(e.target) && !changeBtn.contains(e.target) && !textEl.contains(e.target)) {
-            if (!editBlock.classList.contains('d-none')) {
-                exitEditMode(true);
-            }
+            if (!editBlock.classList.contains('d-none')) exitEditMode(true);
         }
     });
 }
+//export function initDefaultPageLengthEditor({
+//    reportKey,
+//    viewName = 'DefaultView',
+//    isDefault = true,
+//    groupBySelectionOrder = [],
+//    saveEndpoint = '/Accounting/Report/SaveReportView1',
+//    minValue = 10,
+//    maxValue = 2500,
+//    textSelector = '#defaultLoadText',
+//    inputSelector = '#defaultLoadInput',
+//    editBlockSelector = '#editDefaultLoad',
+//    changeBtnSelector = '#changeDefaultBtn',
+//    hintSelector = '#defaultLoadHint',
+//} = {}) {
+//    // ── Validate required parameters ──
+//    if (!reportKey) {
+//        console.error('initDefaultPageLengthEditor: reportKey is required');
+//        return;
+//    }
+
+//    // ── Cache DOM elements ──
+//    const textEl = document.querySelector(textSelector);
+//    const inputEl = document.querySelector(inputSelector);
+//    const editBlock = document.querySelector(editBlockSelector);
+//    const changeBtn = document.querySelector(changeBtnSelector);
+//    const hintEl = document.querySelector(hintSelector);
+
+//    const viewModeElements = document.querySelectorAll(
+//        `${textSelector}, ${changeBtnSelector}`
+//    );
+
+//    if (!textEl || !inputEl || !editBlock || !changeBtn || !hintEl) {
+//        console.warn('Default page length editor: some DOM elements not found');
+//        return;
+//    }
+
+//    let originalValue = null;
+
+//    function enterEditMode() {
+//        originalValue = inputEl.value;
+//        viewModeElements.forEach(el => el.classList.add('d-none'));
+//        editBlock.classList.remove('d-none');
+//        hintEl.classList.remove('text-danger');
+//        hintEl.textContent = `Enter a number between ${minValue} and ${maxValue}`;
+//        inputEl.focus();
+//        inputEl.select();
+//    }
+
+//    function exitEditMode(restore = false) {
+//        if (restore && originalValue !== null) {
+//            inputEl.value = originalValue;
+//        }
+//        editBlock.classList.add('d-none');
+//        viewModeElements.forEach(el => el.classList.remove('d-none'));
+//        hintEl.classList.remove('text-danger');
+//    }
+
+//    // ── Event listeners ──
+//    changeBtn.addEventListener('click', enterEditMode);
+//    textEl.addEventListener('click', enterEditMode);
+
+//    inputEl.addEventListener('keydown', async (e) => {
+//        if (e.key === 'Escape') {
+//            exitEditMode(true);
+//            return;
+//        }
+
+//        if (e.key !== 'Enter') return;
+
+//        const newValue = parseInt(inputEl.value.trim(), 10);
+
+//        if (isNaN(newValue) || newValue < minValue || newValue > maxValue) {
+//            hintEl.textContent = `Please enter a number between ${minValue} and ${maxValue}`;
+//            hintEl.classList.add('text-danger');
+//            return;
+//        }
+
+//        try {
+//            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+
+//            const payload = {
+//                ViewName: viewName,
+//                ReportKey: reportKey,
+//                PageLenght: newValue,           // ← note spelling matches your backend
+//                Filters: '{}',
+//                GroupBy: JSON.stringify(groupBySelectionOrder),
+//                IsDefault: isDefault
+//            };
+
+//            const response = await fetch(saveEndpoint, {
+//                method: 'POST',
+//                headers: {
+//                    'Content-Type': 'application/json',
+//                    'RequestVerificationToken': token
+//                },
+//                body: JSON.stringify(payload)
+//            });
+
+//            if (!response.ok) {
+//                throw new Error(`HTTP ${response.status}`);
+//            }
+
+//            // Update displayed value
+//            textEl.textContent = `${newValue} records`;
+
+//            // Exit edit mode
+//            exitEditMode();
+
+//            // Ask user to reload (because page length affects DataTable)
+//            Swal.fire({
+//                title: 'Reload Required',
+//                text: 'Page length has been updated. Reload the page to apply the change?',
+//                icon: 'info',
+//                showCancelButton: true,
+//                confirmButtonText: 'Reload Now',
+//                cancelButtonText: 'Later'
+//            }).then(result => {
+//                if (result.isConfirmed) {
+//                    window.location.reload();
+//                }
+//            });
+
+//        } catch (err) {
+//            console.error('Failed to save default page length:', err);
+//            hintEl.textContent = 'Failed to save. Please try again.';
+//            hintEl.classList.add('text-danger');
+//        }
+//    });
+
+//    // Optional: allow clicking outside edit block to cancel
+//    document.addEventListener('click', function cancelOnOutsideClick(e) {
+//        if (!editBlock.contains(e.target) && !changeBtn.contains(e.target) && !textEl.contains(e.target)) {
+//            if (!editBlock.classList.contains('d-none')) {
+//                exitEditMode(true);
+//            }
+//        }
+//    });
+//}
+
 
 
 

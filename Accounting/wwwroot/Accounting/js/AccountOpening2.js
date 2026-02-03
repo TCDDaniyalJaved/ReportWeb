@@ -23,15 +23,12 @@ $(document).ready(async () => {
     //  Editor setup (jo value change hone par save karta hai)
     initDefaultPageLengthEditor({
         reportKey: 'OpeningMaster',
-        viewName: 'OpeningView',           // or whatever name you want to save as
+        viewName: 'OpeningView',
         isDefault: true,
-        groupBySelectionOrder,             // pass the reference so current groups are saved
-
-        // You can override these if needed on some pages
+        groupBySelectionOrder,
         saveEndpoint: '/Accounting/Report/SaveReportView',
-           minValue: 5,
-           maxValue: 500,
-         //textSelector: '#myDefaultLoadText',
+        minValue: 5,
+        maxValue: 500,
     });
 
     //  URL handling + create button

@@ -100,11 +100,11 @@
                                         <li id="saveFavorite">Save current search</li>
                                     </ul>
                                     <ul id="favoritesList"></ul>
-                                    <div class="default-load-info">
+                                  @*   <div class="default-load-info">
                                         Default load:
 
                                         <!-- View mode -->
-                                        <span class="default-load-text view-mode" id="defaultLoadText">20 records</span>
+                                        <span class="default-load-text view-mode" id="defaultLoadText"> records</span>
 
                                         <!-- Edit mode (hidden by default) -->
                                         <span class="edit-mode d-none" id="editDefaultLoad">
@@ -115,7 +115,7 @@
                                         </span>
 
                                         <span class="change-default view-mode" id="changeDefaultBtn">Change</span>
-                                    </div>
+                                    </div> *@
                                 </div>
                             </div>
                         </div>
@@ -142,7 +142,27 @@
                             <option value="100">100 Records Per Page</option>
                             <option value="-1">All Records</option>
                         </select>
+                          <div class="default-load-info">
+                            View Page:
 
+                                        <!-- View mode -->
+                                        <span class="default-load-text view-mode" id="defaultLoadText"> records</span>
+
+                                        <!-- Edit mode (hidden by default) -->
+                            <span class="edit-mode d-none" id="editDefaultLoad">
+                                <input type="number"
+                                       id="defaultLoadInput"
+                                       class="form-control form-control-sm no-spinner"
+                                       style="width: 90px;">
+
+                                <!-- hint ab neeche line me -->
+                                <small id="defaultLoadHint"
+                                       class="text-muted d-block mt-1">
+                                </small>
+                            </span>
+
+                                        <span class="change-default view-mode" hidden id="changeDefaultBtn">Change</span>
+                                    </div>
                     </ebit-section>
                 </ebit-section>
             </ebit-section>

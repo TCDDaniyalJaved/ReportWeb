@@ -268,8 +268,8 @@ public class ReportController : Controller
     //    try
     //    {
 
-    //        if (view == null) 
-    //         return BadRequest();
+    //        if (view == null)
+    //            return BadRequest();
 
     //        view.CreatedAt = DateTime.Now;
     //        view.UpdatedAt = DateTime.Now;
@@ -296,8 +296,6 @@ public class ReportController : Controller
     //}
 
 
-
-
     [HttpPost]
     public IActionResult SaveReportView([FromBody] UserReportView view)
     {
@@ -308,50 +306,58 @@ public class ReportController : Controller
 
             int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            // Normalize JSON fields (agar object aa raha ho to string bana do)
+            // Normalize JSON fields
             if (view.Filters != null && view.Filters.GetType() != typeof(string))
                 view.Filters = JsonConvert.SerializeObject(view.Filters);
 
             if (view.GroupBy != null && view.GroupBy.GetType() != typeof(string))
                 view.GroupBy = JsonConvert.SerializeObject(view.GroupBy);
 
-            // Unique key ke basis par dhundo (Id ki zarurat nahi)
-            var existing = _context.UserReportViews
-                .FirstOrDefault(x =>
-                    x.UserId == userId &&
-                    x.ReportKey == view.ReportKey &&
-                    x.ViewName == view.ViewName &&
-                    x.IsDefault == view.IsDefault);
-
             UserReportView entity;
-
-            if (existing != null)
+            // ───────────────── UPDATE (ID based) ─────────────────
+            if (view.Id > 0)
             {
-                // ── UPDATE ──
-                entity = existing;
+                entity = _context.UserReportViews
+                    .FirstOrDefault(x => x.Id == view.Id && x.UserId == userId);
+
+                if (entity == null)
+                    return NotFound("Record not found");
+
+                // Default reset logic
+                if (view.IsDefault)
+                {
+                    var defaultsToReset = _context.UserReportViews
+                        .Where(x => x.UserId == userId &&
+                                    x.ReportKey == entity.ReportKey &&
+                                    x.IsDefault &&
+                                    x.Id != entity.Id)
+                        .ToList();
+
+                    foreach (var d in defaultsToReset)
+                        d.IsDefault = false;
+                }
+
+                entity.ViewName = view.ViewName;
+                entity.ReportKey = view.ReportKey;
                 entity.PageLenght = view.PageLenght;
                 entity.Filters = view.Filters;
                 entity.GroupBy = view.GroupBy;
-                entity.IsDefault = view.IsDefault;   // usually same rahega
+                entity.IsDefault = view.IsDefault;
                 entity.UpdatedAt = DateTime.Now;
             }
+            // ───────────────── INSERT ─────────────────
             else
             {
-                // ── INSERT NEW ──
-                // Pehle default reset karo agar yeh default hai
                 if (view.IsDefault)
                 {
                     var defaultsToReset = _context.UserReportViews
                         .Where(x => x.UserId == userId &&
                                     x.ReportKey == view.ReportKey &&
-                                    x.IsDefault &&
-                                    x.ViewName != view.ViewName)
+                                    x.IsDefault)
                         .ToList();
 
                     foreach (var d in defaultsToReset)
-                    {
                         d.IsDefault = false;
-                    }
                 }
 
                 entity = new UserReportView
@@ -375,7 +381,7 @@ public class ReportController : Controller
             return Ok(new
             {
                 success = true,
-                id = entity.Id,           // ab bhi return kar rahe ho to future mein kaam aa sakta hai
+                id = entity.Id,
                 message = "Saved successfully"
             });
         }
@@ -385,6 +391,7 @@ public class ReportController : Controller
         }
     }
 
+
     [HttpGet]
     public IActionResult GetUserReportViews(string reportKey)
     {
@@ -393,7 +400,7 @@ public class ReportController : Controller
 
         // Fetch user's saved views for this report
         var views = _context.UserReportViews
-            .Where(v => v.UserId == userId && v.ReportKey == reportKey)
+            .Where(v => v.UserId == userId && v.ReportKey == reportKey && v.PageLenght == null)
             .Select(v => new
             {
                 v.Id,
