@@ -618,6 +618,7 @@ export function loadForm(basePath, mode, id = null, voucherNo = null, compprefix
 
     window.history.pushState({ mode, id }, '', newPath);
 
+    $('.default-load-info').addClass('d-none');
     $('#personal-info').css('background-color', 'var(--bs-body-bg)');
     $('#btnCreate').removeClass('btn-primary').addClass('btn-outline-primary btn-sm shadow-none');
     $('#universalSearch, #sharedLength, #customPagination, .input-group-text').hide();

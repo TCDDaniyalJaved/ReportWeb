@@ -1,4 +1,4 @@
-@* View: AccountOpening/Index.cshtml *@
+﻿@* View: AccountOpening/Index.cshtml *@
 @model Accounting.Models.AccountOpeningM
 
 @section VendorStyles {
@@ -8,11 +8,17 @@
 @section VendorScripts {
     @await Html.PartialAsync("_VendorScripts")
 }
+<link href="~/accounting/css/advancedropdown.css" rel="stylesheet" />
+<script src="~/Accounting/js/advancedropdown.js"></script>
+<script>
+    window.addEventListener('resize', function() {
+        if ($.fn.DataTable.isDataTable('#masterTable')) {
+            $('#masterTable').DataTable().columns.adjust().draw(false);
+        }
+    });
+</script>
 
-@section PageScripts {
-    <script type="module" src="/Accounting/js/AccountOpening.js"></script>
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}
+
 <ebit-section p="0" m="0">
     <div id="wizardStepper" class="bs-stepper wizard-numbered" style="box-shadow:none;">
 
@@ -30,12 +36,137 @@
         <!-- Wizard Content -->
         <ebit-section class="bs-stepper-content p-0 m-0">
 
-            @await Html.PartialAsync("_PageHeader", new Accounting.Models.PageHeaderVM
+            @*   @await Html.PartialAsync("_PageHeader", new Accounting.Models.PageHeaderVM
             {
                 Title = "Account Opening Balance",
                         NewButtonText = "New",
                         SearchPlaceholder = "Search by voucher, date, amount..."
-                        })
+                        }) *@
+            <ebit-section class="d-flex justify-content-between align-items-center pb-3 flex-wrap create-header w-100 px-0 ps-2 pt-3  sticky-left-header">
+                <ebit-section class="d-flex align-items-center justify-content-between flex-wrap w-100">
+
+                    <!-- Left -->
+                    <ebit-section class="d-flex align-items-center gap-3">
+                        <button type="button" class="btn btn-primary" id="btnCreate">
+                            New
+                        </button>
+
+                        <h5 class="mb-0 fw-semibold d-flex align-items-center gap-2">
+                            Account Opening Balance
+                            @* <i class="bx bx-cog ms-1 text-muted" style="cursor:pointer;"></i> *@
+                        </h5>
+                    </ebit-section>
+
+                    <!-- Search -->
+                    <ebit-section class="d-flex justify-content-center flex-grow-1">
+                        <div class="input-group" style="width: 100%; max-width: 560px; position: relative;">
+                            <span class="input-group-text border-end-0">
+                                <i class="bx bx-search text-muted"></i>
+                            </span>
+                            <div class="d-flex flex-wrap align-items-center form-control border-start-0 border-end-0 p-0"
+                                 id="searchContainer"
+                                 style="min-height: 44px; padding: 6px 8px; gap: 6px; overflow: visible;">
+                                <!-- Dynamic filter/voucher badges go here -->
+                                <input type="search" id="universalSearch" class="border-0 flex-grow-1"
+                                       placeholder="Search by voucher, date, amount..."
+                                       style="height: 32px; min-width: 120px; outline: none; background: transparent;">
+                            </div>
+                            <span class="input-group-text border-start-0" id="searchFilterToggle" style="cursor:pointer;">
+                                <i class="bx bx-filter-alt text-muted"></i>
+                            </span>
+
+                            <div id="advancedDropdown" class="advanced-dropdown d-none" style="background-color:var(--bs-body-bg)">
+                                <div class="col">
+                                    <h6><i class="bx bx-filter"></i> Filters</h6>
+                                    <ul>
+                                        <li data-filter="Companies" class="filter-item">Companies</li>
+                                        <li data-filter="LedgerName" class="filter-item">LedgerName</li>
+                                        <li data-filter="CustomerInvoice" class="filter-item">Customer Invoices</li>
+                                        <li data-filter="VendorBill" class="filter-item">Vendor Bills</li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <h6><i class="bx bx-grid-alt"></i> Group By</h6>
+                                    <ul id="groupByList">
+                                        <li data-group="voucher" class="group-item">Voucher</li>
+                                        <li data-group="companyname" class="group-item">Company</li>
+                                        <li data-group="vmonthName" class="group-item">Month Name</li>
+                                        <li data-group="vyear" class="group-item">Year</li>
+                                    </ul>
+                                </div>
+                                <div class="col" id="favorites">
+                                    <h6><i class="bx bx-star"></i> Favorites</h6>
+                                    <ul>
+                                        <li id="saveFavorite">Save current search</li>
+                                    </ul>
+                                    <ul id="favoritesList"></ul>
+                                    @*   <div class="default-load-info">
+                                        Default load:
+
+                                        <!-- View mode -->
+                                        <span class="default-load-text view-mode" id="defaultLoadText"> records</span>
+
+                                        <!-- Edit mode (hidden by default) -->
+                                        <span class="edit-mode d-none" id="editDefaultLoad">
+                                            <input type="number" id="defaultLoadInput" class="form-control form-control-sm d-inline-block no-spinner"
+                                                   style="width: 90px;" >
+                                            <small id="defaultLoadHint" class="text-muted">
+                                            </small>
+                                        </span>
+
+                                        <span class="change-default view-mode" id="changeDefaultBtn">Change</span>
+                                    </div> *@
+                                </div>
+                            </div>
+                        </div>
+                    </ebit-section>
+
+                    <!-- Pagination -->
+                    <ebit-section class="d-flex align-items-center gap-3 ">
+
+                        <ebit-section id="customPagination" class="d-none d-flex align-items-center gap-2">
+                            <button variant="ghost" class="btn btn-sm btn-outline-primary rounded" id="prevPage">
+                                <i class="bx bx-chevron-left"></i>
+                            </button>
+                            <span id="pageInfo" class="fw-medium text-primary px-2">1 / 2</span>
+                            <button variant="ghost" class="btn btn-sm btn-outline-primary rounded" id="nextPage">
+                                <i class="bx bx-chevron-right"></i>
+                            </button>
+                        </ebit-section>
+
+                        <select id="sharedLength" class="form-select form-select-sm " hidden style="width: auto;">
+                            <option value="7" selected>7 Records Per Page</option>
+                            <option value="10">10 Records Per Page</option>
+                            <option value="25">25 Records Per Page</option>
+                            <option value="50">50 Records Per Page</option>
+                            <option value="100">100 Records Per Page</option>
+                            <option value="-1">All Records</option>
+                        </select>
+                        <div class="default-load-info">
+                            View Page:
+
+                            <!-- View mode -->
+                            <span class="default-load-text view-mode" id="defaultLoadText"> records</span>
+
+                            <!-- Edit mode (hidden by default) -->
+                            <span class="edit-mode d-none" id="editDefaultLoad">
+                                <input type="number"
+                                       id="defaultLoadInput"
+                                       class="form-control form-control-sm no-spinner"
+                                       style="width: 90px;">
+
+                                <!-- hint ab neeche line me -->
+                                <small id="defaultLoadHint"
+                                       class="text-muted d-block mt-1">
+                                </small>
+                            </span>
+
+                            <span class="change-default view-mode" hidden id="changeDefaultBtn">Change</span>
+                        </div>
+                    </ebit-section>
+                </ebit-section>
+            </ebit-section>
+
 
             <!-- Table Section -->
             <ebit-section id="account-details" class="content">
@@ -48,14 +179,14 @@
                                 <!-- Table Header -->
                                 <ebit-head class="border-top">
                                     <ebit-row>
-                                        <ebit-headcolumn datafield="" render="edit" width="50px"></ebit-headcolumn>
+                                        <ebit-headcolumn render="checkbox" width="1%"></ebit-headcolumn>
+                                        @* <ebit-headcolumn render="edit" width="8%"></ebit-headcolumn> *@
                                         <ebit-headcolumn datafield="date" header="Date" width="15%">Date</ebit-headcolumn>
                                         <ebit-headcolumn datafield="voucher" header="Voucher" width="25%">Voucher</ebit-headcolumn>
                                         <ebit-headcolumn datafield="totalSeqNo" header="#" width="10%">#</ebit-headcolumn>
-                                        <ebit-headcolumn datafield="debit" isamount="true" header="Total Debit" width="15%">Total Debit</ebit-headcolumn>
-                                        <ebit-headcolumn datafield="credit" isamount="true" header="Total Credit" width="15%">Total Credit</ebit-headcolumn>
-
-                                        <ebit-headcolumn datafield="" render="deleteprint" width="100px"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="debit" isamount="true" group-total="true" header="Total Debit" width="15%">Total Debit</ebit-headcolumn>
+                                        <ebit-headcolumn datafield="credit" isamount="true" group-total="true" header="Total Credit" width="15%">Total Credit</ebit-headcolumn>
+                                        <ebit-headcolumn render="deleteprint" width="8%"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>
 
@@ -76,7 +207,83 @@
             </ebit-section>
 
             <!-- Secondary Wizard Section -->
-            <ebit-section id="personal-info" class="content p-0 px-2"></ebit-section>
+            <ebit-section id="personal-info" class="content p-0 px-5"></ebit-section>
         </ebit-section>
     </div>
+    <!-- ── Modals ── -->
+    <!-- Save Favorite Modal -->
+    <div class="modal fade" id="saveFavoriteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Save Current View as Favorite</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="favoriteName" class="form-label">Favorite Name</label>
+                    <input type="text" id="favoriteName" class="form-control" placeholder="Enter favorite name">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="saveFavoriteConfirm" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="modal fade" id="filterModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalTitle">Select Filter</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="filter-company" class="filter-option mb-3">
+                        <select class="form-select select2"
+                                data-url="/Dropdawn/Companyid"
+                                data-placeholder="Select Company..."
+                                name="CompanyId"></select>
+                    </div>
+
+                    <div id="filter-LedgerName" class="filter-option mb-3">
+                        <select class="form-select select2"
+                                data-url="/Dropdawn/UserWiseAccount"
+                                data-placeholder="Select Ledger..."
+                                name="LedgerId"></select>
+                    </div>
+
+                    <div class="filter-option mb-3" id="filter-customerinvoice" style="display:none;">
+                        <label class="form-label">Customer Invoice</label>
+                        <ebit-select data-url="UserWiseAccount">
+                            <option value="0">Choose One</option>
+                        </ebit-select>
+                    </div>
+
+                    <div class="filter-option mb-3" id="filter-vendorbill" style="display:none;">
+                        <label class="form-label">Vendor Bill</label>
+                        <ebit-select data-url="UserWiseAccount">
+                            <option value="0">Choose One</option>
+                        </ebit-select>
+                    </div>
+
+                    <div class="filter-option" id="filter-userwiseAccount">
+                        <label class="form-label">User Wise Account</label>
+                        <ebit-select data-params='{"natureId": 3}' data-url="userwiseAccount">
+                            <option value="0">Choose One</option>
+                        </ebit-select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="applyFilterBtn">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </ebit-section>
+@section PageScripts {
+    <script type="module" src="/Accounting/js/AccountOpening2.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

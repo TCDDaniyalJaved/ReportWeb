@@ -48,28 +48,14 @@ public class AccountOpeningController : Controller
 
     #region Views
 
-    public IActionResult Dummy(int id)
-    {
-        return View(ViewPath("Dummy"));
-    }
-
-
-    public IActionResult Demo(int id)
-    {
-        return View(ViewPath("Demo"));
-    }
-
+  
     [Authorize]
     public IActionResult List()
     {
         return View(ViewPath("Index"));
     }
 
-    public IActionResult List2()
-    {
-        return View(ViewPath("Index2"));
-    }
-
+ 
     [HttpGet("{id}")]
     public IActionResult Print(int id)
     {
@@ -138,7 +124,7 @@ public class AccountOpeningController : Controller
                     e => e.Key,
                     e => e.Value.Errors.Select(err => err.ErrorMessage).ToArray());
 
-            Console.WriteLine("Validation Errors: " + System.Text.Json.JsonSerializer.Serialize(errors));
+              //  Console.WriteLine("Validation Errors: " + System.Text.Json.JsonSerializer.Serialize(errors));
 
 
             return Json(new { success = false, errors });
@@ -703,10 +689,9 @@ public class AccountOpeningController : Controller
 
         return Json(new { value = load });
     }
-    public IActionResult GetDefaultLoad23()
+    public IActionResult GetDefaultLoad()
     {
-        string referrerUrl = "https://localhost:7228/accounting/accountopening/list2";
-        //string referrerUrl = HttpContext.Request.Headers["Referer"].ToString();
+        string referrerUrl = HttpContext.Request.Headers["Referer"].ToString();
 
         if (string.IsNullOrEmpty(referrerUrl))
             return Json(new { id = (int?)null, value = 20 });

@@ -119,7 +119,10 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");
-
+if (app.Environment.IsDevelopment())
+{
+    Console.WriteLine("Development mode ON");
+}
 if (!app.Environment.IsDevelopment())
 {
     // Production: show custom error page

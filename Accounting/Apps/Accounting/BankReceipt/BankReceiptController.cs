@@ -597,5 +597,85 @@ public class BankReceiptController : Controller
     }
 
     #endregion
+
+    #region GetDefaultLoad
+    public IActionResult GetDefaultLoad2()
+    {
+        // Get the page URL from the referrer header
+        string referrerUrl = HttpContext.Request.Headers["Referer"].ToString().ToLower();
+
+        if (string.IsNullOrEmpty(referrerUrl))
+            return Json(new { value = 20 }); // fallback if no referrer
+
+        var url = new Uri(referrerUrl);
+        string path = url.AbsolutePath;
+
+        // Query the menu
+        var load = _context.MainMenus
+            .Where(x => x.Url.ToLower() == path)
+            .Select(x => (int?)x.PageLength)
+            .FirstOrDefault();
+
+        if (load == null)
+            load = 20; // default fallback
+
+        return Json(new { value = load });
+    }
+    public IActionResult GetDefaultLoad()
+    {
+        string referrerUrl = HttpContext.Request.Headers["Referer"].ToString();
+
+        if (string.IsNullOrEmpty(referrerUrl))
+            return Json(new { id = (int?)null, value = 20 });
+
+        var url = new Uri(referrerUrl);
+        string path = url.AbsolutePath.ToLower();
+
+        // Current User Id
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+        if (!int.TryParse(userIdClaim, out int userId))
+            return Json(new { id = (int?)null, value = 20 });
+
+        //  USER SPECIFIC DEFAULT
+        var userPageLength = _context.UserReportViews
+            .Where(x =>
+                x.UserId == userId &&
+                x.ReportKey == "BankReceipt" &&
+                x.IsDefault
+            )
+            .Select(x => new
+            {
+                x.Id,
+                x.PageLenght
+            })
+            .FirstOrDefault();
+
+        if (userPageLength != null && userPageLength.PageLenght.HasValue)
+        {
+            //  User setting → ID + value
+            return Json(new
+            {
+                id = userPageLength.Id,
+                value = userPageLength.PageLenght.Value
+            });
+        }
+
+        //  GLOBAL DEFAULT  ID NAHI AANI CHAHIYE)
+        var globalPageLength = _context.MainMenus
+            .Where(x => x.Url.ToLower() == path)
+            .Select(x => (int?)x.PageLength)
+            .FirstOrDefault();
+
+        return Json(new
+        {
+            id = (int?)null,              //  hamesha null
+            value = globalPageLength ?? 20
+        });
+    }
+
+
+
+    #endregion
 }
 

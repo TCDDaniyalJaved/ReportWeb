@@ -4,6 +4,7 @@ import {
     initCheckboxSelection,
     handleCreateButton,
     handleDirectUrl,
+    goBackToList,
     handleRowActions,
     applyFavorite,
     initStepper,
@@ -18,7 +19,7 @@ let table;
 $(document).ready(async () => {
     initStepper();
     //  Default page length load + display
-    await loadAndDisplayDefaultPageLength(`${BASE_PATH}/GetDefaultLoad23`);
+    await loadAndDisplayDefaultPageLength(`${BASE_PATH}/GetDefaultLoad`);
 
     //  Editor setup (jo value change hone par save karta hai)
     initDefaultPageLengthEditor({
@@ -37,7 +38,7 @@ $(document).ready(async () => {
 
     //  Main DataTable
     table = await initializeDataTable(`${BASE_PATH}/GetData3`, '#masterTable', {
-        pageLengthEndpoint: `${BASE_PATH}/GetDefaultLoad23`,
+        pageLengthEndpoint: `${BASE_PATH}/GetDefaultLoad`,
         callbacks: {
             onDraw: () => {
                 handleRowActions(BASE_PATH, {
@@ -160,3 +161,7 @@ $(document).ready(async () => {
 
 });
 
+
+$(document).on('click', '#gobacktolistbtn', () =>
+    goBackToList(table, BASE_PATH)
+);

@@ -1,19 +1,24 @@
-﻿// DataTable Utilities 11:31AM 1-31-2026
+﻿// DataTable Utilities - 
+//Complete table management system with grouping, filtering, and pagination
+// Last Modified: 11:31AM 1-31-2026
 
-// Global State Management
+// GLOBAL STATE MANAGEMENT
 
-let activeTables = new Map();               // Stores active DataTable instances
-export let groupBySelectionOrder = [];      // Maintains ordered list of group-by fields
-let allLoadedData = [];                     // Stores current page data for client-side operations
+let activeTables = new Map();               // Registry of active DataTable instances
+export let groupBySelectionOrder = [];      // Ordered array of active grouping fields
+let allLoadedData = [];                     // Current page data cache for client-side operations
 
-// Constants and SVG Icons
+// CONSTANTS & SVG ICONS
 
 const FILTER_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"><path d="M3,4H21V6H3V4M6,10H18V12H6V10M10,16H14V18H10V16Z"></path></svg>`;
 const GROUP_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"><path d="M3,13H9V19H3V13M3,5H9V11H3V5M11,5H21V11H11V5M11,13H21V19H11V13Z"></path></svg>`;
 
-// Column Configuration Generator
+// COLUMN CONFIGURATION GENERATOR
 
-
+/**
+ * Generates DataTable column definitions from HTML table headers
+ * Reads attributes from <th> elements to configure columns dynamically
+ */
 export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     const columns = [];
 
@@ -29,24 +34,23 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
         const isAmount = th.attr('isamount') === 'true';
         const currency = th.attr('currency') || '';
 
-        // Initialize column definition with base properties
+        // Base column configuration
         const colDef = {
             title: header,
             width: width || undefined,
             groupTotal: isGroupTotal,
         };
 
-        // Set column visibility
+        // Column visibility control
         if (!active) colDef.visible = false;
 
-        // Configure text alignment
+        // Text alignment configuration
         if (align) {
-            const alignment = align === 'right' ? 'end' :
-                align === 'center' ? 'center' : 'start';
+            const alignment = align === 'right' ? 'end' : align === 'center' ? 'center' : 'start';
             colDef.className = `text-${alignment}`;
         }
 
-        // Configure data binding
+        // Data binding setup
         if (datafield) {
             colDef.data = datafield;
         } else {
@@ -54,8 +58,7 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
             colDef.orderable = false;
         }
 
-        // Custom Renderers - Action Buttons
-
+        // Custom renderers for action buttons
         if (renderType === 'edit') {
             colDef.render = (data, type, row) =>
                 `<button class="btn btn-icon btn-sm edit-btn" title="Edit"
@@ -97,8 +100,8 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
         else if (renderType === 'empty') {
             colDef.render = () => ``;
         }
-        // Checkbox selection column
         else if (renderType === 'checkbox') {
+            // Checkbox column for bulk selection
             colDef.title = '<div class="text-center"><input type="checkbox" id="select-all" class="form-check-input"></div>';
             colDef.render = function (data, type, row) {
                 if (type === 'display') {
@@ -109,19 +112,17 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
             colDef.orderable = false;
             colDef.searchable = false;
         }
-        // Status badge renderer
         else if (renderType === 'status') {
+            // Status badge renderer with conditional styling
             colDef.render = (data, type, row) => {
                 const status = row.status || data;
                 const badgeClass = status === 'Active' ? 'badge bg-success' :
-                    status === 'Inactive' ? 'badge bg-danger' :
-                        'badge bg-secondary';
+                    status === 'Inactive' ? 'badge bg-danger' : 'badge bg-secondary';
                 return `<span class="${badgeClass}">${status}</span>`;
             };
         }
 
-        // Numeric Amount Formatting
-
+        // Numeric amount formatting with currency symbol
         if (isAmount) {
             colDef.render = (data) =>
                 data != null
@@ -133,8 +134,7 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
             colDef.className = (colDef.className || '') + ' text-end';
         }
 
-        // Date Formatting
-
+        // Date field auto-formatting
         if (datafield && (datafield.includes('date') || datafield.includes('Date'))) {
             colDef.render = (data) => {
                 if (!data) return '';
@@ -149,12 +149,14 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     return columns;
 }
 
-// Helper Functions
+// HELPER FUNCTIONS
 
+/** Returns current group-by fields in selection order */
 function getGroupByFieldsInOrder() {
     return groupBySelectionOrder;
 }
 
+/** Fetches default page length from server or returns fallback value */
 export async function fetchDefaultPageLength(endpoint, fallback = 25) {
     try {
         const res = await fetch(endpoint, {
@@ -168,15 +170,15 @@ export async function fetchDefaultPageLength(endpoint, fallback = 25) {
 
         return Number.isInteger(value) && value >= 5 ? value : fallback;
     } catch (err) {
-        console.warn(`Failed to fetch page length from ${endpoint}:`, err);
         return fallback;
     }
 }
 
+// MAIN DATATABLE INITIALIZATION
 
-// Main DataTable Initialization
-
-
+/**
+ * Initializes DataTable with server-side processing, custom pagination, and grouping
+ */
 export async function initializeDataTable(endpoint, tableSelector = '#masterTable', options = {}) {
     const {
         columns = generateColumnsFromHeaders(tableSelector),
@@ -188,22 +190,20 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
     const $table = $(tableSelector);
     if (!$table.length) return null;
 
-    // Destroy existing DataTable instance if present
+    // Destroy existing instance to prevent conflicts
     if ($.fn.DataTable.isDataTable(tableSelector)) {
         $table.DataTable().destroy();
         $table.empty();
     }
 
-    // Reset state variables
     allLoadedData = [];
 
-    // Fetch database-configured page length if endpoint provided
+    // Fetch server-configured page length if endpoint provided
     let defaultPageLength = pageLength;
     if (pageLengthEndpoint) {
         defaultPageLength = await fetchDefaultPageLength(pageLengthEndpoint);
     }
 
-    // Set the page length in the UI dropdown
     $('#sharedLength').val(defaultPageLength);
 
     // Initialize DataTable with server-side processing
@@ -211,42 +211,38 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
         autoWidth: false,
         scrollX: true,
         serverSide: true,
-        paging: false,              // Custom pagination handled manually
-        dom: 't',                   // Only table element (no built-in controls)
+        paging: false,
+        dom: 't',
         pageLength: defaultPageLength,
-        searching: false,           // Custom search implementation
+        searching: false,
         ordering: true,
-        info: false,                // Custom info display
+        info: false,
         ajax: {
             url: endpoint,
             type: 'POST',
             data: d => {
-                // Retrieve page configuration from UI
                 const len = parseInt($('#sharedLength').val()) || defaultPageLength;
                 const currentPage = parseInt($('#pageInfo').data('page')) || 1;
 
-                // Build request payload
+                // Build AJAX request payload
                 d.customSearch = $('#universalSearch').val() || '';
                 d.groupByFields = groupBySelectionOrder;
                 d.start = (currentPage - 1) * len;
                 d.length = len;
 
-                // Append active filter badges to request
+                // Append active filter badges
                 $('.badge-tag[data-type="Filter"]').each(function () {
                     const key = $(this).data('key');
                     const val = $(this).data('value');
 
-                    console.log('Filter applied - Key:', key, 'Value:', val);
                     if (key && val) {
                         d[key] = d[key] ? [].concat(d[key], val) : [val];
                     }
                 });
 
-                //console.log('AJAX Request Payload:', d);
                 return d;
             },
             dataSrc: json => {
-                // Store loaded data for client-side operations
                 allLoadedData = json.data;
                 updateCustomPagination(table);
                 return allLoadedData;
@@ -254,23 +250,21 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
         },
         columns,
 
-        // Draw Callback - Handles Grouping Logic
-
+        // Handles group row insertion and totals calculation
         drawCallback: function () {
-            // Remove existing group rows and show all data rows
             $('#masterTable tbody tr.group-row').remove();
             $('#masterTable tbody tr').show();
 
             const groupFields = getGroupByFieldsInOrder();
 
-            // If no grouping is active, skip group row insertion
+            // Skip grouping if no fields selected
             if (!groupFields.length) {
                 updateCustomPagination(table);
                 callbacks.onDraw?.();
                 return;
             }
 
-            // Process and insert group header rows
+            // Process and insert group headers
             const rowData = allLoadedData;
             const lastValues = [];
             const bodyRows = $('#masterTable tbody tr:not(.group-row)').toArray();
@@ -283,7 +277,6 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
                 groupFields.forEach((field, lvl) => {
                     const val = data[field] ?? '(Blank)';
 
-                    // Insert group header when value changes
                     if (lastValues[lvl] !== val) {
                         const groupVals = [...lastValues.slice(0, lvl), val];
                         const cnt = countRecordsInGroup(rowData, idx, groupFields, lvl, groupVals);
@@ -307,15 +300,13 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
         }
     });
 
-    // Event Handlers - Pagination and Search Controls
-
     // Page length change handler
     $('#sharedLength').off('change').on('change', function () {
-        $('#pageInfo').data('page', 1); // Reset to first page
+        $('#pageInfo').data('page', 1);
         table.ajax.reload();
     });
 
-    // Previous page button
+    // Previous page navigation
     $('#prevPage').off('click').on('click', function () {
         let page = $('#pageInfo').data('page') || 1;
         if (page > 1) {
@@ -324,7 +315,7 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
         }
     });
 
-    // Next page button
+    // Next page navigation
     $('#nextPage').off('click').on('click', function () {
         let page = $('#pageInfo').data('page') || 1;
         let total = $('#pageInfo').data('total') || 1;
@@ -334,14 +325,13 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
         }
     });
 
-    // Universal search handler
+    // Universal search with debouncing
     $('#universalSearch').off('keyup').on('keyup', () => {
-        $('#pageInfo').data('page', 1); // Reset to first page on search
+        $('#pageInfo').data('page', 1);
         table.ajax.reload();
     });
 
-    // Group-By Selection Handler
-
+    // Group-by selection toggle handler
     $(document).off('click', '#groupByList li[data-group]').on('click', '#groupByList li[data-group]', function () {
         const $li = $(this);
         const field = $li.data('group');
@@ -362,8 +352,7 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
         table.ajax.reload();
     });
 
-    // Filter Selection Handler
-
+    // Filter selection toggle handler
     $(document).off('click', '[data-filter]').on('click', '[data-filter]', function () {
         const val = this.dataset.filter;
         const txt = this.textContent.trim();
@@ -379,29 +368,25 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
         table.ajax.reload();
     });
 
-    // Store table instance in active tables registry
     activeTables.set(tableSelector, table);
 
     return table;
 }
 
-// Grouping Calculation Functions
+// GROUPING CALCULATION FUNCTIONS
 
-
+/** Calculates group totals for columns marked with group-total attribute */
 function calculateGroupTotals(rowDataArray, startIndex, groupByFields, level, currentGroupValues, columns) {
     const totals = {};
 
-    // Initialize totals for columns marked as group-total
     columns.forEach(col => {
         if (col.groupTotal) totals[col.data] = 0;
     });
 
-    // Iterate through records in the current group
     for (let i = startIndex; i < rowDataArray.length; i++) {
         const row = rowDataArray[i];
         let stillInGroup = true;
 
-        // Check if row belongs to current group
         for (let l = 0; l <= level; l++) {
             const field = groupByFields[l];
             if (currentGroupValues[l] !== (row[field] ?? '(Blank)')) {
@@ -412,7 +397,6 @@ function calculateGroupTotals(rowDataArray, startIndex, groupByFields, level, cu
 
         if (!stillInGroup) break;
 
-        // Accumulate totals
         columns.forEach(col => {
             if (col.groupTotal) {
                 totals[col.data] += Number(row[col.data] || 0);
@@ -423,7 +407,7 @@ function calculateGroupTotals(rowDataArray, startIndex, groupByFields, level, cu
     return totals;
 }
 
-
+/** Counts records belonging to current group */
 function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, currentGroupValues) {
     let count = 0;
 
@@ -431,7 +415,6 @@ function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, cur
         const row = rowDataArray[i];
         let stillInGroup = true;
 
-        // Verify row membership in current group
         for (let l = 0; l <= level; l++) {
             if (currentGroupValues[l] !== (row[groupByFields[l]] ?? '(Blank)')) {
                 stillInGroup = false;
@@ -446,10 +429,11 @@ function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, cur
     return count;
 }
 
+/** Creates HTML row element for group header with totals */
 function createGroupHeaderRow(field, value, count, level, columns, totals) {
     const displayValue = value || '(Blank)';
 
-    // First column with toggle icon and group label
+    // First column: toggle icon + group label + record count
     let tds = `<td colspan="1" style="padding-left:${level * 20}px;" class="text-nowrap">
         <span class="toggle-icon d-inline-block" style="width:20px;">
             <i class="bx bx-chevron-down"></i>
@@ -457,9 +441,9 @@ function createGroupHeaderRow(field, value, count, level, columns, totals) {
         ${displayValue} <small class="text-muted">(${count})</small>
     </td>`;
 
-    // Subsequent columns with totals where applicable
+    // Remaining columns: show totals where applicable
     columns.forEach((col, i) => {
-        if (i === 0) return; // Skip first column (already rendered)
+        if (i === 0) return;
 
         if (col.groupTotal) {
             const formattedTotal = totals[col.data]?.toLocaleString('en-IN', {
@@ -476,9 +460,9 @@ function createGroupHeaderRow(field, value, count, level, columns, totals) {
     return $(`<tr class="group-row level-${level}">${tds}</tr>`);
 }
 
-// Group Row Toggle Functionality
+// GROUP ROW TOGGLE FUNCTIONALITY
 
-
+/** Sets up click handlers for collapsing/expanding group rows */
 function setupGroupRowToggle() {
     $('#masterTable tbody')
         .off('click', 'tr.group-row')
@@ -487,22 +471,19 @@ function setupGroupRowToggle() {
             const level = parseInt($row[0].className.match(/level-(\d+)/)?.[1] || 0);
             const willCollapse = !$row.hasClass('collapsed');
 
-            // Toggle collapsed state and icon
             $row.toggleClass('collapsed', willCollapse);
             $row.find('.toggle-icon i')
                 .toggleClass('bx-chevron-down', !willCollapse)
                 .toggleClass('bx-chevron-right', willCollapse);
 
-            // Process all following rows until a same/higher level group is found
+            // Toggle visibility of child rows until next same/higher level group
             let $next = $row.next();
             while ($next.length) {
                 const nextLevel = parseInt($next[0].className.match(/level-(\d+)/)?.[1] || 999);
 
-                // Stop at same or higher level group
                 if (nextLevel <= level) break;
 
                 if ($next.hasClass('group-row')) {
-                    // Handle nested group rows
                     if (willCollapse) {
                         $next.hide().addClass('collapsed');
                         $next.find('.toggle-icon i')
@@ -515,7 +496,6 @@ function setupGroupRowToggle() {
                             .addClass('bx-chevron-down');
                     }
                 } else {
-                    // Handle data rows
                     $next.toggle(!willCollapse);
                 }
 
@@ -524,9 +504,10 @@ function setupGroupRowToggle() {
         });
 }
 
+// BADGE MANAGEMENT
 
+/** Adds filter or group-by badge to search bar */
 export function addSearchBadge(type, value, displayText, isLocked = false) {
-    // Prevent duplicate badges
     if ($(`.badge-tag[data-type="${type}"][data-value="${value}"]`).length) return;
 
     const icon = type === 'Group' ? GROUP_ICON :
@@ -560,7 +541,6 @@ export function addSearchBadge(type, value, displayText, isLocked = false) {
             activeTables.get('#masterTable')?.ajax.reload();
         });
 
-        // Filter icon click handler (if applicable)
         if (type === 'Filter') {
             $badge.find('.filter-icon').on('click', function (e) {
                 e.stopPropagation();
@@ -572,24 +552,26 @@ export function addSearchBadge(type, value, displayText, isLocked = false) {
     $('#universalSearch').before($badge);
 }
 
-// Stepper Initialization
+// STEPPER INITIALIZATION
 
+/** Initializes BS Stepper component */
 export function initStepper() {
     const el = document.querySelector('#wizardStepper');
     if (el) window.stepper = new Stepper(el, { linear: false });
     return window.stepper;
 }
 
-// Checkbox Selection with Bulk Operations
+// CHECKBOX SELECTION WITH BULK OPERATIONS
 
-
+/**
+ * Initializes checkbox-based row selection with bulk action support
+ */
 export function initCheckboxSelection(table, tableSelector = '#masterTable', dropdownConfig = [], bulkDeleteEndpoint = null) {
-    const selectedRowIds = new Set(); // Persistent storage of selected IDs
+    const selectedRowIds = new Set();
     const $table = $(tableSelector);
     const $searchContainer = $('#universalSearch').closest('.input-group');
 
-    // Build Selection Control UI
-
+    // Default dropdown actions configuration
     const defaultDropdownConfig = [
         {
             id: 'action-select-all',
@@ -606,7 +588,6 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         }
     ];
 
-    // Add bulk delete option if endpoint provided
     if (bulkDeleteEndpoint) {
         defaultDropdownConfig.push({
             id: 'action-bulk-delete',
@@ -619,17 +600,15 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
 
     const finalDropdownConfig = dropdownConfig.length > 0 ? dropdownConfig : defaultDropdownConfig;
 
-    // Create control elements
+    // Build selection control UI
     const $selectionControls = $(`
         <div class="d-flex align-items-center gap-2 ms-2">
-            <!-- Settings Icon (dropdown trigger) -->
             <div class="position-relative">
                 <i class="bx bx-cog text-muted" 
                    style="cursor:pointer; font-size:1.2rem;" 
                    id="selection-actions-toggle"
                    title="Selection Actions"></i>
 
-                <!-- Dropdown Menu -->
                 <div class="dropdown-menu dropdown-menu-end shadow-sm p-1" 
                      id="selection-actions-menu" 
                      style="min-width: 200px; font-size:0.9rem; z-index: 1050;">
@@ -642,7 +621,6 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
                 </div>
             </div>
 
-            <!-- Selected count badge -->
             <div class="badge bg-primary d-none" id="selected-badge" 
                  style="display:flex; align-items:center; font-size:0.85rem;">
                 <span id="selected-count"></span>
@@ -655,9 +633,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
 
     $searchContainer.after($selectionControls);
 
-    // Bulk Delete Function
-
-
+    /** Performs bulk delete operation with confirmation */
     function performBulkDelete() {
         if (selectedRowIds.size === 0) {
             Swal.fire({
@@ -681,7 +657,6 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                // Show loading indicator
                 const loadingToast = Swal.fire({
                     title: 'Deleting...',
                     text: 'Please wait while we delete the selected items',
@@ -691,13 +666,11 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
                     }
                 });
 
-                // Prepare request payload
                 const data = {
                     ids: Array.from(selectedRowIds),
                     _token: $('meta[name="csrf-token"]').attr('content')
                 };
 
-                // Execute AJAX delete request
                 $.ajax({
                     url: bulkDeleteEndpoint,
                     method: 'POST',
@@ -716,7 +689,6 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
                                 showConfirmButton: false
                             });
 
-                            // Refresh table data
                             table.ajax.reload(null, false);
                             updateSelectionUI();
                         } else {
@@ -726,15 +698,13 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
                     error: function (xhr, status, error) {
                         loadingToast.close();
                         Swal.fire('Error!', 'An error occurred while deleting items. Please try again.', 'error');
-                        console.error('Bulk delete error:', error);
                     }
                 });
             }
         });
     }
 
-    // Selection Management Functions
-
+    /** Selects all rows on current page */
     function selectAllCurrentPage() {
         $table.find('tbody .row-selector').each(function () {
             const $cb = $(this);
@@ -749,9 +719,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         updateSelectionUI();
     }
 
-    /**
-     * Clears all selections
-     */
+    /** Clears all selections across all pages */
     function selectNone() {
         $table.find('tbody .row-selector').each(function () {
             const $cb = $(this);
@@ -766,6 +734,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         updateSelectionUI();
     }
 
+    /** Updates UI elements based on current selection state */
     function updateSelectionUI() {
         const count = selectedRowIds.size;
 
@@ -773,18 +742,14 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
             $('#selected-count').text(`${count} selected`);
             $('#selected-badge').removeClass('d-none');
             $searchContainer.addClass('d-none');
-
-            // Enable selection-dependent actions
             $('#action-bulk-delete').prop('disabled', false);
         } else {
             $('#selected-badge').addClass('d-none');
             $searchContainer.removeClass('d-none');
-
-            // Disable selection-dependent actions
             $('#action-bulk-delete').prop('disabled', true);
         }
 
-        // Update header checkbox state
+        // Update header checkbox state (checked/indeterminate/unchecked)
         const $visible = $table.find('tbody .row-selector');
         const checkedCount = $visible.filter(':checked').length;
         const totalVisible = $visible.length;
@@ -794,7 +759,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
             .prop('indeterminate', checkedCount > 0 && checkedCount < totalVisible);
     }
 
-
+    /** Restores checkbox states after table redraw */
     function restoreSelections() {
         $table.find('tbody .row-selector').each(function () {
             const $cb = $(this);
@@ -810,9 +775,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         });
     }
 
-    // Event Handlers
-
-    // Header "Select All" checkbox (current page only)
+    // Event: Header "Select All" checkbox
     $(document).on('change', '#select-all', function () {
         const isChecked = this.checked;
 
@@ -834,7 +797,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         updateSelectionUI();
     });
 
-    // Individual row checkbox
+    // Event: Individual row checkbox
     $(document).on('change', `${tableSelector} .row-selector`, function () {
         const id = String($(this).data('id') ?? '');
         if (!id) return;
@@ -849,34 +812,34 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         updateSelectionUI();
     });
 
-    // Settings icon - toggle dropdown
+    // Event: Toggle dropdown menu
     $(document).on('click', '#selection-actions-toggle', function (e) {
         e.stopPropagation();
         $('#selection-actions-menu').toggleClass('show');
     });
 
-    // Close dropdown when clicking outside
+    // Event: Close dropdown on outside click
     $(document).on('click', function (e) {
         if (!$(e.target).closest('#selection-actions-toggle, #selection-actions-menu').length) {
             $('#selection-actions-menu').removeClass('show');
         }
     });
 
-    // Select All button
+    // Event: Select all button
     $(document).on('click', '#action-select-all', function (e) {
         e.preventDefault();
         selectAllCurrentPage();
         $('#selection-actions-menu').removeClass('show');
     });
 
-    // Clear Selection button
+    // Event: Clear selection button
     $(document).on('click', '#action-select-none', function (e) {
         e.preventDefault();
         selectNone();
         $('#selection-actions-menu').removeClass('show');
     });
 
-    // Bulk Delete button
+    // Event: Bulk delete button
     if (bulkDeleteEndpoint) {
         $(document).on('click', '#action-bulk-delete', function (e) {
             e.preventDefault();
@@ -885,7 +848,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         });
     }
 
-    // Handle custom actions from config
+    // Event: Custom actions from config
     dropdownConfig.forEach(item => {
         if (item.id && item.action && typeof item.action === 'function') {
             $(document).on('click', `#${item.id}`, function (e) {
@@ -897,7 +860,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         }
     });
 
-    // Clear all (× button on badge)
+    // Event: Clear all badge button
     $(document).on('click', '#deselect-all', function (e) {
         e.preventDefault();
         selectedRowIds.clear();
@@ -907,7 +870,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
         updateSelectionUI();
     });
 
-    // Keyboard shortcut for bulk delete (Ctrl+Shift+D)
+    // Event: Keyboard shortcut for bulk delete (Ctrl+Shift+D)
     $(document).on('keydown', function (e) {
         if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'D') {
             e.preventDefault();
@@ -925,7 +888,7 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
 
     table.on('init', updateSelectionUI);
 
-    // Expose public API
+    // Expose public API methods
     table.getSelectedIds = () => [...selectedRowIds];
     table.clearSelection = () => {
         selectedRowIds.clear();
@@ -947,24 +910,25 @@ export function initCheckboxSelection(table, tableSelector = '#masterTable', dro
     };
 }
 
-// Utility Functions
+// UTILITY FUNCTIONS
 
-
+/** Returns array of selected row IDs */
 export function getSelectedIds(tableSelector = '#masterTable') {
     return $(`${tableSelector} .row-selector:checked`)
         .map((i, el) => $(el).data('id'))
         .get();
 }
 
+/** Clears all row selections and resets UI state */
 export function clearAllSelections(tableSelector = '#masterTable') {
     $(`${tableSelector} #select-all`).prop({ checked: false, indeterminate: false });
     $(`${tableSelector} .row-selector`).prop('checked', false);
     $(`${tableSelector} tr.table-active`).removeClass('table-active');
 }
 
-// Form Management Functions
+// FORM MANAGEMENT FUNCTIONS
 
-
+/** Loads create/edit form via AJAX and updates UI state */
 export function loadForm(basePath, mode, id = null, voucherNo = null, compprefix = null) {
     const url = mode === 'create'
         ? `${basePath}/Create`
@@ -974,22 +938,24 @@ export function loadForm(basePath, mode, id = null, voucherNo = null, compprefix
         ? `${basePath}/Create`
         : `${basePath}/${voucherNo}-${compprefix}`;
 
-    // Update browser URL without page reload
     window.history.pushState({ mode, id }, '', newPath);
-
+    //searchContainer
     // Adjust UI for form view
+    $('#searchContainer').addClass('d-none');
+    $('.bx bx-cog text-muted').addClass('d-none');
+    $('#selection-actions-toggle').addClass('d-none');
+    $('.default-load-info').addClass('d-none');
     $('#personal-info').css('background-color', 'var(--bs-body-bg)');
     $('#btnCreate').removeClass('btn-primary').addClass('btn-outline-primary btn-sm shadow-none');
     $('#universalSearch, #sharedLength, #customPagination, .input-group-text').hide();
 
-    // Load form via AJAX
     $.get(url).done(html => {
         $('#personal-info').html(html);
         if (window.stepper) window.stepper.to(2);
     });
 }
 
-
+/** Handles direct URL navigation for create/edit modes */
 export function handleDirectUrl(basePath) {
     const parts = location.pathname.split('/').filter(p => p);
     const action = parts.pop();
@@ -1002,6 +968,7 @@ export function handleDirectUrl(basePath) {
     }
 }
 
+/** Returns to list view and resets form state */
 export function goBackToList(table, basePath) {
     $('#personal-info').empty();
     $('#btnCreate').removeClass('btn-outline-primary btn-sm shadow-none').addClass('btn-primary');
@@ -1019,12 +986,14 @@ export function goBackToList(table, basePath) {
     location.reload();
 }
 
+/** Attaches click handler to create button */
 export function handleCreateButton(basePath) {
     $('#btnCreate').off('click').on('click', () => loadForm(basePath, 'create'));
 }
 
-// Row Action Handlers
+// ROW ACTION HANDLERS
 
+/** Sets up event handlers for edit, delete, and print buttons */
 export function handleRowActions(basePath, callbacks = {}) {
     $(document).off('click', '#masterTable .edit-btn, #masterTable .delete-btn, #masterTable .print-btn');
 
@@ -1038,7 +1007,7 @@ export function handleRowActions(basePath, callbacks = {}) {
         if (id) loadForm(basePath, 'edit', id, voucher, compprefix);
     });
 
-    // Delete button handler
+    // Delete button handler with confirmation
     $(document).on('click', '#masterTable .delete-btn', function () {
         const id = $(this).data('id');
 
@@ -1082,15 +1051,18 @@ export function handleRowActions(basePath, callbacks = {}) {
     });
 }
 
-// Responsive Handling
+// RESPONSIVE HANDLING
 
+/** Adjusts DataTable columns on window resize */
 window.addEventListener('resize', function () {
     if ($.fn.DataTable.isDataTable('#masterTable')) {
         $('#masterTable').DataTable().columns.adjust().draw(false);
     }
 });
 
-// Pagination UI Update
+// PAGINATION UI UPDATE
+
+/** Updates custom pagination controls based on table state */
 function updateCustomPagination(table) {
     if (!table) return;
 
@@ -1100,34 +1072,32 @@ function updateCustomPagination(table) {
     const totalPages = Math.ceil(totalRecords / len) || 1;
     const currentPage = $('#pageInfo').data('page') || 1;
 
-    // Update page number display
     $('#pageInfo').text(`${currentPage} / ${totalPages}`);
     $('#pageInfo').data('total', totalPages);
 
-    // Enable/disable navigation buttons
     $('#prevPage').prop('disabled', currentPage <= 1);
     $('#nextPage').prop('disabled', currentPage >= totalPages);
 
-    // Show/hide pagination controls
     $('#customPagination').toggleClass('d-none', totalRecords === 0);
 }
-//apply fav
+
+// FAVORITE VIEW MANAGEMENT
+
+/** Applies saved favorite view (filters, grouping, locked state) */
 export function applyFavorite(view) {
-    console.log("abc");
     let filters = {};
     let groups = [];
+
     try {
         filters = JSON.parse(view.filters || '{}');
-        //console.log("Parsed filters from saved favorite:", filters);
     } catch (e) {
-        //console.error("Error parsing filters JSON:", e);
+        // Silent fail for invalid JSON
     }
 
     try {
         groups = JSON.parse(view.groupBy || '[]');
-        //console.log("Parsed groupBy from saved favorite:", groups);
     } catch (e) {
-        //console.error("Error parsing groupBy JSON:", e);
+        // Silent fail for invalid JSON
     }
 
     // Reset UI state
@@ -1135,17 +1105,11 @@ export function applyFavorite(view) {
     groupBySelectionOrder.length = 0;
     $('#groupByList li').removeClass('active');
     const isLocked = !!view.IsLocked;
-    //console.log("UI reset done. isLocked:", isLocked);
 
     // Restore filter badges
-    //console.log("Restoring filters...");
     Object.keys(filters).forEach(key => {
-        //console.log(`  → Key: ${key} | Values:`, filters[key]);
-
         (filters[key] || []).forEach(savedValue => {
-            //console.log(`    Creating badge for: ${key} = ${savedValue}`);
-
-            const displayText = savedValue;  // backend name hi display name hai
+            const displayText = savedValue;
 
             const $badge = $(`
                 <span class="badge-tag d-inline-flex align-items-center ${isLocked ? 'opacity-75 cursor-not-allowed' : ''}"
@@ -1159,29 +1123,24 @@ export function applyFavorite(view) {
             `);
 
             $('#universalSearch').before($badge);
-            //console.log(`    Badge created and added for ${key} = ${savedValue}`);
         });
     });
 
-    //console.log("All filter badges created. Total filter badges now:", $('.badge-tag[data-type="Filter"]').length);
-
-    // Restore groups
-    // console.log("Restoring groups...");
+    // Restore group-by selections
     groups.forEach(g => {
-        // console.log(`  → Restoring group: ${g}`);
         if (!groupBySelectionOrder.includes(g)) {
             groupBySelectionOrder.push(g);
             $('#groupByList li[data-group="' + g + '"]').addClass('active');
             addSearchBadge('Group', g, g.charAt(0).toUpperCase() + g.slice(1), isLocked);
-            //   console.log(`    Group badge added: ${g}`);
         }
     });
 
-    // console.log("Calling resetToFirstPage()...");
     resetToFirstPage();
-
 }
-// Toast Notifications
+
+// TOAST NOTIFICATIONS
+
+/** Displays toast notification using SweetAlert2 */
 export function showToast(title = '', text = 'Saved!', icon = 'success') {
     Swal.fire({
         toast: true,
@@ -1197,18 +1156,17 @@ export function showToast(title = '', text = 'Saved!', icon = 'success') {
         }
     });
 }
+
+// DEFAULT PAGE LENGTH MANAGEMENT
+
+/** Loads and displays default page length from server */
 export async function loadAndDisplayDefaultPageLength(endpoint) {
     try {
-        console.log(`[loadDefaultLength] Fetching from: ${endpoint}`);
         const response = await fetch(endpoint);
         if (!response.ok) {
-            console.warn(`[loadDefaultLength] HTTP ${response.status} - using fallback`);
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
-
-        console.log('[loadDefaultLength] Raw response:', data);
-        console.log(`[loadDefaultLength] value: ${data.value ?? 'missing'}, id: ${data.id ?? 'missing'}`);
 
         const defaultLoad = Number(data.value) || 20;
         const viewId = Number(data.id) || 0;
@@ -1219,13 +1177,11 @@ export async function loadAndDisplayDefaultPageLength(endpoint) {
         if (textEl) {
             textEl.textContent = `${defaultLoad} records`;
             textEl.dataset.viewId = viewId;
-            console.log(`[loadDefaultLength] UI set: ${defaultLoad} records, viewId=${viewId}`);
         }
         if (inputEl) inputEl.value = defaultLoad;
 
         return { defaultLoad, viewId };
     } catch (err) {
-        console.error('[loadDefaultLength] Error:', err);
         const fallback = 20;
         const textEl = document.getElementById('defaultLoadText');
         if (textEl) {
@@ -1235,6 +1191,8 @@ export async function loadAndDisplayDefaultPageLength(endpoint) {
         return { defaultLoad: fallback, viewId: 0 };
     }
 }
+
+/** Initializes inline editor for default page length setting */
 export function initDefaultPageLengthEditor({
     reportKey,
     viewName = 'DefaultView',
@@ -1250,7 +1208,6 @@ export function initDefaultPageLengthEditor({
     hintSelector = '#defaultLoadHint',
 } = {}) {
     if (!reportKey) {
-        console.error('initDefaultPageLengthEditor: reportKey required');
         return;
     }
 
@@ -1261,12 +1218,12 @@ export function initDefaultPageLengthEditor({
     const hintEl = document.querySelector(hintSelector);
 
     if (!textEl || !inputEl || !editBlock || !changeBtn || !hintEl) {
-        console.warn('Page length editor DOM elements missing');
         return;
     }
 
     let originalValue = null;
 
+    /** Switches to edit mode for page length */
     function enterEditMode() {
         originalValue = inputEl.value;
         document.querySelectorAll(`${textSelector}, ${changeBtnSelector}`).forEach(el => el.classList.add('d-none'));
@@ -1277,6 +1234,7 @@ export function initDefaultPageLengthEditor({
         inputEl.select();
     }
 
+    /** Exits edit mode, optionally restoring original value */
     function exitEditMode(restore = false) {
         if (restore && originalValue !== null) inputEl.value = originalValue;
         editBlock.classList.add('d-none');
@@ -1287,6 +1245,7 @@ export function initDefaultPageLengthEditor({
     changeBtn.addEventListener('click', enterEditMode);
     textEl.addEventListener('click', enterEditMode);
 
+    // Handle Enter/Escape keys in edit mode
     inputEl.addEventListener('keydown', async (e) => {
         if (e.key === 'Escape') {
             exitEditMode(true);
@@ -1297,6 +1256,7 @@ export function initDefaultPageLengthEditor({
         const raw = inputEl.value.trim();
         const newValue = Number(raw);
 
+        // Validate input
         if (!raw || Number.isNaN(newValue) || !Number.isInteger(newValue) ||
             newValue < minValue || newValue > maxValue) {
             hintEl.textContent = `Please enter integer ${minValue}–${maxValue}`;
@@ -1312,14 +1272,11 @@ export function initDefaultPageLengthEditor({
                 Id: currentViewId > 0 ? currentViewId : undefined,
                 ViewName: viewName,
                 ReportKey: reportKey,
-                PageLenght: newValue,                  // ← consistent spelling (as per your backend)
+                PageLenght: newValue,
                 Filters: '{}',
                 GroupBy: JSON.stringify(groupBySelectionOrder),
                 IsDefault: isDefault
             };
-
-            console.log('[PageLengthEditor] Saving with viewId:', currentViewId);
-            console.log('[PageLengthEditor] Payload:', payload);
 
             const response = await fetch(saveEndpoint, {
                 method: 'POST',
@@ -1336,13 +1293,11 @@ export function initDefaultPageLengthEditor({
             }
 
             const result = await response.json();
-            console.log('[PageLengthEditor] Save response:', result);
 
             textEl.textContent = `${newValue} records`;
 
             if (result?.success && result?.id > 0) {
                 textEl.dataset.viewId = result.id;
-                console.log('[PageLengthEditor] Stored new viewId:', result.id);
             }
 
             exitEditMode();
@@ -1358,164 +1313,22 @@ export function initDefaultPageLengthEditor({
                 if (r.isConfirmed) window.location.reload();
             });
         } catch (err) {
-            console.error('[PageLengthEditor] Save error:', err);
             hintEl.textContent = 'Failed to save. Try again.';
             hintEl.classList.add('text-danger');
         }
     });
 
-    // Outside click cancel
+    // Cancel edit on outside click
     document.addEventListener('click', e => {
         if (!editBlock.contains(e.target) && !changeBtn.contains(e.target) && !textEl.contains(e.target)) {
             if (!editBlock.classList.contains('d-none')) exitEditMode(true);
         }
     });
 }
-//export function initDefaultPageLengthEditor({
-//    reportKey,
-//    viewName = 'DefaultView',
-//    isDefault = true,
-//    groupBySelectionOrder = [],
-//    saveEndpoint = '/Accounting/Report/SaveReportView1',
-//    minValue = 10,
-//    maxValue = 2500,
-//    textSelector = '#defaultLoadText',
-//    inputSelector = '#defaultLoadInput',
-//    editBlockSelector = '#editDefaultLoad',
-//    changeBtnSelector = '#changeDefaultBtn',
-//    hintSelector = '#defaultLoadHint',
-//} = {}) {
-//    // ── Validate required parameters ──
-//    if (!reportKey) {
-//        console.error('initDefaultPageLengthEditor: reportKey is required');
-//        return;
-//    }
 
-//    // ── Cache DOM elements ──
-//    const textEl = document.querySelector(textSelector);
-//    const inputEl = document.querySelector(inputSelector);
-//    const editBlock = document.querySelector(editBlockSelector);
-//    const changeBtn = document.querySelector(changeBtnSelector);
-//    const hintEl = document.querySelector(hintSelector);
+// CLEANUP FUNCTIONS
 
-//    const viewModeElements = document.querySelectorAll(
-//        `${textSelector}, ${changeBtnSelector}`
-//    );
-
-//    if (!textEl || !inputEl || !editBlock || !changeBtn || !hintEl) {
-//        console.warn('Default page length editor: some DOM elements not found');
-//        return;
-//    }
-
-//    let originalValue = null;
-
-//    function enterEditMode() {
-//        originalValue = inputEl.value;
-//        viewModeElements.forEach(el => el.classList.add('d-none'));
-//        editBlock.classList.remove('d-none');
-//        hintEl.classList.remove('text-danger');
-//        hintEl.textContent = `Enter a number between ${minValue} and ${maxValue}`;
-//        inputEl.focus();
-//        inputEl.select();
-//    }
-
-//    function exitEditMode(restore = false) {
-//        if (restore && originalValue !== null) {
-//            inputEl.value = originalValue;
-//        }
-//        editBlock.classList.add('d-none');
-//        viewModeElements.forEach(el => el.classList.remove('d-none'));
-//        hintEl.classList.remove('text-danger');
-//    }
-
-//    // ── Event listeners ──
-//    changeBtn.addEventListener('click', enterEditMode);
-//    textEl.addEventListener('click', enterEditMode);
-
-//    inputEl.addEventListener('keydown', async (e) => {
-//        if (e.key === 'Escape') {
-//            exitEditMode(true);
-//            return;
-//        }
-
-//        if (e.key !== 'Enter') return;
-
-//        const newValue = parseInt(inputEl.value.trim(), 10);
-
-//        if (isNaN(newValue) || newValue < minValue || newValue > maxValue) {
-//            hintEl.textContent = `Please enter a number between ${minValue} and ${maxValue}`;
-//            hintEl.classList.add('text-danger');
-//            return;
-//        }
-
-//        try {
-//            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
-
-//            const payload = {
-//                ViewName: viewName,
-//                ReportKey: reportKey,
-//                PageLenght: newValue,           // ← note spelling matches your backend
-//                Filters: '{}',
-//                GroupBy: JSON.stringify(groupBySelectionOrder),
-//                IsDefault: isDefault
-//            };
-
-//            const response = await fetch(saveEndpoint, {
-//                method: 'POST',
-//                headers: {
-//                    'Content-Type': 'application/json',
-//                    'RequestVerificationToken': token
-//                },
-//                body: JSON.stringify(payload)
-//            });
-
-//            if (!response.ok) {
-//                throw new Error(`HTTP ${response.status}`);
-//            }
-
-//            // Update displayed value
-//            textEl.textContent = `${newValue} records`;
-
-//            // Exit edit mode
-//            exitEditMode();
-
-//            // Ask user to reload (because page length affects DataTable)
-//            Swal.fire({
-//                title: 'Reload Required',
-//                text: 'Page length has been updated. Reload the page to apply the change?',
-//                icon: 'info',
-//                showCancelButton: true,
-//                confirmButtonText: 'Reload Now',
-//                cancelButtonText: 'Later'
-//            }).then(result => {
-//                if (result.isConfirmed) {
-//                    window.location.reload();
-//                }
-//            });
-
-//        } catch (err) {
-//            console.error('Failed to save default page length:', err);
-//            hintEl.textContent = 'Failed to save. Please try again.';
-//            hintEl.classList.add('text-danger');
-//        }
-//    });
-
-//    // Optional: allow clicking outside edit block to cancel
-//    document.addEventListener('click', function cancelOnOutsideClick(e) {
-//        if (!editBlock.contains(e.target) && !changeBtn.contains(e.target) && !textEl.contains(e.target)) {
-//            if (!editBlock.classList.contains('d-none')) {
-//                exitEditMode(true);
-//            }
-//        }
-//    });
-//}
-
-
-
-
-
-// Cleanup Functions
-
+/** Destroys all active DataTable instances */
 export function destroyAllTables() {
     activeTables.forEach((table, selector) => {
         if ($.fn.DataTable.isDataTable(selector)) {
@@ -1525,8 +1338,7 @@ export function destroyAllTables() {
     activeTables.clear();
 }
 
-
-
+/** Reloads active table and resets to first page */
 export function resetToFirstPage() {
     activeTables.get('#masterTable')?.ajax.reload();
 }
