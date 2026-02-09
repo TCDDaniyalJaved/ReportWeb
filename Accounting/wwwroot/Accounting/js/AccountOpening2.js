@@ -5,6 +5,7 @@ import {
     handleCreateButton,
     handleDirectUrl,
     goBackToList,
+    enableRowClickEdit,
     handleRowActions,
     applyFavorite,
     initStepper,
@@ -31,7 +32,9 @@ $(document).ready(async () => {
         minValue: 5,
         maxValue: 500,
     });
-
+    enableRowClickEdit({
+        basePath: BASE_PATH
+    });
     //  URL handling + create button
     handleDirectUrl(BASE_PATH);
     handleCreateButton(BASE_PATH);

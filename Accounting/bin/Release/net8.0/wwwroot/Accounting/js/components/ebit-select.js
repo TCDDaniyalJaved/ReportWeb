@@ -120,18 +120,32 @@
     }
 
     async loadSelectedValue() {
-        const selectedId = this.getAttribute('selected');
-        if (!selectedId) return;
+        const selectedId = this.getAttribute('selected'); // selected value from Razor
+        const select = this.querySelector('select');
+
+        if (!selectedId) return; // nothing to select
 
         const url = this.generateDataUrl();
-        if (!url) return;
-
-        const select = this.querySelector('select');
         const extraParams = this.getExtraParams();
 
+        // If no URL (static single value), just add option directly
+        if (!url) {
+            const option = new Option(
+                selectedId, // display value
+                selectedId, // actual value
+                true,       // default selected
+                true        // trigger select
+            );
+            select.appendChild(option);
+            $(select).val(selectedId).trigger('change');
+            return;
+        }
+
         try {
-            // Build URL with all parameters
+            // Build URL with extra params + selectedId
             const urlObj = new URL(url, window.location.origin);
+
+            // Prefer using id param first
             urlObj.searchParams.set('id', selectedId);
 
             // Add extra parameters
@@ -142,16 +156,33 @@
             const response = await fetch(urlObj.toString());
             const data = await response.json();
 
+            let option;
             if (data) {
-                const option = new Option(data.text || data.name, data.id, true, true);
-                $(select).append(option).trigger('change');
-            } else {
-                await this.loadSingleOption(selectedId, extraParams);
+                // If server returns single object
+                if (Array.isArray(data) && data.length > 0) {
+                    const item = data[0];
+                    option = new Option(item.text || item.name, item.id, true, true);
+                } else if (data.id) {
+                    option = new Option(data.text || data.name, data.id, true, true);
+                }
             }
+
+            // Fallback: if no data from server, just use selectedId
+            if (!option) {
+                option = new Option(selectedId, selectedId, true, true);
+            }
+
+            select.appendChild(option);
+            $(select).val(selectedId).trigger('change');
+
         } catch (err) {
-            await this.loadSingleOption(selectedId, extraParams);
+            // On error, fallback to selectedId
+            const option = new Option(selectedId, selectedId, true, true);
+            select.appendChild(option);
+            $(select).val(selectedId).trigger('change');
         }
     }
+
 
     async loadSingleOption(selectedId, extraParams = {}) {
         const url = this.generateDataUrl();

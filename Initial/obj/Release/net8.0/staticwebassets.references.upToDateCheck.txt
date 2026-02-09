@@ -133,3 +133,7 @@ D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
 D:\ASPNetCoreMVC_LayersWebApp\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Release\net8.0\staticwebassets.build.json
+D:\Daniyal Javadia Working\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Release\net8.0\staticwebassets.build.json

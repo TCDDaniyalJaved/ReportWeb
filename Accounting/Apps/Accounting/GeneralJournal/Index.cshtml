@@ -8,7 +8,15 @@
 @section VendorScripts {
     @await Html.PartialAsync("_VendorScripts")
 }
-
+<style>
+    .sticky-left-header {
+        position: sticky;
+        top: 60px;
+        z-index: 1000;
+        background: #fff;
+        padding: 8px 12px;
+    }
+</style>
 @section PageScripts {
     <script type="module" src="/Accounting/js/GeneralJournal.js"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
@@ -171,7 +179,8 @@
                                 <!-- Table Header -->
                                 <ebit-head class="border-top">
                                     <ebit-row>
-                                        <ebit-headcolumn datafield="" render="edit" width="50px"></ebit-headcolumn>
+                                        <ebit-headcolumn render="checkbox" width="1%"></ebit-headcolumn>
+                                        @* <ebit-headcolumn datafield="" render="edit" width="50px"></ebit-headcolumn> *@
                                         <ebit-headcolumn datafield="date" header="Date" width="15%">Date</ebit-headcolumn>
                                         <ebit-headcolumn datafield="voucher" header="Voucher" width="25%">Voucher</ebit-headcolumn>
                                         <ebit-headcolumn datafield="totalSeqNo" header="#" width="10%">#</ebit-headcolumn>

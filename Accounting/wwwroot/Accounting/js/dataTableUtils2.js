@@ -35,10 +35,14 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
         const currency = th.attr('currency') || '';
 
         // Base column configuration
+        //const colDef = {
+        //    title: header,
+        //    width: width || undefined,
+        //    groupTotal: isGroupTotal,
+        //};
         const colDef = {
             title: header,
-            width: width || undefined,
-            groupTotal: isGroupTotal,
+            width: width ? width.toString() : undefined,
         };
 
         // Column visibility control
@@ -1050,6 +1054,44 @@ export function handleRowActions(basePath, callbacks = {}) {
         }
     });
 }
+
+
+// ROW CLICK = EDIT (exportable, page-controlled)
+export function enableRowClickEdit({
+    tableSelector = '#masterTable',
+    basePath,
+    exclude = 'button, a, input, label, .row-selector, .delete-btn, .print-btn'
+}) {
+    if (!basePath) {
+        console.warn('enableRowClickEdit: basePath is required');
+        return;
+    }
+
+    $(document)
+        .off('click.rowEdit', `${tableSelector} tbody tr`)
+        .on('click.rowEdit', `${tableSelector} tbody tr`, function (e) {
+
+            // Ignore action / interactive elements
+            if ($(e.target).closest(exclude).length) return;
+
+            // Ignore group rows
+            if ($(this).hasClass('group-row')) return;
+
+            const table = $(tableSelector).DataTable();
+            const rowData = table.row(this).data();
+
+            if (!rowData || !rowData.id) return;
+
+            loadForm(
+                basePath,
+                'edit',
+                rowData.id,
+                rowData.voucher,
+                rowData.prefix
+            );
+        });
+}
+
 
 // RESPONSIVE HANDLING
 

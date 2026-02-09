@@ -7,16 +7,15 @@ body{
     border-bottom: 1px solid #e0e0e0;
 }
 
-#universalSearch:focus {
-    box-shadow: 0 0 0 0.2rem rgba(105, 96, 255, 0.25) !important;
-    border-color: #6960ff !important;
-}
 
 #clearSearch {
     cursor: pointer;
 }
 
-
+table.dataTable {
+    width: 100% !important;
+    background-color: var(--bs-table-bg) !important;
+}
 
 @media (max-width: 992px) {
     #pageHeader {
@@ -377,9 +376,9 @@ tr.shown td.details-control button::before {
     border-radius: 0;
 }
 
-.search-main .input-group:focus-within {
+/*.search-main .input-group:focus-within {
     box-shadow: none;
-}
+}*/
 
 #innerTabs {
     display: flex;

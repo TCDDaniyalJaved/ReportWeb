@@ -75,6 +75,68 @@ namespace Accounting.Models
             return _;
         }
 
+        public virtual async Task<List<CustomerProfileReportResult>> CustomerProfileReportAsync(string dateFrom1, string dateTo1, string sPersonFrom, string sPersonTo, string accountFrom, string accountTo, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "DateFrom1",
+                    Size = 10,
+                    Value = dateFrom1 ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "DateTo1",
+                    Size = 10,
+                    Value = dateTo1 ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "SPersonFrom",
+                    Size = -1,
+                    Value = sPersonFrom ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "SPersonTo",
+                    Size = -1,
+                    Value = sPersonTo ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "AccountFrom",
+                    Size = -1,
+                    Value = accountFrom ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "AccountTo",
+                    Size = -1,
+                    Value = accountTo ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<CustomerProfileReportResult>("EXEC @returnValue = [dbo].[CustomerProfileReport] @DateFrom1 = @DateFrom1, @DateTo1 = @DateTo1, @SPersonFrom = @SPersonFrom, @SPersonTo = @SPersonTo, @AccountFrom = @AccountFrom, @AccountTo = @AccountTo", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
         public virtual async Task<List<GetAccountOpeningReportDataResult>> GetAccountOpeningReportDataAsync(string searchValue, string orderBy, string companyname, int? start, int? length, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter

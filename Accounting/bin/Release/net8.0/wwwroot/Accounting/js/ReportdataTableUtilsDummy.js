@@ -66,7 +66,91 @@ export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
     });
     return columns;
 }
+export function applyFavorite(view) {
 
+    let filters = {};
+    let groups = [];
+    try {
+        filters = JSON.parse(view.filters || '{}');
+        //console.log("Parsed filters from saved favorite:", filters);
+    } catch (e) {
+        //console.error("Error parsing filters JSON:", e);
+    }
+
+    try {
+        groups = JSON.parse(view.groupBy || '[]');
+        //console.log("Parsed groupBy from saved favorite:", groups);
+    } catch (e) {
+        //console.error("Error parsing groupBy JSON:", e);
+    }
+
+    // Reset UI state
+    $('.badge-tag').remove();
+    groupBySelectionOrder.length = 0;
+    $('#groupByList li').removeClass('active');
+    const isLocked = !!view.IsLocked;
+    //console.log("UI reset done. isLocked:", isLocked);
+
+    // Restore filter badges
+    //console.log("Restoring filters...");
+    Object.keys(filters).forEach(key => {
+        //console.log(`  → Key: ${key} | Values:`, filters[key]);
+
+        (filters[key] || []).forEach(savedValue => {
+            //console.log(`    Creating badge for: ${key} = ${savedValue}`);
+
+            const displayText = savedValue;  // backend name hi display name hai
+
+            const $badge = $(`
+                <span class="badge-tag d-inline-flex align-items-center ${isLocked ? 'opacity-75 cursor-not-allowed' : ''}"
+                      data-type="Filter"
+                      data-value="${savedValue}"
+                      data-key="${key}">
+                    <span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>
+                    <span class="badge-text ms-1">${savedValue}</span>
+                    ${isLocked ? '' : '<span class="remove-btn ms-1" style="cursor:pointer;">×</span>'}
+                </span>
+            `);
+
+            $('#universalSearch').before($badge);
+            //console.log(`    Badge created and added for ${key} = ${savedValue}`);
+        });
+    });
+
+    //console.log("All filter badges created. Total filter badges now:", $('.badge-tag[data-type="Filter"]').length);
+
+    // Restore groups
+    // console.log("Restoring groups...");
+    groups.forEach(g => {
+        // console.log(`  → Restoring group: ${g}`);
+        if (!groupBySelectionOrder.includes(g)) {
+            groupBySelectionOrder.push(g);
+            $('#groupByList li[data-group="' + g + '"]').addClass('active');
+            addSearchBadge('Group', g, g.charAt(0).toUpperCase() + g.slice(1), isLocked);
+            //   console.log(`    Group badge added: ${g}`);
+        }
+    });
+
+    // console.log("Calling resetToFirstPage()...");
+    resetToFirstPage();
+
+}
+
+export function showToast(icon, text, timer = 3000) {
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: icon,
+        text: text,
+        showConfirmButton: false,
+        showCloseButton: false,
+        showCancelButton: false,
+        timer: timer,
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+    });
+}
 // Grouping Helpers
 function getGroupByFieldsInOrder() {
     return groupBySelectionOrder;

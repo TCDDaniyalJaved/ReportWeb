@@ -336,6 +336,10 @@
          "ObjectType": 1
       },
       {
+         "Name": "[dbo].[CustomerProfileReport]",
+         "ObjectType": 1
+      },
+      {
          "Name": "[dbo].[GetAccountOpeningReportData]",
          "ObjectType": 1
       },

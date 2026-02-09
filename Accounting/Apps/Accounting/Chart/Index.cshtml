@@ -7,7 +7,8 @@
 @section VendorScripts {
     @await Html.PartialAsync("_VendorScripts")
 }
-
+<link href="~/accounting/css/advancedropdown.css" rel="stylesheet" />
+<script src="~/Accounting/js/advancedropdown.js"></script>
 @section PageScripts {
     <script type="module" src="/Accounting/js/ChartOfAcount.js"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
@@ -47,10 +48,11 @@
                                 <!-- Table Header -->
                                 <ebit-head class="border-top">
                                     <ebit-row>
-                                        <ebit-headcolumn datafield="" render="edit" width="50px"></ebit-headcolumn>
-                                        <ebit-headcolumn datafield="name" header="Account Description" width="15%"></ebit-headcolumn>
-                                        <ebit-headcolumn datafield="natureName" header="Nature" width="25%"></ebit-headcolumn>
-                                        <ebit-headcolumn datafield="typeName" header="Type" width="10%"></ebit-headcolumn>
+                                        <ebit-headcolumn render="checkbox" width="1%"></ebit-headcolumn>
+                                        @* <ebit-headcolumn datafield="" render="edit" width="50px"></ebit-headcolumn> *@
+                                        <ebit-headcolumn datafield="name" header="Account Description" width="415%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="natureName" header="Nature" width="120px"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="typeName" header="Type" width="120px"></ebit-headcolumn>
                                         <ebit-headcolumn datafield="" render="deleteprint" width="100px"></ebit-headcolumn>
                                     </ebit-row>
                                 </ebit-head>

@@ -1,0 +1,230 @@
+﻿@{
+    ViewData["Title"] = "Account Opening Group / Filter Report";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+
+@section VendorStyles {
+    @await Html.PartialAsync("_VendorStyles")
+}
+
+@section VendorScripts {
+    @await Html.PartialAsync("_VendorScripts")
+}
+
+@section PageScripts {
+    <script src="/Accounting/js/dropdawn.js"></script>
+    <script type="module" src="~/Accounting/js/CustomerProfileReport.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+<link href="~/accounting/css/advancedropdown.css" rel="stylesheet" />
+<script src="~/Accounting/js/advancedropdown.js"></script>
+
+<ebit-section p="0" m="0">
+    <div id="wizardStepper" class="bs-stepper wizard-numbered" style="box-shadow:none;">
+
+        <!-- Wizard Header (currently hidden) -->
+        <ebit-section class="bs-stepper-header d-none">
+            <ebit-section class="step" data-target="#account-details">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+            <ebit-section class="line"><i class="bx bx-chevron-right"></i></ebit-section>
+            <ebit-section class="step" data-target="#personal-info">
+                <ebit-button type="button" class="step-trigger"></ebit-button>
+            </ebit-section>
+        </ebit-section>
+
+        <!-- Wizard Content -->
+        <ebit-section class="bs-stepper-content p-0 m-0">
+
+            <!-- Header + Search bar -->
+            <ebit-section class="d-flex justify-content-between align-items-center pb-3 flex-wrap create-header w-100 px-5 pt-3">
+                <ebit-section class="d-flex align-items-center w-100" id="pageHeader">
+                    <ebit-section class="d-flex align-items-start gap-3" style="flex: 0 0 auto; min-width: 200px;">
+                        <div>
+                            <h4 class="mb-1 fw-bold d-flex align-items-center gap-2">
+                               Customer Profile
+                                <i class="bx bx-cog text-muted" style="cursor:pointer; font-size:1.1rem;"></i>
+                            </h4>
+                            <h6 class="mb-0 text-muted fw-normal">Accounting</h6>
+                        </div>
+                    </ebit-section>
+
+                    <ebit-section class="d-flex justify-content-center flex-grow-1">
+                        <div class="input-group" style="width: 100%; max-width: 560px; position: relative;">
+                            <span class="input-group-text border-end-0">
+                                <i class="bx bx-search text-muted"></i>
+                            </span>
+                            <div class="d-flex flex-wrap align-items-center form-control border-start-0 border-end-0 p-0"
+                                 id="searchContainer"
+                                 style="min-height: 44px; padding: 6px 8px; gap: 6px; overflow: visible;">
+                                <!-- Dynamic filter/voucher badges go here -->
+                                <input type="search" id="universalSearch" class="border-0 flex-grow-1"
+                                       placeholder="Search by voucher, date, amount..."
+                                       style="height: 32px; min-width: 120px; outline: none; background: transparent;">
+                            </div>
+                            <span class="input-group-text border-start-0" id="searchFilterToggle" style="cursor:pointer;">
+                                <i class="bx bx-filter-alt text-muted"></i>
+                            </span>
+
+                            <div id="advancedDropdown" class="advanced-dropdown d-none" style="right:0; background-color:var(--bs-body-bg)">
+                                <div class="col">
+                                    <h6><i class="bx bx-filter"></i> Filters</h6>
+                                    <ul>
+                                        <li data-filter="Companies" class="filter-item">Companies</li>
+                                        <li data-filter="LedgerName" class="filter-item">LedgerName</li>
+                                        <li data-filter="CustomerInvoice" class="filter-item">Customer Invoices</li>
+                                        <li data-filter="VendorBill" class="filter-item">Vendor Bills</li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <h6><i class="bx bx-grid-alt"></i> Group By</h6>
+                                    <ul id="groupByList">
+                                        <li data-group="Voucher" class="group-item">Voucher</li>
+                                        <li data-group="Companyname" class="group-item">Company</li>
+                                        <li data-group="LedgerName" class="group-item">Ledger</li>
+                                        <li data-group="Date" class="group-item">Date</li>
+                                    </ul>
+                                </div>
+                                <div class="col" id="favorites">
+                                    <h6><i class="bx bx-star"></i> Favorites</h6>
+                                    <ul>
+                                        <li id="saveFavorite">Save current search</li>
+                                    </ul>
+                                    <ul id="favoritesList"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </ebit-section>
+
+                    <div style="flex: 0 0 auto; min-width: 200px;"></div>
+                </ebit-section>
+            </ebit-section>
+
+            <!-- Main Table Content -->
+            <ebit-section id="account-details" class="content">
+                <ebit-section id="innerWizard" class="wizard">
+                    <ebit-section class="wizard-content p-0 m-0">
+                        <ebit-section id="inner-step1" class="wizard-step p-0 m-0">
+                            <ebit-table id="masterTable" class="table mt-0 pt-0">
+
+                                <!-- Table Header -->
+                                <ebit-head class="border-top" style="background-color:var(--bs-table-bg)!important;">
+                                    <ebit-row>
+                                        <ebit-headcolumn datafield="Name" header="Name" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="NTNNo" header=" N.I.C #" width="25%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="Address" header="Address" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="Phone" header="Contact #" width="15%"></ebit-headcolumn>
+                                        <ebit-headcolumn datafield="SPerson" header="Contact  Person" width="15%"></ebit-headcolumn>
+                                    </ebit-row>
+                                </ebit-head>
+
+                                <!-- Table Body will be populated dynamically -->
+                                <!-- Table Footer -->
+                                <ebit-footer>
+                                    <ebit-row>
+                                        <ebit-bodycolumn colspan="2">
+                                            Total Records : <span id="totalRecords">0</span>
+                                        </ebit-bodycolumn>
+                                    </ebit-row>
+                                    <ebit-row>
+                                        <ebit-bodycolumn colspan="2">
+                                            <button id="loadMoreBtn" class="btn bg-transparent" style="display:none;">
+                                                Load More
+                                                <span class="spinner-border spinner-border-sm d-none" id="loadMoreSpinner"></span>
+                                            </button>
+                                        </ebit-bodycolumn>
+                                    </ebit-row>
+                                </ebit-footer>
+
+                            </ebit-table>
+                        </ebit-section>
+                    </ebit-section>
+                </ebit-section>
+            </ebit-section>
+
+            <!-- Secondary / Detail view area -->
+            <ebit-section id="personal-info" class="content p-0 px-5"></ebit-section>
+
+        </ebit-section>
+    </div>
+
+    <!-- ── Modals ── -->
+    <!-- Save Favorite Modal -->
+    <div class="modal fade" id="saveFavoriteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Save Current View as Favorite</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="favoriteName" class="form-label">Favorite Name</label>
+                    <input type="text" id="favoriteName" class="form-control" placeholder="Enter favorite name">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="saveFavoriteConfirm" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="modal fade" id="filterModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalTitle">Select Filter</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="filter-company" class="filter-option mb-3">
+                        <select class="form-select select2"
+                                data-url="/Dropdawn/Companyid"
+                                data-placeholder="Select Company..."
+                                name="CompanyId"></select>
+                    </div>
+
+                    <div id="filter-LedgerName" class="filter-option mb-3">
+                        <select class="form-select select2"
+                                data-url="/Dropdawn/UserWiseAccount"
+                                data-placeholder="Select Ledger..."
+                                name="LedgerId"></select>
+                    </div>
+
+                    <div class="filter-option mb-3" id="filter-customerinvoice" style="display:none;">
+                        <label class="form-label">Customer Invoice</label>
+                        <ebit-select data-url="UserWiseAccount">
+                            <option value="0">Choose One</option>
+                        </ebit-select>
+                    </div>
+
+                    <div class="filter-option mb-3" id="filter-vendorbill" style="display:none;">
+                        <label class="form-label">Vendor Bill</label>
+                        <ebit-select data-url="UserWiseAccount">
+                            <option value="0">Choose One</option>
+                        </ebit-select>
+                    </div>
+
+                    <div class="filter-option" id="filter-userwiseAccount">
+                        <label class="form-label">User Wise Account</label>
+                        <ebit-select data-params='{"natureId": 3}' data-url="userwiseAccount">
+                            <option value="0">Choose One</option>
+                        </ebit-select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="applyFilterBtn">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ebit-section>

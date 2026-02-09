@@ -1,0 +1,205 @@
+﻿﻿﻿﻿@using Newtonsoft.Json
+@using Microsoft.AspNetCore.Http
+<style>
+/* ================= Fixed Brand ================= */
+.app-brand-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px; /* Default for small screens if needed, but we'll override */
+    height: 70px;
+    background-color: #fff;
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.app-brand-fixed .app-brand-logo { flex-shrink: 0; }
+.app-brand-fixed .app-brand-text {
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity 0.3s ease;
+}
+
+/* ================= Sidebar ================= */
+#layout-menu {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 260px;
+    height: calc(100vh - 70px);
+    background-color: #fff;
+    z-index: 1040;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+
+    /* Scrollable */
+    overflow-y: auto;
+}
+
+/* OPEN state */
+body.custom-menu-open #layout-menu {
+    transform: translateX(0);
+}
+
+/* Overlay */
+.custom-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 1039;
+    display: none;
+}
+
+body.custom-menu-open .custom-menu-overlay {
+    display: block;
+}
+
+/* Disable hover expand completely */
+#layout-menu.menu-vertical .menu-item:hover > .menu-sub,
+#layout-menu.menu-vertical .menu-item:hover > .menu-link {
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    left: 0 !important;
+}
+.circle-icon { width: 32px; height: 32px; border-radius: 50%; background-color: #696cff; display: flex; align-items: center; justify-content: center; }
+.circle-icon i {
+    color: #fff;
+    font-size: 1.1rem;
+}
+#layout-menu.menu-vertical .menu-item.menu-toggle:hover > .menu-sub {
+    display: none !important;
+}
+
+.layout-page {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+@@media (max-width: 1199.98px) {
+ .menu-vertical .menu-inner {
+     flex-direction: column;
+     flex: 1 1 auto;
+     position: absolute;
+       top:80px !important ;
+ }
+ }
+</style>
+
+@{
+    TempData.Keep();
+    var menusJson = Context.Session.GetString("AppMenus");
+    var menus = string.IsNullOrEmpty(menusJson)
+        ? new List<dynamic>()
+        : JsonConvert.DeserializeObject<List<dynamic>>(menusJson);
+
+    string? currentPage = Convert.ToString(ViewContext.RouteData.Values["Page"])!;
+}
+
+<!-- ================= Fixed Brand ================= -->
+<div class="app-brand-fixed bg-menu-theme">
+    <a asp-page="/Index" class="app-brand-link">
+        <span class="app-brand-logo demo">
+            @await Html.PartialAsync("../_Partials/_Macros")
+        </span>
+        <span class="app-brand-text demo menu-text fw-bold ms-2">@TempData.Peek("appName")</span>
+    </a>
+    <!-- Toggle Button -->
+    @* <a href="javascript:void(0);" id="customMenuToggle" class="menu-link text-large ms-auto">
+        <i class="bx bx-menu bx-sm"></i>
+    </a> *@
+   <a href="javascript:void(0);" id="customMenuToggle" class="menu-link text-large ms-auto">
+   <span class="circle-icon"> <i class="bx bx-chevron-right bx-sm"></i> </span>
+</a>
+
+</div>
+
+<!-- ================= Sidebar ================= -->
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="menu-inner-shadow"></div>
+
+    <ul class="menu-inner py-1">
+        @foreach (var item in menus.Where(m => m.ParentId == null))
+        {
+            var itemUrl = item.Url?.ToString();
+            var subMenus = menus.Where(m => m.ParentId == item.Id).ToList();
+
+            bool isParentActive =
+                currentPage == itemUrl ||
+                subMenus.Any(sm => currentPage == sm.Url?.ToString());
+
+            <li class="menu-item @(isParentActive ? "active open" : "")">
+                <a href="@(subMenus.Any() ? "javascript:void(0);" : itemUrl)"
+                   class="menu-link @(subMenus.Any() ? "menu-toggle" : "")">
+                    <i class="menu-icon tf-icons @item.Icon"></i>
+                    <div class="text-truncate">@item.Name</div>
+                </a>
+
+                @if (subMenus.Any())
+                {
+                    <ul class="menu-sub">
+                        @foreach (var sub in subMenus)
+                        {
+                            var subUrl = sub.Url?.ToString();
+                            <li class="menu-item @(currentPage == subUrl ? "active" : "")">
+                                <a href="@subUrl" class="menu-link">
+                                    <div class="text-truncate">@sub.Name</div>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    </ul>
+</aside>
+
+<!-- ================= OVERLAY ================= -->
+<div class="custom-menu-overlay"></div>
+
+<!-- ================= CUSTOM JS ================= -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtn = document.getElementById("customMenuToggle");
+    const overlay   = document.querySelector(".custom-menu-overlay");
+    const icon      = toggleBtn.querySelector("i");
+
+    // Toggle sidebar on button click
+    if (toggleBtn) {
+        toggleBtn.addEventListener("click", function(e){
+            e.preventDefault();
+            document.body.classList.toggle("custom-menu-open");
+
+            // Change icon depending on state
+            if (document.body.classList.contains("custom-menu-open")) {
+                icon.classList.remove("bx-chevron-right");
+                icon.classList.add("bx-chevron-left");
+            } else {
+                icon.classList.remove("bx-chevron-left");
+                icon.classList.add("bx-chevron-right");
+            }
+        });
+    }
+
+    // Close sidebar on overlay click
+    if (overlay) {
+        overlay.addEventListener("click", function(){
+            document.body.classList.remove("custom-menu-open");
+            icon.classList.remove("bx-chevron-left");
+            icon.classList.add("bx-chevron-right");
+        });
+    }
+
+    // Close sidebar on ESC key
+    document.addEventListener("keydown", function(e){
+        if(e.key === "Escape"){
+            document.body.classList.remove("custom-menu-open");
+            icon.classList.remove("bx-chevron-left");
+            icon.classList.add("bx-chevron-right");
+        }
+    });
+});
+</script>

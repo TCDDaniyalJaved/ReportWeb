@@ -1,108 +1,150 @@
-﻿// Get numeric value from element - FIXED
+﻿/* ============================================================
+   UNIVERSAL CALCULATION & AUTO-UPDATE UTILITY
+   - No domain keywords
+   - No formatting assumptions
+   - Works with static + dynamic DOM
+   ============================================================ */
+
+/* ---------- Get numeric value from element ---------- */
 function getNumericValue(el) {
     if (!el) return 0;
-    // Sirf input element se value lo
+
+    // Prefer input value if present
     const input = el.tagName === 'INPUT' ? el : el.querySelector('input');
+
     if (input) {
-        const val = input.value.replace(/,/g, '');
-        return parseFloat(val) || 0;
+        const raw = (input.value || '').replace(/,/g, '');
+        const num = parseFloat(raw);
+        return Number.isFinite(num) ? num : 0;
     }
-    return parseFloat(el.value || el.textContent || 0);
+
+    // Fallback to text
+    const text = (el.textContent || '').replace(/,/g, '');
+    const num = parseFloat(text);
+    return Number.isFinite(num) ? num : 0;
 }
-// calculateValue: selectors + operation - FIXED
+
+/* ---------- Calculate values from selectors ---------- */
 function calculateValue(selectors, operation = 'sum') {
-    let values = [];
-    // Sirf top-level elements select karo (nested elements avoid karo)
-    selectors.split(',').forEach(sel => {
-        sel = sel.trim();
-        document.querySelectorAll(sel).forEach(el => {
-            // Sirf parent elements count karo
-            if (el.closest('[data-debit]') || el.closest('[data-credit]')) {
-                // Nested input element hai to skip karo
-                if (el.tagName === 'INPUT') return;
-            }
-            values.push(getNumericValue(el));
-        });
+    const values = [];
+    const selected = document.querySelectorAll(selectors);
+
+    selected.forEach(el => {
+        // Avoid double counting nested structures
+        if (el.dataset.__counted) return;
+        el.dataset.__counted = '1';
+
+        values.push(getNumericValue(el));
     });
-    if (values.length === 0) return 0;
+
+    // Cleanup markers
+    selected.forEach(el => delete el.dataset.__counted);
+
+    if (!values.length) return 0;
+
     switch (operation.toLowerCase()) {
         case 'sum':
             return values.reduce((a, b) => a + b, 0);
+
         case 'avg':
             return values.reduce((a, b) => a + b, 0) / values.length;
+
         case 'count':
-            return values.filter(v => v !== 0 && !isNaN(v)).length;
+            return values.filter(v => Number.isFinite(v) && v !== 0).length;
+
         case 'max':
             return Math.max(...values);
+
         case 'min':
             return Math.min(...values);
+
         default:
             return 0;
     }
 }
-// Update element - FIXED
+
+/* ---------- Safe formula evaluation ---------- */
+function safeEval(formula) {
+    const scope = { calculateValue };
+    return Function(
+        ...Object.keys(scope),
+        `"use strict"; return (${formula});`
+    )(...Object.values(scope));
+}
+
+/* ---------- Update single element ---------- */
 function updateElement(el, value) {
     if (!el) return;
-    const text = value.toFixed(2) + ' Rs.';
-    if (el.tagName === 'EBIT-LABEL' && typeof el.setText === 'function') {
+
+    const text = Number.isFinite(value)
+        ? value.toFixed(2)
+        : '0.00';
+
+    if (typeof el.setText === 'function') {
         el.setText(text);
     } else {
         el.textContent = text;
     }
 }
-// Update all elements with data-fn - FIXED
+
+/* ---------- Update all elements with data-fn ---------- */
 function updateAll() {
     document.querySelectorAll('[data-fn]').forEach(el => {
         const formula = el.getAttribute('data-fn');
         if (!formula) return;
+
         try {
-            // Formula evaluate karo
-            const result = eval(formula);
+            const result = safeEval(formula);
             updateElement(el, result);
         } catch (err) {
-            console.error('Error evaluating formula:', formula, err);
+            console.error('Formula error:', formula, err);
             updateElement(el, 0);
         }
     });
 }
-// Initial values ke liye fix with polling
+
+/* ---------- Initialize existing values (async-safe) ---------- */
 function initializeValues(tries = 0) {
-    const inputs = document.querySelectorAll('[data-debit] input, [data-credit] input');
-    if (inputs.length === 0 && tries < 20) {
-        // Components abhi ready nahi hain, retry after 100ms
+    const inputs = document.querySelectorAll('input');
+
+    if (!inputs.length && tries < 20) {
         setTimeout(() => initializeValues(tries + 1), 100);
         return;
     }
-    // Pehle saari existing values load karo
+
     inputs.forEach(input => {
         if (input.value) {
-            // Trigger input event taki calculation ho
             input.dispatchEvent(new Event('input', { bubbles: true }));
         }
     });
-    // Phir calculation karo
+
     setTimeout(updateAll, 100);
 }
-// Live update on input
+
+/* ---------- Live update on input ---------- */
 document.addEventListener('input', e => {
-    // Agar input field change hua hai
     if (e.target.tagName === 'INPUT') {
-        // 50ms ka delay taki value properly update ho jaye
         setTimeout(updateAll, 50);
     }
 });
-// MutationObserver for dynamic rows
+
+/* ---------- Observe dynamic DOM changes ---------- */
+let observerTimer;
 const observer = new MutationObserver(() => {
-    setTimeout(updateAll, 100);
+    clearTimeout(observerTimer);
+    observerTimer = setTimeout(updateAll, 100);
 });
-document.querySelectorAll('ebit-table, table').forEach(tbl => {
-    observer.observe(tbl, { childList: true, subtree: true });
+
+observer.observe(document.body, {
+    childList: true,
+    subtree: true
 });
-// Initial calculation - FIXED
+
+/* ---------- Initial load ---------- */
 document.addEventListener('DOMContentLoaded', () => {
-    // Thoda delay karo taki saari elements load ho jayein
-    setTimeout(initializeValues, 500);
+    setTimeout(initializeValues, 300);
 });
-// Expose globally
-window.updateAll = updateAll;
+
+/* ---------- Expose API ---------- */
 window.calculateValue = calculateValue;
+window.updateAll = updateAll;

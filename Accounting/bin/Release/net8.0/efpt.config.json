@@ -280,7 +280,7 @@
          "ObjectType": 3
       },
       {
-         "Name": "[dbo].[BankReceiptView]",
+         "Name": "[dbo].[BankReceiptMView]",
          "ObjectType": 3
       },
       {
@@ -333,6 +333,10 @@
       },
       {
          "Name": "[dbo].[AccountOpeningVoucher]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[CustomerProfileReport]",
          "ObjectType": 1
       },
       {

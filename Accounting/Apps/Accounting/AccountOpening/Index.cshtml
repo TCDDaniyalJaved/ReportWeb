@@ -8,6 +8,16 @@
 @section VendorScripts {
     @await Html.PartialAsync("_VendorScripts")
 }
+
+<style>
+    .sticky-left-header {
+        position: sticky;
+        top: 60px;
+        z-index: 1000;
+        background: #fff;
+        padding: 8px 12px;
+    }
+</style>
 <link href="~/accounting/css/advancedropdown.css" rel="stylesheet" />
 <script src="~/Accounting/js/advancedropdown.js"></script>
 <script>

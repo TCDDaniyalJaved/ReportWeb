@@ -202,7 +202,7 @@ window.removeRow = function (btn) {
     const $tbody = $('#ItemsTable tbody');
     const totalRows = $tbody.find('tr').length;
 
-    // Check if row is non-removable
+    // Non-removable row check
     if ($row.hasClass('nonRemovable')) {
         showToast('warning', 'This row cannot be deleted.');
         return false;
@@ -210,25 +210,32 @@ window.removeRow = function (btn) {
 
     // Clear validation
     $row.find('.text-danger').remove();
-    $row.find('.input-validation-error').removeClass('input-validation-error');
+    $row.find('.input-validation-error')
+        .removeClass('input-validation-error');
 
-    // Remove the row
+    // Remove row
     $row.remove();
 
     // Update rowIndex
     rowIndex = $tbody.find('tr').length;
 
-    // If we removed a row and now have only one row, make it non-removable
-    if (totalRows === 2 && $tbody.find('tr').length === 1) {
+    // If only one row left, make it non-removable
+    if (totalRows === 2 && rowIndex === 1) {
         const $remainingRow = $tbody.find('tr:first');
         if (!$remainingRow.hasClass('nonRemovable')) {
             makeRowNonRemovable($remainingRow);
         }
     }
 
+    //  FORCE recalculation
+    if (typeof window.updateAll === 'function') {
+        setTimeout(window.updateAll, 0);
+    }
+
+    // Optional custom event
     $(document).trigger('row-removed');
-    updateTotals(); // If you have this function
 };
+
 
 // Reusable Toast Function
 function showToast(icon, text, timer = 3000) {
@@ -273,21 +280,7 @@ function showValidationErrors(errors) {
     $(document).trigger('validation-errors-updated');
 }
 
-// Update totals function (add if not exists)
-function updateTotals() {
-    let totalDebit = 0;
-    let totalCredit = 0;
 
-    $('#ItemsTable tbody tr').each(function () {
-        const debit = parseFloat($(this).find('[data-debit] input').val()) || 0;
-        const credit = parseFloat($(this).find('[data-credit] input').val()) || 0;
-        totalDebit += debit;
-        totalCredit += credit;
-    });
-
-    // Update your total display elements here
-    console.log('Total Debit:', totalDebit, 'Total Credit:', totalCredit);
-}
 
 // Initialize
 window.initializeAccountOpeningDetail = initializeAccountOpeningDetail;

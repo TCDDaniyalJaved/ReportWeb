@@ -11,12 +11,16 @@
 .view-mode, .edit-mode {
 	transition: all 0.2s;
 }
-#masterTable,
+/*#masterTable,
 .dataTables_scrollBody table,
 .dataTables_scrollHeadInner table {
 	table-layout: fixed !important;
 	width: 100% !important;
-}
+}*/
+/*#masterTable {
+	table-layout: fixed;
+	width: 100%;
+}*/
 .change-default {
 	color: #4a3fc8;
 	cursor: pointer;
