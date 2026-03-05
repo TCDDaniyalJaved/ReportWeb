@@ -8,13 +8,49 @@
 
   <ItemGroup>
     <Compile Remove="Apps\Accounting\AccountOpening - Copy\**" />
+    <Compile Remove="Apps\Accounting\AccountOpening\**" />
+    <Compile Remove="Apps\Accounting\BankPayment\**" />
+    <Compile Remove="Apps\Accounting\BankReceipt\**" />
+    <Compile Remove="Apps\Accounting\CashPayment\**" />
+    <Compile Remove="Apps\Accounting\CashReceipt\**" />
+    <Compile Remove="Apps\Accounting\Chart\**" />
+    <Compile Remove="Apps\Accounting\GeneralJournal\**" />
+    <Compile Remove="Apps\Accounting\PurchaseReport\**" />
     <Compile Remove="Apps\Accounting\TrialBalance - Copy\**" />
+    <Compile Remove="Apps\Accounting\TrialBalance\**" />
     <Content Remove="Apps\Accounting\AccountOpening - Copy\**" />
+    <Content Remove="Apps\Accounting\AccountOpening\**" />
+    <Content Remove="Apps\Accounting\BankPayment\**" />
+    <Content Remove="Apps\Accounting\BankReceipt\**" />
+    <Content Remove="Apps\Accounting\CashPayment\**" />
+    <Content Remove="Apps\Accounting\CashReceipt\**" />
+    <Content Remove="Apps\Accounting\Chart\**" />
+    <Content Remove="Apps\Accounting\GeneralJournal\**" />
+    <Content Remove="Apps\Accounting\PurchaseReport\**" />
     <Content Remove="Apps\Accounting\TrialBalance - Copy\**" />
+    <Content Remove="Apps\Accounting\TrialBalance\**" />
     <EmbeddedResource Remove="Apps\Accounting\AccountOpening - Copy\**" />
+    <EmbeddedResource Remove="Apps\Accounting\AccountOpening\**" />
+    <EmbeddedResource Remove="Apps\Accounting\BankPayment\**" />
+    <EmbeddedResource Remove="Apps\Accounting\BankReceipt\**" />
+    <EmbeddedResource Remove="Apps\Accounting\CashPayment\**" />
+    <EmbeddedResource Remove="Apps\Accounting\CashReceipt\**" />
+    <EmbeddedResource Remove="Apps\Accounting\Chart\**" />
+    <EmbeddedResource Remove="Apps\Accounting\GeneralJournal\**" />
+    <EmbeddedResource Remove="Apps\Accounting\PurchaseReport\**" />
     <EmbeddedResource Remove="Apps\Accounting\TrialBalance - Copy\**" />
+    <EmbeddedResource Remove="Apps\Accounting\TrialBalance\**" />
     <None Remove="Apps\Accounting\AccountOpening - Copy\**" />
+    <None Remove="Apps\Accounting\AccountOpening\**" />
+    <None Remove="Apps\Accounting\BankPayment\**" />
+    <None Remove="Apps\Accounting\BankReceipt\**" />
+    <None Remove="Apps\Accounting\CashPayment\**" />
+    <None Remove="Apps\Accounting\CashReceipt\**" />
+    <None Remove="Apps\Accounting\Chart\**" />
+    <None Remove="Apps\Accounting\GeneralJournal\**" />
+    <None Remove="Apps\Accounting\PurchaseReport\**" />
     <None Remove="Apps\Accounting\TrialBalance - Copy\**" />
+    <None Remove="Apps\Accounting\TrialBalance\**" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -23,17 +59,23 @@
 
 	<ItemGroup>
     <Compile Remove="Controller\ReportController - Copy.cs" />
+    <Compile Remove="Controller\ReportController.cs" />
+    <Compile Remove="Services\AccountOpeningPdf.cs" />
+    <Compile Remove="Services\BasePdfLayout.cs" />
+    <Compile Remove="Services\Components\AccountOpeningBody.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Apps\Accounting\Chart\AdditionalInfo.cshtml" />
-    <Content Remove="Apps\Accounting\Chart\Basic.cshtml" />
-    <Content Remove="Apps\Accounting\Chart\Datatable.cshtml" />
-    <Content Remove="Apps\Accounting\Chart\print.cshtml" />
-    <Content Remove="Apps\Accounting\Chart\Report.cshtml" />
-    <Content Remove="Apps\Accounting\Chart\Reports.cshtml" />
-    <Content Remove="Apps\Accounting\Chart\_Search.cshtml" />
+    <Content Remove="Apps\Accounting\Report\Demo.cshtml" />
+    <Content Remove="Apps\Accounting\Report\Dummy.cshtml" />
+    <Content Remove="Apps\Accounting\Report\index.cshtml" />
+    <Content Remove="Apps\Accounting\Report\ItemData.cshtml" />
+    <Content Remove="Apps\Dashboards\CRM.cshtml" />
+    <Content Remove="Apps\Dashboards\Demo.cshtml" />
+    <Content Remove="Apps\Dashboards\Dummy.cshtml" />
     <Content Remove="Views\Report\index - Copy.cshtml" />
+    <Content Remove="Views\Shared\_AdvancedReportHeader.cshtml" />
+    <Content Remove="Views\Shared\_PageHeader.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,7 +84,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.1.66" />
-		<PackageReference Include="DinkToPdf" Version="1.0.8" />
+		<PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.2" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.18" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.19">

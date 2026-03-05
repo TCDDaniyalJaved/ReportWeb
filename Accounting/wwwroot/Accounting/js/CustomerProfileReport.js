@@ -10,7 +10,7 @@ import {
     setPageFilterConfig,
     groupBySelectionOrder,
     resetToFirstPage,
-} from './ReportdataTableUtilsDummy.js';
+} from './ReportdataTableUtils.js';
 
 // SVG icons used in filter/group badges
 const FILTER_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"><path d="M3,4H21V6H3V4M6,10H18V12H6V10M10,16H14V18H10V16Z"></path></svg>`;
@@ -66,7 +66,7 @@ $(document).ready(() => {
 
         const payload = {
             ViewName: viewName,
-            ReportKey: 'OpeningMasterReport',
+            ReportKey: 'CustomerProfileReport',
             Filters: JSON.stringify(filters),
             GroupBy: JSON.stringify(groupBy)
         };

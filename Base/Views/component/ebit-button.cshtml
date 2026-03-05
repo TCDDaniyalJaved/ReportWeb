@@ -1,0 +1,368 @@
+<script>
+    class EbitButton extends HTMLElement {
+        constructor() {
+            super();
+            this.attachShadow({ mode: 'open' });
+        }
+
+        connectedCallback() {
+            this.render();
+            this.attachEvents();
+        }
+
+        static get observedAttributes() {
+            return ['type', 'size', 'click', 'disabled', 'id', 'class', 'variant', 'radius'];
+        }
+
+        attributeChangedCallback(name, oldValue, newValue) {
+            if (oldValue !== newValue) {
+                this.render();
+                this.attachEvents();
+            }
+        }
+
+        render() {
+            const type = this.getAttribute('type') || 'primary';
+            const size = this.getAttribute('size') || 'md';
+            const variant = this.getAttribute('variant') || 'solid';
+            const radius = this.getAttribute('radius') || 'default'; // default, sm, md, lg, xl, full, none
+            const disabled = this.hasAttribute('disabled');
+            const customClass = this.getAttribute('class') || '';
+
+            const sizeClasses = {
+                'sm': 'btn-sm',
+                'md': '',
+                'lg': 'btn-lg'
+            };
+
+            const typeClasses = {
+                'primary': 'btn-primary',
+                'secondary': 'btn-secondary',
+                'success': 'btn-success',
+                'danger': 'btn-danger',
+                'warning': 'btn-warning',
+                'info': 'btn-info',
+                'light': 'btn-light',
+                'dark': 'btn-dark',
+                'link': 'btn-link'
+            };
+
+            const radiusClasses = {
+                'none': 'radius-none',
+                'sm': 'radius-sm',
+                'md': 'radius-md',
+                'lg': 'radius-lg',
+                'xl': 'radius-xl',
+                'full': 'radius-full',
+                'default': ''
+            };
+
+            const variantClasses = {
+                'solid': '',
+                'outline': 'btn-outline-',
+                'ghost': 'btn-ghost-'
+            };
+
+            let buttonClass = `btn ${sizeClasses[size] || ''} ${radiusClasses[radius] || ''} ${customClass}`.trim();
+
+            // Apply type and variant classes
+            if (variant === 'solid') {
+                buttonClass += ` ${typeClasses[type] || 'btn-primary'}`;
+            } else if (variant === 'outline') {
+                buttonClass += ` btn-outline-${type}`;
+            } else if (variant === 'ghost') {
+                buttonClass += ` btn-ghost-${type}`;
+            }
+
+            buttonClass = buttonClass.trim();
+
+            this.shadowRoot.innerHTML = `
+            <style>
+                .btn {
+                    display: inline-block;
+                    font-weight: 400;
+                    line-height: 1.5;
+                    text-align: center;
+                    text-decoration: none;
+                    vertical-align: middle;
+                    cursor: pointer;
+                    user-select: none;
+                    background-color: transparent;
+                    border: 1px solid transparent;
+                    padding: 0.375rem 0.75rem;
+                    font-size: 0.875rem;
+                    transition: all 0.15s ease-in-out;
+                    
+                    /* Default border radius */
+                    border-radius: 0.375rem;
+                }
+                
+                /* Size Classes */
+                .btn-sm {
+                    padding: 0.25rem 0.5rem;
+                    font-size: 0.75rem;
+                }
+                
+                .btn-lg {
+                    padding: 0.5rem 1rem;
+                    font-size: 1rem;
+                }
+
+                /* Radius Classes */
+                .radius-none {
+                    border-radius: 0 !important;
+                }
+                
+                .radius-sm {
+                    border-radius: 0.25rem !important;
+                }
+                
+                .radius-md {
+                    border-radius: 0.5rem !important;
+                }
+                
+                .radius-lg {
+                    border-radius: 0.75rem !important;
+                }
+                
+                .radius-xl {
+                    border-radius: 1rem !important;
+                }
+                
+                .radius-full {
+                    border-radius: 50px !important;
+                }
+
+                /* Solid Buttons */
+                .btn-primary {
+                    color: #fff;
+                    background-color: #0d6efd;
+                    border-color: #0d6efd;
+                }
+                
+                .btn-primary:hover {
+                    background-color: #0b5ed7;
+                    border-color: #0a58ca;
+                }
+                
+                .btn-secondary {
+                    color: #fff;
+                    background-color: #6c757d;
+                    border-color: #6c757d;
+                }
+                
+                .btn-secondary:hover {
+                    background-color: #5c636a;
+                    border-color: #565e64;
+                }
+
+                .btn-success {
+                    color: #fff;
+                    background-color: #198754;
+                    border-color: #198754;
+                }
+
+                .btn-danger {
+                    color: #fff;
+                    background-color: #dc3545;
+                    border-color: #dc3545;
+                }
+
+                /* Outline Buttons */
+                .btn-outline-primary {
+                    color: #0d6efd;
+                    border-color: #0d6efd;
+                    background-color: transparent;
+                }
+                
+                .btn-outline-primary:hover {
+                    color: #fff;
+                    background-color: #0d6efd;
+                    border-color: #0d6efd;
+                }
+                
+                .btn-outline-secondary {
+                    color: #6c757d;
+                    border-color: #6c757d;
+                    background-color: transparent;
+                }
+                
+                .btn-outline-secondary:hover {
+                    color: #fff;
+                    background-color: #6c757d;
+                    border-color: #6c757d;
+                }
+
+                .btn-outline-success {
+                    color: #198754;
+                    border-color: #198754;
+                }
+
+                .btn-outline-danger {
+                    color: #dc3545;
+                    border-color: #dc3545;
+                }
+
+                /* Ghost Buttons (No background, no border) */
+                .btn-ghost-primary {
+                    color: #0d6efd;
+                    background-color: transparent;
+                    border-color: transparent;
+                }
+                
+                .btn-ghost-primary:hover {
+                    background-color: transparent;
+                }
+                
+                .btn-ghost-secondary {
+                    color: #6c757d;
+                    background-color: transparent;
+                    border-color: transparent;
+                }
+                
+                .btn-ghost-secondary:hover {
+                    background-color: rgba(108, 117, 125, 0.1);
+                }
+
+                .btn-ghost-success {
+                    color: #198754;
+                    background-color: transparent;
+                    border-color: transparent;
+                }
+
+                .btn-ghost-danger {
+                    color: #dc3545;
+                    background-color: transparent;
+                    border-color: transparent;
+                }
+
+                /* Link Button */
+                .btn-link {
+                    color: #0d6efd;
+                    background-color: transparent;
+                    border-color: transparent;
+                    text-decoration: underline;
+                }
+
+                .btn-link:hover {
+                    color: #0a58ca;
+                    text-decoration: underline;
+                }
+
+                /* Icon Button */
+                .btn-icon {
+                    padding: 0.25rem;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: auto;
+                    height: auto;
+                }
+                
+                .btn:disabled {
+                    pointer-events: none;
+                    opacity: 0.65;
+                }
+                
+                ::slotted(i) {
+                    line-height: 1;
+                }
+
+                /* Nav Link Style for Tabs */
+                .nav-link {
+                    background: none;
+                    border: none;
+                    color: #495057;
+                    padding: 0.5rem 1rem;
+                    border-radius: 0;
+                }
+
+                .nav-link.active {
+                    color: #0d6efd;
+                    background-color: #fff;
+                    border-color: #dee2e6 #dee2e6 #fff;
+                }
+
+                .nav-link:hover {
+                    color: #0a58ca;
+                    background-color: #f8f9fa;
+                }
+
+                /* Custom radius for nav links if needed */
+                .nav-link.radius-sm {
+                    border-radius: 0.25rem !important;
+                }
+
+                .nav-link.radius-md {
+                    border-radius: 0.5rem !important;
+                }
+            </style>
+            <button class="${buttonClass}" ${disabled ? 'disabled' : ''}>
+                <slot></slot>
+            </button>
+        `;
+        }
+
+        attachEvents() {
+            const button = this.shadowRoot.querySelector('button');
+            const clickHandler = this.getAttribute('click');
+
+            if (clickHandler) {
+                button.addEventListener('click', (e) => {
+                    try {
+                        if (typeof window[clickHandler] === 'function') {
+                            window[clickHandler].call(this, e);
+                        } else {
+                            const match = clickHandler.match(/(\w+)\((.*)\)/);
+                            if (match) {
+                                const funcName = match[1];
+                                const args = match[2];
+                                if (typeof window[funcName] === 'function') {
+                                    window[funcName].call(this, ...this.parseArguments(args));
+                                }
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error executing click handler:', error);
+                    }
+                });
+            }
+
+            // Copy attributes to the actual button
+            const id = this.getAttribute('id');
+            if (id) {
+                button.id = id;
+            }
+
+            // Handle data-bs-* attributes for Bootstrap
+            const attributes = this.attributes;
+            for (let attr of attributes) {
+                if (attr.name.startsWith('data-bs-')) {
+                    button.setAttribute(attr.name, attr.value);
+                }
+            }
+        }
+
+        parseArguments(argsString) {
+            if (!argsString) return [];
+            return argsString.split(',').map(arg => {
+                arg = arg.trim();
+                if (arg === 'this') return this;
+                if (arg === 'true') return true;
+                if (arg === 'false') return false;
+                if (arg === 'null') return null;
+                if (arg === 'undefined') return undefined;
+                if (!isNaN(arg)) return Number(arg);
+                if (arg.startsWith("'") && arg.endsWith("'") || arg.startsWith('"') && arg.endsWith('"')) {
+                    return arg.slice(1, -1);
+                }
+                return arg;
+            });
+        }
+    }
+
+    customElements.define('ebit-button', EbitButton);
+
+
+
+</script>

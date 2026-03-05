@@ -1,15 +1,15 @@
-import 'bootstrap-daterangepicker/daterangepicker';
+import 'bootstrap-dateRangepicker/dateRangepicker';
 
 // Patch detect when weeks are shown
 
-const fnDaterangepicker = $.fn.daterangepicker;
+const fndateRangepicker = $.fn.dateRangepicker;
 
-$.fn.daterangepicker = function (options, callback) {
-  fnDaterangepicker.call(this, options, callback);
+$.fn.dateRangepicker = function (options, callback) {
+  fndateRangepicker.call(this, options, callback);
 
   if (options && (options.showWeekNumbers || options.showISOWeekNumbers)) {
     this.each(function () {
-      const instance = $(this).data('daterangepicker');
+      const instance = $(this).data('dateRangepicker');
       if (instance && instance.container) instance.container.addClass('with-week-numbers');
     });
   }

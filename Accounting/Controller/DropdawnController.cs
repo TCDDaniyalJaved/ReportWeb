@@ -16,32 +16,7 @@ namespace Accounting.Controllers
       _context = context;
        _procedures = procedures;
     }
-    [HttpGet]
-        public IActionResult CustomerId(string term, int? id)
-        {
-            var query = _context.Customers.AsQueryable();
 
-            if (id.HasValue)
-            {
-                var item = query
-                    .Where(x => x.Id == id.Value)
-                    .Select(x => new { id = x.Id, name = x.FirstName + " " + x.LastName })
-                    .ToList();
-                return Json(item);
-            }
-
-            if (!string.IsNullOrWhiteSpace(term))
-            {
-                query = query.Where(x => x.FirstName.ToLower().Contains(term.ToLower()) || x.LastName.ToLower().Contains(term.ToLower()));
-            }
-
-            var result = query
-                .Select(x => new { id = x.Id, name = x.FirstName + " " + x.LastName })
-                .Take(20)
-                .ToList();
-
-            return Json(result);
-        }
 
         [HttpGet]
         public IActionResult GetTypes(string term, int? id)
@@ -70,8 +45,6 @@ namespace Accounting.Controllers
 
             return Json(result);
         }
-
-
         [HttpGet]
         public IActionResult GetNature(string term, int? id)
         {
@@ -96,6 +69,24 @@ namespace Accounting.Controllers
                 .Take(20)
                 .ToList();
 
+            return Json(result);
+        }
+
+
+        [HttpGet]
+        public IActionResult GroupID(string term)
+        {
+            var query = _context.ChartGroupReportVs.AsQueryable();
+
+
+            if (!string.IsNullOrWhiteSpace(term))
+            {
+                query = query.Where(x => x.Name.ToLower().Contains(term.ToLower()));
+            }
+            var result = query
+             .Select(x => new { id = x.Id, name = x.Name })
+             .Take(20)
+             .ToList();
             return Json(result);
         }
 
@@ -190,26 +181,26 @@ namespace Accounting.Controllers
 
         //    return Json(result);
         //}
-        [HttpGet]
-        public async Task<IActionResult> UserWiseCompany(string term, int userId)
-        {
-            var companies = await _procedures.GetUserWiseCompanyAsync(userId);
+        //[HttpGet]
+        //public async Task<IActionResult> UserWiseCompany(string term, int userId)
+        //{
+        //    var companies = await _procedures.GetUserWiseAccountAsync(userId);
 
-            if (!string.IsNullOrWhiteSpace(term))
-            {
-                term = term.ToLower();
-                companies = companies
-                    .Where(c => c.Name != null && c.Name.ToLower().Contains(term))
-                    .ToList();
-            }
+        //    if (!string.IsNullOrWhiteSpace(term))
+        //    {
+        //        term = term.ToLower();
+        //        companies = companies
+        //            .Where(c => c.Name != null && c.Name.ToLower().Contains(term))
+        //            .ToList();
+        //    }
 
-            var result = companies
-                .Select(c => new { id = c.Code, name = c.Name })
-                .Take(20)
-                .ToList();
+        //    var result = companies
+        //        .Select(c => new { id = c.Code, name = c.Name })
+        //        .Take(20)
+        //        .ToList();
 
-            return Json(result);
-        }
+        //    return Json(result);
+        //}
         [HttpGet]
 
         public IActionResult CompanyId(string term, int? id)

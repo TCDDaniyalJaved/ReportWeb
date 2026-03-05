@@ -57,5 +57,9 @@ public partial class PinvoiceD
 
     public int? UnitId { get; set; }
 
+    public virtual Item Item { get; set; }
+
+    public virtual Location Location { get; set; }
+
     public virtual PinvoiceM Ref { get; set; }
 }

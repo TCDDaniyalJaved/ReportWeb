@@ -24,4 +24,6 @@ public partial class ChartActType
     public int? AccountType2 { get; set; }
 
     public byte? PageNo { get; set; }
+
+    public virtual ICollection<Chart> Charts { get; set; } = new List<Chart>();
 }

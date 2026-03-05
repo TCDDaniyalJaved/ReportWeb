@@ -1,0 +1,869 @@
+﻿// ReportdataTableUtilsDummy.js
+// Shared utilities for DataTable initialization, grouping, custom pagination, badges, filters in reports
+
+// Global state & constants
+let activeTables = new Map();               // stores DataTable instances by selector
+export let groupBySelectionOrder = [];      // maintains order of selected group-by fields
+let pageFilterConfig = {};                  // page-specific filter mappings (UI → backend)
+let currentOffset = 0;                      // manual offset for "Load More" style pagination
+const PAGE_SIZE = 10;                       // records per "page" / load batch
+let allLoadedData = [];                     // accumulates all loaded rows for client-side grouping
+let isAppendMode = false;                   // flag to know if we're appending vs replacing data
+
+const FILTER_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"><path d="M3,4H21V6H3V4M6,10H18V12H6V10M10,16H14V18H10V16Z"></path></svg>`;
+const GROUP_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1"><path d="M3,13H9V19H3V13M3,5H9V11H3V5M11,5H21V11H11V5M11,13H21V19H11V13Z"></path></svg>`;
+const DATE_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" class="me-1">
+  <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm-7-9h5v5h-5z"></path>
+</svg>`;
+// Configuration & Column Generation
+// Store page-specific filter config (used in badge → modal → backend key mapping)
+export function setPageFilterConfig(config) {
+    pageFilterConfig = { ...config };
+}
+window.addEventListener('resize', function () {
+    if ($.fn.DataTable.isDataTable('#masterTable')) {
+        $('#masterTable').DataTable().columns.adjust().draw(false);
+    }
+});
+// Dynamically build DataTable column definitions from <ebit-headcolumn> attributes
+export function generateColumnsFromHeaders(tableSelector = '#masterTable') {
+    const columns = [];
+    $(`${tableSelector} thead th`).each(function () {
+        const $th = $(this);
+        const datafield = $th.attr('datafield');
+        const header = $th.attr('header') || $th.text().trim();
+        const width = $th.attr('width');
+        const align = $th.attr('align');
+        const isActive = $th.attr('active') !== 'false';
+        const isGroupTotal = $th.attr('group-total') === 'true';
+
+        const colDef = {
+            title: header,
+            visible: isActive,
+            width: width || undefined,
+            groupTotal: isGroupTotal,
+        };
+
+        if (align) {
+            const alignMap = { right: 'end', center: 'center', left: 'start' };
+            colDef.className = `text-${alignMap[align.toLowerCase()] || 'start'}`;
+        }
+
+        if (datafield) colDef.data = datafield;
+        else colDef.orderable = false;
+
+        // Auto-format amount-like columns
+        const amountKeywords = ['debit', 'credit', 'amount', 'balance'];
+        if (datafield && amountKeywords.some(k => datafield.toLowerCase().includes(k))) {
+            colDef.render = $.fn.dataTable.render.number(',', '.', 2);
+            colDef.className = (colDef.className || '') + ' text-end';
+        }
+
+        // Format dates to Indian style (DD-MM-YYYY)
+        if (datafield && /date/i.test(datafield)) {
+            colDef.render = (data) => data ? new Date(data).toLocaleDateString('en-IN') : '';
+        }
+
+        columns.push(colDef);
+    });
+    return columns;
+}
+export function applyFavorite(view) {
+
+    let filters = {};
+    let groups = [];
+    try {
+        filters = JSON.parse(view.filters || '{}');
+        //console.log("Parsed filters from saved favorite:", filters);
+    } catch (e) {
+        //console.error("Error parsing filters JSON:", e);
+    }
+
+    try {
+        groups = JSON.parse(view.groupBy || '[]');
+        //console.log("Parsed groupBy from saved favorite:", groups);
+    } catch (e) {
+        //console.error("Error parsing groupBy JSON:", e);
+    }
+
+    // Reset UI state
+    $('.badge-tag').remove();
+    groupBySelectionOrder.length = 0;
+    $('#groupByList li').removeClass('active');
+    const isLocked = !!view.IsLocked;
+    //console.log("UI reset done. isLocked:", isLocked);
+
+    // Restore filter badges
+    //console.log("Restoring filters...");
+    Object.keys(filters).forEach(key => {
+        //console.log(`  → Key: ${key} | Values:`, filters[key]);
+
+        (filters[key] || []).forEach(savedValue => {
+            //console.log(`    Creating badge for: ${key} = ${savedValue}`);
+
+            const displayText = savedValue;  // backend name hi display name hai
+
+            const $badge = $(`
+                <span class="badge-tag d-inline-flex align-items-center ${isLocked ? 'opacity-75 cursor-not-allowed' : ''}"
+                      data-type="Filter"
+                      data-value="${savedValue}"
+                      data-key="${key}">
+                    <span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>
+                    <span class="badge-text ms-1">${savedValue}</span>
+                    ${isLocked ? '' : '<span class="remove-btn ms-1" style="cursor:pointer;">×</span>'}
+                </span>
+            `);
+
+            $('#universalSearch').before($badge);
+            //console.log(`    Badge created and added for ${key} = ${savedValue}`);
+        });
+    });
+
+    //console.log("All filter badges created. Total filter badges now:", $('.badge-tag[data-type="Filter"]').length);
+
+    // Restore groups
+    // console.log("Restoring groups...");
+    groups.forEach(g => {
+        // console.log(`  → Restoring group: ${g}`);
+        if (!groupBySelectionOrder.includes(g)) {
+            groupBySelectionOrder.push(g);
+            $('#groupByList li[data-group="' + g + '"]').addClass('active');
+            addSearchBadge('Group', g, g.charAt(0).toUpperCase() + g.slice(1), isLocked);
+            //   console.log(`    Group badge added: ${g}`);
+        }
+    });
+
+    // console.log("Calling resetToFirstPage()...");
+    resetToFirstPage();
+
+}
+
+export function showToast(icon, text, timer = 3000) {
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: icon,
+        text: text,
+        showConfirmButton: false,
+        showCloseButton: false,
+        showCancelButton: false,
+        timer: timer,
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+    });
+}
+// Grouping Helpers
+function getGroupByFieldsInOrder() {
+    return groupBySelectionOrder;
+}
+
+// Calculate totals for group-total columns within current group
+function calculateGroupTotals(rowDataArray, startIndex, groupByFields, level, currentGroupValues, columns) {
+    const totals = {};
+    columns.forEach(col => { if (col.groupTotal) totals[col.data] = 0; });
+
+    for (let i = startIndex; i < rowDataArray.length; i++) {
+        const row = rowDataArray[i];
+        let stillInGroup = true;
+        for (let l = 0; l <= level; l++) {
+            const field = groupByFields[l];
+            if (currentGroupValues[l] !== (row[field] ?? '(Blank)')) {
+                stillInGroup = false;
+                break;
+            }
+        }
+        if (!stillInGroup) break;
+
+        columns.forEach(col => {
+            if (col.groupTotal) totals[col.data] += Number(row[col.data] || 0);
+        });
+    }
+    return totals;
+}
+
+// Count how many records belong to the current group
+function countRecordsInGroup(rowDataArray, startIndex, groupByFields, level, currentGroupValues) {
+    let count = 0;
+    for (let i = startIndex; i < rowDataArray.length; i++) {
+        const row = rowDataArray[i];
+        let stillInGroup = true;
+        for (let l = 0; l <= level; l++) {
+            if (currentGroupValues[l] !== (row[groupByFields[l]] ?? '(Blank)')) {
+                stillInGroup = false;
+                break;
+            }
+        }
+        if (!stillInGroup) break;
+        count++;
+    }
+    return count;
+}
+
+// Create DOM row for group header (with toggle + totals)
+function createGroupHeaderRow(field, value, count, level, columns, totals) {
+    const displayValue = value || '(Blank)';
+    let tds = `<td colspan="1" style="padding-left:${level * 20}px;" class="text-nowrap">
+        <span class="toggle-icon d-inline-block" style="width:20px;"><i class="bx bx-chevron-down"></i></span>
+        ${displayValue} <small class="text-muted">(${count})</small>
+    </td>`;
+
+    columns.forEach((col, i) => {
+        if (i === 0) return;
+        if (col.groupTotal) {
+            tds += `<td class="text-end fw-semibold">
+                ${totals[col.data]?.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || ''}
+            </td>`;
+        } else {
+            tds += '<td></td>';
+        }
+    });
+
+    return $(`<tr class="group-row level-${level}">${tds}</tr>`);
+}
+
+function setupGroupRowToggle() {
+    // Collapse all group rows by default when page loads
+    $('#masterTable tbody tr.group-row').each(function () {
+        const $row = $(this);
+        $row.addClass('collapsed');
+        $row.find('.toggle-icon i')
+            .removeClass('bx-chevron-down')
+            .addClass('bx-chevron-right');
+
+        // Hide all child rows
+        let $next = $row.next();
+        while ($next.length) {
+            const nextLevel = parseInt($next[0].className.match(/level-(\d+)/)?.[1] || 999);
+            const level = parseInt($row[0].className.match(/level-(\d+)/)?.[1] || 0);
+            if (nextLevel <= level) break;
+
+            if ($next.hasClass('group-row')) {
+                $next.hide().addClass('collapsed');
+                $next.find('.toggle-icon i').removeClass('bx-chevron-down').addClass('bx-chevron-right');
+            } else {
+                $next.hide();
+            }
+            $next = $next.next();
+        }
+    });
+
+    // Event handler for toggling group rows
+    $('#masterTable tbody')
+        .off('click', 'tr.group-row')
+        .on('click', 'tr.group-row', function () {
+            const $row = $(this);
+            const level = parseInt($row[0].className.match(/level-(\d+)/)?.[1] || 0);
+            const willCollapse = !$row.hasClass('collapsed');
+
+            $row.toggleClass('collapsed', willCollapse);
+            $row.find('.toggle-icon i')
+                .toggleClass('bx-chevron-down', !willCollapse)
+                .toggleClass('bx-chevron-right', willCollapse);
+
+            let $next = $row.next();
+            while ($next.length) {
+                const nextLevel = parseInt($next[0].className.match(/level-(\d+)/)?.[1] || 999);
+                if (nextLevel <= level) break;
+
+                if ($next.hasClass('group-row')) {
+                    if (willCollapse) {
+                        $next.hide().addClass('collapsed');
+                        $next.find('.toggle-icon i').removeClass('bx-chevron-down').addClass('bx-chevron-right');
+                    } else {
+                        $next.show().removeClass('collapsed');
+                        $next.find('.toggle-icon i').removeClass('bx-chevron-right').addClass('bx-chevron-down');
+                    }
+                } else {
+                    $next.toggle(!willCollapse);
+                }
+                $next = $next.next();
+            }
+        });
+}
+
+// Toggle expand/collapse for group rows and nested content
+//function setupGroupRowToggle() {
+//    $('#masterTable tbody')
+//        .off('click', 'tr.group-row')
+//        .on('click', 'tr.group-row', function () {
+//            const $row = $(this);
+//            const level = parseInt($row[0].className.match(/level-(\d+)/)?.[1] || 0);
+//            const willCollapse = !$row.hasClass('collapsed');
+
+//            $row.toggleClass('collapsed', willCollapse);
+//            $row.find('.toggle-icon i')
+//                .toggleClass('bx-chevron-down', !willCollapse)
+//                .toggleClass('bx-chevron-right', willCollapse);
+
+//            let $next = $row.next();
+//            while ($next.length) {
+//                const nextLevel = parseInt($next[0].className.match(/level-(\d+)/)?.[1] || 999);
+//                if (nextLevel <= level) break;
+
+//                if ($next.hasClass('group-row')) {
+//                    if (willCollapse) {
+//                        $next.hide().addClass('collapsed');
+//                        $next.find('.toggle-icon i').removeClass('bx-chevron-down').addClass('bx-chevron-right');
+//                    } else {
+//                        $next.show().removeClass('collapsed');
+//                        $next.find('.toggle-icon i').removeClass('bx-chevron-right').addClass('bx-chevron-down');
+//                    }
+//                } else {
+//                    $next.toggle(!willCollapse);
+//                }
+//                $next = $next.next();
+//            }
+//        });
+//}
+
+// Badges & Filter Modal
+// Add visual badge for active filter or group-by
+export function addSearchBadge(type, value, displayText, isLocked = false) {
+    if ($(`.badge-tag[data-type="${type}"][data-value="${value}"]`).length) return;
+
+    const icon = type === 'Group' ? GROUP_ICON : `<span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>`;
+    const removeBtn = isLocked ? '' : '<span class="remove-btn ms-1" style="cursor:pointer;">×</span>';
+    const lockedClass = isLocked ? 'opacity-75 cursor-not-allowed' : '';
+
+    const $badge = $(`
+        <span class="badge-tag d-inline-flex align-items-center ${lockedClass}"
+              data-type="${type}" data-value="${value}" data-locked="${isLocked ? '1' : '0'}">
+            ${icon}
+            <span class="badge-text ms-1">${displayText}</span>
+            ${removeBtn}
+        </span>
+    `);
+
+    if (!isLocked) {
+        $badge.find('.remove-btn').on('click', function (e) {
+            e.stopPropagation();
+            const $b = $(this).closest('.badge-tag');
+            const t = $b.data('type'), v = $b.data('value');
+
+            if (t === 'Group') {
+                groupBySelectionOrder = groupBySelectionOrder.filter(f => f !== v);
+                $(`#groupByList li[data-group="${v}"]`).removeClass('active');
+            }
+            if (t === 'Filter') {
+                const badgeText = $b.find('.badge-text').text().trim();
+                $('[data-filter]').each(function () {
+                    if ($(this).text().trim() === badgeText) {
+                        $(this).removeClass('active');
+                    }
+                });
+            }
+
+
+
+
+            $b.remove();
+            currentOffset = 0;
+            isAppendMode = false;
+            activeTables.get('#masterTable')?.ajax.reload();
+        });
+
+
+        if (type === 'Filter') {
+            $badge.find('.filter-icon').on('click', function (e) {
+                e.stopPropagation();
+                openFilterModal(value, $badge);
+            });
+        }
+    }
+
+    $('#universalSearch').before($badge);
+}
+
+// Open filter selection modal and handle apply
+function openFilterModal(filterType, $badge = null) {
+    const config = pageFilterConfig[filterType];
+    if (!config) return alert('Filter not configured: ' + filterType);
+
+    const $modal = $('#filterModal');
+    $('#filterModalTitle').text(config.title || 'Select Option');
+
+    $modal.find('.filter-option').hide();
+    const $div = $(`#${config.divId}`).show();
+
+    // ═══════════════════════════════════════════════════════════
+    // dateRange Filter Handling
+    // ═══════════════════════════════════════════════════════════
+    if (filterType === 'dateRange') {
+        const $dateInput = $div.find('#dateRange');
+
+        // If editing existing badge, populate the date range
+        if ($badge) {
+            const startDate = $badge.attr('data-start-date');
+            const endDate = $badge.attr('data-end-date');
+            if (startDate && endDate) {
+                $dateInput.val(`${startDate} to ${endDate}`);
+            }
+        } else {
+            $dateInput.val('');
+        }
+
+        // Apply button click handler for dateRange
+        $modal.find('#applyFilterBtn').off('click').on('click', function () {
+            const dateRange = $dateInput.val().trim();
+
+            // If no date selected, remove badge if exists
+            if (!dateRange || dateRange === '') {
+                $badge?.remove();
+                bootstrap.Modal.getInstance($modal[0]).hide();
+                currentOffset = 0;
+                isAppendMode = false;
+                activeTables.get('#masterTable')?.ajax.reload();
+                return;
+            }
+
+            // Parse date range (format: "YYYY-MM-DD to YYYY-MM-DD")
+            const dates = dateRange.split(' to ');
+            if (dates.length !== 2) {
+                alert('Please select a valid date range');
+                return;
+            }
+
+            const startDate = dates[0].trim();
+            const endDate = dates[1].trim();
+
+            // Format dates for display (DD-MM-YYYY)
+            const formatForDisplay = (dateStr) => {
+                const d = new Date(dateStr);
+                const day = String(d.getDate()).padStart(2, '0');
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const year = d.getFullYear();
+                return `${day}-${month}-${year}`;
+            };
+
+            const displayText = `Date: ${formatForDisplay(startDate)} to ${formatForDisplay(endDate)}`;
+
+            if (!$badge) {
+                // ─────────── Create NEW badge ───────────
+                const $newBadge = $(`
+                <span class="badge-tag d-inline-flex align-items-center" 
+                      data-type="Filter" 
+                      data-value="${dateRange}"
+                      data-start-date="${startDate}"
+                      data-end-date="${endDate}"
+                      data-filter="dateRange"
+                      data-key="dateRange">
+                    <span class="filter-icon" style="cursor:pointer;">${DATE_ICON}</span>
+                    <span class="badge-text ms-1">${displayText}</span>
+                    <span class="remove-btn ms-1" style="cursor:pointer;">×</span>
+                </span>
+            `);
+
+                // Remove button click
+                $newBadge.find('.remove-btn').on('click', function (e) {
+                    e.stopPropagation();
+                    $newBadge.remove();
+                    currentOffset = 0;
+                    isAppendMode = false;
+                    activeTables.get('#masterTable')?.ajax.reload();
+                });
+
+                // Filter icon click (edit)
+                $newBadge.find('.filter-icon').on('click', function (e) {
+                    e.stopPropagation();
+                    openFilterModal('dateRange', $newBadge);
+                });
+
+                // Insert badge before search input
+                $('#universalSearch').before($newBadge);
+
+            } else {
+                // ─────────── Update EXISTING badge ───────────
+                $badge.attr('data-value', dateRange);
+                $badge.attr('data-start-date', startDate);
+                $badge.attr('data-end-date', endDate);
+                $badge.attr('data-filter', 'dateRange'); // ✅ Fix here
+                $badge.find('.badge-text').text(displayText);
+
+                // Force reflow so inspect shows updated attribute
+                $badge[0].offsetHeight;
+            }
+
+            // Close modal and reload table
+            bootstrap.Modal.getInstance($modal[0]).hide();
+            currentOffset = 0;
+            isAppendMode = false;
+            activeTables.get('#masterTable')?.ajax.reload();
+        });
+    }
+    // ═══════════════════════════════════════════════════════════
+    // Regular Filters (Select Dropdown) Handling
+    // ═══════════════════════════════════════════════════════════
+    else {
+        const $select = $div.find('select').first();
+
+        // Pre-fill select if editing existing badge
+        if ($badge?.data('id')) {
+            $select.val($badge.data('id'));
+
+        } else {
+            $select.val($select.find('option:first').val());
+
+        }
+
+        // Apply button click handler for regular filters
+        $modal.find('#applyFilterBtn').off('click').on('click', function () {
+            const id = $select.val();
+            const text = $select.find('option:selected').text();
+//                .trim();
+
+            // Badge text logic: FilterName only OR FilterName::Value
+            const displayText = id && id !== '0'
+                ? `${config.title || filterType}::${text}`
+                : `${config.title || filterType}`;
+
+            if (!id || id === '0') {
+                // Remove badge if no selection
+
+                $badge?.remove();
+            } else if (!$badge) {
+                // ─────────────────────────────────────────────────
+                // Create NEW regular filter badge
+                // ─────────────────────────────────────────────────
+                const $newBadge = $(`
+                    <span class="badge-tag d-inline-flex align-items-center" 
+                          data-type="Filter" 
+                          data-value="${text}" 
+                          data-id="${id}" 
+                          data-filter="${filterType}">
+                        <span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>
+                        <span class="badge-text ms-1">${displayText}</span>
+                        <span class="remove-btn ms-1" style="cursor:pointer;">×</span>
+                    </span>
+                `);
+
+                // Set backend key attribute
+                $newBadge.attr('data-key', config.backendKey);
+
+
+
+                // Remove button click handler
+                $newBadge.find('.remove-btn').on('click', () => {
+
+                    $newBadge.remove();
+                    currentOffset = 0;
+                    isAppendMode = false;
+                    activeTables.get('#masterTable')?.ajax.reload();
+                });
+
+                // Filter icon click handler (to edit)
+                $newBadge.find('.filter-icon').on('click', () => {
+
+                    openFilterModal(filterType, $newBadge);
+                });
+
+                // Insert badge before search input
+                $('#universalSearch').before($newBadge);
+
+            } else {
+                // ─────────────────────────────────────────────────
+                // Update EXISTING regular filter badge
+                // ─────────────────────────────────────────────────
+                $badge.data({ id, value: text });
+                $badge.find('.badge-text').text(displayText);
+                $badge.attr('data-key', config.backendKey);
+
+
+            }
+
+            // Close modal and reload table
+            bootstrap.Modal.getInstance($modal[0]).hide();
+            currentOffset = 0;
+            isAppendMode = false;
+            activeTables.get('#masterTable')?.ajax.reload();
+        });
+    }
+
+    // Close advanced dropdown when filter modal opens
+    document.getElementById("advancedDropdown")?.classList.add("d-none");
+
+    // Show modal
+    new bootstrap.Modal($modal[0]).show();
+
+}
+
+
+
+// Core DataTable Initialization
+export async function initializeDataTable(endpoint, tableSelector = '#masterTable', options = {}) {
+    const { columns = generateColumnsFromHeaders(tableSelector), pageLength = 8, pageLengthEndpoint = null, callbacks = {} } = options;
+    const $table = $(tableSelector);
+    if (!$table.length) return null;
+
+    // Clean up previous instance
+    if ($.fn.DataTable.isDataTable(tableSelector)) {
+        $table.DataTable().destroy();
+        $table.empty();
+    }
+    let defaultPageLength = pageLength; // default fallback
+
+    if (pageLengthEndpoint) {
+        try {
+            defaultPageLength = await fetchDefaultPageLength(pageLengthEndpoint, 8);
+            //console.log(`Server se page length mili: ${defaultPageLength}`);
+        } catch (err) {
+            //console.warn("Page length fetch fail hua, fallback use ho raha:", pageLength);
+        }
+    }
+
+    // ── Ab DataTable initialize karo ──
+    if ($.fn.DataTable.isDataTable(tableSelector)) {
+        $table.DataTable().destroy();
+        $table.empty();
+    }
+    // Reset state
+    currentOffset = 0;
+    allLoadedData = [];
+    isAppendMode = false;
+
+    // Fetch server-configured page length if endpoint provided
+    //let defaultPageLength = pageLength;
+    //if (pageLengthEndpoint) {
+    //    defaultPageLength = await fetchDefaultPageLength(pageLengthEndpoint);
+    //    console.log("Fetched default page length from server: ", defaultPageLength);
+    //}
+
+
+    const table = $table.DataTable({
+        autoWidth: false,
+        scrollX: true,
+        serverSide: true,
+        paging: false,
+        dom: 't',
+        //pageLength,
+        pageLength: defaultPageLength,
+        searching: false,
+        ordering: true,
+        info: false,
+        ajax: {
+            url: endpoint,
+            type: 'POST',
+            data: d => {
+                d.customSearch = $('#universalSearch').val() || '';
+                d.groupByFields = groupBySelectionOrder;
+                d.start = currentOffset;
+                d.length = defaultPageLength;
+
+                // Process all filter badges
+                $('.badge-tag[data-type="Filter"]').each(function () {
+                    const $badge = $(this);
+                    const key = $badge.data('key');
+                    const val = $badge.data('value');
+                    const filterType = $badge.data('filter');
+                    //console.log('Date range sent:', { fromDate: startDate, toDate: endDate });
+
+                    // Handle dateRange filter
+                    if (filterType === 'dateRange') {
+                        const startDate = $badge.data('start-date');
+                        const endDate = $badge.data('end-date');
+
+                        if (startDate && endDate) {
+                            // Change these parameter names to match what your server expects
+                            d.fromDate = startDate;     // or d.dateFrom, d.start_date, etc.
+                            d.toDate = endDate;         // or d.dateTo, d.end_date, etc.
+                            console.log('Date range sent:', { fromDate: startDate, toDate: endDate });
+                        }
+                    }
+                    // Handle regular filters
+                    else if (key && val) {
+                        d[key] = d[key] ? [].concat(d[key], val) : [val];
+                    }
+                });
+
+                console.log('Final ajax request payload:', d);
+                return d;
+            },
+
+            dataSrc: json => {
+                if (isAppendMode) {
+                    allLoadedData = [...allLoadedData, ...json.data];
+                    updateLoadMoreButton(json.data.length);
+                    return allLoadedData;
+                } else {
+                    allLoadedData = json.data;
+                    updateLoadMoreButton(json.data.length);
+                    return allLoadedData;
+                }
+            }
+        },
+        columns,
+        drawCallback: function () {
+            $('#masterTable tbody tr.group-row').remove();
+            $('#masterTable tbody tr').show();
+
+            const groupFields = getGroupByFieldsInOrder();
+            if (!groupFields.length) {
+                updateCustomPagination(table);
+                callbacks.onDraw?.();
+                isAppendMode = false;
+                return;
+            }
+
+            const rowData = allLoadedData;
+            const lastValues = [];
+            const bodyRows = $('#masterTable tbody tr:not(.group-row)').toArray();
+
+            bodyRows.forEach((node, idx) => {
+                const data = rowData[idx];
+                if (!data) return;
+
+                groupFields.forEach((field, lvl) => {
+                    const val = data[field] ?? '(Blank)';
+                    if (lastValues[lvl] !== val) {
+                        const groupVals = [...lastValues.slice(0, lvl), val];
+                        const cnt = countRecordsInGroup(rowData, idx, groupFields, lvl, groupVals);
+                        const totals = calculateGroupTotals(rowData, idx, groupFields, lvl, groupVals, columns);
+                        $(node).before(createGroupHeaderRow(field, val, cnt, lvl, columns, totals));
+                        lastValues[lvl] = val;
+                        for (let j = lvl + 1; j < groupFields.length; j++) lastValues[j] = undefined;
+                    }
+                });
+            });
+
+            setupGroupRowToggle();
+            updateCustomPagination(table);
+            callbacks.onDraw?.();
+            isAppendMode = false;
+        }
+    });
+
+    // ── Load More ──
+    $('#loadMoreBtn').off('click').on('click', function () {
+        const $btn = $(this), $spin = $('#loadMoreSpinner');
+        $spin.removeClass('d-none');
+        $btn.prop('disabled', true);
+
+        //currentOffset += PAGE_SIZE;
+        //isAppendMode = true;
+        currentOffset += defaultPageLength;
+        isAppendMode = true;
+
+        table.ajax.reload(() => {
+            $spin.addClass('d-none');
+            $btn.prop('disabled', false);
+        }, false);
+    });
+
+    // ── Event handlers ──
+    $('#universalSearch').off('keyup').on('keyup', () => {
+        currentOffset = 0;
+        isAppendMode = false;
+        table.ajax.reload();
+    });
+
+    $(document).off('click', '#groupByList li[data-group]').on('click', '#groupByList li[data-group]', function () {
+        const $li = $(this), field = $li.data('group'), txt = $li.text().trim();
+        $li.toggleClass('active');
+
+        if ($li.hasClass('active')) {
+            if (!groupBySelectionOrder.includes(field)) groupBySelectionOrder.push(field);
+            addSearchBadge('Group', field, txt);
+        } else {
+            groupBySelectionOrder = groupBySelectionOrder.filter(f => f !== field);
+            $(`.badge-tag[data-type="Group"][data-value="${field}"]`).remove();
+        }
+        currentOffset = 0;
+        isAppendMode = false;
+        table.ajax.reload();
+    });
+
+    $(document).off('click', '[data-filter]').on('click', '[data-filter]', function () {
+        const val = this.dataset.filter, txt = this.textContent.trim();
+        $(this).toggleClass('active');
+
+        if ($(this).hasClass('active')) addSearchBadge('Filter', val, txt);
+        else $(`.badge-tag[data-type="Filter"][data-value="${val}"]`).remove();
+
+        currentOffset = 0;
+        isAppendMode = false;
+        table.ajax.reload();
+    });
+
+    activeTables.set(tableSelector, table);
+    $('#loadMoreBtn').show();
+
+    return table;
+}
+
+/** Loads and displays default page length from server */
+export async function loadAndDisplayDefaultPageLength(endpoint) {
+
+    //alert("funcation load!!");
+    try {
+        const response = await fetch(endpoint);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+
+        const defaultLoad = Number(data.value) || 20;
+        const viewId = Number(data.id) || 0;
+
+        const textEl = document.getElementById('defaultLoadText');
+        const inputEl = document.getElementById('defaultLoadInput');
+
+        if (textEl) {
+            textEl.textContent = `${defaultLoad} records`;
+            textEl.dataset.viewId = viewId;
+        }
+        if (inputEl) inputEl.value = defaultLoad;
+
+        return { defaultLoad, viewId };
+    } catch (err) {
+        const fallback = 20;
+        const textEl = document.getElementById('defaultLoadText');
+        if (textEl) {
+            textEl.textContent = `${fallback} records (fallback)`;
+            textEl.dataset.viewId = '0';
+        }
+        return { defaultLoad: fallback, viewId: 0 };
+    }
+}
+/** Fetches default page length from server or returns fallback value */
+export async function fetchDefaultPageLength(endpoint, fallback = 25) {
+    try {
+        const res = await fetch(endpoint, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const data = await res.json();
+        const value = Number(data?.value);
+        //console.log("Server pageLength: ", value);
+
+        return Number.isInteger(value) && value >= 5 ? value : fallback;
+    } catch (err) {
+        return fallback;
+    }
+}
+// Misc Helpers
+export function initStepper() {
+    const el = document.querySelector('#wizardStepper');
+    return el ? new Stepper(el, { linear: false }) : null;
+}
+
+function updateLoadMoreButton(returnedCount) {
+    if (returnedCount < PAGE_SIZE) {
+        $('#loadMoreBtn').hide();
+        // $('#noMoreRecords').show(); // uncomment if you add this element
+    } else {
+        $('#loadMoreBtn').show();
+        // $('#noMoreRecords').hide();
+    }
+}
+
+function updateCustomPagination(table) {
+    $('#totalRecords').text(table.page.info().recordsDisplay || 0);
+}
+
+export function resetToFirstPage() {
+    currentOffset = 0;
+    isAppendMode = false;
+    activeTables.get('#masterTable')?.ajax.reload();
+}

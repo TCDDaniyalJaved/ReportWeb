@@ -9,7 +9,7 @@
 @import '../../libs/bootstrap-select/mixins';
 @import '../../libs/bootstrap-datepicker/mixins';
 @import '../../libs/flatpickr/mixins';
-@import '../../libs/bootstrap-daterangepicker/mixins';
+@import '../../libs/bootstrap-dateRangepicker/mixins';
 @import '../../libs/jquery-timepicker/mixins';
 @import '../../libs/quill/mixins';
 @import '../../libs/typeahead-js/mixins';
@@ -34,7 +34,7 @@
   @include bs-select-theme($background, $color);
   @include bs-datepicker-theme($background, $color);
   @include flatpickr-theme($background, $color);
-  @include bs-daterangepicker-theme($background, $color);
+  @include bs-dateRangepicker-theme($background, $color);
   @include timepicker-theme($background, $color);
   @include quill-theme($background);
   @include typeahead-theme($background, $color);
@@ -58,7 +58,7 @@
   @include bs-select-theme($background, $color);
   @include bs-datepicker-dark-theme($background, $color);
   @include flatpickr-dark-theme($background, $color);
-  @include bs-daterangepicker-dark-theme($background, $color);
+  @include bs-dateRangepicker-dark-theme($background, $color);
   @include timepicker-theme($background, $color);
   @include quill-theme($background);
   @include typeahead-theme($background, $color);

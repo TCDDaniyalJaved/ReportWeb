@@ -14,4 +14,6 @@ public partial class Dropdown
     public int? AccountId { get; set; }
 
     public virtual Chart Account { get; set; }
+
+    public virtual ICollection<Chart> Charts { get; set; } = new List<Chart>();
 }

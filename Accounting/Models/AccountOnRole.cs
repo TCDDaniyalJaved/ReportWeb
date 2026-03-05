@@ -13,11 +13,11 @@ public partial class AccountOnRole
 
     public int? GroupId { get; set; }
 
-    public int? CompanyId { get; set; }
+    public int? AccountId { get; set; }
 
     public bool? Lock { get; set; }
 
-    public virtual Company Company { get; set; }
+    public virtual Chart Account { get; set; }
 
     public virtual User User { get; set; }
 }

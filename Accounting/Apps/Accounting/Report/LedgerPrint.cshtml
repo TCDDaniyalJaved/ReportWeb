@@ -1,0 +1,144 @@
+﻿@model Accounting.Apps.ReportController.LedgerPdfViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Ledger Report</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            margin: 0;
+            padding: 10px;
+        }
+
+        h2 {
+            margin: 0 0 10px 0;
+        }
+
+        .filters {
+            margin-bottom: 10px;
+        }
+
+            .filters span {
+                display: inline-block;
+                background: #f0f0f0;
+                padding: 2px 6px;
+                margin-right: 4px;
+                margin-bottom: 3px;
+                font-size: 10px;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            display: table-header-group;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 4px;
+            text-align: left;
+            word-break: break-word;
+        }
+
+        th {
+            background: #eaeaea;
+            font-weight: bold;
+        }
+
+        .group-header {
+            background: #dddddd;
+            font-weight: bold;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Ledger Report</h2>
+
+    <!-- Filters -->
+    @if (Model.Filters != null && Model.Filters.Any())
+    {
+        <div class="filters">
+            @foreach (var f in Model.Filters)
+            {
+                foreach (var val in f.Value)
+                {
+                    <span>@f.Key : @val</span>
+                }
+            }
+        </div>
+    }
+
+    <table>
+        <thead>
+            <tr>
+                @foreach (var col in Model.VisibleColumns)
+                {
+                    <th>@col</th>
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                var lastGroupValues = new Dictionary<string, object>();
+
+                foreach (var row in Model.Data)
+                {
+                    var dictRow = (IDictionary<string, object>)row;
+
+                    // GROUPING LOGIC
+                    if (Model.GroupByFields != null && Model.GroupByFields.Any())
+                    {
+                        foreach (var group in Model.GroupByFields)
+                        {
+                            var val = dictRow.ContainsKey(group) ? dictRow[group] : "(Blank)";
+
+                            if (!lastGroupValues.ContainsKey(group) || !Equals(lastGroupValues[group], val))
+                            {
+                                <tr class="group-header">
+                                    <td colspan="@Model.VisibleColumns.Count">
+                                        @group : @val
+                                    </td>
+                                </tr>
+
+                                lastGroupValues[group] = val;
+                            }
+                        }
+                    }
+
+                    <tr>
+                        @foreach (var col in Model.VisibleColumns)
+                        {
+                            var value = dictRow.ContainsKey(col) ? dictRow[col] : "";
+
+                            if (value is decimal || value is double || value is float)
+                            {
+                                <td class="text-right">
+                                    @string.Format("{0:N2}", value)
+                                </td>
+                            }
+                            else
+                            {
+                                <td>@value</td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</body>
+</html>

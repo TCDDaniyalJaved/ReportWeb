@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Accounting\\Accounting.csproj": {}
+    "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Accounting\\Accounting.csproj": {}
   },
   "projects": {
-    "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Accounting\\Accounting.csproj": {
+    "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Accounting\\Accounting.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Accounting\\Accounting.csproj",
+        "projectUniqueName": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Accounting\\Accounting.csproj",
         "projectName": "Accounting",
-        "projectPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Accounting\\Accounting.csproj",
+        "projectPath": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Accounting\\Accounting.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Accounting\\obj\\",
+        "outputPath": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Accounting\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj": {
-                "projectPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj"
+              "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj": {
+                "projectPath": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj"
               }
             }
           }
@@ -61,10 +61,6 @@
             "Dapper": {
               "target": "Package",
               "version": "[2.1.66, )"
-            },
-            "DinkToPdf": {
-              "target": "Package",
-              "version": "[1.0.8, )"
             },
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",
@@ -132,14 +128,14 @@
         }
       }
     },
-    "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj": {
+    "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj",
+        "projectUniqueName": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj",
         "projectName": "Base",
-        "projectPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj",
+        "projectPath": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\obj\\",
+        "outputPath": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -181,10 +177,6 @@
             "ClosedXML": {
               "target": "Package",
               "version": "[0.104.2, )"
-            },
-            "DinkToPdf": {
-              "target": "Package",
-              "version": "[1.0.8, )"
             },
             "Microsoft.AspNetCore.Components.Web": {
               "target": "Package",

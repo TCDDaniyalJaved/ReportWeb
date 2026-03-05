@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Account Opening Group / Filter Report";
+    ViewData["Title"] = "Customer Profile";
 }
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -76,19 +76,14 @@
                                 <div class="col">
                                     <h6><i class="bx bx-filter"></i> Filters</h6>
                                     <ul>
-                                        <li data-filter="Companies" class="filter-item">Companies</li>
-                                        <li data-filter="LedgerName" class="filter-item">LedgerName</li>
-                                        <li data-filter="CustomerInvoice" class="filter-item">Customer Invoices</li>
-                                        <li data-filter="VendorBill" class="filter-item">Vendor Bills</li>
+                                        <li data-filter="Name" class="filter-item">Name</li>
                                     </ul>
                                 </div>
                                 <div class="col">
                                     <h6><i class="bx bx-grid-alt"></i> Group By</h6>
                                     <ul id="groupByList">
-                                        <li data-group="Voucher" class="group-item">Voucher</li>
-                                        <li data-group="Companyname" class="group-item">Company</li>
-                                        <li data-group="LedgerName" class="group-item">Ledger</li>
-                                        <li data-group="Date" class="group-item">Date</li>
+                                        <li data-group="Name" class="group-item">Name</li>
+                                        <li data-group="SPerson" class="group-item">SPerson</li>
                                     </ul>
                                 </div>
                                 <div class="col" id="favorites">

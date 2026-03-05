@@ -43,35 +43,105 @@ public partial class Chart
 
     public int? SpersonId { get; set; }
 
-    public int CrDays { get; set; }
+    public virtual ICollection<AccountOnRole> AccountOnRoles { get; set; } = new List<AccountOnRole>();
 
-    public decimal Gstperc { get; set; }
+    public virtual ICollection<BbookD> BbookDs { get; set; } = new List<BbookD>();
 
-    public decimal Fstperc { get; set; }
+    public virtual ICollection<BbookM> BbookMs { get; set; } = new List<BbookM>();
 
-    public virtual ICollection<BankPaymentD> BankPaymentDs { get; set; } = new List<BankPaymentD>();
+    public virtual ICollection<BookType> BookTypes { get; set; } = new List<BookType>();
 
-    public virtual ICollection<BankPaymentM> BankPaymentMs { get; set; } = new List<BankPaymentM>();
+    public virtual ICollection<CashSlipD> CashSlipDs { get; set; } = new List<CashSlipD>();
 
-    public virtual ICollection<BankReceiptD> BankReceiptDs { get; set; } = new List<BankReceiptD>();
+    public virtual ICollection<CashSlipM> CashSlipMs { get; set; } = new List<CashSlipM>();
 
-    public virtual ICollection<BankReceiptM> BankReceiptMs { get; set; } = new List<BankReceiptM>();
+    public virtual ICollection<CbookD> CbookDs { get; set; } = new List<CbookD>();
 
-    public virtual ICollection<CashPaymentD> CashPaymentDs { get; set; } = new List<CashPaymentD>();
+    public virtual ICollection<CbookM> CbookMs { get; set; } = new List<CbookM>();
 
-    public virtual ICollection<CashPaymentM> CashPaymentMs { get; set; } = new List<CashPaymentM>();
+    public virtual ICollection<ChequeD> ChequeDActCodeNavigations { get; set; } = new List<ChequeD>();
 
-    public virtual ICollection<CashReceiptD> CashReceiptDs { get; set; } = new List<CashReceiptD>();
+    public virtual ICollection<ChequeD> ChequeDBookCodeNavigations { get; set; } = new List<ChequeD>();
 
-    public virtual ICollection<CashReceiptM> CashReceiptMs { get; set; } = new List<CashReceiptM>();
+    public virtual ICollection<CostSheetD2> CostSheetD2s { get; set; } = new List<CostSheetD2>();
+
+    public virtual ICollection<CostSheetM> CostSheetMs { get; set; } = new List<CostSheetM>();
 
     public virtual ICollection<Dropdown> Dropdowns { get; set; } = new List<Dropdown>();
 
-    public virtual ICollection<GjournalD> GjournalDs { get; set; } = new List<GjournalD>();
+    public virtual ICollection<FdchallanM> FdchallanMs { get; set; } = new List<FdchallanM>();
 
-    public virtual ICollection<GjournalM> GjournalMs { get; set; } = new List<GjournalM>();
+    public virtual ICollection<FocinvoiceM> FocinvoiceMParties { get; set; } = new List<FocinvoiceM>();
+
+    public virtual ICollection<FocinvoiceM> FocinvoiceMSpeople { get; set; } = new List<FocinvoiceM>();
+
+    public virtual ICollection<FpinvoiceM> FpinvoiceMs { get; set; } = new List<FpinvoiceM>();
+
+    public virtual ICollection<GatePassD> GatePassDs { get; set; } = new List<GatePassD>();
+
+    public virtual ICollection<GmultiD> GmultiDs { get; set; } = new List<GmultiD>();
+
+    public virtual ICollection<GmultiM> GmultiMs { get; set; } = new List<GmultiM>();
+
+    public virtual ICollection<IssOutM> IssOutMs { get; set; } = new List<IssOutM>();
+
+    public virtual ICollection<JorderM> JorderMs { get; set; } = new List<JorderM>();
+
+    public virtual ICollection<LoanIssueM> LoanIssueMs { get; set; } = new List<LoanIssueM>();
+
+    public virtual ICollection<LoanRecD> LoanRecDs { get; set; } = new List<LoanRecD>();
+
+    public virtual ICollection<LoanRecM> LoanRecMs { get; set; } = new List<LoanRecM>();
+
+    public virtual ChartActType Nature { get; set; }
+
+    public virtual ICollection<OwnerEquity> OwnerEquityCapitals { get; set; } = new List<OwnerEquity>();
+
+    public virtual ICollection<OwnerEquity> OwnerEquityDrawings { get; set; } = new List<OwnerEquity>();
+
+    public virtual ICollection<OwnerEquity> OwnerEquityInvestments { get; set; } = new List<OwnerEquity>();
+
+    public virtual ICollection<PayEmFullLoanM> PayEmFullLoanMs { get; set; } = new List<PayEmFullLoanM>();
+
+    public virtual ICollection<PayEmployeAdvanceM> PayEmployeAdvanceMs { get; set; } = new List<PayEmployeAdvanceM>();
+
+    public virtual ICollection<PayEmployeLoanAdM> PayEmployeLoanAdMs { get; set; } = new List<PayEmployeLoanAdM>();
+
+    public virtual ICollection<PayEmployeLoanM> PayEmployeLoanMs { get; set; } = new List<PayEmployeLoanM>();
+
+    public virtual ICollection<PaymentD2> PaymentD2s { get; set; } = new List<PaymentD2>();
 
     public virtual ICollection<PinvoiceM> PinvoiceMs { get; set; } = new List<PinvoiceM>();
+
+    public virtual ICollection<PorderM> PorderMs { get; set; } = new List<PorderM>();
+
+    public virtual ICollection<PreturnM> PreturnMs { get; set; } = new List<PreturnM>();
+
+    public virtual ICollection<RbookM> RbookMs { get; set; } = new List<RbookM>();
+
+    public virtual ICollection<RchallanM> RchallanMs { get; set; } = new List<RchallanM>();
+
+    public virtual ICollection<RecOutM> RecOutMs { get; set; } = new List<RecOutM>();
+
+    public virtual ICollection<ReceiptD2> ReceiptD2s { get; set; } = new List<ReceiptD2>();
+
+    public virtual ICollection<RecevM> RecevMs { get; set; } = new List<RecevM>();
+
+    public virtual ICollection<RoleName> RoleNames { get; set; } = new List<RoleName>();
+
+    public virtual ICollection<SbookM> SbookMs { get; set; } = new List<SbookM>();
+
+    public virtual ICollection<SorderM> SorderMs { get; set; } = new List<SorderM>();
+
+    public virtual ICollection<SreturnM> SreturnMs { get; set; } = new List<SreturnM>();
+
+    public virtual ICollection<StaxInvD2> StaxInvD2s { get; set; } = new List<StaxInvD2>();
+
+    public virtual ICollection<TbookD> TbookDs { get; set; } = new List<TbookD>();
+
+    public virtual ICollection<TbookM> TbookMs { get; set; } = new List<TbookM>();
+
+    public virtual Dropdown Type { get; set; }
 
     public virtual User User { get; set; }
 }

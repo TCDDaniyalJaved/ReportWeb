@@ -43,7 +43,7 @@ namespace Accounting.Models
             _context = context;
         }
 
-        public virtual async Task<List<AccountOpeningVoucherResult>> AccountOpeningVoucherAsync(int? companyID, int? id, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<AccountSummaryResult>> AccountSummaryAsync(int? menuID, string dateFrom1, string dateTo1, string divisionFrom, string accountFrom, string groupFrom, int? cUserID, int? start, int? length, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -56,26 +56,73 @@ namespace Accounting.Models
             {
                 new SqlParameter
                 {
-                    ParameterName = "CompanyID",
-                    Value = companyID ?? Convert.DBNull,
+                    ParameterName = "MenuID",
+                    Value = menuID ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 new SqlParameter
                 {
-                    ParameterName = "Id",
-                    Value = id ?? Convert.DBNull,
+                    ParameterName = "DateFrom1",
+                    Size = 10,
+                    Value = dateFrom1 ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "DateTo1",
+                    Size = 10,
+                    Value = dateTo1 ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "DivisionFrom",
+                    Size = -1,
+                    Value = divisionFrom ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "AccountFrom",
+                    Size = -1,
+                    Value = accountFrom ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "GroupFrom",
+                    Size = -1,
+                    Value = groupFrom ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "cUserID",
+                    Value = cUserID ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Start",
+                    Value = start ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Length",
+                    Value = length ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<AccountOpeningVoucherResult>("EXEC @returnValue = [dbo].[AccountOpeningVoucher] @CompanyID = @CompanyID, @Id = @Id", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<AccountSummaryResult>("EXEC @returnValue = [dbo].[AccountSummary] @MenuID = @MenuID, @DateFrom1 = @DateFrom1, @DateTo1 = @DateTo1, @DivisionFrom = @DivisionFrom, @AccountFrom = @AccountFrom, @GroupFrom = @GroupFrom, @cUserID = @cUserID, @Start = @Start, @Length = @Length", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
             return _;
         }
 
-        public virtual async Task<List<CustomerProfileReportResult>> CustomerProfileReportAsync(string dateFrom1, string dateTo1, string sPersonFrom, string sPersonTo, string accountFrom, string accountTo, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<CustomerProfileReportResult>> CustomerProfileReportAsync(string dateFrom1, string dateTo1, string sPersonFrom, string sPersonTo, string accountFrom, string accountTo, int? start, int? length, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -128,47 +175,6 @@ namespace Accounting.Models
                     Value = accountTo ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<CustomerProfileReportResult>("EXEC @returnValue = [dbo].[CustomerProfileReport] @DateFrom1 = @DateFrom1, @DateTo1 = @DateTo1, @SPersonFrom = @SPersonFrom, @SPersonTo = @SPersonTo, @AccountFrom = @AccountFrom, @AccountTo = @AccountTo", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
-        public virtual async Task<List<GetAccountOpeningReportDataResult>> GetAccountOpeningReportDataAsync(string searchValue, string orderBy, string companyname, int? start, int? length, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "SearchValue",
-                    Size = 200,
-                    Value = searchValue ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.NVarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "OrderBy",
-                    Size = 1000,
-                    Value = orderBy ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.NVarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "Companyname",
-                    Size = 200,
-                    Value = companyname ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.NVarChar,
-                },
                 new SqlParameter
                 {
                     ParameterName = "Start",
@@ -183,193 +189,7 @@ namespace Accounting.Models
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<GetAccountOpeningReportDataResult>("EXEC @returnValue = [dbo].[GetAccountOpeningReportData] @SearchValue = @SearchValue, @OrderBy = @OrderBy, @Companyname = @Companyname, @Start = @Start, @Length = @Length", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
-        public virtual async Task<List<GetAllAccountsAllSubGroupResult>> GetAllAccountsAllSubGroupAsync(int? natureID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "NatureID",
-                    Value = natureID ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Int,
-                },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<GetAllAccountsAllSubGroupResult>("EXEC @returnValue = [dbo].[GetAllAccountsAllSubGroup] @NatureID = @NatureID", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
-        public virtual async Task<List<getdumpdataliveResult>> getdumpdataliveAsync(string svalue1, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "svalue1",
-                    Size = 100,
-                    Value = svalue1 ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<getdumpdataliveResult>("EXEC @returnValue = [dbo].[getdumpdatalive] @svalue1 = @svalue1", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
-        public virtual async Task<List<getdumpdataofflineResult>> getdumpdataofflineAsync(string svalue, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "svalue",
-                    Size = 100,
-                    Value = svalue ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<getdumpdataofflineResult>("EXEC @returnValue = [dbo].[getdumpdataoffline] @svalue = @svalue", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
-        public virtual async Task<List<getdumpdataonlineResult>> getdumpdataonlineAsync(string svalue1, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "svalue1",
-                    Size = 100,
-                    Value = svalue1 ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<getdumpdataonlineResult>("EXEC @returnValue = [dbo].[getdumpdataonline] @svalue1 = @svalue1", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
-        public virtual async Task<List<GetItemReportDataResult>> GetItemReportDataAsync(string searchValue, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "SearchValue",
-                    Size = 200,
-                    Value = searchValue ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.NVarChar,
-                },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<GetItemReportDataResult>("EXEC @returnValue = [dbo].[GetItemReportData] @SearchValue = @SearchValue", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
-        public virtual async Task<List<GetMenuItemResult>> GetMenuItemAsync(int? userid, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "userid",
-                    Value = userid ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Int,
-                },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<GetMenuItemResult>("EXEC @returnValue = [dbo].[GetMenuItem] @userid = @userid", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
-        public virtual async Task<List<GetSubMenuItemResult>> GetSubMenuItemAsync(int? userid, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "userid",
-                    Value = userid ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Int,
-                },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<GetSubMenuItemResult>("EXEC @returnValue = [dbo].[GetSubMenuItem] @userid = @userid", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<CustomerProfileReportResult>("EXEC @returnValue = [dbo].[CustomerProfileReport] @DateFrom1 = @DateFrom1, @DateTo1 = @DateTo1, @SPersonFrom = @SPersonFrom, @SPersonTo = @SPersonTo, @AccountFrom = @AccountFrom, @AccountTo = @AccountTo, @Start = @Start, @Length = @Length", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
@@ -402,163 +222,6 @@ namespace Accounting.Models
                 parameterreturnValue,
             };
             var _ = await _context.SqlQueryAsync<GetUserWiseAccountResult>("EXEC @returnValue = [dbo].[GetUserWiseAccount] @cUserID = @cUserID, @NatureID = @NatureID", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
-        public virtual async Task<List<GetUserWiseCompanyResult>> GetUserWiseCompanyAsync(int? cUserID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "cUserID",
-                    Value = cUserID ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Int,
-                },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<GetUserWiseCompanyResult>("EXEC @returnValue = [dbo].[GetUserWiseCompany] @cUserID = @cUserID", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
-        public virtual async Task<List<sp_LedgerReportResult>> sp_LedgerReportAsync(int? companyId, int? accountId, string status, DateOnly? fromDate, DateOnly? toDate, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "CompanyId",
-                    Value = companyId ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Int,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "AccountId",
-                    Value = accountId ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Int,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "Status",
-                    Size = 20,
-                    Value = status ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "FromDate",
-                    Value = fromDate ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Date,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "ToDate",
-                    Value = toDate ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Date,
-                },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<sp_LedgerReportResult>("EXEC @returnValue = [dbo].[sp_LedgerReport] @CompanyId = @CompanyId, @AccountId = @AccountId, @Status = @Status, @FromDate = @FromDate, @ToDate = @ToDate", sqlParameters, cancellationToken);
-
-            returnValue?.SetValue(parameterreturnValue.Value);
-
-            return _;
-        }
-
-        public virtual async Task<List<TrialBalanceReportResult>> TrialBalanceReportAsync(int? menuID, string dateFrom1, string dateTo1, string divisionFrom, string divisionTo, string accountFrom, string accountTo, int? cUserID, byte? isSummmary, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
-        {
-            var parameterreturnValue = new SqlParameter
-            {
-                ParameterName = "returnValue",
-                Direction = System.Data.ParameterDirection.Output,
-                SqlDbType = System.Data.SqlDbType.Int,
-            };
-
-            var sqlParameters = new []
-            {
-                new SqlParameter
-                {
-                    ParameterName = "MenuID",
-                    Value = menuID ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Int,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "DateFrom1",
-                    Size = 10,
-                    Value = dateFrom1 ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "DateTo1",
-                    Size = 10,
-                    Value = dateTo1 ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "DivisionFrom",
-                    Size = -1,
-                    Value = divisionFrom ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "DivisionTo",
-                    Size = -1,
-                    Value = divisionTo ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "AccountFrom",
-                    Size = -1,
-                    Value = accountFrom ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "AccountTo",
-                    Size = -1,
-                    Value = accountTo ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "cUserID",
-                    Value = cUserID ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Int,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "IsSummmary",
-                    Value = isSummmary ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.TinyInt,
-                },
-                parameterreturnValue,
-            };
-            var _ = await _context.SqlQueryAsync<TrialBalanceReportResult>("EXEC @returnValue = [dbo].[TrialBalanceReport] @MenuID = @MenuID, @DateFrom1 = @DateFrom1, @DateTo1 = @DateTo1, @DivisionFrom = @DivisionFrom, @DivisionTo = @DivisionTo, @AccountFrom = @AccountFrom, @AccountTo = @AccountTo, @cUserID = @cUserID, @IsSummmary = @IsSummmary", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

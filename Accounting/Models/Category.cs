@@ -27,5 +27,5 @@ public partial class Category
 
     public int? NatureId { get; set; }
 
-    public int? Type { get; set; }
+    public virtual ICollection<Item> Items { get; set; } = new List<Item>();
 }

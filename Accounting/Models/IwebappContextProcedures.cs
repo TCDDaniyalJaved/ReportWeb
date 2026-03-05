@@ -13,19 +13,8 @@ namespace Accounting.Models
 {
     public partial interface IwebappContextProcedures
     {
-        Task<List<AccountOpeningVoucherResult>> AccountOpeningVoucherAsync(int? companyID, int? id, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<CustomerProfileReportResult>> CustomerProfileReportAsync(string dateFrom1, string dateTo1, string sPersonFrom, string sPersonTo, string accountFrom, string accountTo, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<GetAccountOpeningReportDataResult>> GetAccountOpeningReportDataAsync(string searchValue, string orderBy, string companyname, int? start, int? length, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<GetAllAccountsAllSubGroupResult>> GetAllAccountsAllSubGroupAsync(int? natureID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<getdumpdataliveResult>> getdumpdataliveAsync(string svalue1, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<getdumpdataofflineResult>> getdumpdataofflineAsync(string svalue, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<getdumpdataonlineResult>> getdumpdataonlineAsync(string svalue1, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<GetItemReportDataResult>> GetItemReportDataAsync(string searchValue, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<GetMenuItemResult>> GetMenuItemAsync(int? userid, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<GetSubMenuItemResult>> GetSubMenuItemAsync(int? userid, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<AccountSummaryResult>> AccountSummaryAsync(int? menuID, string dateFrom1, string dateTo1, string divisionFrom, string accountFrom, string groupFrom, int? cUserID, int? start, int? length, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<CustomerProfileReportResult>> CustomerProfileReportAsync(string dateFrom1, string dateTo1, string sPersonFrom, string sPersonTo, string accountFrom, string accountTo, int? start, int? length, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<GetUserWiseAccountResult>> GetUserWiseAccountAsync(int? cUserID, int? natureID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<GetUserWiseCompanyResult>> GetUserWiseCompanyAsync(int? cUserID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<sp_LedgerReportResult>> sp_LedgerReportAsync(int? companyId, int? accountId, string status, DateOnly? fromDate, DateOnly? toDate, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<TrialBalanceReportResult>> TrialBalanceReportAsync(int? menuID, string dateFrom1, string dateTo1, string divisionFrom, string divisionTo, string accountFrom, string accountTo, int? cUserID, byte? isSummmary, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
     }
 }

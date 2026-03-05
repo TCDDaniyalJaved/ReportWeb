@@ -1,42 +1,58 @@
-using DinkToPdf;
-using DinkToPdf.Contracts;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Base.Services
 {
     public class HtmlToPdfGenerator
     {
-        private readonly IConverter _converter;
-
-        public HtmlToPdfGenerator(IConverter converter)
+        public async Task<byte[]> GeneratePdfAsync(string htmlContent)
         {
-            _converter = converter;
-        }
+            string htmlFile = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".html");
+            string pdfFile = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".pdf");
 
-        public byte[] GeneratePdf(string htmlContent)
-        {
-            var globalSettings = new GlobalSettings
+            try
             {
-                ColorMode = ColorMode.Color,
-                Orientation = Orientation.Portrait,
-                PaperSize = PaperKind.A4,
-                Margins = new MarginSettings { Top = 10, Bottom = 10 },
-                DocumentTitle = "Report PDF"
-            };
+                // Write HTML to temp file
+                await File.WriteAllTextAsync(htmlFile, htmlContent);
 
-            var objectSettings = new ObjectSettings
+                var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = @"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe",
+                        Arguments = $"--encoding utf-8 --margin-top 10 --margin-bottom 10 --orientation Portrait --page-size A4 \"{htmlFile}\" \"{pdfFile}\"",
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true
+                    }
+                };
+
+                process.Start();
+
+                // Read stdout/stderr asynchronously (helps prevent hang for large output)
+                string output = await process.StandardOutput.ReadToEndAsync();
+                string error = await process.StandardError.ReadToEndAsync();
+
+                await process.WaitForExitAsync();
+
+                if (process.ExitCode != 0)
+                {
+                    throw new Exception($"wkhtmltopdf failed with exit code {process.ExitCode}. Error: {error}");
+                }
+
+                // Read generated PDF
+                byte[] pdfBytes = await File.ReadAllBytesAsync(pdfFile);
+                return pdfBytes;
+            }
+            finally
             {
-                HtmlContent = htmlContent,
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = null }
-                // No HeaderSettings or FooterSettings
-            };
-
-            var pdf = new HtmlToPdfDocument()
-            {
-                GlobalSettings = globalSettings,
-                Objects = { objectSettings }
-            };
-
-            return _converter.Convert(pdf);
+                // Cleanup temp files safely
+                if (File.Exists(htmlFile)) File.Delete(htmlFile);
+                if (File.Exists(pdfFile)) File.Delete(pdfFile);
+            }
         }
     }
 }

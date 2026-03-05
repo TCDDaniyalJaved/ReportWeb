@@ -41,6 +41,8 @@ public partial class PinvoiceM
 
     public virtual Chart Party { get; set; }
 
+    public virtual ICollection<PaymentD2> PaymentD2s { get; set; } = new List<PaymentD2>();
+
     public virtual ICollection<PinvoiceD> PinvoiceDs { get; set; } = new List<PinvoiceD>();
 
     public virtual User User { get; set; }

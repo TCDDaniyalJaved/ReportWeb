@@ -7,11 +7,11 @@ namespace Accounting.Models;
 
 public partial class Setting
 {
-    public int Id { get; set; }
+    public int Code { get; set; }
 
-    public string SettingName { get; set; }
+    public string Value { get; set; }
 
-    public string SettingValue { get; set; }
+    public string Prefix { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public string Remarks { get; set; }
 }

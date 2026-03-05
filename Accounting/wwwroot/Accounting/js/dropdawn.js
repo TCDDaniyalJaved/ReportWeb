@@ -1,8 +1,8 @@
-﻿// dropdown.js 
+// dropdown.js 
 $(document).ready(function () {
     $('.select2').each(function () {
         const $select = $(this);
-        const isAjax = !!$select.data('url');           
+        const isAjax = !!$select.data('url');
         const url = $select.data('url');
         const placeholder = $select.data('placeholder') || 'Select...';
         const selectedId = $select.data('selected-id');
@@ -12,7 +12,7 @@ $(document).ready(function () {
 
         const baseOptions = {
             placeholder: placeholder,
-            allowClear: false,                      
+            allowClear: false,
             minimumInputLength: 0,
             width: '100%',
             dropdownParent: dropdownParent,
@@ -23,7 +23,7 @@ $(document).ready(function () {
             }
         };
 
-    
+
         if (isAjax && url) {
             $select.select2({
                 ...baseOptions,

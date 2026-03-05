@@ -9,17 +9,71 @@ public partial class Item
 {
     public int Id { get; set; }
 
-    public bool? Status { get; set; }
-
     public string Name { get; set; }
-
-    public string Hscode { get; set; }
 
     public string Description { get; set; }
 
+    public bool IsActive { get; set; }
+
     public int? CategoryId { get; set; }
+
+    public int LocationId { get; set; }
 
     public int? UnitId { get; set; }
 
-    public decimal? Packing { get; set; }
+    public decimal Packing { get; set; }
+
+    public string Title { get; set; }
+
+    public decimal? Srate { get; set; }
+
+    public double? Prate { get; set; }
+
+    public virtual Category Category { get; set; }
+
+    public virtual ICollection<CostSheetD> CostSheetDs { get; set; } = new List<CostSheetD>();
+
+    public virtual ICollection<DchallanD> DchallanDs { get; set; } = new List<DchallanD>();
+
+    public virtual ICollection<FocinvoiceD> FocinvoiceDs { get; set; } = new List<FocinvoiceD>();
+
+    public virtual ICollection<GatePassD> GatePassDs { get; set; } = new List<GatePassD>();
+
+    public virtual ICollection<InvAdjustD> InvAdjustDs { get; set; } = new List<InvAdjustD>();
+
+    public virtual ICollection<IopeningD> IopeningDs { get; set; } = new List<IopeningD>();
+
+    public virtual ICollection<IssOutD> IssOutDs { get; set; } = new List<IssOutD>();
+
+    public virtual ICollection<IssueD> IssueDs { get; set; } = new List<IssueD>();
+
+    public virtual ICollection<ItemDetail> ItemDetails { get; set; } = new List<ItemDetail>();
+
+    public virtual ICollection<JorderD> JorderDs { get; set; } = new List<JorderD>();
+
+    public virtual ICollection<PinvoiceD> PinvoiceDs { get; set; } = new List<PinvoiceD>();
+
+    public virtual ICollection<PorderD> PorderDs { get; set; } = new List<PorderD>();
+
+    public virtual ICollection<PreturnD> PreturnDs { get; set; } = new List<PreturnD>();
+
+    public virtual ICollection<ProcessD> ProcessDs { get; set; } = new List<ProcessD>();
+
+    public virtual ICollection<PtargetD> PtargetDs { get; set; } = new List<PtargetD>();
+
+    public virtual ICollection<RchallanD> RchallanDs { get; set; } = new List<RchallanD>();
+
+    public virtual ICollection<RecFinishD> RecFinishDs { get; set; } = new List<RecFinishD>();
+
+    public virtual ICollection<RecOutD> RecOutDs { get; set; } = new List<RecOutD>();
+
+    public virtual ICollection<RecevD> RecevDs { get; set; } = new List<RecevD>();
+
+    public virtual ICollection<SinvoiceD> SinvoiceDs { get; set; } = new List<SinvoiceD>();
+
+    public virtual ICollection<SorderD> SorderDs { get; set; } = new List<SorderD>();
+
+    public virtual ICollection<SreturnD> SreturnDs { get; set; } = new List<SreturnD>();
+
+    public virtual ICollection<StaxInvD> StaxInvDs { get; set; } = new List<StaxInvD>();
 }

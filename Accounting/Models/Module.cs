@@ -7,21 +7,17 @@ namespace Accounting.Models;
 
 public partial class Module
 {
-    public int Id { get; set; }
+    public int ModuleId { get; set; }
 
-    public string Name { get; set; }
+    public string ModuleDescription { get; set; }
 
-    public string Url { get; set; }
+    public string ModuleLink { get; set; }
 
-    public string Icon { get; set; }
+    public int? PositionId { get; set; }
 
-    public byte? Seqno { get; set; }
-
-    public string Subname { get; set; }
-
-    public string Nameclass { get; set; }
-
-    public int? ParentId { get; set; }
+    public bool? Available { get; set; }
 
     public virtual ICollection<Menu> Menus { get; set; } = new List<Menu>();
+
+    public virtual ICollection<RightsOnRole> RightsOnRoles { get; set; } = new List<RightsOnRole>();
 }

@@ -7,39 +7,41 @@ namespace Accounting.Models;
 
 public partial class Menu
 {
-    public int Id { get; set; }
+    public int MenuId { get; set; }
 
-    public string Name { get; set; }
+    public int? ModuleId { get; set; }
 
-    public int? Moduleid { get; set; }
+    public string MenuName { get; set; }
 
-    public string Controller { get; set; }
+    public string MenuLink { get; set; }
 
-    public string Action { get; set; }
+    public string MenuDescription { get; set; }
 
-    public byte? Sort { get; set; }
+    public int? MenuType { get; set; }
 
-    public string Subnameclass { get; set; }
+    public int? Position { get; set; }
 
-    public string Namelink { get; set; }
+    public int? ParentId { get; set; }
 
-    public string Target { get; set; }
+    public string IconPath { get; set; }
 
-    public string Nameclass { get; set; }
+    public bool? Avaialble { get; set; }
 
-    public int? Menuid { get; set; }
+    public string ReportName { get; set; }
 
-    public string Apiaction { get; set; }
+    public string ReportProcedure { get; set; }
 
-    public int IsApi { get; set; }
+    public string Fview { get; set; }
 
-    public string CreateMessage { get; set; }
+    public string Fcontroller { get; set; }
 
-    public string UpdateMessage { get; set; }
+    public int? Fparameter { get; set; }
 
-    public string RemoveMessage { get; set; }
+    public string FinputType { get; set; }
 
-    public string Apicontroller { get; set; }
+    public int? MenuStatus { get; set; }
 
     public virtual Module Module { get; set; }
+
+    public virtual ICollection<RightsOnRole> RightsOnRoles { get; set; } = new List<RightsOnRole>();
 }

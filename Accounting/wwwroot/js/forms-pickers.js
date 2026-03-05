@@ -181,6 +181,8 @@ $(function () {
     bsRangePickerRange = $('#bs-rangepicker-range'),
     bsRangePickerWeekNum = $('#bs-rangepicker-week-num'),
     bsRangePickerDropdown = $('#bs-rangepicker-dropdown');
+    //bsdateRangePickerDropdown = $('#dateRange');
+
 
   // Basic
   if (bsRangePickerBasic.length) {
@@ -236,7 +238,14 @@ $(function () {
       showDropdowns: true,
       opens: isRtl ? 'left' : 'right'
     });
-  }
+    }
+
+    //if (bsdateRangePickerDropdown.length) {
+    //    bsdateRangePickerDropdown.daterangepicker({
+    //        showDropdowns: true,
+    //        opens: isRtl ? 'left' : 'right'
+    //    });
+    //}
 
   // jQuery Timepicker
   // --------------------------------------------------------------------

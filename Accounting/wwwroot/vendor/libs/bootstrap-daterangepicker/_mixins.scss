@@ -1,12 +1,12 @@
 @import '../../scss/_bootstrap-extended/functions';
 
-@mixin bs-daterangepicker-theme($background, $color: null) {
+@mixin bs-dateRangepicker-theme($background, $color: null) {
   $color: if($color, $color, color-contrast($background));
 
   $highlighted-bg: rgba-to-hex(rgba($background, 0.16), #fff);
   $highlighted-color: $background;
   $box-shadow: 0 0.125rem 0.25rem 0 rgba($background, 0.4);
-  .daterangepicker table thead {
+  .dateRangepicker table thead {
     th,
     td {
       select {
@@ -15,13 +15,13 @@
     }
   }
 
-  .daterangepicker td.active:not(.off) {
+  .dateRangepicker td.active:not(.off) {
     background: $background !important;
     color: $white;
     box-shadow: 0 0.125rem 0.25rem 0 rgba($background, 0.4);
   }
 
-  .daterangepicker {
+  .dateRangepicker {
     .start-date:not(.end-date):not(.off),
     .end-date:not(.start-date):not(.off) {
       background-color: $background;
@@ -34,11 +34,11 @@
     }
   }
 
-  .daterangepicker .input-mini.active {
+  .dateRangepicker .input-mini.active {
     border-color: $background !important;
   }
 
-  .daterangepicker td.in-range:not(.start-date):not(.end-date):not(.off) {
+  .dateRangepicker td.in-range:not(.start-date):not(.end-date):not(.off) {
     color: $highlighted-color !important;
     background-color: $highlighted-bg !important;
   }
@@ -49,12 +49,12 @@
   }
 }
 
-@mixin bs-daterangepicker-dark-theme($background, $color: null) {
+@mixin bs-dateRangepicker-dark-theme($background, $color: null) {
   $color: if($color, $color, color-contrast($background));
 
   $highlighted-bg: rgba-to-hex(rgba($background, 0.16), $card-bg);
   $highlighted-color: $background;
-  .daterangepicker table thead {
+  .dateRangepicker table thead {
     th,
     td {
       select {
@@ -63,13 +63,13 @@
     }
   }
 
-  .daterangepicker td.active:not(.off) {
+  .dateRangepicker td.active:not(.off) {
     background: $background !important;
     color: $white;
     box-shadow: 0 0.125rem 0.25rem 0 rgba($background, 0.4);
   }
 
-  .daterangepicker {
+  .dateRangepicker {
     .start-date:not(.end-date):not(.off),
     .end-date:not(.start-date):not(.off) {
       background-color: $background;
@@ -82,11 +82,11 @@
     }
   }
 
-  .daterangepicker .input-mini.active {
+  .dateRangepicker .input-mini.active {
     border-color: $background !important;
   }
 
-  .daterangepicker td.in-range:not(.start-date):not(.end-date):not(.off) {
+  .dateRangepicker td.in-range:not(.start-date):not(.end-date):not(.off) {
     color: $highlighted-color !important;
     background-color: $highlighted-bg !important;
   }

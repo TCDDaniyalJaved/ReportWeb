@@ -11,8 +11,9 @@ CREATE PROCEDURE [CustomerProfileReport]
 	@SPersonFrom Varchar(Max) = '',
 	@SPersonTo Varchar(Max) = '',
 	@AccountFrom Varchar(Max) = '',
-	@AccountTo Varchar(Max) = ''
-
+	@AccountTo Varchar(Max) = '',
+	@Start INT = 0,
+    @Length INT = 10
 	With Encryption
 AS
 
@@ -48,7 +49,8 @@ BEGIN
 			(Case When @SPersonFrom <> '' Then S.Name End Between @SPersonFrom And @SPersonTo)) 
 		And A.NatureID = 1 And A.TypeID = 2
 	Group By  A.Name, S.Name, A.Address, A.Phone, A.Fax, A.Email, A.Descript, A.NTNNo, G.Name, N.Name
-	
+	 ORDER BY A.Name 
+	OFFSET @Start ROWS FETCH NEXT @Length ROWS ONLY;
 	
 
 	SET NOCOUNT OFF

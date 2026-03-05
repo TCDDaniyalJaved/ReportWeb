@@ -14,4 +14,8 @@ public partial class UsersDetail
     public int? RoleId { get; set; }
 
     public bool? Selection { get; set; }
+
+    public virtual Role Role { get; set; }
+
+    public virtual User User { get; set; }
 }

@@ -208,7 +208,7 @@ html:not([dir=rtl]) .datepicker table tr td.range-end:not(.range-start) {
   padding: 0;
 }
 
-.input-daterange input {
+.input-dateRange input {
   text-align: center;
 }
 

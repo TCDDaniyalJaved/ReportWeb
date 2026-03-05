@@ -1,0 +1,136 @@
+<script>
+     class EbitPropertyTab extends HTMLElement {
+        connectedCallback() {
+            const isNoTab = this.hasAttribute("no-tab");
+            const position = this.getAttribute("position") || "top-left"; // default
+
+            this.setAttribute("role", "tablist");
+
+            const pages = this.querySelectorAll("ebit-propertypage");
+
+            // Determine if vertical tabs
+            const isVertical = position.startsWith("vertical");
+
+            // Create nav (tab buttons container)
+            const nav = document.createElement("ul");
+            nav.className = isVertical ? "nav nav-tabs flex-column" : "nav nav-tabs";
+
+            // Apply alignment classes based on position
+            let navWrapper = nav;
+            if (!isVertical) {
+                const justifyClass = position.includes("right") ? "justify-content-end" :
+                    position.includes("left") ? "justify-content-start" :
+                        "justify-content-center";
+
+                nav.classList.add(justifyClass);
+            }
+
+            if (isNoTab) nav.style.display = "none";
+
+            // Create tab content wrapper
+            const contentWrapper = document.createElement("div");
+            contentWrapper.className = "tab-content flex-grow-1";
+
+            // Create main container with flex for proper layout
+            const container = document.createElement("div");
+            container.className = "d-flex w-100";
+
+            if (isVertical) {
+                container.classList.add(position.endsWith("right") ? "flex-row-reverse" : "flex-row");
+                nav.classList.add("me-3", "border-end"); // optional styling
+                if (position.endsWith("right")) nav.classList.add("border-start-0");
+            } else {
+                container.classList.add("flex-column");
+                if (position.startsWith("bottom")) {
+                    container.classList.add("flex-column-reverse");
+                }
+            }
+
+            // Insert container before the custom element
+            this.parentNode.insertBefore(container, this);
+
+            // Append nav and content based on vertical or not
+            if (isVertical) {
+                container.appendChild(nav);
+                container.appendChild(contentWrapper);
+            } else {
+                if (position.startsWith("top")) {
+                    container.appendChild(nav);
+                    container.appendChild(contentWrapper);
+                } else { // bottom
+                    container.appendChild(contentWrapper);
+                    container.appendChild(nav);
+                }
+            }
+
+            pages.forEach((page, index) => {
+                const target = page.getAttribute("target");
+                const text = page.getAttribute("text");
+                const isActive = page.hasAttribute("active") || index === 0;
+
+                // Create tab button
+                if (!isNoTab) {
+                    const li = document.createElement("li");
+                    li.className = "nav-item";
+
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = "nav-link";
+                    if (isActive) btn.classList.add("active");
+                    btn.setAttribute("data-bs-toggle", "tab");
+                    btn.setAttribute("data-bs-target", "#" + target);
+                    btn.textContent = text;
+
+                    // Use Bootstrap's built-in behavior OR manual (recommended manual for consistency)
+                    btn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        this.switchTab(target);
+                    });
+
+                    li.appendChild(btn);
+                    nav.appendChild(li);
+                }
+
+                // Create tab pane
+                const pane = document.createElement("div");
+                pane.className = "tab-pane fade";
+                if (isActive) pane.classList.add("show", "active");
+                pane.id = target;
+
+                // Move content from ebit-propertypage to pane
+                while (page.firstChild) {
+                    pane.appendChild(page.firstChild);
+                }
+                contentWrapper.appendChild(pane);
+            });
+
+            // Remove the original <ebit-propertytab>
+            this.remove();
+        }
+
+        switchTab(target) {
+            const contentWrapper = this.parentNode.querySelector(".tab-content");
+            if (!contentWrapper) return;
+
+            const allPanes = contentWrapper.querySelectorAll(".tab-pane");
+            const allButtons = this.parentNode.querySelectorAll(".nav-link");
+
+            allPanes.forEach(p => p.classList.remove("show", "active"));
+            allButtons.forEach(b => b.classList.remove("active"));
+
+            const activePane = contentWrapper.querySelector(`#${target}`);
+            const activeButton = Array.from(allButtons).find(b =>
+                b.getAttribute("data-bs-target") === `#${target}`
+            );
+
+            if (activePane) {
+                activePane.classList.add("show", "active");
+            }
+            if (activeButton) {
+                activeButton.classList.add("active");
+            }
+        }
+    }
+
+    customElements.define("ebit-propertytab", EbitPropertyTab);
+</script>

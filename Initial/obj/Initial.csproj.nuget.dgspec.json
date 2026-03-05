@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Initial\\Initial.csproj": {}
+    "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Initial\\Initial.csproj": {}
   },
   "projects": {
-    "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj": {
+    "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj",
+        "projectUniqueName": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj",
         "projectName": "Base",
-        "projectPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj",
+        "projectPath": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\obj\\",
+        "outputPath": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -53,10 +53,6 @@
             "ClosedXML": {
               "target": "Package",
               "version": "[0.104.2, )"
-            },
-            "DinkToPdf": {
-              "target": "Package",
-              "version": "[1.0.8, )"
             },
             "Microsoft.AspNetCore.Components.Web": {
               "target": "Package",
@@ -124,14 +120,14 @@
         }
       }
     },
-    "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Initial\\Initial.csproj": {
+    "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Initial\\Initial.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Initial\\Initial.csproj",
+        "projectUniqueName": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Initial\\Initial.csproj",
         "projectName": "Initial",
-        "projectPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Initial\\Initial.csproj",
+        "projectPath": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Initial\\Initial.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Initial\\obj\\",
+        "outputPath": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Initial\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -152,8 +148,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj": {
-                "projectPath": "D:\\Daniyal Javadia Working\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj"
+              "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj": {
+                "projectPath": "F:\\ASPNetCoreMVC_LayersWebApp 2.O\\Base\\Base.csproj"
               }
             }
           }

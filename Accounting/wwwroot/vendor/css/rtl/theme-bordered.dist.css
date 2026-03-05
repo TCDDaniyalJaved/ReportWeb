@@ -136,7 +136,7 @@ body {
 .flatpickr-calendar,
 .datepicker.datepicker-inline,
 .datepicker.datepicker-inline table,
-.daterangepicker,
+.dateRangepicker,
 .pcr-app,
 .ui-timepicker-wrapper,
 .twitter-typeahead .tt-menu,
@@ -1144,33 +1144,33 @@ table.dataTable.dtr-column > tbody > tr > th.control:before {
   box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
 }
 
-.daterangepicker table thead th select,
-.daterangepicker table thead td select {
+.dateRangepicker table thead th select,
+.dateRangepicker table thead td select {
   background-color: transparent;
 }
 
-.daterangepicker td.active:not(.off) {
+.dateRangepicker td.active:not(.off) {
   background: #696cff !important;
   color: #fff;
   box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
 }
 
-.daterangepicker .start-date:not(.end-date):not(.off),
-.daterangepicker .end-date:not(.start-date):not(.off) {
+.dateRangepicker .start-date:not(.end-date):not(.off),
+.dateRangepicker .end-date:not(.start-date):not(.off) {
   background-color: #696cff;
   color: #fff;
   border: 0 !important;
 }
-.daterangepicker .start-date:not(.end-date):not(.off):hover,
-.daterangepicker .end-date:not(.start-date):not(.off):hover {
+.dateRangepicker .start-date:not(.end-date):not(.off):hover,
+.dateRangepicker .end-date:not(.start-date):not(.off):hover {
   background-color: #696cff !important;
 }
 
-.daterangepicker .input-mini.active {
+.dateRangepicker .input-mini.active {
   border-color: #696cff !important;
 }
 
-.daterangepicker td.in-range:not(.start-date):not(.end-date):not(.off) {
+.dateRangepicker td.in-range:not(.start-date):not(.end-date):not(.off) {
   color: #696cff !important;
   background-color: #e7e7ff !important;
 }
