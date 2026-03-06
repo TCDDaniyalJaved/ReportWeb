@@ -84,27 +84,65 @@ export function applyFavorite(view) {
     const isLocked = !!view.IsLocked;
 
     // Restore filter badges
-    Object.keys(filters).forEach(key => {
+    Object.keys(filters).forEach(filterType => {
+        (filters[filterType] || []).forEach(savedValue => {
+            const config = pageFilterConfig[filterType] || {};
+            const backendKey = config.backendKey || filterType;
+            let displayText = savedValue;
+            let icon = FILTER_ICON;
+            const extraAttrs = {};
 
-        (filters[key] || []).forEach(savedValue => {
-
-            const displayText = savedValue;
+            // Special handling for DateRange
+            if (filterType === 'DateRange' || filterType === 'dateRange') {
+                icon = FILTER_ICON;
+                const dates = savedValue.split(' to ');
+                if (dates.length === 2) {
+                    const start = dates[0].trim();
+                    const end = dates[1].trim();
+                    const formatForDisplay = (dStr) => {
+                        const d = new Date(dStr);
+                        return isNaN(d) ? dStr : `${String(d.getDate()).padStart(2, '0')}-${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`;
+                    };
+                    displayText = `Date: ${formatForDisplay(start)} to ${formatForDisplay(end)}`;
+                    extraAttrs['data-start-date'] = start;
+                    extraAttrs['data-end-date'] = end;
+                }
+            }
 
             const $badge = $(`
                 <span class="badge-tag d-inline-flex align-items-center ${isLocked ? 'opacity-75 cursor-not-allowed' : ''}"
                       data-type="Filter"
                       data-value="${savedValue}"
-                      data-key="${key}">
-                    <span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>
-                    <span class="badge-text ms-1">${savedValue}</span>
+                      data-filter="${filterType}"
+                      data-key="${backendKey}">
+                    <span class="filter-icon" style="cursor:pointer;">${icon}</span>
+                    <span class="badge-text ms-1">${displayText}</span>
                     ${isLocked ? '' : '<span class="remove-btn ms-1" style="cursor:pointer;">×</span>'}
                 </span>
             `);
 
+            // Add extra attributes (like start/end dates)
+            Object.keys(extraAttrs).forEach(attr => $badge.attr(attr, extraAttrs[attr]));
+
+            // Attach Events
+            if (!isLocked) {
+                // Remove Event
+                $badge.find('.remove-btn').on('click', function (e) {
+                    e.stopPropagation();
+                    $badge.remove();
+                    resetToFirstPage();
+                });
+
+                // Edit/Filter Icon Event
+                $badge.find('.filter-icon').on('click', function (e) {
+                    e.stopPropagation();
+                    openFilterModal(filterType, $badge);
+                });
+            }
+
             $('#universalSearch').before($badge);
         });
     });
-
 
     // Restore groups
     groups.forEach(g => {
@@ -307,9 +345,18 @@ export function addSearchBadge(type, value, displayText, isLocked = false) {
     const removeBtn = isLocked ? '' : '<span class="remove-btn ms-1" style="cursor:pointer;">×</span>';
     const lockedClass = isLocked ? 'opacity-75 cursor-not-allowed' : '';
 
+    let categoryValue = value;
+    let extraAttrs = '';
+    if (type === 'Filter') {
+        const config = pageFilterConfig[value] || {};
+        const backendKey = config.backendKey || value;
+        extraAttrs = `data-filter="${value}" data-key="${backendKey}"`;
+        categoryValue = ''; // Initial value is "All"
+    }
+
     const $badge = $(`
         <span class="badge-tag d-inline-flex align-items-center ${lockedClass}"
-              data-type="${type}" data-value="${value}" data-locked="${isLocked ? '1' : '0'}">
+              data-type="${type}" data-value="${categoryValue}" data-locked="${isLocked ? '1' : '0'}" ${extraAttrs}>
             ${icon}
             <span class="badge-text ms-1">${displayText}</span>
             ${removeBtn}
@@ -425,9 +472,9 @@ function openFilterModal(filterType, $badge = null) {
                       data-value="${dateRange}"
                       data-start-date="${startDate}"
                       data-end-date="${endDate}"
-                      data-filter="DateRange"
-                      data-key="DateRange">
-                    <span class="filter-icon" style="cursor:pointer;">${DATE_ICON}</span>
+                      data-filter="${filterType}"
+                      data-key="${config.backendKey || filterType}">
+                    <span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>
                     <span class="badge-text ms-1">${displayText}</span>
                     <span class="remove-btn ms-1" style="cursor:pointer;">×</span>
                 </span>
@@ -475,8 +522,8 @@ function openFilterModal(filterType, $badge = null) {
         const $select = $div.find('select').first();
 
         // Pre-fill select if editing existing badge
-        if ($badge?.data('id')) {
-            $select.val($badge.data('id'));
+        if ($badge?.attr('data-id')) {
+            $select.val($badge.attr('data-id'));
 
         } else {
             $select.val($select.find('option:first').val());
@@ -494,17 +541,15 @@ function openFilterModal(filterType, $badge = null) {
                 ? `${config.title || filterType}::${text}`
                 : `${config.title || filterType}`;
 
-            if (!id || id === '0') {
-                // Remove badge if no selection
+            const finalValue = id && id !== '0' ? text : '';
 
-                $badge?.remove();
-            } else if (!$badge) {
+            if (!$badge) {
                 // Create NEW regular filter badge
                 const $newBadge = $(`
                     <span class="badge-tag d-inline-flex align-items-center" 
                           data-type="Filter" 
-                          data-value="${text}" 
-                          data-id="${id}" 
+                          data-value="${finalValue}" 
+                          data-id="${id || '0'}" 
                           data-filter="${filterType}">
                         <span class="filter-icon" style="cursor:pointer;">${FILTER_ICON}</span>
                         <span class="badge-text ms-1">${displayText}</span>
@@ -537,11 +582,10 @@ function openFilterModal(filterType, $badge = null) {
 
             } else {
                 // Update EXISTING regular filter badge
-                $badge.data({ id, value: text });
+                $badge.attr('data-value', finalValue);
+                $badge.attr('data-id', id || '0');
                 $badge.find('.badge-text').text(displayText);
                 $badge.attr('data-key', config.backendKey);
-
-
             }
 
             // Close modal and reload table
@@ -652,15 +696,15 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
                 // Process all filter badges
                 $('.badge-tag[data-type="Filter"]').each(function () {
                     const $badge = $(this);
-                    const key = $badge.data('key');
-                    const val = $badge.data('value');
-                    const filterType = $badge.data('filter');
+                    const key = $badge.attr('data-key');
+                    const val = $badge.attr('data-value');
+                    const filterType = $badge.attr('data-filter');
                     //console.log('Date range sent:', { fromDate: startDate, toDate: endDate });
 
                     // Handle DateRange filter
                     if (filterType === 'DateRange') {
-                        const startDate = $badge.data('start-date');
-                        const endDate = $badge.data('end-date');
+                        const startDate = $badge.attr('data-start-date');
+                        const endDate = $badge.attr('data-end-date');
 
                         if (startDate && endDate) {
                             // Change these parameter names to match what your server expects
@@ -675,7 +719,7 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
                     }
                 });
 
-                //console.log('Final ajax request payload:', d);
+                console.log('Final ajax request payload:', d);
                 return d;
             },
 
@@ -888,8 +932,51 @@ export async function loadReportFields(reportKey, options = {}) {
                     </li>
                 `);
                 $filterUl.append($li);
+
+                // Dynamically update pageFilterConfig with defaults from DB
+                if (typeof setPageFilterConfig === 'function') {
+                    pageFilterConfig[f.fieldName] = {
+                        title: f.displayName,
+                        backendKey: f.backendKey || f.fieldName, // Default to fieldName if backendKey is missing
+                        divId: `filter-${f.fieldName}`, // Assuming a naming convention
+                        defaultValue: f.defaultValue
+                    };
+                }
             });
         }
+
+        // ── Automatically apply default values ──
+        fields.forEach(f => {
+            if (f.defaultValue && f.isFilterAllowed) {
+                // Determine display text for default
+                let displayText = `${f.displayName}::${f.defaultValue}`;
+
+                // Special formatting for DateRange
+                if (f.fieldName === 'DateRange' || f.fieldType === 'Date') {
+                    const dates = f.defaultValue.split(' to ');
+                    if (dates.length === 2) {
+                        const formatForDisplay = (dStr) => {
+                            const d = new Date(dStr);
+                            return isNaN(d) ? dStr : `${String(d.getDate()).padStart(2, '0')}-${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`;
+                        };
+                        displayText = `Date: ${formatForDisplay(dates[0])} to ${formatForDisplay(dates[1])}`;
+                    }
+                }
+
+                addSearchBadge('Filter', f.fieldName, displayText);
+
+                // If it was a date range, we need to set the specific attributes for it to be editable
+                if (f.fieldName === 'DateRange' || f.fieldType === 'Date') {
+                    const $badge = $(`.badge-tag[data-filter="${f.fieldName}"]`).last();
+                    const dates = f.defaultValue.split(' to ');
+                    if (dates.length === 2) {
+                        $badge.attr('data-start-date', dates[0].trim());
+                        $badge.attr('data-end-date', dates[1].trim());
+                        $badge.attr('data-value', f.defaultValue);
+                    }
+                }
+            }
+        });
 
         // ── Group By populate ──
         const groupList = fields.filter(f => f.isGroupAllowed);
@@ -983,10 +1070,12 @@ export function saveReportFavorite(viewName, reportKey) {
     }
     const filters = {};
     $('.badge-tag[data-type="Filter"]').each(function () {
-        const key = $(this).data('key');
+        const filterName = $(this).attr('data-filter') || $(this).data('filter');
         const value = $(this).data('value');
-        if (!filters[key]) filters[key] = [];
-        filters[key].push(value);
+        if (filterName) {
+            if (!filters[filterName]) filters[filterName] = [];
+            filters[filterName].push(value);
+        }
     });
     const groupBy = [...groupBySelectionOrder];
     const payload = {
@@ -1003,15 +1092,21 @@ export function saveReportFavorite(viewName, reportKey) {
     });
 }
 export function downloadReportPdfMultiple(endpoint) {
+    const $btn = $('#downloadPdfBtn');
+    const originalHtml = $btn.html();
+
+    // Show spinner and disable button
+    $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Generating...');
+
     const payload = {
         CustomSearch: $('#universalSearch').val(),
         GroupByFields: groupBySelectionOrder
     };
     $('.badge-tag[data-type="Filter"]').each(function () {
         const $badge = $(this);
-        const key = $badge.data('key');
-        const val = $badge.data('value');
-        const filterType = $badge.data('filter');
+        const key = $badge.attr('data-key');
+        const val = $badge.attr('data-value');
+        const filterType = $badge.attr('data-filter');
         if (filterType === 'DateRange') {
             const startDate = $badge.attr('data-start-date');
             const endDate = $badge.attr('data-end-date');
@@ -1029,7 +1124,10 @@ export function downloadReportPdfMultiple(endpoint) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     })
-        .then(resp => resp.blob())
+        .then(resp => {
+            if (!resp.ok) throw new Error('Server error');
+            return resp.blob();
+        })
         .then(blob => {
             const zipBlob = new Blob([blob], { type: 'application/zip' });
             const url = window.URL.createObjectURL(zipBlob);
@@ -1042,6 +1140,10 @@ export function downloadReportPdfMultiple(endpoint) {
         .catch(err => {
             console.error('PDF generation failed', err);
             alert('PDF generation failed. Please try again.');
+        })
+        .finally(() => {
+            // Restore button state
+            $btn.prop('disabled', false).html(originalHtml);
         });
 }
 //export function downloadReportPdf(endpoint, payloadOverrides = {}) {

@@ -23,6 +23,8 @@ public partial class ReportFilterGroupField
 
     public string DataSourceUrl { get; set; }
 
+    public string DefaultValue { get; set; }
+
     public int SortOrder { get; set; }
 
     public bool IsActive { get; set; }

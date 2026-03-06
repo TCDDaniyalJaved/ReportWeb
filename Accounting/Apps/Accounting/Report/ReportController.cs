@@ -952,7 +952,8 @@ public class ReportController : Controller
                 f.FieldType,
                 f.IsFilterAllowed,
                 f.IsGroupAllowed,
-                f.DataSourceUrl
+                f.DataSourceUrl,
+                f.DefaultValue
             })
             .ToList();
 

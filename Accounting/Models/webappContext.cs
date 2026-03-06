@@ -9795,8 +9795,11 @@ public partial class webappContext : DbContext
 
             entity.HasIndex(e => new { e.ReportKey, e.FieldName }, "UK_ReportFilterGroupFields").IsUnique();
 
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasAnnotation("Relational:DefaultConstraintName", "DF__ReportFil__Creat__05AEC38C");
             entity.Property(e => e.DataSourceUrl).HasMaxLength(500);
+            entity.Property(e => e.DefaultValue).HasMaxLength(500);
             entity.Property(e => e.DisplayName)
                 .IsRequired()
                 .HasMaxLength(200);
@@ -9806,12 +9809,19 @@ public partial class webappContext : DbContext
             entity.Property(e => e.FieldType)
                 .IsRequired()
                 .HasMaxLength(50);
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.IsFilterAllowed).HasDefaultValue(true);
-            entity.Property(e => e.IsGroupAllowed).HasDefaultValue(true);
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasAnnotation("Relational:DefaultConstraintName", "DF__ReportFil__IsAct__04BA9F53");
+            entity.Property(e => e.IsFilterAllowed)
+                .HasDefaultValue(true)
+                .HasAnnotation("Relational:DefaultConstraintName", "DF__ReportFil__IsFil__01DE32A8");
+            entity.Property(e => e.IsGroupAllowed)
+                .HasDefaultValue(true)
+                .HasAnnotation("Relational:DefaultConstraintName", "DF__ReportFil__IsGro__02D256E1");
             entity.Property(e => e.ReportKey)
                 .IsRequired()
                 .HasMaxLength(100);
+            entity.Property(e => e.SortOrder).HasAnnotation("Relational:DefaultConstraintName", "DF__ReportFil__SortO__03C67B1A");
         });
 
         modelBuilder.Entity<ReportMaster>(entity =>
