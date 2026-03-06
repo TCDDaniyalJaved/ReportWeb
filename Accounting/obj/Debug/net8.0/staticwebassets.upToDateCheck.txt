@@ -605,6 +605,8 @@ wwwroot\js\forms-extras.dist.js
 wwwroot\js\forms-extras.js
 wwwroot\js\forms-file-upload.dist.js
 wwwroot\js\forms-file-upload.js
+wwwroot\js\forms-pickers.dist.js
+wwwroot\js\forms-pickers.js
 wwwroot\js\forms-selects.dist.js
 wwwroot\js\forms-selects.js
 wwwroot\js\forms-sliders.dist.js
@@ -2110,5 +2112,3 @@ wwwroot\vendor\scss\_theme\_pages.scss
 wwwroot\vendor\scss\_theme\_theme.scss
 wwwroot\dist\vendors.min.css
 wwwroot\dist\vendors.min.js
-wwwroot\js\forms-pickers.dist.js
-wwwroot\js\forms-pickers.js

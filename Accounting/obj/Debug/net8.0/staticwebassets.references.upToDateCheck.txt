@@ -582,3 +582,9 @@ F:\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.build.js
 F:\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.build.json
 F:\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.build.json
 F:\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.build.json
+F:\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.build.json
+F:\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.build.json
+F:\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.build.json
+F:\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.build.json
+F:\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.build.json
+F:\ASPNetCoreMVC_LayersWebApp 2.O\Base\obj\Debug\net8.0\staticwebassets.build.json

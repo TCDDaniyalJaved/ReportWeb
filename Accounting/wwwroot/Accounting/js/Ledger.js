@@ -12,7 +12,7 @@ import {
     applyFavorite,         // import from utils
     /*downloadReportPdf,*/     // import pdf function
     loadReportFavorites,   // import favorites loader
-    saveReportFavorite ,    // import save favorite helper
+    saveReportFavorite,    // import save favorite helper
     downloadReportPdfMultiple
 } from './ReportdataTableUtils.js';
 
@@ -68,7 +68,14 @@ $(document).ready(async () => {
     });
 
     // Save favorite
-    $('#saveFavoriteConfirm').on('click', () => saveReportFavorite('Ledger', table));
+    $('#saveFavoriteConfirm').on('click', () => {
+        const viewName = $('#favoriteName').val();
+        saveReportFavorite(viewName, 'Ledger').done(() => {
+            bootstrap.Modal.getInstance($('#saveFavoriteModal')[0]).hide();
+            showToast('success', 'Favorite saved successfully');
+            loadReportFavorites('Ledger', { listSelector: '#favoritesList', onApply: applyFavorite });
+        });
+    });
 
     // Download PDF
     $('#downloadPdfBtn').on('click', () => {

@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------
-   ebit-dateRange.js – Reusable Flatpickr Range Picker Component
+   ebit-daterange.js – Reusable Flatpickr Range Picker Component
    -------------------------------------------------------------- */
 class EbitdateRange extends HTMLElement {
 
@@ -125,4 +125,4 @@ class EbitdateRange extends HTMLElement {
 }
 
 // Register custom element
-customElements.define('ebit-dateRange', EbitdateRange);
+customElements.define('ebit-daterange', EbitdateRange);

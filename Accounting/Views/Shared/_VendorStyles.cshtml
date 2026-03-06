@@ -2,8 +2,10 @@
 @if (Context.Request.Host.Value.Contains("localhost"))
 {
     <!-- Development: Separate Files -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="~/vendor/libs/dropzone/dropzone.dist.css" />
     <link rel="stylesheet" href="~/vendor/libs/flatpickr/flatpickr.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.dist.css" />
     <link rel="stylesheet" href="~/vendor/libs/datatables-bs5/datatables.bootstrap5.dist.css">
     <link rel="stylesheet" href="~/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.dist.css">
     <link rel="stylesheet" href="~/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.dist.css">
@@ -16,8 +18,10 @@
 else
 {
     <!-- Production: Bundled File -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="~/vendor/libs/dropzone/dropzone.dist.css" />
     <link rel="stylesheet" href="~/vendor/libs/flatpickr/flatpickr.dist.css" />
+    <link rel="stylesheet" href="~/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.dist.css" />
     <link rel="stylesheet" href="~/vendor/libs/datatables-bs5/datatables.bootstrap5.dist.css">
     <link rel="stylesheet" href="~/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.dist.css">
     <link rel="stylesheet" href="~/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.dist.css">

@@ -9,6 +9,13 @@
 @section VendorScripts {
     @await Html.PartialAsync("_VendorScripts")
 }
+<style>
+    .daterangepicker select {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+</style>
 <!-- CSS first -->
 <link href="~/accounting/css/advancedropdown.css" rel="stylesheet" />
 <!-- Your custom scripts -->
@@ -28,17 +35,17 @@
         //         defaultDate: null
         //     });
         // });
-                $(function () {
+          $(function () {
             // Check if element exists
             var bsRangePickerDropdown = $('#bs-rangepicker-dropdown');
 
             if (bsRangePickerDropdown.length) {
                 bsRangePickerDropdown.daterangepicker({
-                    showDropdowns: true,           // month/year dropdowns
-                    autoUpdateInput: false,        // prevent auto fill until user selects
-                    opens: 'right',
+                    showDropdowns: true,  // Month/Year dropdowns
+                    autoUpdateInput: false,  // Prevent auto-fill until user selects
+                    opens: 'right',  // Position of the calendar
                     locale: {
-                        format: 'YYYY-MM-DD',      // aap apne hisaab se date format set kar sakte ho
+                        format: 'YYYY-MM-DD',  // Date format
                         cancelLabel: 'Clear'
                     }
                 });

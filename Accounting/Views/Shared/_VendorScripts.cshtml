@@ -1,20 +1,21 @@
-@* JS Bundle *@
 @if (Context.Request.Host.Value.Contains("localhost"))
 {
-    <!-- Development: Separate Files -->
+    <!-- Core dependencies -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
-    <script src="~/js/jquery.validate.js"></script>
+    <!-- DateRangePicker JS (must come after jQuery & Moment) -->
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="~/js/jquery.validate.unobtrusive.js"></script>
-    <script src="~/js/jquery.validate.js"></script>
-    <script src="~/vendor/libs/dropzone/dropzone.dist.js"></script>
+    <!-- Vendor plugins -->
+    <script src="~/vendor/libs/flatpickr/flatpickr.dist.js"></script>
+    <script src="~/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.dist.js"></script>
+    <script src="~/vendor/libs/jquery-timepicker/jquery-timepicker.dist.js"></script>
+    <script src="~/vendor/libs/pickr/pickr.dist.js"></script>
     <script src="~/vendor/libs/dropzone/dropzone.dist.js"></script>
     <script src="~/js/forms-file-upload.dist.js"></script>
-    <script src="~/vendor/libs/flatpickr/flatpickr.dist.js"></script>
-    <script src="~/js/site.js"></script>
-    <script src="~/vendor/libs/moment/moment.dist.js"></script>
     <script src="~/vendor/libs/datatables-bs5/datatables-bootstrap5.dist.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.5.0/js/dataTables.rowGroup.min.js"></script>
     <script src="~/vendor/libs/sweetalert2/sweetalert2.dist.js"></script>
     <script src="~/vendor/libs/&#64;form-validation/popular.dist.js"></script>
     <script src="~/vendor/libs/&#64;form-validation/bootstrap5.dist.js"></script>
@@ -23,10 +24,13 @@
     <script src="~/vendor/libs/cleavejs/cleave-phone.dist.js"></script>
     <script src="~/vendor/libs/bs-stepper/bs-stepper.dist.js"></script>
     <script src="~/vendor/libs/select2/select2.dist.js"></script>
-    <script src="https://cdn.datatables.net/rowgroup/1.5.0/js/dataTables.rowGroup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.3.1/typeahead.bundle.min.js"></script>
+
+    <!-- Custom site scripts -->
+    <script src="~/js/site.js"></script>
 
     <!-- Ebit Components -->
-    @*   <script src="~/Accounting/js/components/ebit-section.js"></script>
+    <script src="~/Accounting/js/components/ebit-section.js"></script>
     <script src="~/Accounting/js/components/ebit-propertytab.js"></script>
     <script src="~/Accounting/js/components/ebit-form.js"></script>
     <script src="~/Accounting/js/components/ebit-button.js"></script>
@@ -36,36 +40,25 @@
     <script src="~/Accounting/js/components/ebit-number.js"></script>
     <script src="~/Accounting/js/components/ebit-datetime.js"></script>
     <script src="~/Accounting/js/components/ebit-text.js"></script>
-    <script src="~/Accounting/js/components/ebit-table-component.js"></script> *@
-    <!-- calc.js -->
-    <script src="~/accounting/js/calc.js"></script>
-
-    @Html.Partial("~/Views/component/ebit-text.cshtml")
-    @Html.Partial("~/Views/component/ebit-table-component.cshtml")
-    @Html.Partial("~/Views/component/ebit-select.cshtml")
-    @Html.Partial("~/Views/component/ebit-section.cshtml")
-    @Html.Partial("~/Views/component/ebit-propertytab.cshtml")
-    @Html.Partial("~/Views/component/ebit-paragraph.cshtml")
-    @Html.Partial("~/Views/component/ebit-number.cshtml")
-    @Html.Partial("~/Views/component/ebit-label.cshtml")
-    @Html.Partial("~/Views/component/ebit-form.cshtml")
-    @Html.Partial("~/Views/component/ebit-datetime.cshtml")
-    @Html.Partial("~/Views/component/ebit-button.cshtml")
-
-
-
-
+    <script src="~/Accounting/js/components/ebit-table-component.js"></script>
+    <script src="~/Accounting/js/components/ebit-dateRange.js"></script>
 }
 else
 {
+    <!-- Core dependencies -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+    <!-- DateRangePicker JS (must come after jQuery & Moment) -->
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <!-- Vendor plugins -->
+    <script src="~/vendor/libs/flatpickr/flatpickr.dist.js"></script>
+    <script src="~/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.dist.js"></script>
     <script src="~/vendor/libs/dropzone/dropzone.dist.js"></script>
     <script src="~/js/forms-file-upload.dist.js"></script>
-    <script src="~/vendor/libs/flatpickr/flatpickr.dist.js"></script>
-    <script src="~/js/site.js"></script>
-    <script src="~/vendor/libs/moment/moment.dist.js"></script>
     <script src="~/vendor/libs/datatables-bs5/datatables-bootstrap5.dist.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.5.0/js/dataTables.rowGroup.min.js"></script>
     <script src="~/vendor/libs/sweetalert2/sweetalert2.dist.js"></script>
     <script src="~/vendor/libs/&#64;form-validation/popular.dist.js"></script>
     <script src="~/vendor/libs/&#64;form-validation/bootstrap5.dist.js"></script>
@@ -74,10 +67,12 @@ else
     <script src="~/vendor/libs/cleavejs/cleave-phone.dist.js"></script>
     <script src="~/vendor/libs/bs-stepper/bs-stepper.dist.js"></script>
     <script src="~/vendor/libs/select2/select2.dist.js"></script>
-    <script src="https://cdn.datatables.net/rowgroup/1.5.0/js/dataTables.rowGroup.min.js"></script>
+
+    <!-- Custom site scripts -->
+    <script src="~/js/site.js"></script>
 
     <!-- Ebit Components -->
-    @*   <script src="~/Accounting/js/components/ebit-section.js"></script>
+    <script src="~/Accounting/js/components/ebit-section.js"></script>
     <script src="~/Accounting/js/components/ebit-propertytab.js"></script>
     <script src="~/Accounting/js/components/ebit-form.js"></script>
     <script src="~/Accounting/js/components/ebit-button.js"></script>
@@ -87,26 +82,6 @@ else
     <script src="~/Accounting/js/components/ebit-number.js"></script>
     <script src="~/Accounting/js/components/ebit-datetime.js"></script>
     <script src="~/Accounting/js/components/ebit-text.js"></script>
-    <script src="~/Accounting/js/components/ebit-table-component.js"></script> *@
-    <!-- calc.js -->
-    <script src="~/accounting/js/calc.js"></script>
-
-    @Html.Partial("~/Views/component/ebit-text.cshtml")
-    @Html.Partial("~/Views/component/ebit-table-component.cshtml")
-    @Html.Partial("~/Views/component/ebit-select.cshtml")
-    @Html.Partial("~/Views/component/ebit-section.cshtml")
-    @Html.Partial("~/Views/component/ebit-propertytab.cshtml")
-    @Html.Partial("~/Views/component/ebit-paragraph.cshtml")
-    @Html.Partial("~/Views/component/ebit-number.cshtml")
-    @Html.Partial("~/Views/component/ebit-label.cshtml")
-    @Html.Partial("~/Views/component/ebit-form.cshtml")
-    @Html.Partial("~/Views/component/ebit-datetime.cshtml")
-    @Html.Partial("~/Views/component/ebit-button.cshtml")
-
-
-
-
+    <script src="~/Accounting/js/components/ebit-table-component.js"></script>
+    <script src="~/Accounting/js/components/ebit-dateRange.js"></script>
 }
-
-
-

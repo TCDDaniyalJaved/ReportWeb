@@ -369,7 +369,7 @@ function openFilterModal(filterType, $badge = null) {
 
     // DateRange Filter Handling
     if (filterType === 'DateRange') {
-        const $dateInput = $div.find('#dateRange');
+        const $dateInput = $div.find('#bs-rangepicker-dropdown');
 
         // If editing existing badge, populate the date range
         if ($badge) {
@@ -384,7 +384,7 @@ function openFilterModal(filterType, $badge = null) {
 
         // Apply button click handler for DateRange
         $modal.find('#applyFilterBtn').off('click').on('click', function () {
-            const dateRange = $dateInput.val().trim();
+            const dateRange = $dateInput.val();
 
             // If no date selected, remove badge if exists
             if (!dateRange || dateRange === '') {
@@ -666,7 +666,7 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
                             // Change these parameter names to match what your server expects
                             d.fromDate = startDate;     // or d.dateFrom, d.start_date, etc.
                             d.toDate = endDate;         // or d.dateTo, d.end_date, etc.
-                            console.log('Date range sent:', { fromDate: startDate, toDate: endDate });
+                            // console.log('Date range sent:', { fromDate: startDate, toDate: endDate });
                         }
                     }
                     // Handle regular filters
@@ -675,7 +675,7 @@ export async function initializeDataTable(endpoint, tableSelector = '#masterTabl
                     }
                 });
 
-                console.log('Final ajax request payload:', d);
+                //console.log('Final ajax request payload:', d);
                 return d;
             },
 
@@ -977,7 +977,10 @@ export async function loadReportFavorites(reportKey, options = {}) {
     }
 }
 export function saveReportFavorite(viewName, reportKey) {
-    if (!viewName) return showToast('warning', 'Please enter a name for the view');
+    if (!viewName) {
+        showToast('warning', 'Please enter a name for the view');
+        return $.Deferred().reject().promise();
+    }
     const filters = {};
     $('.badge-tag[data-type="Filter"]').each(function () {
         const key = $(this).data('key');
@@ -1009,7 +1012,7 @@ export function downloadReportPdfMultiple(endpoint) {
         const key = $badge.data('key');
         const val = $badge.data('value');
         const filterType = $badge.data('filter');
-        if (filterType === 'dateRange') {
+        if (filterType === 'DateRange') {
             const startDate = $badge.attr('data-start-date');
             const endDate = $badge.attr('data-end-date');
             if (startDate && endDate) {
